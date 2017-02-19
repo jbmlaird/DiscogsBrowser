@@ -1,7 +1,10 @@
 package bj.rxjavaexperimentation.main;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 
@@ -15,8 +18,9 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainContract.View
 {
+    @BindView(R.id.pbRecyclerView) ProgressBar pbRecyclerView;
+    @BindView(R.id.rvResults) RecyclerView rvResults;
     @BindView(R.id.floating_search_view) FloatingSearchView floatingSearchView;
-    @BindView(R.id.tvSuccessText) TextView tvSuccessText;
     @Inject MainPresenter presenter;
     private MainComponent mainComponent;
 
@@ -27,6 +31,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         presenter.setView(this);
+        presenter.setupRecyclerView(rvResults);
         floatingSearchView.setOnSearchListener(presenter);
     }
 
@@ -42,8 +47,20 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
-    public void setSuccessText(String successText)
+    public void hideProgressBar()
     {
-        tvSuccessText.setText(successText);
+        pbRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgressBar()
+    {
+        pbRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public AppCompatActivity getActivity()
+    {
+        return getActivity();
     }
 }

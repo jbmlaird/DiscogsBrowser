@@ -1,5 +1,5 @@
 
-package bj.rxjavaexperimentation.gson;
+package bj.rxjavaexperimentation.discogs.gson;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

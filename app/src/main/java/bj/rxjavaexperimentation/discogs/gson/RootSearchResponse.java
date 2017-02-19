@@ -1,19 +1,19 @@
 
-package bj.rxjavaexperimentation.gson;
+package bj.rxjavaexperimentation.discogs.gson;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class RootResponse
+public class RootSearchResponse
 {
     @SerializedName("pagination")
     @Expose
     private Pagination pagination;
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<SearchResult> searchResults = null;
 
     public Pagination getPagination()
     {
@@ -25,14 +25,8 @@ public class RootResponse
         this.pagination = pagination;
     }
 
-    public List<Result> getResults()
+    public List<SearchResult> getSearchResults()
     {
-        return results;
+        return searchResults;
     }
-
-    public void setResults(List<Result> results)
-    {
-        this.results = results;
-    }
-
 }

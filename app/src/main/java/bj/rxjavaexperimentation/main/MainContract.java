@@ -1,6 +1,10 @@
 package bj.rxjavaexperimentation.main;
 
+import android.support.v7.widget.RecyclerView;
+
 import bj.rxjavaexperimentation.common.BasePresenter;
+import bj.rxjavaexperimentation.discogs.gson.release.Release;
+import io.reactivex.Observable;
 
 /**
  * Created by j on 18/02/2017.
@@ -8,13 +12,17 @@ import bj.rxjavaexperimentation.common.BasePresenter;
 
 public interface MainContract
 {
-    interface View
+    interface View extends BaseView
     {
-        void setSuccessText(String successText);
+        void hideProgressBar();
+
+        void showProgressBar();
     }
 
     interface Presenter extends BasePresenter<View>
     {
+        void setupRecyclerView(RecyclerView rvResults);
 
+        void addToRecyclerView(Observable<Release> value);
     }
 }

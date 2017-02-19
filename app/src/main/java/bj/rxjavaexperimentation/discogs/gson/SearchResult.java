@@ -1,14 +1,13 @@
 
-package bj.rxjavaexperimentation.gson;
+package bj.rxjavaexperimentation.discogs.gson;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Result
+public class SearchResult
 {
-
     @SerializedName("thumb")
     @Expose
     private String thumb;
@@ -26,7 +25,7 @@ public class Result
     private String type;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("style")
     @Expose
     private List<String> style = null;
@@ -105,12 +104,12 @@ public class Result
         this.type = type;
     }
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }

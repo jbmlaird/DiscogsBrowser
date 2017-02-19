@@ -1,8 +1,10 @@
 package bj.rxjavaexperimentation.discogs;
 
-import bj.rxjavaexperimentation.gson.RootResponse;
+import bj.rxjavaexperimentation.discogs.gson.RootSearchResponse;
+import bj.rxjavaexperimentation.discogs.gson.release.Release;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -13,5 +15,8 @@ import retrofit2.http.Query;
 public interface DiscogsService
 {
     @GET("database/search?")
-    Observable<RootResponse> getSearchResults(@Query("q") String searchTerm, @Query("token") String token);
+    Observable<RootSearchResponse> getSearchResults(@Query("q") String searchTerm, @Query("token") String token);
+
+    @GET("releases/{release_id}")
+    Observable<Release> getRelease(@Path("release_id") String releaseId, @Query("token") String token);
 }
