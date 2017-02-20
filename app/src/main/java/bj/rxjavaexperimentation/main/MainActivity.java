@@ -1,26 +1,23 @@
 package bj.rxjavaexperimentation.main;
 
+import android.app.SearchManager;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ProgressBar;
-
-import com.arlib.floatingsearchview.FloatingSearchView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
 
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainContract.View
 {
-    @BindView(R.id.pbRecyclerView) ProgressBar pbRecyclerView;
-    @BindView(R.id.rvResults) RecyclerView rvResults;
-    @BindView(R.id.floating_search_view) FloatingSearchView floatingSearchView;
+    private static final String TAG = "MainActivity";
+
     @Inject MainPresenter presenter;
     private MainComponent mainComponent;
 
@@ -31,8 +28,6 @@ public class MainActivity extends BaseActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         presenter.setView(this);
-        presenter.setupRecyclerView(rvResults);
-        floatingSearchView.setOnSearchListener(presenter);
     }
 
     @Override
@@ -47,20 +42,18 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
-    public void hideProgressBar()
-    {
-        pbRecyclerView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showProgressBar()
-    {
-        pbRecyclerView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public AppCompatActivity getActivity()
     {
-        return getActivity();
+        return this;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        return true;
     }
 }
