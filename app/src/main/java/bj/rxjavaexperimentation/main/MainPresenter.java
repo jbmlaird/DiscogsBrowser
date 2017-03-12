@@ -1,16 +1,12 @@
 package bj.rxjavaexperimentation.main;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.mikepenz.materialdrawer.Drawer;
 
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.discogs.DiscogsInteractor;
-import bj.rxjavaexperimentation.discogs.gson.release.Release;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by j on 18/02/2017.
@@ -34,15 +30,5 @@ public class MainPresenter implements MainContract.Presenter
     {
         mContext = view.getActivity();
         mView = view;
-    }
-
-    /**
-     * * Called when the user presses enter on the {@link }.
-     *
-     * @param query String to search for.
-     */
-    public void onSearchAction(String query)
-    {
-
     }
 }

@@ -1,6 +1,7 @@
 package bj.rxjavaexperimentation.search;
 
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
 import bj.rxjavaexperimentation.common.BasePresenter;
 import bj.rxjavaexperimentation.common.BaseView;
@@ -23,5 +24,7 @@ public interface SearchContract
         void setupRecyclerView(RecyclerView rvResults);
 
         void searchDiscogs(String query);
+
+        void goToResult(ImageView ivImage);
     }
 }

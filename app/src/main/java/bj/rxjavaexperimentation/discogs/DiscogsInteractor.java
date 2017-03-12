@@ -1,15 +1,16 @@
 package bj.rxjavaexperimentation.discogs;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.EmptyObject;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.discogs.gson.RootSearchResponse;
-import bj.rxjavaexperimentation.discogs.gson.release.Release;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -41,13 +42,27 @@ public class DiscogsInteractor
         discogsService = retrofit.create(DiscogsService.class);
     }
 
-    public Observable<Release> searchDiscogs(String searchTerm)
+    public Observable<Object> searchDiscogs(String searchTerm)
     {
         return discogsService.getSearchResults(searchTerm, mContext.getString(R.string.token))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .flatMapIterable(RootSearchResponse::getSearchResults)
                 .observeOn(Schedulers.io())
-                .flatMap(result -> discogsService.getRelease(result.getId(), mContext.getString(R.string.token)));
+                .flatMap(searchResult ->
+                {
+                    if (searchResult.getType().equals("release"))
+                    {
+                        Log.e("DiscogsInteractor", "In release");
+                        return discogsService.getRelease(searchResult.getId(), mContext.getString(R.string.token));
+                    }
+                    else if (searchResult.getType().equals("artist"))
+                    {
+                        Log.e("DiscogsInteractor", "In artist");
+                        return discogsService.getArtist(searchResult.getId(), mContext.getString(R.string.token));
+                    }
+                    Log.e("DiscogsInteractor", "EmptyObject");
+                    return new EmptyObject();
+                });
     }
 }
