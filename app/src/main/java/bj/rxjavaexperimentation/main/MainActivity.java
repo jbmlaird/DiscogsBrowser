@@ -1,17 +1,16 @@
 package bj.rxjavaexperimentation.main;
 
-import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.search.SearchActivity;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainContract.View
@@ -27,7 +26,6 @@ public class MainActivity extends BaseActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter.setView(this);
     }
 
     @Override
@@ -42,18 +40,17 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
-    public AppCompatActivity getActivity()
+    public boolean onOptionsItemSelected(MenuItem item)
     {
-        return this;
+        if (item.getTitle().equals("Search"))
+            startActivity(new Intent(this, SearchActivity.class));
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.options_menu, menu);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 }

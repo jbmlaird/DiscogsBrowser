@@ -1,10 +1,10 @@
 
-package bj.rxjavaexperimentation.discogs.gson.release;
+package bj.rxjavaexperimentation.model.release;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Contributor {
+public class Submitter {
 
     @SerializedName("resource_url")
     @Expose

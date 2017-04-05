@@ -10,7 +10,9 @@ Common libraries used:
 * [ButterKnife](https://github.com/JakeWharton/butterknife)
 * [Dagger2](https://google.github.io/dagger/)
 * [RxJava2](https://github.com/ReactiveX/RxJava)
+* [RxBinding2](https://github.com/JakeWharton/RxBinding)
 * [RetroLambda](https://github.com/evant/gradle-retrolambda)
+* [LeakCanary](https://github.com/square/leakcanary)
 * Mockito
 
 # Usage

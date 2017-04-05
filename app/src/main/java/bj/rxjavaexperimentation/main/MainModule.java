@@ -1,6 +1,9 @@
 package bj.rxjavaexperimentation.main;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
+import dagger.Provides;
 
 /**
  * Created by j on 18/02/2017.
@@ -14,5 +17,12 @@ public class MainModule
     public MainModule(MainContract.View view)
     {
         mView = view;
+    }
+
+    @Provides
+    @Singleton
+    MainContract.View provideMainView()
+    {
+        return mView;
     }
 }

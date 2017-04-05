@@ -1,12 +1,14 @@
 
-package bj.rxjavaexperimentation.discogs.gson.release;
+package bj.rxjavaexperimentation.model.release;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Release
+import bj.rxjavaexperimentation.model.ResultModel;
+
+public class Release extends ResultModel
 {
     @SerializedName("title")
     @Expose

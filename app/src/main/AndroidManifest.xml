@@ -28,10 +28,8 @@
         </activity>
         <activity
             android:name=".search.SearchActivity"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
+            android:parentActivityName=".main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
