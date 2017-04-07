@@ -2,9 +2,6 @@ package bj.rxjavaexperimentation;
 
 import android.app.Application;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -26,22 +23,6 @@ public class App extends Application
         }
         LeakCanary.install(this);
         setupGraph();
-        setupUniversalImageLoader();
-    }
-
-    /**
-     * Sets up the Universal Image Loader library.
-     */
-    private void setupUniversalImageLoader()
-    {
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-                .defaultDisplayImageOptions(defaultOptions)
-                .build();
-        ImageLoader.getInstance().init(config);
     }
 
     private void setupGraph()

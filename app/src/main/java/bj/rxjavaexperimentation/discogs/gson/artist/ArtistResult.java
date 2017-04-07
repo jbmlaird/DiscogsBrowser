@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import bj.rxjavaexperimentation.discogs.gson.release.Image;
+import bj.rxjavaexperimentation.model.release.Image;
 
 public class ArtistResult
 {

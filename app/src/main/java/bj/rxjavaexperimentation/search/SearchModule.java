@@ -5,12 +5,15 @@ import android.content.Context;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
+import java.util.Collections;
+
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.discogs.DiscogsInteractor;
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 import retrofit2.Retrofit;
@@ -52,6 +55,8 @@ public class SearchModule
     @Singleton
     Function<SearchViewQueryTextEvent, ObservableSource<?>> providesSearchFunction(DiscogsInteractor discogsInteractor)
     {
-        return searchViewQueryTextEvent -> discogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString()).startWith("");
+        return searchViewQueryTextEvent ->
+                discogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString())
+                        .startWith(Observable.just(Collections.emptyList()));
     }
 }
