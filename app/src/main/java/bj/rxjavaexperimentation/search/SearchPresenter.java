@@ -29,7 +29,7 @@ public class SearchPresenter implements SearchContract.Presenter
 
     private Context mContext;
     private SearchContract.View mView;
-    private RecyclerViewResultsAdapter recyclerViewResultsAdapter;
+    private ResultsAdapter resultsAdapter;
     private Function<SearchViewQueryTextEvent, ObservableSource<?>> searchModelFunc;
     private CompositeDisposable disposable = new CompositeDisposable();
 
@@ -45,8 +45,8 @@ public class SearchPresenter implements SearchContract.Presenter
     public void setupRecyclerView(RecyclerView rvResults)
     {
         rvResults.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerViewResultsAdapter = new RecyclerViewResultsAdapter(this, mContext);
-        rvResults.setAdapter(recyclerViewResultsAdapter);
+        resultsAdapter = new ResultsAdapter(mContext);
+        rvResults.setAdapter(resultsAdapter);
     }
 
 
@@ -77,14 +77,12 @@ public class SearchPresenter implements SearchContract.Presenter
                         if (((List) o).size() == 0)
                         {
                             mView.showProgressBar();
-                            recyclerViewResultsAdapter.getResults().clear();
-                            recyclerViewResultsAdapter.notifyDataSetChanged();
+                            resultsAdapter.clearResults();
                         }
                         else
                         {
                             mView.hideProgressBar();
-                            recyclerViewResultsAdapter.setResults((ArrayList<SearchResult>) o);
-                            recyclerViewResultsAdapter.notifyDataSetChanged();
+                            resultsAdapter.addResults((ArrayList<SearchResult>) o);
                         }
                     }
 

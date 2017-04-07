@@ -92,7 +92,7 @@ public class RecyclerViewResultsAdapter extends RecyclerView.Adapter<RecyclerVie
         @BindView(R.id.lytCard) LinearLayout lytCard;
         @BindView(R.id.ivImage) ImageView ivImage;
         @BindView(R.id.tvTitle) TextView tvTitle;
-        @BindView(R.id.tvArtist) TextView tvArtist;
+        @BindView(R.id.tvType) TextView tvArtist;
 
         public MyViewHolder(View itemView)
         {
