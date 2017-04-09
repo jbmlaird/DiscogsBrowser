@@ -1,8 +1,9 @@
 package bj.rxjavaexperimentation.discogs;
 
-import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.release.Release;
+import bj.rxjavaexperimentation.model.search.RootReleaseResponse;
+import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -23,4 +24,7 @@ public interface DiscogsService
 
     @GET("artists/{artist_id}")
     Observable<ArtistResult> getArtist(@Path("artist_id") String artistId, @Query("token") String token);
+
+    @GET("artists/{artist_id}/releases")
+    Observable<RootReleaseResponse> getArtistReleases(@Path("artist_id") String artistId, @Query("token") String token);
 }

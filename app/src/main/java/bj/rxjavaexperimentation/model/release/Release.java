@@ -6,16 +6,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import bj.rxjavaexperimentation.model.ResultModel;
-
-public class Release extends ResultModel
+public class Release
 {
     @SerializedName("title")
     @Expose
     private String title;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("artists")
     @Expose
     private List<Artist> artists = null;
@@ -120,12 +118,12 @@ public class Release extends ResultModel
         this.title = title;
     }
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }

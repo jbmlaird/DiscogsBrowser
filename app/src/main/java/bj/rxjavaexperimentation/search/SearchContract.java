@@ -5,6 +5,8 @@ import android.widget.ImageView;
 
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
+import bj.rxjavaexperimentation.model.search.SearchResult;
+import bj.rxjavaexperimentation.search.epoxy.SearchResultModel_;
 import io.reactivex.Observable;
 
 /**
@@ -20,13 +22,15 @@ public interface SearchContract
         void showProgressBar();
 
         Observable<SearchViewQueryTextEvent> searchIntent();
+
+        void startDetailedActivity(SearchResult searchResult, ImageView imageView);
     }
 
     interface Presenter
     {
         void setupRecyclerView(RecyclerView rvResults);
 
-        void goToResult(ImageView ivImage);
+        void viewDetailed(SearchResult searchResult, ImageView searchResultModel);
 
         void setupSubscription();
     }

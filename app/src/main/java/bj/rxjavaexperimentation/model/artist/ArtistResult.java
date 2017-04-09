@@ -6,10 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import bj.rxjavaexperimentation.model.ResultModel;
 import bj.rxjavaexperimentation.model.release.Image;
 
-public class ArtistResult extends ResultModel
+public class ArtistResult
 {
     @SerializedName("namevariations")
     @Expose

@@ -1,13 +1,16 @@
 package bj.rxjavaexperimentation.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
@@ -18,6 +21,8 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.detailedview.DetailedActivity;
+import bj.rxjavaexperimentation.model.search.SearchResult;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -82,5 +87,27 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         return RxSearchView.queryTextChangeEvents(searchView)
                 .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
                 .filter(searchViewQueryTextEvent -> searchViewQueryTextEvent.queryText().length() > 2);
+    }
+
+    @Override
+    public void startDetailedActivity(SearchResult searchResult, ImageView imageView)
+    {
+        Intent intent = new Intent(this, DetailedActivity.class);
+        intent.putExtra("title", searchResult.getTitle());
+        intent.putExtra("type", searchResult.getType());
+        intent.putExtra("id", searchResult.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+        }
+        return true;
     }
 }

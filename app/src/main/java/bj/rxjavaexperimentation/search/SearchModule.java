@@ -10,7 +10,7 @@ import java.util.Collections;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
-import bj.rxjavaexperimentation.discogs.DiscogsInteractor;
+import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Observable;
@@ -42,21 +42,10 @@ public class SearchModule
 
     @Provides
     @Singleton
-    Retrofit providesRetrofit(Context context)
-    {
-        return new Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(context.getString(R.string.discogs_base))
-                .build();
-    }
-
-    @Provides
-    @Singleton
-    Function<SearchViewQueryTextEvent, ObservableSource<?>> providesSearchFunction(DiscogsInteractor discogsInteractor)
+    Function<SearchViewQueryTextEvent, ObservableSource<?>> providesSearchFunction(SearchDiscogsInteractor searchDiscogsInteractor)
     {
         return searchViewQueryTextEvent ->
-                discogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString())
+                searchDiscogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString())
                         .startWith(Observable.just(Collections.emptyList()));
     }
 }

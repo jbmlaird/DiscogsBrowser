@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.search;
+package bj.rxjavaexperimentation.detailedview.epoxy;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -18,18 +18,18 @@ import butterknife.ButterKnife;
  * Created by Josh Laird on 07/04/2017.
  */
 
-@EpoxyModelClass(layout = R.layout.item_discogs_result)
-public abstract class SearchResultModel extends EpoxyModel<LinearLayout>
+@EpoxyModelClass(layout = R.layout.model_detailed_top)
+public abstract class DetailedHeaderModel extends EpoxyModel<LinearLayout>
 {
-    @BindView(R.id.tvTitle) TextView tvTitle;
-    @BindView(R.id.tvType) TextView tvType;
     @BindView(R.id.ivImage) ImageView ivImage;
+    @BindView(R.id.tvTitle) TextView tvTitle;
+    @BindView(R.id.tvSubtitle) TextView tvSubtitle;
     @EpoxyAttribute String title;
     @EpoxyAttribute String subtitle;
-    @EpoxyAttribute String image;
+    @EpoxyAttribute String imageUrl;
     private Context context;
 
-    public SearchResultModel(Context context)
+    public DetailedHeaderModel(Context context)
     {
         this.context = context;
     }
@@ -39,18 +39,11 @@ public abstract class SearchResultModel extends EpoxyModel<LinearLayout>
     {
         ButterKnife.bind(this, view);
         tvTitle.setText(title);
-        tvType.setText(subtitle);
         Glide.with(context)
-                .load(image)
-                .centerCrop()
-                .placeholder(R.drawable.ic_vinyl)
+                .load(imageUrl)
+                .placeholder(android.R.drawable.progress_indeterminate_horizontal)
                 .crossFade()
                 .into(ivImage);
-    }
-
-    @Override
-    public void unbind(LinearLayout view)
-    {
-        super.unbind(view);
+        tvSubtitle.setText(subtitle);
     }
 }

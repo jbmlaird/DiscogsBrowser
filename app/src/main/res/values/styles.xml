@@ -13,6 +13,21 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
+    <!--<style name="ThemeActionBar"-->
+    <!--parent="Widget.AppCompat.Light.ActionBar.Solid">-->
+    <!--<item name="android:background">@color/transparent_tint</item>-->
+    <!--&lt;!&ndash; Support library compatibility &ndash;&gt;-->
+    <!--<item name="background">@color/transparent_tint</item>-->
+    <!--</style>-->
+
+    <style name="AppTheme.DetailedActivity" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>

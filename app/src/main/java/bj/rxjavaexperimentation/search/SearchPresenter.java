@@ -14,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.model.search.SearchResult;
+import bj.rxjavaexperimentation.search.epoxy.ResultsAdapter;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -45,7 +46,7 @@ public class SearchPresenter implements SearchContract.Presenter
     public void setupRecyclerView(RecyclerView rvResults)
     {
         rvResults.setLayoutManager(new LinearLayoutManager(mContext));
-        resultsAdapter = new ResultsAdapter(mContext);
+        resultsAdapter = new ResultsAdapter(mContext, this);
         rvResults.setAdapter(resultsAdapter);
     }
 
@@ -53,12 +54,13 @@ public class SearchPresenter implements SearchContract.Presenter
     /**
      * Shows a more detailed view of the user's selected result.
      *
-     * @param ivImage Image of result.
+     * @param searchResult Epoxy model of result clicked.
+     * @param ivImage      This is there for shared element transition.
      */
     @Override
-    public void goToResult(ImageView ivImage)
+    public void viewDetailed(SearchResult searchResult, ImageView ivImage)
     {
-
+        mView.startDetailedActivity(searchResult, ivImage);
     }
 
     @Override
@@ -97,7 +99,6 @@ public class SearchPresenter implements SearchContract.Presenter
                     @Override
                     public void onComplete()
                     {
-                        Log.e(TAG, "results size:");
                     }
                 }));
     }
