@@ -62,4 +62,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.airbnb.android:epoxy:1.7.5'
     annotationProcessor 'com.airbnb.android:epoxy-processor:1.7.5'
+    compile('com.mikepenz:materialdrawer:5.9.0@aar') {
+        transitive = true
+    }
 }
