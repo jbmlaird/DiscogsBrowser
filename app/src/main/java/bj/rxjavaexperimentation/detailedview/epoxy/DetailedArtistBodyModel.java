@@ -1,8 +1,10 @@
 package bj.rxjavaexperimentation.detailedview.epoxy;
 
 import android.content.Context;
-import android.widget.Button;
+import android.content.Intent;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
@@ -11,7 +13,10 @@ import com.airbnb.epoxy.EpoxyModelClass;
 import java.util.List;
 
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.artistreleases.ArtistReleasesActivity;
+import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
 import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
+import bj.rxjavaexperimentation.model.artist.Member;
 import bj.rxjavaexperimentation.model.release.Release;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,35 +30,45 @@ public abstract class DetailedArtistBodyModel extends EpoxyModel<LinearLayout>
 {
     private final DetailedPresenter detailedPresenter;
     private final Context context;
+    private final LayoutInflater inflater;
+    private DetailedBodyModelPresenter presenter;
+    @EpoxyAttribute String title;
     @EpoxyAttribute String artistId;
     @EpoxyAttribute List<Release> releaseList;
-    @BindView(R.id.btnViewReleases) Button btnViewReleases;
+    @EpoxyAttribute List<Member> members;
+    @EpoxyAttribute List<String> links;
+    @BindView(R.id.lytReleases) RelativeLayout lytReleases;
+    @BindView(R.id.lytMembersContainer) RelativeLayout lytMembersContainer;
+    @BindView(R.id.lytMembers) LinearLayout lytMembers;
+    @BindView(R.id.lytLinksContainer) LinearLayout lytLinksContainer;
+    @BindView(R.id.lytLinks) LinearLayout lytLinks;
 
-    public DetailedArtistBodyModel(DetailedPresenter detailedPresenter, Context context)
+    public DetailedArtistBodyModel(DetailedPresenter detailedPresenter, Context context, DetailedBodyModelPresenter presenter)
     {
         this.detailedPresenter = detailedPresenter;
         this.context = context;
+        this.presenter = presenter;
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
     public void bind(LinearLayout view)
     {
         ButterKnife.bind(this, view);
-//        btnViewReleases.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                Intent intent = new Intent(this, ListActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
+        presenter.displayMembers(lytMembersContainer, lytMembers, members);
+        presenter.displaySocialLinks(lytLinksContainer, links, lytLinks);
+        lytReleases.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(context, ArtistReleasesActivity.class);
+            intent.putExtra("name", title);
+            intent.putExtra("id", artistId);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
     }
+}
 
-    // This was going to display a preview of the artists releases on their page
-    // but as the Discogs API doesn't return thumbnails from this request it would
-    // look pretty ugly :/
+// Use an extra request here?
 //    void displayReleases()
 //    {
 //        for (Release release : releaseList)
@@ -63,4 +78,3 @@ public abstract class DetailedArtistBodyModel extends EpoxyModel<LinearLayout>
 //            lytReleases.addView(textview);
 //        }
 //    }
-}

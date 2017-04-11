@@ -2,6 +2,8 @@ package bj.rxjavaexperimentation;
 
 import android.app.Application;
 
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -23,6 +25,8 @@ public class App extends Application
         }
         LeakCanary.install(this);
         setupGraph();
+        Iconify
+                .with(new FontAwesomeModule());
     }
 
     private void setupGraph()

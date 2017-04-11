@@ -437,5 +437,4 @@ public class Release
     {
         this.year = year;
     }
-
 }

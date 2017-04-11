@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 
-import java.util.List;
-
+import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
 import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.release.Release;
@@ -21,10 +20,12 @@ public class DetailedAdapter extends EpoxyAdapter
     private final DetailedPresenter detailedPresenter;
     private final String title;
     private Context context;
+    private DetailedBodyModelPresenter detailedBodyModelPresenter;
 
-    public DetailedAdapter(DetailedPresenter detailedPresenter, Context context, String title)
+    public DetailedAdapter(DetailedPresenter detailedPresenter, Context context, String title, DetailedBodyModelPresenter detailedBodyModelPresenter)
     {
         enableDiffing();
+        this.detailedBodyModelPresenter = detailedBodyModelPresenter;
         this.detailedPresenter = detailedPresenter;
         this.title = title;
         this.context = context;
@@ -37,8 +38,11 @@ public class DetailedAdapter extends EpoxyAdapter
     {
         detailedHeaderModel.imageUrl(artist.getImages().get(0).getResourceUrl());
         detailedHeaderModel.subtitle = artist.getProfile();
-        detailedArtistBodyModel = new DetailedArtistBodyModel_(detailedPresenter, context);
+        detailedArtistBodyModel = new DetailedArtistBodyModel_(detailedPresenter, context, detailedBodyModelPresenter);
         detailedArtistBodyModel.artistId(String.valueOf(artist.getId()));
+        detailedArtistBodyModel.members = artist.getMembers();
+        detailedArtistBodyModel.links = artist.getUrls();
+        detailedArtistBodyModel.title(title);
         addModel(detailedArtistBodyModel);
 
         notifyModelChanged(detailedHeaderModel);
@@ -48,12 +52,5 @@ public class DetailedAdapter extends EpoxyAdapter
     {
         detailedHeaderModel.imageUrl(release.getImages().get(0).getResourceUrl());
         notifyModelChanged(detailedHeaderModel);
-    }
-
-    public void addArtistBody(List<Release> releases)
-    {
-        detailedArtistBodyModel.releaseList = releases;
-//        detailedArtistBodyModel.displayReleases();
-        notifyModelChanged(detailedArtistBodyModel);
     }
 }

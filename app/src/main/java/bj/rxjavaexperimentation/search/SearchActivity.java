@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -56,7 +58,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_search_bar);
         ButterKnife.bind(this);
         presenter.setupSubscription();
         presenter.setupRecyclerView(rvResults);
@@ -65,6 +67,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         searchView.setIconified(false);
         searchView.requestFocus();
+        // Set SearchView text color to white
+        ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setTextColor(ContextCompat.getColor(this, android.R.color.white));
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
     }

@@ -1,9 +1,9 @@
 package bj.rxjavaexperimentation.search.epoxy;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAttribute;
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 
 @EpoxyModelClass(layout = R.layout.item_discogs_result)
-public abstract class SearchResultModel extends EpoxyModel<LinearLayout>
+public abstract class SearchResultModel extends EpoxyModel<CardView>
 {
     @BindView(R.id.tvTitle) TextView tvTitle;
     @BindView(R.id.tvType) TextView tvType;
@@ -37,7 +37,7 @@ public abstract class SearchResultModel extends EpoxyModel<LinearLayout>
     }
 
     @Override
-    public void bind(LinearLayout view)
+    public void bind(CardView view)
     {
         ButterKnife.bind(this, view);
         tvTitle.setText(title);
@@ -52,7 +52,7 @@ public abstract class SearchResultModel extends EpoxyModel<LinearLayout>
     }
 
     @Override
-    public void unbind(LinearLayout view)
+    public void unbind(CardView view)
     {
         super.unbind(view);
     }

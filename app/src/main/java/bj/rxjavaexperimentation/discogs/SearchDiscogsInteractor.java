@@ -2,6 +2,8 @@ package bj.rxjavaexperimentation.discogs;
 
 import android.content.Context;
 
+import com.jakewharton.rxrelay2.BehaviorRelay;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +11,8 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
+import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
+import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.search.SearchResult;
@@ -54,15 +58,14 @@ public class SearchDiscogsInteractor
         return discogsService.getRelease(id, token);
     }
 
-//    public Single<List<Release>> getArtistsReleases(String artistId)
-//    {
-//        return discogsService.getArtistReleases(artistId, token)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(Schedulers.io())
-//                .flatMapIterable(RootReleaseResponse::getReleases)
-//                .take(4)
-//                .flatMap(searchResult ->
-//                        discogsService.getRelease(searchResult.getId(), token))
-//                .toList();
-//    }
+    public void getArtistsReleases(String artistId, BehaviorRelay<List<ArtistRelease>> behaviorRelay)
+    {
+        discogsService.getArtistReleases(artistId, token, "desc", "500")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMapIterable(RootArtistReleaseResponse::getArtistReleases)
+                .filter(release -> (!release.getRole().equals("TrackAppearance") && !release.getRole().equals("Appearance")))
+                .toList()
+                .subscribe(behaviorRelay);
+    }
 }
