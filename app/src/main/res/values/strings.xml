@@ -3,4 +3,9 @@
     <string name="action_settings">Settings</string>
     <string name="discogs_base">https://api.discogs.com</string>
     <string name="token">XQAmkcTYpbrIRefScCQRcLJDusYlbdPQiraJvGJN</string>
+    <string name="drawer_item_collection">Collection</string>
+    <string name="drawer_item_wantlist">Wantlist</string>
+    <string name="drawer_item_search">Search</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_about">About</string>
 </resources>

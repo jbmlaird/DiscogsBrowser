@@ -1,5 +1,7 @@
 package bj.rxjavaexperimentation.detailedview;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -49,7 +51,7 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
 
     private void setupActionbar()
     {
-        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent_tint));
+        toolbar.setBackground(new ColorDrawable(ContextCompat.getColor(this, R.color.transparent_tint)));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,5 +68,15 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void showMemberDetails(String name, Integer id)
+    {
+        Intent intent = new Intent(this, DetailedActivity.class);
+        intent.putExtra("title", name);
+        intent.putExtra("type", "artist");
+        intent.putExtra("id", String.valueOf(id));
+        startActivity(intent);
     }
 }

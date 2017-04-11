@@ -1,3 +1,5 @@
+![app_logo](app\src\main\res\drawable-xxxhdpi\ic_app.png)
+
 # DiscogsBrowser
 Android app to interact with Discogs' API
 
@@ -13,7 +15,7 @@ Common libraries used:
 * [RxBinding2](https://github.com/JakeWharton/RxBinding)
 * [RetroLambda](https://github.com/evant/gradle-retrolambda)
 * [LeakCanary](https://github.com/square/leakcanary)
-* Mockito
+etc.
 
 # Usage
 
@@ -21,6 +23,13 @@ In order to run this app you will need to replace `{{YOUR_TOKEN}}` in strings.xm
 
 # Features
 
-Currently searches your query and displays a list of release names with that query. 
+Searches your query reactively and displays a list of results. 
+Displays artist details and releases.
 
-More features planned.
+# Forthcoming
+
+* Request caching
+* Login
+* Collection/Wantlist amending
+* Order placing
+* Notifications

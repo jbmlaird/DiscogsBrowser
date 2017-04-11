@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by Josh Laird on 07/04/2017.
  */
 
-@EpoxyModelClass(layout = R.layout.model_detailed_top)
+@EpoxyModelClass(layout = R.layout.model_detailed_header)
 public abstract class DetailedHeaderModel extends EpoxyModel<LinearLayout>
 {
     @BindView(R.id.ivImage) ImageView ivImage;

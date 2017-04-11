@@ -24,15 +24,17 @@ public class DetailedPresenter implements DetailedContract.Presenter
     private Context context;
     private DetailedContract.View view;
     private SearchDiscogsInteractor searchDiscogsInteractor;
+    private DetailedBodyModelPresenter detailedBodyModelPresenter;
     private RecyclerView rvDetailed;
     private DetailedAdapter detailedAdapter;
 
     @Inject
-    public DetailedPresenter(Context context, DetailedContract.View view, SearchDiscogsInteractor searchDiscogsInteractor)
+    public DetailedPresenter(Context context, DetailedContract.View view, SearchDiscogsInteractor searchDiscogsInteractor, DetailedBodyModelPresenter detailedBodyModelPresenter)
     {
         this.context = context;
         this.view = view;
         this.searchDiscogsInteractor = searchDiscogsInteractor;
+        this.detailedBodyModelPresenter = detailedBodyModelPresenter;
     }
 
     @Override
@@ -63,17 +65,16 @@ public class DetailedPresenter implements DetailedContract.Presenter
         }
     }
 
+    @Override
     public void setupRecyclerView(RecyclerView rvDetailed, String title)
     {
         this.rvDetailed = rvDetailed;
         rvDetailed.setLayoutManager(new LinearLayoutManager(context));
-        detailedAdapter = new DetailedAdapter(this, context, title);
+        detailedAdapter = new DetailedAdapter(this, context, title, detailedBodyModelPresenter);
         rvDetailed.setAdapter(detailedAdapter);
     }
 
-    // This was going to display a preview of the artists releases on their page
-    // but as the Discogs API doesn't return thumbnails from this request it would
-    // look pretty ugly :/
+    // Use an extra request here?
 //    public void fetchArtistReleases(String artistId)
 //    {
 //        searchDiscogsInteractor.getArtistsReleases(artistId)
