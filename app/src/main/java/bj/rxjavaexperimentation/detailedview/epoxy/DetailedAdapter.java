@@ -38,14 +38,14 @@ public class DetailedAdapter extends EpoxyAdapter
     {
         detailedHeaderModel.imageUrl(artist.getImages().get(0).getResourceUrl());
         detailedHeaderModel.subtitle = artist.getProfile();
+        notifyModelChanged(detailedHeaderModel);
+
         detailedArtistBodyModel = new DetailedArtistBodyModel_(detailedPresenter, context, detailedBodyModelPresenter);
         detailedArtistBodyModel.artistId(String.valueOf(artist.getId()));
         detailedArtistBodyModel.members = artist.getMembers();
         detailedArtistBodyModel.links = artist.getUrls();
         detailedArtistBodyModel.title(title);
         addModel(detailedArtistBodyModel);
-
-        notifyModelChanged(detailedHeaderModel);
     }
 
     public void addRelease(Release release)

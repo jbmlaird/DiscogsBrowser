@@ -2,9 +2,12 @@ package bj.rxjavaexperimentation.artistreleases;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
@@ -14,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesFragment;
+import bj.rxjavaexperimentation.artistreleases.fragments.RecyclerViewReleasesAdapter;
 import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 
@@ -63,5 +67,14 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
             artistReleasesFragment.setArguments(releasesBundle);
             viewPagerAdapter.addFragment(artistReleasesFragment, String.valueOf(pair.second));
         }
+    }
+
+    @Override
+    public RecyclerViewReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity)
+    {
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        RecyclerViewReleasesAdapter rvReleasesAdapter = new RecyclerViewReleasesAdapter(activity);
+        recyclerView.setAdapter(rvReleasesAdapter);
+        return rvReleasesAdapter;
     }
 }

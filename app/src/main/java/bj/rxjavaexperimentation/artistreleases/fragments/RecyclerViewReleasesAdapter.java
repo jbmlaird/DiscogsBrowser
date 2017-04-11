@@ -1,6 +1,7 @@
 package bj.rxjavaexperimentation.artistreleases.fragments;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
  * Created by Josh Laird on 10/04/2017.
  */
 
-public class RecyclerViewRemixesAdapter extends RecyclerView.Adapter<RecyclerViewRemixesAdapter.MyViewHolder>
+public class RecyclerViewReleasesAdapter extends RecyclerView.Adapter<RecyclerViewReleasesAdapter.MyViewHolder>
 {
     private List<ArtistRelease> remixes = new ArrayList<>();
     private Context context;
@@ -32,7 +33,7 @@ public class RecyclerViewRemixesAdapter extends RecyclerView.Adapter<RecyclerVie
         this.remixes = remixes;
     }
 
-    public RecyclerViewRemixesAdapter(Context context)
+    public RecyclerViewReleasesAdapter(Context context)
     {
         this.context = context;
     }
@@ -54,6 +55,11 @@ public class RecyclerViewRemixesAdapter extends RecyclerView.Adapter<RecyclerVie
                 .placeholder(android.R.drawable.progress_indeterminate_horizontal)
                 .crossFade()
                 .into(holder.ivImage);
+        // Set in onBind rather than via ButterKnife's @OnClick to prevent UI lock
+        holder.lytCard.setOnClickListener(v ->
+        {
+
+        });
     }
 
     @Override
@@ -62,9 +68,9 @@ public class RecyclerViewRemixesAdapter extends RecyclerView.Adapter<RecyclerVie
         return remixes.size();
     }
 
-
     class MyViewHolder extends RecyclerView.ViewHolder
     {
+        @BindView(R.id.lytCard) CardView lytCard;
         @BindView(R.id.tvTitle) TextView tvTitle;
         @BindView(R.id.tvType) TextView tvType;
         @BindView(R.id.ivImage) ImageView ivImage;
