@@ -1,4 +1,4 @@
-![app_logo](https://github.com/jbmlaird/DiscogsBrowser/blob/master/app/src/main/res/drawable-xxxhdpi/ic_app.png)
+![app_logo](app/src/main/res/drawable-xxxhdpi/ic_app.png)
 
 # DiscogsBrowser
 Android app to interact with Discogs' API
