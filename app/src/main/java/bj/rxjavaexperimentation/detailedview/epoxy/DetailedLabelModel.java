@@ -1,0 +1,110 @@
+package bj.rxjavaexperimentation.detailedview.epoxy;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.airbnb.epoxy.EpoxyAttribute;
+import com.airbnb.epoxy.EpoxyModel;
+import com.airbnb.epoxy.EpoxyModelClass;
+import com.bumptech.glide.Glide;
+import com.thefinestartist.finestwebview.FinestWebView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
+import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * Created by Josh Laird on 12/04/2017.
+ */
+
+@EpoxyModelClass(layout = R.layout.model_label)
+public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
+{
+    @EpoxyAttribute List<LabelRelease> labelReleases = new ArrayList<>();
+    @EpoxyAttribute Integer labelId;
+    @EpoxyAttribute String labelName;
+    @EpoxyAttribute String discogsUrl;
+    @BindView(R.id.lytReleases) LinearLayout lytReleases;
+    private Context context;
+    private LayoutInflater mInflater;
+    private DetailedPresenter presenter;
+
+    public DetailedLabelModel(Context context, DetailedPresenter presenter)
+    {
+        this.context = context;
+        mInflater = LayoutInflater.from(context);
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void bind(LinearLayout view)
+    {
+        ButterKnife.bind(this, view);
+        displayReleases();
+    }
+
+    private void displayReleases()
+    {
+        for (LabelRelease labelRelease : labelReleases)
+        {
+            View labelReleaseView = mInflater.inflate(R.layout.item_model_release, lytReleases, false);
+            LabelReleaseViewHolder labelReleaseViewHolder = new LabelReleaseViewHolder(labelRelease, labelReleaseView);
+            Glide.with(context)
+                    .load(labelRelease.getThumb())
+                    .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+                    .crossFade()
+                    .into(labelReleaseViewHolder.ivImage);
+            lytReleases.addView(labelReleaseView);
+            if (labelReleases.indexOf(labelRelease) == 4)
+            {
+                // Display no more than 5 releases
+                break;
+            }
+        }
+    }
+
+    @OnClick(R.id.lytViewOnDiscogs)
+    public void viewOnDiscogs()
+    {
+        new FinestWebView.Builder(context).show(discogsUrl);
+    }
+
+    @OnClick(R.id.lytReleasesContainer)
+    public void displayLabelReleases()
+    {
+        presenter.displayLabelReleases(labelId, labelName);
+    }
+
+    class LabelReleaseViewHolder
+    {
+        @BindView(R.id.lytLabelReleaseContainer) LinearLayout lytLabelReleaseContainer;
+        @BindView(R.id.ivImage) ImageView ivImage;
+        @BindView(R.id.tvArtists) TextView tvArtists;
+        @BindView(R.id.tvTitle) TextView tvTitle;
+        private LabelRelease labelRelease;
+
+        public LabelReleaseViewHolder(LabelRelease labelRelease, View view)
+        {
+            ButterKnife.bind(this, view);
+            this.labelRelease = labelRelease;
+            tvTitle.setText(labelRelease.getTitle());
+            tvArtists.setText(labelRelease.getArtist());
+        }
+
+        @OnClick(R.id.lytLabelReleaseContainer)
+        public void showRelease()
+        {
+            presenter.displayRelease(labelRelease.getId(), labelRelease.getTitle());
+        }
+    }
+}

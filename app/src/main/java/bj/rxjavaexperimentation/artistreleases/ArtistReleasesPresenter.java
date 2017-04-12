@@ -1,7 +1,6 @@
 package bj.rxjavaexperimentation.artistreleases;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
@@ -22,7 +21,6 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesFragment;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistResultFunction;
 import bj.rxjavaexperimentation.artistreleases.fragments.RecyclerViewReleasesAdapter;
-import bj.rxjavaexperimentation.detailedview.DetailedActivity;
 import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;

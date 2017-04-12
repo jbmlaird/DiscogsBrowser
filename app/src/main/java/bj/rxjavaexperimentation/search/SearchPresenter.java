@@ -92,6 +92,7 @@ public class SearchPresenter implements SearchContract.Presenter
                     public void onError(Throwable e)
                     {
                         Log.e(TAG, "error");
+                        e.printStackTrace();
                         mView.hideProgressBar();
 //                        mView.showError();
                     }
@@ -99,6 +100,7 @@ public class SearchPresenter implements SearchContract.Presenter
                     @Override
                     public void onComplete()
                     {
+                        Log.e(TAG, "complete");
                     }
                 }));
     }

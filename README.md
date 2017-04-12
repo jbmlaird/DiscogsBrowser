@@ -30,7 +30,9 @@ Displays artist details, release and label information.
 
 * Login
 * Collection/Wantlist amending
-* Carousels for images
-* Request caching	
 * Order placing
+* Results user filtering
+* Carousels for images
+* Refactor models with duplicate parameters
+* Request caching	
 * Notifications

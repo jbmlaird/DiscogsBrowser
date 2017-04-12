@@ -10,6 +10,7 @@ import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
 import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.label.Label;
+import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Artist;
 import bj.rxjavaexperimentation.model.release.Release;
@@ -24,6 +25,7 @@ public class DetailedAdapter extends EpoxyAdapter
 {
     private final DetailedHeaderModel_ detailedHeaderModel;
     private DetailedArtistBodyModel_ detailedArtistBodyModel;
+    private DetailedLabelModel_ detailedLabelModel;
     private final DetailedPresenter detailedPresenter;
     private final String title;
     private Context context;
@@ -79,6 +81,17 @@ public class DetailedAdapter extends EpoxyAdapter
             detailedHeaderModel.imageUrl(label.getImages().get(0).getResourceUrl());
         detailedHeaderModel.subtitle = label.getProfile();
         notifyModelChanged(detailedHeaderModel);
+
+        detailedLabelModel = new DetailedLabelModel_(context, detailedPresenter);
+        detailedLabelModel.labelId = label.getId();
+        detailedLabelModel.labelName = label.getProfile();
+        addModel(detailedLabelModel);
+    }
+
+    public void addLabelReleases(List<LabelRelease> labelReleases)
+    {
+        detailedLabelModel.labelReleases = labelReleases;
+        notifyModelChanged(detailedLabelModel);
     }
 
     /**

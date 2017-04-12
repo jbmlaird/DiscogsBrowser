@@ -77,6 +77,12 @@ public class DetailedPresenter implements DetailedContract.Presenter
                 searchDiscogsInteractor.fetchLabelDetails(id)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
+                        .doOnComplete(() ->
+                                searchDiscogsInteractor.fetchLabelReleases(id)
+                                        .subscribeOn(mySchedulerProvider.io())
+                                        .observeOn(mySchedulerProvider.ui())
+                                        .subscribe(labelReleases ->
+                                                detailedAdapter.addLabelReleases(labelReleases)))
                         .subscribe(label ->
                         {
                             detailedAdapter.addLabel(label);
@@ -93,6 +99,19 @@ public class DetailedPresenter implements DetailedContract.Presenter
         rvDetailed.setLayoutManager(new LinearLayoutManager(context));
         detailedAdapter = new DetailedAdapter(this, context, title, detailedBodyModelPresenter);
         rvDetailed.setAdapter(detailedAdapter);
+    }
+
+    @Override
+    public void displayRelease(Integer id, String title)
+    {
+        view.displayRelease(id, title);
+    }
+
+    @Override
+    public void displayLabelReleases(Integer labelId, String releasesUrl)
+    {
+        // TODO: Need a new list activity here?
+        view.displayLabelReleases(labelId, releasesUrl);
     }
 
     // Use an extra request here?

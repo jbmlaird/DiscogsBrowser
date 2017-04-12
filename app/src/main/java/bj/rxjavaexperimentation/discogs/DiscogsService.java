@@ -3,6 +3,7 @@ package bj.rxjavaexperimentation.discogs;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
 import bj.rxjavaexperimentation.model.label.Label;
+import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
@@ -32,6 +33,9 @@ public interface DiscogsService
 
     @GET("labels/{label_id}")
     Observable<Label> getLabel(@Path("label_id") String labelId, @Query("token") String token);
+
+    @GET("labels/{label_id}/releases")
+    Observable<RootLabelResponse> getLabelReleases(@Path("label_id") String labelId, @Query("token") String token, @Query("sort_order") String sort, @Query("per_page") String perPage);
 
     @GET("artists/{artist_id}/releases")
     Observable<RootArtistReleaseResponse> getArtistReleases(@Path("artist_id") String artistId, @Query("token") String token, @Query("sort_order") String sort, @Query("per_page") String perPage);

@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.labelreleases.LabelReleasesActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -76,6 +77,27 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
         Intent intent = new Intent(this, DetailedActivity.class);
         intent.putExtra("title", name);
         intent.putExtra("type", "artist");
+        intent.putExtra("id", String.valueOf(id));
+        startActivity(intent);
+    }
+
+    @Override
+    public void displayRelease(Integer id, String title)
+    {
+        Intent intent = new Intent(this, DetailedActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("type", "release");
+        intent.putExtra("id", String.valueOf(id));
+        startActivity(intent);
+    }
+
+    @Override
+    public void displayLabelReleases(Integer id, String title)
+    {
+        // TODO: Refactor this to just a list activity
+        Intent intent = new Intent(this, LabelReleasesActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("type", "label");
         intent.putExtra("id", String.valueOf(id));
         startActivity(intent);
     }
