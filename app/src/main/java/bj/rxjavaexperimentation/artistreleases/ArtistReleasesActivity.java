@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.artistreleases;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.detailedview.DetailedActivity;
 import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,5 +64,15 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void launchDetailedActivity(String type, String title, Integer id)
+    {
+        Intent intent = new Intent(this, DetailedActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("title", title);
+        intent.putExtra("id", String.valueOf(id));
+        startActivity(intent);
     }
 }

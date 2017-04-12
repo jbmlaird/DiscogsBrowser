@@ -2,6 +2,8 @@ package bj.rxjavaexperimentation.discogs;
 
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
+import bj.rxjavaexperimentation.model.label.Label;
+import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import io.reactivex.Observable;
@@ -25,6 +27,13 @@ public interface DiscogsService
     @GET("artists/{artist_id}")
     Observable<ArtistResult> getArtist(@Path("artist_id") String artistId, @Query("token") String token);
 
+    @GET("masters/{master_id}")
+    Observable<Master> getMaster(@Path("master_id") String masterId, @Query("token") String token);
+
+    @GET("labels/{label_id}")
+    Observable<Label> getLabel(@Path("label_id") String labelId, @Query("token") String token);
+
     @GET("artists/{artist_id}/releases")
     Observable<RootArtistReleaseResponse> getArtistReleases(@Path("artist_id") String artistId, @Query("token") String token, @Query("sort_order") String sort, @Query("per_page") String perPage);
+
 }

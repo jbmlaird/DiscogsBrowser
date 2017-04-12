@@ -20,7 +20,7 @@ public class ArtistResultFunction
 
     }
 
-    Function<List<ArtistRelease>, List<ArtistRelease>> map(String parameterToMapTo)
+    public Function<List<ArtistRelease>, List<ArtistRelease>> map(String parameterToMapTo)
     {
         return releases ->
         {

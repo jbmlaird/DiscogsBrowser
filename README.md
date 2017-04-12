@@ -24,12 +24,13 @@ In order to run this app you will need to replace `{{YOUR_TOKEN}}` in strings.xm
 # Features
 
 Searches your query reactively and displays a list of results. 
-Displays artist details and releases.
+Displays artist details, release and label information.
 
 # Forthcoming
 
-* Request caching
 * Login
 * Collection/Wantlist amending
+* Carousels for images
+* Request caching	
 * Order placing
 * Notifications

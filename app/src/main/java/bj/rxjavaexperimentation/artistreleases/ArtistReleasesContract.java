@@ -6,7 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.List;
+
 import bj.rxjavaexperimentation.artistreleases.fragments.RecyclerViewReleasesAdapter;
+import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by Josh Laird on 10/04/2017.
@@ -14,7 +18,10 @@ import bj.rxjavaexperimentation.artistreleases.fragments.RecyclerViewReleasesAda
 
 public interface ArtistReleasesContract
 {
-    interface View {}
+    interface View
+    {
+        void launchDetailedActivity(String type, String title, Integer id);
+    }
 
     interface Presenter
     {
@@ -23,5 +30,9 @@ public interface ArtistReleasesContract
         void setupViewPager(TabLayout tabLayout, ViewPager viewPager, FragmentManager supportFragmentManager);
 
         RecyclerViewReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity);
+
+        void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, String searchFilter);
+
+        void launchDetailedActivity(String type, String title, Integer id);
     }
 }

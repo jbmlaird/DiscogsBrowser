@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 public abstract class SearchResultModel extends EpoxyModel<CardView>
 {
     @BindView(R.id.tvTitle) TextView tvTitle;
-    @BindView(R.id.tvType) TextView tvType;
+    @BindView(R.id.tvSubtitle) TextView tvType;
     @BindView(R.id.ivImage) ImageView ivImage;
     @EpoxyAttribute String title;
     @EpoxyAttribute String subtitle;

@@ -107,6 +107,7 @@ public class Release
     @SerializedName("year")
     @Expose
     private Integer year;
+    private String lowestPriceString;
 
     public String getTitle()
     {
@@ -296,6 +297,16 @@ public class Release
     public void setLowestPrice(Double lowestPrice)
     {
         this.lowestPrice = lowestPrice;
+    }
+
+    public String getLowestPriceString()
+    {
+        return lowestPriceString;
+    }
+
+    public void setLowestPriceString(String lowestPriceString)
+    {
+        this.lowestPriceString = lowestPriceString;
     }
 
     public Integer getMasterId()

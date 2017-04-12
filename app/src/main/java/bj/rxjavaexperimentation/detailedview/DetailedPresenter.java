@@ -10,8 +10,7 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.detailedview.epoxy.DetailedAdapter;
 import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 
 /**
  * Created by Josh Laird on 07/04/2017.
@@ -25,16 +24,18 @@ public class DetailedPresenter implements DetailedContract.Presenter
     private DetailedContract.View view;
     private SearchDiscogsInteractor searchDiscogsInteractor;
     private DetailedBodyModelPresenter detailedBodyModelPresenter;
+    private MySchedulerProvider mySchedulerProvider;
     private RecyclerView rvDetailed;
     private DetailedAdapter detailedAdapter;
 
     @Inject
-    public DetailedPresenter(Context context, DetailedContract.View view, SearchDiscogsInteractor searchDiscogsInteractor, DetailedBodyModelPresenter detailedBodyModelPresenter)
+    public DetailedPresenter(Context context, DetailedContract.View view, SearchDiscogsInteractor searchDiscogsInteractor, DetailedBodyModelPresenter detailedBodyModelPresenter, MySchedulerProvider mySchedulerProvider)
     {
         this.context = context;
         this.view = view;
         this.searchDiscogsInteractor = searchDiscogsInteractor;
         this.detailedBodyModelPresenter = detailedBodyModelPresenter;
+        this.mySchedulerProvider = mySchedulerProvider;
     }
 
     @Override
@@ -44,8 +45,8 @@ public class DetailedPresenter implements DetailedContract.Presenter
         {
             case "release":
                 searchDiscogsInteractor.fetchReleaseDetails(id)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(mySchedulerProvider.io())
+                        .observeOn(mySchedulerProvider.ui())
                         .subscribe(release ->
                         {
                             detailedAdapter.addRelease(release);
@@ -54,12 +55,32 @@ public class DetailedPresenter implements DetailedContract.Presenter
                 break;
             case "artist":
                 searchDiscogsInteractor.fetchArtistDetails(id)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(mySchedulerProvider.io())
+                        .observeOn(mySchedulerProvider.ui())
                         .subscribe(artist ->
                         {
                             detailedAdapter.addArtist(artist);
                             Log.e(TAG, artist.getProfile());
+                        });
+                break;
+            case "master":
+                searchDiscogsInteractor.fetchMasterDetails(id)
+                        .subscribeOn(mySchedulerProvider.io())
+                        .observeOn(mySchedulerProvider.ui())
+                        .subscribe(master ->
+                        {
+                            detailedAdapter.addMaster(master);
+                            Log.e(TAG, master.getTitle());
+                        });
+                break;
+            case "label":
+                searchDiscogsInteractor.fetchLabelDetails(id)
+                        .subscribeOn(mySchedulerProvider.io())
+                        .observeOn(mySchedulerProvider.ui())
+                        .subscribe(label ->
+                        {
+                            detailedAdapter.addLabel(label);
+                            Log.e(TAG, label.getName());
                         });
                 break;
         }

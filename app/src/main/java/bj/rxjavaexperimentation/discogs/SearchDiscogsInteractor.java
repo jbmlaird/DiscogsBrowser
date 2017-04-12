@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,6 +14,8 @@ import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
+import bj.rxjavaexperimentation.model.label.Label;
+import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.search.SearchResult;
@@ -31,6 +34,7 @@ public class SearchDiscogsInteractor
     private String token;
     private DiscogsService discogsService;
     private Context mContext;
+    private NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
 
     @Inject
     public SearchDiscogsInteractor(Context context, Retrofit retrofit)
@@ -55,7 +59,29 @@ public class SearchDiscogsInteractor
 
     public Observable<Release> fetchReleaseDetails(String id)
     {
-        return discogsService.getRelease(id, token);
+        return discogsService.getRelease(id, token)
+                .map(release ->
+                {
+                    if (release.getLowestPrice() != null && !release.getLowestPrice().equals(""))
+                        release.setLowestPriceString(numberFormat.format(release.getLowestPrice()));
+                    return release;
+                });
+    }
+
+    public Observable<Master> fetchMasterDetails(String masterId)
+    {
+        return discogsService.getMaster(masterId, token)
+                .map(master ->
+                {
+                    if (master.getLowestPrice() != null && !master.getLowestPrice().equals(""))
+                        master.setLowestPriceString(numberFormat.format(master.getLowestPrice()));
+                    return master;
+                });
+    }
+
+    public Observable<Label> fetchLabelDetails(String labelId)
+    {
+        return discogsService.getLabel(labelId, token);
     }
 
     public void getArtistsReleases(String artistId, BehaviorRelay<List<ArtistRelease>> behaviorRelay)
@@ -68,4 +94,6 @@ public class SearchDiscogsInteractor
                 .toList()
                 .subscribe(behaviorRelay);
     }
+
+
 }

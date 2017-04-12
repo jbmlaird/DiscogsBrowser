@@ -1,6 +1,7 @@
 package bj.rxjavaexperimentation.artistreleases.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.artistreleases.ArtistReleasesPresenter;
+import bj.rxjavaexperimentation.detailedview.DetailedActivity;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,16 +28,13 @@ import butterknife.ButterKnife;
 
 public class RecyclerViewReleasesAdapter extends RecyclerView.Adapter<RecyclerViewReleasesAdapter.MyViewHolder>
 {
-    private List<ArtistRelease> remixes = new ArrayList<>();
+    private List<ArtistRelease> releases = new ArrayList<>();
+    private ArtistReleasesPresenter presenter;
     private Context context;
 
-    public void setRemixes(List<ArtistRelease> remixes)
+    public RecyclerViewReleasesAdapter(ArtistReleasesPresenter presenter, Context context)
     {
-        this.remixes = remixes;
-    }
-
-    public RecyclerViewReleasesAdapter(Context context)
-    {
+        this.presenter = presenter;
         this.context = context;
     }
 
@@ -48,31 +48,34 @@ public class RecyclerViewReleasesAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
-        holder.tvTitle.setText(remixes.get(holder.getAdapterPosition()).getTitle());
-        holder.tvType.setText(remixes.get(holder.getAdapterPosition()).getArtist());
+        holder.tvTitle.setText(releases.get(holder.getAdapterPosition()).getTitle());
+        holder.tvSubtitle.setText(releases.get(holder.getAdapterPosition()).getArtist());
         Glide.with(context)
-                .load(remixes.get(holder.getAdapterPosition()).getThumb())
+                .load(releases.get(holder.getAdapterPosition()).getThumb())
                 .placeholder(android.R.drawable.progress_indeterminate_horizontal)
                 .crossFade()
                 .into(holder.ivImage);
         // Set in onBind rather than via ButterKnife's @OnClick to prevent UI lock
         holder.lytCard.setOnClickListener(v ->
-        {
+                presenter.launchDetailedActivity(releases.get(holder.getAdapterPosition()).getType(), releases.get(holder.getAdapterPosition()).getTitle(), releases.get(holder.getAdapterPosition()).getId()));
+    }
 
-        });
+    public void setReleases(List<ArtistRelease> releases)
+    {
+        this.releases = releases;
     }
 
     @Override
     public int getItemCount()
     {
-        return remixes.size();
+        return releases.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
         @BindView(R.id.lytCard) CardView lytCard;
         @BindView(R.id.tvTitle) TextView tvTitle;
-        @BindView(R.id.tvType) TextView tvType;
+        @BindView(R.id.tvSubtitle) TextView tvSubtitle;
         @BindView(R.id.ivImage) ImageView ivImage;
 
         MyViewHolder(View itemView)
