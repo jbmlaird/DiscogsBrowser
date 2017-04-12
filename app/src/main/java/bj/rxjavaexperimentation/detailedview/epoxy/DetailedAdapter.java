@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
@@ -11,9 +12,10 @@ import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
+import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.master.Master;
-import bj.rxjavaexperimentation.model.release.Artist;
 import bj.rxjavaexperimentation.model.release.Release;
+import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 
 /**
  * Created by Josh Laird on 07/04/2017.
@@ -26,18 +28,22 @@ public class DetailedAdapter extends EpoxyAdapter
     private final DetailedHeaderModel_ detailedHeaderModel;
     private DetailedArtistBodyModel_ detailedArtistBodyModel;
     private DetailedLabelModel_ detailedLabelModel;
+    private DetailedReleaseModel_ detailedReleaseModel;
     private final DetailedPresenter detailedPresenter;
     private final String title;
     private Context context;
     private DetailedBodyModelPresenter detailedBodyModelPresenter;
+    private ArtistsBeautifier artistsBeautifier;
 
-    public DetailedAdapter(DetailedPresenter detailedPresenter, Context context, String title, DetailedBodyModelPresenter detailedBodyModelPresenter)
+    public DetailedAdapter(DetailedPresenter detailedPresenter, Context context, String title, DetailedBodyModelPresenter detailedBodyModelPresenter, ArtistsBeautifier artistsBeautifier)
     {
         enableDiffing();
         this.detailedBodyModelPresenter = detailedBodyModelPresenter;
         this.detailedPresenter = detailedPresenter;
         this.title = title;
         this.context = context;
+        this.artistsBeautifier = artistsBeautifier;
+        // TODO: Move this to a method
         detailedHeaderModel = new DetailedHeaderModel_(context)
                 .title(title);
         addModel(detailedHeaderModel);
@@ -62,8 +68,13 @@ public class DetailedAdapter extends EpoxyAdapter
     {
         if (release.getImages() != null)
             detailedHeaderModel.imageUrl(release.getImages().get(0).getResourceUrl());
-        detailedHeaderModel.subtitle = getArtists(release.getArtists());
+        detailedHeaderModel.subtitle = artistsBeautifier.formatArtists(release.getArtists());
         notifyModelChanged(detailedHeaderModel);
+
+        addModel(new TracklistModel_(context, release.getTracklist()));
+
+//        detailedReleaseModel = new DetailedReleaseModel_();
+//        detailedReleaseModel.tracklist(release.getTracklist());
     }
 
 
@@ -71,7 +82,7 @@ public class DetailedAdapter extends EpoxyAdapter
     {
         if (master.getImages() != null)
             detailedHeaderModel.imageUrl(master.getImages().get(0).getResourceUrl());
-        detailedHeaderModel.subtitle = getArtists(master.getArtists());
+        detailedHeaderModel.subtitle = artistsBeautifier.formatArtists(master.getArtists());
         notifyModelChanged(detailedHeaderModel);
     }
 
@@ -83,8 +94,9 @@ public class DetailedAdapter extends EpoxyAdapter
         notifyModelChanged(detailedHeaderModel);
 
         detailedLabelModel = new DetailedLabelModel_(context, detailedPresenter);
-        detailedLabelModel.labelId = label.getId();
-        detailedLabelModel.labelName = label.getProfile();
+        detailedLabelModel.discogsUrl(label.getUri());
+        detailedLabelModel.labelId(label.getId());
+        detailedLabelModel.labelName(label.getProfile());
         addModel(detailedLabelModel);
     }
 
@@ -94,28 +106,8 @@ public class DetailedAdapter extends EpoxyAdapter
         notifyModelChanged(detailedLabelModel);
     }
 
-    /**
-     * Extract the artists from the model, comma-separate then replace final comma with ampersand.
-     *
-     * @param artists List of artists in model.
-     * @return Beautiful to look at artist string.
-     */
-    private String getArtists(List<Artist> artists)
+    public void setReleaseListings(ArrayList<Listing> listings)
     {
-        StringBuilder artistStringBuilder = new StringBuilder();
-        if (artists.size() > 1)
-        {
-            // No separator before first element
-            String separator = "";
-            for (Artist artist : artists)
-            {
-                artistStringBuilder.append(separator).append(artist.getName());
-                separator = ", ";
-            }
-            artistStringBuilder.replace(artistStringBuilder.toString().lastIndexOf(","), artistStringBuilder.toString().lastIndexOf(",") + 1, " &");
-        }
-        else
-            artistStringBuilder.append(artists.get(0).getName());
-        return artistStringBuilder.toString();
+
     }
 }

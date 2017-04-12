@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
-import bj.rxjavaexperimentation.labelreleases.LabelReleasesActivity;
+import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -95,7 +95,7 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
     public void displayLabelReleases(Integer id, String title)
     {
         // TODO: Refactor this to just a list activity
-        Intent intent = new Intent(this, LabelReleasesActivity.class);
+        Intent intent = new Intent(this, SingleListActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("type", "label");
         intent.putExtra("id", String.valueOf(id));

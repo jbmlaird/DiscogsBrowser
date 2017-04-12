@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.labelreleases;
+package bj.rxjavaexperimentation.singlelist;
 
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.common.BaseActivity;
@@ -11,7 +11,7 @@ import bj.rxjavaexperimentation.common.BaseActivity;
  * TODO: Refactor
  */
 
-public class LabelReleasesActivity extends BaseActivity
+public class SingleListActivity extends BaseActivity
 {
 
 

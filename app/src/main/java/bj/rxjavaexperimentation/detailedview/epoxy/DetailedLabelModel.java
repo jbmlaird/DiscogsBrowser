@@ -34,6 +34,8 @@ public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
     @EpoxyAttribute Integer labelId;
     @EpoxyAttribute String labelName;
     @EpoxyAttribute String discogsUrl;
+    @BindView(R.id.lytViewReleasesContainer) LinearLayout lytViewReleasesContainer;
+    @BindView(R.id.lytSearchReleases) LinearLayout lytSearchReleases;
     @BindView(R.id.lytReleases) LinearLayout lytReleases;
     private Context context;
     private LayoutInflater mInflater;
@@ -79,10 +81,32 @@ public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
         new FinestWebView.Builder(context).show(discogsUrl);
     }
 
-    @OnClick(R.id.lytReleasesContainer)
+    /**
+     * May have to launch {@link bj.rxjavaexperimentation.singlelist.SingleListActivity} for this.
+     */
+    @OnClick(R.id.lytSearchReleases)
+    public void searchReleases()
+    {
+        // TODO: To implement.
+    }
+
+    @OnClick(R.id.lytViewReleasesContainer)
     public void displayLabelReleases()
     {
-        presenter.displayLabelReleases(labelId, labelName);
+//        presenter.displayLabelReleases(labelId, labelName);
+        lytViewReleasesContainer.setVisibility(View.GONE);
+        lytSearchReleases.setVisibility(View.VISIBLE);
+        for (int i = 5; i < labelReleases.size(); i++)
+        {
+            View labelReleaseView = mInflater.inflate(R.layout.item_model_release, lytReleases, false);
+            LabelReleaseViewHolder labelReleaseViewHolder = new LabelReleaseViewHolder(labelReleases.get(i), labelReleaseView);
+            Glide.with(context)
+                    .load(labelReleases.get(i).getThumb())
+                    .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+                    .crossFade()
+                    .into(labelReleaseViewHolder.ivImage);
+            lytReleases.addView(labelReleaseView);
+        }
     }
 
     class LabelReleaseViewHolder
