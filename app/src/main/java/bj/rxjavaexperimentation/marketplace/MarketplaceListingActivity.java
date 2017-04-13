@@ -78,7 +78,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
                 .into(ivImage);
         tvSleeve.setText("{fa-inbox} " + listing.getSleeveCondition());
         tvMedia.setText("{fa-music} " + listing.getCondition());
-        tvSeller.setText(listing.getSeller().getUsername());
+        tvSeller.setText("Seller: " + listing.getSeller().getUsername());
         if (!listing.getComments().equals(""))
             tvComments.setText(listing.getComments());
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();

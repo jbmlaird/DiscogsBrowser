@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import javax.inject.Inject;
@@ -22,6 +23,8 @@ import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 public class DetailedPresenter implements DetailedContract.Presenter
 {
     private static final String TAG = "DetailedPresenter";
+
+    private int scrollAmount = 0;
     private Context context;
     private DetailedContract.View view;
     private SearchDiscogsInteractor searchDiscogsInteractor;
@@ -111,12 +114,27 @@ public class DetailedPresenter implements DetailedContract.Presenter
     }
 
     @Override
-    public void setupRecyclerView(RecyclerView rvDetailed, String title)
+    public void setupRecyclerView(RecyclerView rvDetailed, String title, Toolbar toolbar)
     {
         this.rvDetailed = rvDetailed;
         rvDetailed.setLayoutManager(new LinearLayoutManager(context));
         detailedAdapter = new DetailedAdapter(this, context, title, detailedBodyModelPresenter, artistsBeautifier);
         rvDetailed.setAdapter(detailedAdapter);
+        // TODO: Change actionbar on scroll
+//        rvDetailed.addOnScrollListener(new RecyclerView.OnScrollListener()
+//        {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+//            {
+//                super.onScrolled(recyclerView, dx, dy);
+//                scrollAmount += dy;
+//                Log.e(TAG, "scrollAmount: " + String.valueOf(scrollAmount));
+//                if (scrollAmount > 700)
+//                    toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+//                else
+//                    toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.background_toolbar_translucent));
+//            }
+//        });
     }
 
     @Override

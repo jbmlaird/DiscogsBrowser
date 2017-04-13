@@ -1,15 +1,12 @@
 package bj.rxjavaexperimentation.common;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import bj.rxjavaexperimentation.App;
 import bj.rxjavaexperimentation.AppComponent;
-import bj.rxjavaexperimentation.R;
 import icepick.Icepick;
 
 /**
@@ -36,8 +33,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public void setupActionBar(Toolbar toolbar)
     {
-        // TODO: Fix
-        toolbar.setBackground(new ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)));
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayShowHomeEnabled(true);

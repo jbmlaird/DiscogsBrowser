@@ -1,6 +1,7 @@
 package bj.rxjavaexperimentation.detailedview;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 /**
  * Created by Josh Laird on 07/04/2017.
@@ -21,7 +22,7 @@ public interface DetailedContract
     {
         void fetchDetailedInformation(String type, String id);
 
-        void setupRecyclerView(RecyclerView rvDetailed, String title);
+        void setupRecyclerView(RecyclerView rvDetailed, String title, Toolbar toolbar);
 
         void displayRelease(Integer id, String title);
 

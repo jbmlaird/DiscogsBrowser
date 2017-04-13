@@ -9,6 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,14 +33,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:text="Joy Orbison"
             android:textSize="22sp"
             android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/ivImage"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
@@ -50,10 +55,14 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:includeFontPadding="false"
+            android:maxLines="1"
             android:text="Joy Orbison"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvItemName"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvItemName"
+            app:layout_constraintRight_toLeftOf="@+id/ivImage"
+            android:layout_marginRight="16dp"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivImage"

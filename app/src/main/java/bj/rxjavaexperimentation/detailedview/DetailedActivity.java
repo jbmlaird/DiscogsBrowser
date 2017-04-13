@@ -43,7 +43,7 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_view);
         ButterKnife.bind(this);
-        presenter.setupRecyclerView(rvDetailed, getIntent().getStringExtra("title"));
+        presenter.setupRecyclerView(rvDetailed, getIntent().getStringExtra("title"), toolbar);
         presenter.fetchDetailedInformation(getIntent().getStringExtra("type"), getIntent().getStringExtra("id"));
         setupActionBar(toolbar);
     }
