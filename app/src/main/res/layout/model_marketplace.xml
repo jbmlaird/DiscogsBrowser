@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/lytMarketplaceContainer"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="16dp"
+              android:layout_marginStart="16dp"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
+
+    <LinearLayout
+        android:id="@+id/lytMarketplaceHeader"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMarketplaceHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="Fetching marketplace listings"
+            android:textSize="18sp"/>
+
+        <ProgressBar
+            android:id="@+id/pbMarketplaceHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lytMarketplaceList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="Listings "
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvMarketplaceSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="7 from £7.00"
+                android:textSize="18sp"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvViewMore"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingBottom="16dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        android:paddingTop="8dp"
+        android:text="View more listings"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+    <include
+        layout="@layout/divider"/>
+
+</LinearLayout>

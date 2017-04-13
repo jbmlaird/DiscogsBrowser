@@ -50,7 +50,7 @@ public abstract class TracklistModel extends EpoxyModel<LinearLayout>
             tracklistViewHolder.tvTrackNumber.setText(track.getPosition());
             tracklistViewHolder.tvTrack.setText(track.getTitle());
             lytTracklist.addView(tracklistView);
-            if (tracklist.indexOf(track) == 4)
+            if (tracklist.indexOf(track) == 4 && tracklist.size() > 5)
             {
                 lytViewMore.setVisibility(View.VISIBLE);
                 break;

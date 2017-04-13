@@ -46,7 +46,6 @@ dependencies {
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     compile 'com.jakewharton:butterknife:8.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.2.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
     compile('com.mikepenz:materialdrawer:5.8.1@aar') {
         transitive = true
     }
@@ -70,4 +69,7 @@ dependencies {
     compile 'com.thefinestartist:finestwebview:1.2.7'
     compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
     compile 'org.jsoup:jsoup:1.10.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.afollestad.material-dialogs:core:0.9.4.3'
 }

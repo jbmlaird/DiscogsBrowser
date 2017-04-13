@@ -1,10 +1,8 @@
 package bj.rxjavaexperimentation.detailedview;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -47,16 +45,7 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
         ButterKnife.bind(this);
         presenter.setupRecyclerView(rvDetailed, getIntent().getStringExtra("title"));
         presenter.fetchDetailedInformation(getIntent().getStringExtra("type"), getIntent().getStringExtra("id"));
-        setupActionbar();
-    }
-
-    private void setupActionbar()
-    {
-        toolbar.setBackground(new ColorDrawable(ContextCompat.getColor(this, R.color.transparent_tint)));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+        setupActionBar(toolbar);
     }
 
     @Override

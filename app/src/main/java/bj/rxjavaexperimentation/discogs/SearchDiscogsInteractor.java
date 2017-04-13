@@ -20,6 +20,7 @@ import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
+import bj.rxjavaexperimentation.model.listing.MyListing;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
@@ -106,7 +107,7 @@ public class SearchDiscogsInteractor
                 .map(RootLabelResponse::getLabelReleases);
     }
 
-    public void getArtistsReleases(String artistId, BehaviorRelay<List<ArtistRelease>> behaviorRelay)
+    public void fetchArtistsReleases(String artistId, BehaviorRelay<List<ArtistRelease>> behaviorRelay)
     {
         discogsService.getArtistReleases(artistId, token, "desc", "500")
                 .subscribeOn(mySchedulerProvider.io())
@@ -115,8 +116,8 @@ public class SearchDiscogsInteractor
                 .filter(release -> (!release.getRole().equals("TrackAppearance") && !release.getRole().equals("Appearance")))
                 .toList()
                 .doOnError(throwable ->
-                        // Network on main thread exception
-                        Log.e("SearchDiscogsInteractor", "Test"))
+                        Log.e("SearchDiscogsInteractor", "fetchArtistsReleases error")
+                )
                 .subscribe(behaviorRelay);
     }
 
@@ -124,12 +125,19 @@ public class SearchDiscogsInteractor
      * Scrape the market listings as the API endpoint is now private :/
      *
      * @param id   ID of item.
-     * @param type Release/master
+     * @param type Release or master.
      * @return Parsed HTML.
      */
-    public Observable<ArrayList<Listing>> getMarketListings(String id, String type)
+    public Observable<ArrayList<MyListing>> getReleaseMarketListings(String id, String type)
     {
         return Observable.create(emitter ->
                 emitter.onNext(discogsScraper.scrapeListings(id, type)));
+    }
+
+    public Observable<Listing> fetchListingDetails(String listingId)
+    {
+        return discogsService.getListing(listingId, token, "GBP")
+                .subscribeOn(mySchedulerProvider.io())
+                .observeOn(mySchedulerProvider.io());
     }
 }

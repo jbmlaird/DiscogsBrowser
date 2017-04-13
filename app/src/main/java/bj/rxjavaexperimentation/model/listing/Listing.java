@@ -1,63 +1,175 @@
+
 package bj.rxjavaexperimentation.model.listing;
 
-/**
- * Created by Josh Laird on 12/04/2017.
- * <p>
- * Model containing the scraped Listing information to display on a release page.
- */
-public class Listing
-{
-    private final String price;
-    private final String convertedPrice;
-    private final String mediaCondition;
-    private final String sleeveCondition;
-    private final String sellerUrl;
-    private final String sellerName;
-    private final String marketPlaceId;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public Listing(String price, String convertedPrice, String mediaCondition, String sleeveCondition, String sellerUrl, String sellerName, String marketPlaceId)
-    {
-        this.price = price;
-        this.convertedPrice = convertedPrice;
-        this.mediaCondition = mediaCondition;
-        this.sleeveCondition = sleeveCondition;
-        this.sellerUrl = sellerUrl;
-        this.sellerName = sellerName;
-        this.marketPlaceId = marketPlaceId;
+public class Listing {
+
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("price")
+    @Expose
+    private Price price;
+    @SerializedName("allow_offers")
+    @Expose
+    private Boolean allowOffers;
+    @SerializedName("sleeve_condition")
+    @Expose
+    private String sleeveCondition;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("condition")
+    @Expose
+    private String condition;
+    @SerializedName("posted")
+    @Expose
+    private String posted;
+    @SerializedName("ships_from")
+    @Expose
+    private String shipsFrom;
+    @SerializedName("uri")
+    @Expose
+    private String uri;
+    @SerializedName("comments")
+    @Expose
+    private String comments;
+    @SerializedName("seller")
+    @Expose
+    private Seller seller;
+    @SerializedName("shipping_price")
+    @Expose
+    private ShippingPrice shippingPrice;
+    @SerializedName("release")
+    @Expose
+    private Release release;
+    @SerializedName("resource_url")
+    @Expose
+    private String resourceUrl;
+    @SerializedName("audio")
+    @Expose
+    private Boolean audio;
+
+    public String getStatus() {
+        return status;
     }
 
-    public String getPrice()
-    {
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Price getPrice() {
         return price;
     }
 
-    public String getConvertedPrice()
-    {
-        return convertedPrice;
+    public void setPrice(Price price) {
+        this.price = price;
     }
 
-    public String getMediaCondition()
-    {
-        return mediaCondition;
+    public Boolean getAllowOffers() {
+        return allowOffers;
     }
 
-    public String getSleeveCondition()
-    {
+    public void setAllowOffers(Boolean allowOffers) {
+        this.allowOffers = allowOffers;
+    }
+
+    public String getSleeveCondition() {
         return sleeveCondition;
     }
 
-    public String getSellerUrl()
-    {
-        return sellerUrl;
+    public void setSleeveCondition(String sleeveCondition) {
+        this.sleeveCondition = sleeveCondition;
     }
 
-    public String getSellerName()
-    {
-        return sellerName;
+    public Integer getId() {
+        return id;
     }
 
-    public String getMarketPlaceId()
-    {
-        return marketPlaceId;
+    public void setId(Integer id) {
+        this.id = id;
     }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getPosted() {
+        return posted;
+    }
+
+    public void setPosted(String posted) {
+        this.posted = posted;
+    }
+
+    public String getShipsFrom() {
+        return shipsFrom;
+    }
+
+    public void setShipsFrom(String shipsFrom) {
+        this.shipsFrom = shipsFrom;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+    public ShippingPrice getShippingPrice() {
+        return shippingPrice;
+    }
+
+    public void setShippingPrice(ShippingPrice shippingPrice) {
+        this.shippingPrice = shippingPrice;
+    }
+
+    public Release getRelease() {
+        return release;
+    }
+
+    public void setRelease(Release release) {
+        this.release = release;
+    }
+
+    public String getResourceUrl() {
+        return resourceUrl;
+    }
+
+    public void setResourceUrl(String resourceUrl) {
+        this.resourceUrl = resourceUrl;
+    }
+
+    public Boolean getAudio() {
+        return audio;
+    }
+
+    public void setAudio(Boolean audio) {
+        this.audio = audio;
+    }
+
 }

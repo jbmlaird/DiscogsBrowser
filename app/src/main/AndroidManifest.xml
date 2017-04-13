@@ -19,6 +19,7 @@
         <activity
             android:name=".main.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,6 +30,7 @@
         </activity>
         <activity
             android:name=".search.SearchActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.searchable"
@@ -37,17 +39,21 @@
 
         <activity
             android:name=".detailedview.DetailedActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
 
         <activity
             android:name=".artistreleases.ArtistReleasesActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
 
-        <uses-permission android:name="android.permission.INTERNET"/>
+        <activity
+            android:name=".marketplace.MarketplaceListingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"

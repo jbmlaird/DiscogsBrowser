@@ -53,7 +53,7 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void getArtistReleases(String id)
     {
-        searchDiscogsInteractor.getArtistsReleases(id, behaviorRelay);
+        searchDiscogsInteractor.fetchArtistsReleases(id, behaviorRelay);
     }
 
     @Override

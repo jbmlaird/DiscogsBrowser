@@ -55,16 +55,16 @@ public class DetailedPresenter implements DetailedContract.Presenter
                         .observeOn(mySchedulerProvider.ui())
                         // TODO: Re-implement. Disable for now due to unnecessary network call
                         // TODO: Cache
-//                        .doOnComplete(() ->
-//                                searchDiscogsInteractor.getMarketListings(id, "release")
-//                                        .subscribeOn(mySchedulerProvider.io())
-//                                        .observeOn(mySchedulerProvider.ui())
-//                                        .subscribe(o ->
-//                                                        detailedAdapter.setReleaseListings(o),
-//                                                error ->
-//                                                        Log.e(TAG, "onError")
-//                                        )
-//                        )
+                        .doOnComplete(() ->
+                                searchDiscogsInteractor.getReleaseMarketListings(id, "release")
+                                        .subscribeOn(mySchedulerProvider.io())
+                                        .observeOn(mySchedulerProvider.ui())
+                                        .subscribe(o ->
+                                                        detailedAdapter.setReleaseListings(o),
+                                                error ->
+                                                        detailedAdapter.setReleaseListingsError()
+                                        )
+                        )
                         .subscribe(release ->
                         {
                             detailedAdapter.addRelease(release);
