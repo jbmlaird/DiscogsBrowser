@@ -28,7 +28,6 @@ import bj.rxjavaexperimentation.utils.DiscogsScraper;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.rx_cache2.DynamicKey;
-import io.rx_cache2.Reply;
 import io.rx_cache2.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
 import retrofit2.Retrofit;
@@ -66,20 +65,17 @@ public class SearchDiscogsInteractor
     public Observable<List<SearchResult>> searchDiscogs(String searchTerm)
     {
         return cacheProviders.searchDiscogs(discogsService.getSearchResults(searchTerm, token), new DynamicKey(searchTerm))
-                .map(Reply::getData)
                 .map(RootSearchResponse::getSearchResults);
     }
 
     public Observable<ArtistResult> fetchArtistDetails(String artistId)
     {
-        return cacheProviders.fetchArtistDetails(discogsService.getArtist(artistId, token), new DynamicKey(artistId))
-                .map(Reply::getData);
+        return cacheProviders.fetchArtistDetails(discogsService.getArtist(artistId, token), new DynamicKey(artistId));
     }
 
     public Observable<Release> fetchReleaseDetails(String releaseId)
     {
         return cacheProviders.fetchReleaseDetails(discogsService.getRelease(releaseId, token), new DynamicKey(releaseId))
-                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(release ->
@@ -93,7 +89,6 @@ public class SearchDiscogsInteractor
     public Observable<Master> fetchMasterDetails(String masterId)
     {
         return cacheProviders.fetchMasterDetails(discogsService.getMaster(masterId, token), new DynamicKey(masterId))
-                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(master ->
@@ -107,7 +102,6 @@ public class SearchDiscogsInteractor
     public Observable<Label> fetchLabelDetails(String labelId)
     {
         return cacheProviders.fetchLabelDetails(discogsService.getLabel(labelId, token), new DynamicKey(labelId))
-                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io());
     }
@@ -115,7 +109,6 @@ public class SearchDiscogsInteractor
     public Observable<List<LabelRelease>> fetchLabelReleases(String labelId)
     {
         return cacheProviders.fetchLabelReleases(discogsService.getLabelReleases(labelId, token, "desc", "500"), new DynamicKey(labelId))
-                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(RootLabelResponse::getLabelReleases);
@@ -124,7 +117,6 @@ public class SearchDiscogsInteractor
     public Single<List<ArtistRelease>> fetchArtistsReleases(String artistId)
     {
         return cacheProviders.fetchArtistsReleases(discogsService.getArtistReleases(artistId, token, "desc", "500"), new DynamicKey(artistId))
-                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .flatMapIterable(RootArtistReleaseResponse::getArtistReleases)
@@ -144,14 +136,13 @@ public class SearchDiscogsInteractor
      */
     public Observable<ArrayList<MyListing>> getReleaseMarketListings(String id, String type)
     {
-        return Observable.create(emitter ->
-                emitter.onNext(discogsScraper.scrapeListings(id, type)));
+        return cacheProviders.getReleaseMarketListings(Observable.create(emitter ->
+                emitter.onNext(discogsScraper.scrapeListings(id, type))), new DynamicKey(id + type));
     }
 
     public Observable<Listing> fetchListingDetails(String listingId)
     {
         return cacheProviders.fetchListingDetails(discogsService.getListing(listingId, token, "GBP"), new DynamicKey(listingId))
-                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io());
     }

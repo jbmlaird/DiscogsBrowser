@@ -15,7 +15,8 @@ Common libraries used:
 * [RxBinding2](https://github.com/JakeWharton/RxBinding)
 * [RetroLambda](https://github.com/evant/gradle-retrolambda)
 * [LeakCanary](https://github.com/square/leakcanary)
-etc.
+* [RxCache](https://github.com/VictorAlbertos/RxCache) - new favourite library
+* etc.
 
 # Usage
 
@@ -26,6 +27,7 @@ In order to run this app you will need to replace `{{YOUR_TOKEN}}` in strings.xm
 Searches your query reactively and displays a list of results. 
 Displays artist details, release and label information.
 Displays marketplace information on release page NB: ,marketplace only searches 12"s. No 7", CD etc.
+Request caching
 
 # Forthcoming
 
