@@ -5,7 +5,7 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 
 /**

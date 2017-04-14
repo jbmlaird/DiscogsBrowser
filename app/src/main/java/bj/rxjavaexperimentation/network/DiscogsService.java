@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.discogs;
+package bj.rxjavaexperimentation.network;
 
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;

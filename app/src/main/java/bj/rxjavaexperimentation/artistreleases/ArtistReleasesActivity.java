@@ -14,7 +14,7 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.detailedview.DetailedActivity;
-import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

@@ -35,5 +35,4 @@ Displays marketplace information on release page NB: ,marketplace only searches 
 * Results user filtering
 * Carousels for images
 * Refactor models with duplicate parameters
-* Request caching	
 * Notifications

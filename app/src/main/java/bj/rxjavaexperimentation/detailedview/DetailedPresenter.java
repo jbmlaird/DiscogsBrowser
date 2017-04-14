@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.detailedview.epoxy.DetailedAdapter;
-import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 
@@ -23,8 +23,6 @@ import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 public class DetailedPresenter implements DetailedContract.Presenter
 {
     private static final String TAG = "DetailedPresenter";
-
-    private int scrollAmount = 0;
     private Context context;
     private DetailedContract.View view;
     private SearchDiscogsInteractor searchDiscogsInteractor;

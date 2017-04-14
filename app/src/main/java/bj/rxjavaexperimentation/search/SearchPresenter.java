@@ -50,7 +50,6 @@ public class SearchPresenter implements SearchContract.Presenter
         rvResults.setAdapter(resultsAdapter);
     }
 
-
     /**
      * Shows a more detailed view of the user's selected result.
      *

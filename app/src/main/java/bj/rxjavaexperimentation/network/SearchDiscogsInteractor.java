@@ -1,9 +1,7 @@
-package bj.rxjavaexperimentation.discogs;
+package bj.rxjavaexperimentation.network;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -28,6 +26,11 @@ import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.DiscogsScraper;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.rx_cache2.DynamicKey;
+import io.rx_cache2.Reply;
+import io.rx_cache2.internal.RxCache;
+import io.victoralbertos.jolyglot.GsonSpeaker;
 import retrofit2.Retrofit;
 
 /**
@@ -38,6 +41,7 @@ import retrofit2.Retrofit;
 @Singleton
 public class SearchDiscogsInteractor
 {
+    private final CacheProviders cacheProviders;
     private String token;
     private DiscogsService discogsService;
     private Context mContext;
@@ -53,22 +57,29 @@ public class SearchDiscogsInteractor
         token = mContext.getString(R.string.token);
         discogsService = retrofit.create(DiscogsService.class);
         this.discogsScraper = discogsScraper;
+
+        cacheProviders = new RxCache.Builder()
+                .persistence(context.getFilesDir(), new GsonSpeaker())
+                .using(CacheProviders.class);
     }
 
     public Observable<List<SearchResult>> searchDiscogs(String searchTerm)
     {
-        return discogsService.getSearchResults(searchTerm, token)
+        return cacheProviders.searchDiscogs(discogsService.getSearchResults(searchTerm, token), new DynamicKey(searchTerm))
+                .map(Reply::getData)
                 .map(RootSearchResponse::getSearchResults);
     }
 
-    public Observable<ArtistResult> fetchArtistDetails(String id)
+    public Observable<ArtistResult> fetchArtistDetails(String artistId)
     {
-        return discogsService.getArtist(id, token);
+        return cacheProviders.fetchArtistDetails(discogsService.getArtist(artistId, token), new DynamicKey(artistId))
+                .map(Reply::getData);
     }
 
-    public Observable<Release> fetchReleaseDetails(String id)
+    public Observable<Release> fetchReleaseDetails(String releaseId)
     {
-        return discogsService.getRelease(id, token)
+        return cacheProviders.fetchReleaseDetails(discogsService.getRelease(releaseId, token), new DynamicKey(releaseId))
+                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(release ->
@@ -81,7 +92,8 @@ public class SearchDiscogsInteractor
 
     public Observable<Master> fetchMasterDetails(String masterId)
     {
-        return discogsService.getMaster(masterId, token)
+        return cacheProviders.fetchMasterDetails(discogsService.getMaster(masterId, token), new DynamicKey(masterId))
+                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(master ->
@@ -94,22 +106,25 @@ public class SearchDiscogsInteractor
 
     public Observable<Label> fetchLabelDetails(String labelId)
     {
-        return discogsService.getLabel(labelId, token)
+        return cacheProviders.fetchLabelDetails(discogsService.getLabel(labelId, token), new DynamicKey(labelId))
+                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io());
     }
 
     public Observable<List<LabelRelease>> fetchLabelReleases(String labelId)
     {
-        return discogsService.getLabelReleases(labelId, token, "desc", "500")
+        return cacheProviders.fetchLabelReleases(discogsService.getLabelReleases(labelId, token, "desc", "500"), new DynamicKey(labelId))
+                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(RootLabelResponse::getLabelReleases);
     }
 
-    public void fetchArtistsReleases(String artistId, BehaviorRelay<List<ArtistRelease>> behaviorRelay)
+    public Single<List<ArtistRelease>> fetchArtistsReleases(String artistId)
     {
-        discogsService.getArtistReleases(artistId, token, "desc", "500")
+        return cacheProviders.fetchArtistsReleases(discogsService.getArtistReleases(artistId, token, "desc", "500"), new DynamicKey(artistId))
+                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .flatMapIterable(RootArtistReleaseResponse::getArtistReleases)
@@ -117,8 +132,7 @@ public class SearchDiscogsInteractor
                 .toList()
                 .doOnError(throwable ->
                         Log.e("SearchDiscogsInteractor", "fetchArtistsReleases error")
-                )
-                .subscribe(behaviorRelay);
+                );
     }
 
     /**
@@ -136,7 +150,8 @@ public class SearchDiscogsInteractor
 
     public Observable<Listing> fetchListingDetails(String listingId)
     {
-        return discogsService.getListing(listingId, token, "GBP")
+        return cacheProviders.fetchListingDetails(discogsService.getListing(listingId, token, "GBP"), new DynamicKey(listingId))
+                .map(Reply::getData)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io());
     }

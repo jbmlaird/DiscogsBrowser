@@ -21,8 +21,8 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesFragment;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistResultFunction;
 import bj.rxjavaexperimentation.artistreleases.fragments.RecyclerViewReleasesAdapter;
-import bj.rxjavaexperimentation.discogs.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
+import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import io.reactivex.functions.Consumer;
 
@@ -53,7 +53,8 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void getArtistReleases(String id)
     {
-        searchDiscogsInteractor.fetchArtistsReleases(id, behaviorRelay);
+        searchDiscogsInteractor.fetchArtistsReleases(id)
+                .subscribe(behaviorRelay);
     }
 
     @Override
