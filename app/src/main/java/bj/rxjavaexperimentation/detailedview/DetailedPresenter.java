@@ -14,6 +14,7 @@ import bj.rxjavaexperimentation.detailedview.epoxy.DetailedAdapter;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 07/04/2017.
@@ -31,6 +32,7 @@ public class DetailedPresenter implements DetailedContract.Presenter
     private RecyclerView rvDetailed;
     private DetailedAdapter detailedAdapter;
     private ArtistsBeautifier artistsBeautifier;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
     public DetailedPresenter(@NonNull Context context, @NonNull DetailedContract.View view, @NonNull SearchDiscogsInteractor searchDiscogsInteractor,
@@ -51,7 +53,7 @@ public class DetailedPresenter implements DetailedContract.Presenter
         switch (type)
         {
             case "release":
-                searchDiscogsInteractor.fetchReleaseDetails(id)
+                compositeDisposable.add(searchDiscogsInteractor.fetchReleaseDetails(id)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         // TODO: Re-implement. Disable for now due to unnecessary network call
@@ -67,33 +69,46 @@ public class DetailedPresenter implements DetailedContract.Presenter
                                         )
                         )
                         .subscribe(release ->
-                        {
-                            detailedAdapter.addRelease(release);
-                            Log.e(TAG, release.getTitle());
-                        });
+                                {
+                                    detailedAdapter.addRelease(release);
+                                    Log.e(TAG, release.getTitle());
+                                }, error ->
+                                {
+                                    Log.e(TAG, "onReleaseDetailsError");
+                                    error.printStackTrace();
+                                }
+                        ));
                 break;
             case "artist":
-                searchDiscogsInteractor.fetchArtistDetails(id)
+                compositeDisposable.add(searchDiscogsInteractor.fetchArtistDetails(id)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(artist ->
                         {
                             detailedAdapter.addArtist(artist);
                             Log.e(TAG, artist.getProfile());
-                        });
+                        }, error ->
+                        {
+                            Log.e(TAG, "onFetchArtistDetailsError");
+                            error.printStackTrace();
+                        }));
                 break;
             case "master":
-                searchDiscogsInteractor.fetchMasterDetails(id)
+                compositeDisposable.add(searchDiscogsInteractor.fetchMasterDetails(id)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(master ->
                         {
                             detailedAdapter.addMaster(master);
                             Log.e(TAG, master.getTitle());
-                        });
+                        }, error ->
+                        {
+                            Log.e(TAG, "onFetchMasterDetailsError");
+                            error.printStackTrace();
+                        }));
                 break;
             case "label":
-                searchDiscogsInteractor.fetchLabelDetails(id)
+                compositeDisposable.add(searchDiscogsInteractor.fetchLabelDetails(id)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .doOnComplete(() ->
@@ -101,12 +116,17 @@ public class DetailedPresenter implements DetailedContract.Presenter
                                         .subscribeOn(mySchedulerProvider.io())
                                         .observeOn(mySchedulerProvider.ui())
                                         .subscribe(labelReleases ->
-                                                detailedAdapter.addLabelReleases(labelReleases)))
+                                                        detailedAdapter.addLabelReleases(labelReleases)
+                                                , Throwable::printStackTrace))
                         .subscribe(label ->
                         {
                             detailedAdapter.addLabel(label);
                             Log.e(TAG, label.getName());
-                        });
+                        }, error ->
+                        {
+                            Log.e(TAG, "onFetchLabelDetails");
+                            error.printStackTrace();
+                        }));
                 break;
         }
     }
@@ -146,5 +166,11 @@ public class DetailedPresenter implements DetailedContract.Presenter
     {
         // TODO: Need a new list activity here?
         view.displayLabelReleases(labelId, releasesUrl);
+    }
+
+    @Override
+    public void unsubscribe()
+    {
+        compositeDisposable.dispose();
     }
 }

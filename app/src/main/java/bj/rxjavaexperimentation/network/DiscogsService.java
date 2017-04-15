@@ -21,26 +21,26 @@ import retrofit2.http.Query;
 public interface DiscogsService
 {
     @GET("database/search?")
-    Observable<RootSearchResponse> getSearchResults(@Query("q") String searchTerm, @Query("token") String token);
+    Observable<RootSearchResponse> getSearchResults(@Query("q") String searchTerm);
 
     @GET("releases/{release_id}")
-    Observable<Release> getRelease(@Path("release_id") String releaseId, @Query("token") String token);
+    Observable<Release> getRelease(@Path("release_id") String releaseId);
 
     @GET("artists/{artist_id}")
-    Observable<ArtistResult> getArtist(@Path("artist_id") String artistId, @Query("token") String token);
+    Observable<ArtistResult> getArtist(@Path("artist_id") String artistId);
 
     @GET("masters/{master_id}")
-    Observable<Master> getMaster(@Path("master_id") String masterId, @Query("token") String token);
+    Observable<Master> getMaster(@Path("master_id") String masterId);
 
     @GET("labels/{label_id}")
-    Observable<Label> getLabel(@Path("label_id") String labelId, @Query("token") String token);
+    Observable<Label> getLabel(@Path("label_id") String labelId);
 
     @GET("labels/{label_id}/releases")
-    Observable<RootLabelResponse> getLabelReleases(@Path("label_id") String labelId, @Query("token") String token, @Query("sort_order") String sort, @Query("per_page") String perPage);
+    Observable<RootLabelResponse> getLabelReleases(@Path("label_id") String labelId, @Query("sort_order") String sort, @Query("per_page") String perPage);
 
     @GET("artists/{artist_id}/releases")
-    Observable<RootArtistReleaseResponse> getArtistReleases(@Path("artist_id") String artistId, @Query("token") String token, @Query("sort_order") String sort, @Query("per_page") String perPage);
+    Observable<RootArtistReleaseResponse> getArtistReleases(@Path("artist_id") String artistId, @Query("sort_order") String sort, @Query("per_page") String perPage);
 
     @GET("/marketplace/listings/{listing_id}")
-    Observable<Listing> getListing(@Path("listing_id") String listingId, @Query("token") String token, @Query("curr_abbr") String currency);
+    Observable<Listing> getListing(@Path("listing_id") String listingId, @Query("curr_abbr") String currency);
 }

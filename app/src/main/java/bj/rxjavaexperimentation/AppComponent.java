@@ -2,6 +2,8 @@ package bj.rxjavaexperimentation;
 
 import android.content.Context;
 
+import com.github.scribejava.core.oauth.OAuth10aService;
+
 import dagger.Component;
 import retrofit2.Retrofit;
 
@@ -17,4 +19,6 @@ public interface AppComponent
     Context getContext();
 
     Retrofit getRetrofit();
+
+    OAuth10aService getOAuthService();
 }

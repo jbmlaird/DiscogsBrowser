@@ -15,3 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+
+# RxSocial
+-dontwarn javax.xml.bind.DatatypeConverter
+-dontwarn org.apache.commons.codec.**
+-dontwarn com.ning.http.client.**

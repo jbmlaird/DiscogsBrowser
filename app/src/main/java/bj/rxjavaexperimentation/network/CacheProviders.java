@@ -25,30 +25,30 @@ import io.rx_cache2.LifeCache;
  */
 public interface CacheProviders
 {
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<RootSearchResponse> searchDiscogs(Observable<RootSearchResponse> searchDiscogsObservable, DynamicKey searchTerm);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<ArtistResult> fetchArtistDetails(Observable<ArtistResult> fetchArtistDetailsObservable, DynamicKey artistId);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<Release> fetchReleaseDetails(Observable<Release> fetchReleaseDetailsObservable, DynamicKey releaseId);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<Master> fetchMasterDetails(Observable<Master> fetchMasterDetailsObservable, DynamicKey masterId);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<Label> fetchLabelDetails(Observable<Label> fetchLabelDetailsObservable, DynamicKey labelId);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<RootLabelResponse> fetchLabelReleases(Observable<RootLabelResponse> fetchLabelReleasesObservable, DynamicKey labelId);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<RootArtistReleaseResponse> fetchArtistsReleases(Observable<RootArtistReleaseResponse> fetchArtistsReleasesSingle, DynamicKey artistId);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Observable<ArrayList<MyListing>> getReleaseMarketListings(Observable<ArrayList<MyListing>> releaseMarketListings, DynamicKey listingIdAndType);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.MINUTES)
+    @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Observable<Listing> fetchListingDetails(Observable<Listing> fetchListingDetailsObservable, DynamicKey listingId);
 }

@@ -13,6 +13,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 
 /**
  * Created by j on 18/02/2017.
@@ -21,11 +22,13 @@ public class MainPresenter implements MainContract.Presenter
 {
     private static final String TAG = "MainPresenter";
     private MainContract.View mView;
+    private SharedPrefsManager sharedPrefsManager;
 
     @Inject
-    public MainPresenter(MainContract.View view)
+    public MainPresenter(MainContract.View view, SharedPrefsManager sharedPrefsManager)
     {
         mView = view;
+        this.sharedPrefsManager = sharedPrefsManager;
     }
 
     // Move to NavigationDrawerBuilder class?

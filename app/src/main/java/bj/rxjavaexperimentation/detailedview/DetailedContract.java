@@ -27,5 +27,7 @@ public interface DetailedContract
         void displayRelease(Integer id, String title);
 
         void displayLabelReleases(Integer labelId, String releasesUrl);
+
+        void unsubscribe();
     }
 }

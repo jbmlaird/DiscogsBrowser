@@ -81,9 +81,16 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
     }
 
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
     public void displayLabelReleases(Integer id, String title)
     {
-        // TODO: Refactor this to just a list activity
+        // TODO: Implement
         Intent intent = new Intent(this, SingleListActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("type", "label");

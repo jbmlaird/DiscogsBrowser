@@ -6,6 +6,10 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.squareup.leakcanary.LeakCanary;
 
+import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
+
+import io.victoralbertos.jolyglot.GsonSpeaker;
+
 /**
  * Created by j on 18/02/2017.
  */
@@ -27,6 +31,10 @@ public class App extends Application
         setupGraph();
         Iconify
                 .with(new FontAwesomeModule());
+
+        // Empty string while RxSocialConnect's disk cache is not working
+        RxSocialConnect.register(this, "testString")
+                .using(new GsonSpeaker());
     }
 
     private void setupGraph()

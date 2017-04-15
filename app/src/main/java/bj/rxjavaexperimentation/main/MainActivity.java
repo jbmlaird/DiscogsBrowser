@@ -2,17 +2,11 @@ package bj.rxjavaexperimentation.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
 import javax.inject.Inject;
 
@@ -33,14 +27,18 @@ public class MainActivity extends BaseActivity implements MainContract.View
     private Drawer result;
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        // Separate logic if the user isn't logged in
-        // Force user login?
         result = presenter.buildNavigationDrawer(this, toolbar);
     }
 
@@ -73,7 +71,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void onBackPressed()
     {
-        //handle the back press :D close the drawer first and if the drawer is closed close the activity
+        // handle the back press :D close the drawer first
         if (result != null && result.isDrawerOpen())
         {
             result.closeDrawer();

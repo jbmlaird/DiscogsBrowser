@@ -6,6 +6,7 @@
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
     <!--<color name="colorAccent">#FF4081</color>-->
     <color name="colorAccent">#ff8a65</color>
+    <color name="colorAccentComplementary">#65DAFF</color>
     <color name="light_gray">#f7f7f7</color>
     <color name="transparent_tint">#30000000</color>
     <color name="black_alpha_40">#66000000</color>

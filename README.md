@@ -20,21 +20,22 @@ Common libraries used:
 
 # Usage
 
-In order to run this app you will need to replace `{{YOUR_TOKEN}}` in strings.xml with your token provided by [Discogs](https://www.discogs.com/settings/developers).
+In order to run this app you will need to replace `{{YOUR_KEY}}` and `{{YOUR_TOKEN}}` in `strings.xml` with your token provided by [Discogs](https://www.discogs.com/settings/developers).
+
+It is not ready for consumers at this stage.
 
 # Features
 
-Searches your query reactively and displays a list of results. 
-Displays artist details, release and label information.
-Displays marketplace information on release page NB: ,marketplace only searches 12"s. No 7", CD etc.
-Request caching
+* Searches your query reactively and displays a list of results. 
+* Displays artist details, release and label information.
+* Displays marketplace information on release page NB: marketplace searches only return 12"
+* Request caching
 
 # Forthcoming
 
-* Login
 * Collection/Wantlist amending
-* Order placing
 * Results user filtering
 * Carousels for images
 * Refactor models with duplicate parameters
+* Order placing - the API does not allow that at this stage
 * Notifications
