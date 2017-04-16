@@ -50,4 +50,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     {
         presenter.startOAuthService(this);
     }
+
+    @Override
+    public void finish()
+    {
+        startActivity(new Intent(this, MainActivity.class));
+        super.finish();
+    }
 }

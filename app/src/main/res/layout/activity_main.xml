@@ -8,16 +8,38 @@
     android:fitsSystemWindows="true"
     tools:mContext="bj.rxjavaexperimentation.main.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:id="@+id/lytMainContent"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:subtitleTextColor="@android:color/white"
-        app:titleTextColor="@android:color/white">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:subtitleTextColor="@android:color/white"
+            app:titleTextColor="@android:color/white">
 
-    <include layout="@layout/content_main"/>
+        </android.support.v7.widget.Toolbar>
+
+        <include layout="@layout/content_main"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/lytLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_app_loading"/>
+
+    </RelativeLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

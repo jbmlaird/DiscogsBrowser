@@ -13,6 +13,8 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
+import bj.rxjavaexperimentation.model.collectionrelease.CollectionRelease;
+import bj.rxjavaexperimentation.model.collectionrelease.RootCollectionRelease;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
@@ -22,6 +24,9 @@ import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.search.SearchResult;
+import bj.rxjavaexperimentation.model.user.UserDetails;
+import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
+import bj.rxjavaexperimentation.model.wantlist.Want;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.DiscogsScraper;
 import io.reactivex.Observable;
@@ -54,6 +59,7 @@ public class SearchDiscogsInteractor
         this.discogsScraper = discogsScraper;
 
         cacheProviders = new RxCache.Builder()
+                .setMaxMBPersistenceCache(5)
                 .persistence(context.getFilesDir(), new GsonSpeaker())
                 .using(CacheProviders.class);
     }
@@ -141,5 +147,26 @@ public class SearchDiscogsInteractor
         return cacheProviders.fetchListingDetails(discogsService.getListing(listingId, "GBP"), new DynamicKey(listingId))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io());
+    }
+
+    public Observable<UserDetails> fetchUserDetails()
+    {
+        return discogsService.fetchIdentity()
+                .subscribeOn(mySchedulerProvider.io())
+                .observeOn(mySchedulerProvider.io())
+                .flatMap(user ->
+                        discogsService.fetchUserDetails(user.getUsername()));
+    }
+
+    public Observable<List<CollectionRelease>> fetchCollection(String username)
+    {
+        return discogsService.fetchCollection(username, "desc", "500")
+                .map(RootCollectionRelease::getCollectionReleases);
+    }
+
+    public Observable<List<Want>> fetchWantlist(String username)
+    {
+        return discogsService.fetchWantlist(username, "desc", "500")
+                .map(RootWantlistResponse::getWants);
     }
 }

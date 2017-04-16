@@ -2,12 +2,16 @@ package bj.rxjavaexperimentation.network;
 
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
+import bj.rxjavaexperimentation.model.collectionrelease.RootCollectionRelease;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
+import bj.rxjavaexperimentation.model.user.User;
+import bj.rxjavaexperimentation.model.user.UserDetails;
+import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -43,4 +47,17 @@ public interface DiscogsService
 
     @GET("/marketplace/listings/{listing_id}")
     Observable<Listing> getListing(@Path("listing_id") String listingId, @Query("curr_abbr") String currency);
+
+    @GET("/oauth/identity")
+    Observable<User> fetchIdentity();
+
+    @GET("/users/{username}")
+    Observable<UserDetails> fetchUserDetails(@Path("username") String username);
+
+    // 0 means it will always look in the user's "All" folder
+    @GET("/users/{username}/collection/folders/0/releases")
+    Observable<RootCollectionRelease> fetchCollection(@Path("username") String username, @Query("sort_order") String sort, @Query("per_page") String perPage);
+
+    @GET("/users/{username}/wants")
+    Observable<RootWantlistResponse> fetchWantlist(@Path("username") String username, @Query("sort_order") String sort, @Query("per_page") String perPage);
 }

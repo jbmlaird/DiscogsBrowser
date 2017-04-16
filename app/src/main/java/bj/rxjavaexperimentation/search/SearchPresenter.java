@@ -32,6 +32,7 @@ public class SearchPresenter implements SearchContract.Presenter
     private SearchContract.View mView;
     private ResultsAdapter resultsAdapter;
     private Function<SearchViewQueryTextEvent, ObservableSource<?>> searchModelFunc;
+    private DisposableObserver<Object> disposableObserver;
     private CompositeDisposable disposable = new CompositeDisposable();
 
     @Inject
@@ -68,39 +69,48 @@ public class SearchPresenter implements SearchContract.Presenter
         disposable.add(mView.searchIntent()
                 .flatMap(searchModelFunc)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<Object>()
+                .onErrorResumeNext(mView.searchIntent()
+                        .flatMap(searchModelFunc))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(getDisposableObserver()));
+    }
+
+    private DisposableObserver<Object> getDisposableObserver()
+    {
+        return new DisposableObserver<Object>()
+        {
+            @Override
+            public void onNext(Object o)
+            {
+                Log.e(TAG, "ye");
+                Log.e(TAG, String.valueOf(((List) o).size()));
+                // .startWith() empty string means new query
+                if (((List) o).size() == 0)
                 {
-                    @Override
-                    public void onNext(Object o)
-                    {
-                        Log.e(TAG, "ye");
-                        // .startWith() empty string means new query
-                        if (((List) o).size() == 0)
-                        {
-                            mView.showProgressBar();
-                            resultsAdapter.clearResults();
-                        }
-                        else
-                        {
-                            mView.hideProgressBar();
-                            resultsAdapter.addResults((ArrayList<SearchResult>) o);
-                        }
-                    }
+                    mView.showProgressBar();
+                    resultsAdapter.clearResults();
+                }
+                else
+                {
+                    mView.hideProgressBar();
+                    resultsAdapter.addResults((ArrayList<SearchResult>) o);
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        Log.e(TAG, "error");
-                        e.printStackTrace();
-                        mView.hideProgressBar();
+            @Override
+            public void onError(Throwable e)
+            {
+                Log.e(TAG, "error");
+                e.printStackTrace();
+                mView.hideProgressBar();
 //                        mView.showError();
-                    }
+            }
 
-                    @Override
-                    public void onComplete()
-                    {
-                        Log.e(TAG, "complete");
-                    }
-                }));
+            @Override
+            public void onComplete()
+            {
+                Log.e(TAG, "complete");
+            }
+        };
     }
 }

@@ -43,6 +43,7 @@ public class LoginPresenter implements LoginContract.Presenter
     @Override
     public void startOAuthService(LoginActivity loginActivity)
     {
+        // TODO: If the user logs out and doesn't close the app, this response will return the details from the first call instantly
         RxSocialConnect.with(loginActivity, oAuth10aService)
                 .subscribe(response ->
                 {

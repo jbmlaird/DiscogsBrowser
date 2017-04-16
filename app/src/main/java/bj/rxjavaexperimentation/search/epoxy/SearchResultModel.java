@@ -45,7 +45,7 @@ public abstract class SearchResultModel extends EpoxyModel<CardView>
         Glide.with(context)
                 .load(image)
                 .centerCrop()
-                .placeholder(R.drawable.ic_vinyl)
+//                .placeholder(R.drawable.ic_vinyl)
                 .crossFade()
                 .into(ivImage);
         view.setOnClickListener(clickListener);

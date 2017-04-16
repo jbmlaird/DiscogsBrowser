@@ -41,7 +41,8 @@ public class DiscogsScraper
         }
         Document doc = Jsoup
                 .connect(stringBuilder.toString())
-                // Try and get the mobile site. I don't believe this works
+                // Try and get the mobile site.
+                // They don't have a mobile site
                 .userAgent("Mozilla/5.0 (Linux; <Android Version>; <Build Tag etc.>) AppleWebKit/<WebKit Rev> (KHTML, like Gecko) Chrome/<Chrome Rev> Mobile Safari/<WebKit Rev>")
                 .get();
         Elements marketplaceListings = doc.getElementsByClass("shortcut_navigable ");
@@ -74,7 +75,15 @@ public class DiscogsScraper
             Element sellerInfo = element.getElementsByClass("seller_info").get(0);
             String sellerUrl = sellerInfo.getElementsByTag("a").attr("href");
             String sellerName = sellerInfo.getElementsByTag("a").text().split(" ")[0];
-            String sellerRating = sellerInfo.getElementsByTag("strong").get(1).text();
+            String sellerRating = "No rating";
+            try
+            {
+                sellerRating = sellerInfo.getElementsByTag("strong").get(1).text();
+            }
+            catch (IndexOutOfBoundsException e)
+            {
+                // New account, no rating
+            }
             String shipsFrom = element.getElementsByTag("li").get(2).text().replace(":", ": ");
 
             String marketPlaceId = element.getElementsByClass("button button_green cart_button ").attr("data-item-id");
