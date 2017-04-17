@@ -44,7 +44,6 @@ public class SharedPrefsManager
         editor.putString(context.getString(R.string.oauth_access_token), token.getToken());
         editor.putString(context.getString(R.string.oauth_access_token_secret), token.getTokenSecret());
 
-        // Commit the edits!
         editor.apply();
     }
 
@@ -53,6 +52,7 @@ public class SharedPrefsManager
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(context.getString(R.string.oauth_access_token), "");
         editor.putString(context.getString(R.string.oauth_access_token_secret), "");
+        editor.putString(context.getString(R.string.username), "");
 
         // Commit the edits!
         editor.apply();

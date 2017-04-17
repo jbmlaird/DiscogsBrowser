@@ -38,5 +38,9 @@ It is not ready for consumers at this stage.
 * Carousels for images
 * Preview releases in app (Picture in picture?)
 * Refactor models with duplicate parameters
-* Order placing - the API does not allow that at this stage
+* Order placing? (the API does not allow that at this stage)
 * Notifications
+
+# License
+
+This project is licensed under the terms of the MIT license.
