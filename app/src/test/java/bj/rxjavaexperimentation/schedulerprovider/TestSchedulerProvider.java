@@ -6,7 +6,7 @@ import io.reactivex.schedulers.TestScheduler;
 /**
  * Created by Josh Laird on 11/04/2017.
  */
-public class TestSchedulerProvider implements SchedulerProvider
+public class TestSchedulerProvider extends MySchedulerProvider
 {
     private final TestScheduler testScheduler;
 

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.main.MainContract;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.utils.DateFormatter;
@@ -24,14 +25,16 @@ public class MainController extends EpoxyController
     private final String TAG = this.getClass().getSimpleName();
     private List<Order> orders = new ArrayList<>();
     private boolean loadingMorePurchases = true;
+    private MainContract.View mView;
     private ImageViewAnimator imageViewAnimator;
     private DateFormatter dateFormatter;
     private boolean loadingMoreSales = true;
     private List<Listing> listings = new ArrayList<>();
 
     @Inject
-    public MainController(ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter)
+    public MainController(MainContract.View mView, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter)
     {
+        this.mView = mView;
         this.imageViewAnimator = imageViewAnimator;
         this.dateFormatter = dateFormatter;
     }
@@ -58,6 +61,7 @@ public class MainController extends EpoxyController
                     .lastActivity(order.getLastActivity())
                     .status(order.getStatus())
                     .buyer(order.getBuyer().getUsername())
+                    .onClickListener(v -> mView.displayOrder(order.getId()))
                     .id("order" + String.valueOf(orders.indexOf(order)))
                     .addTo(this);
 
@@ -69,6 +73,7 @@ public class MainController extends EpoxyController
         // Add a link to the rest if there are more than 5
         new ViewMoreModel_()
                 .title("View all orders")
+                .onClickListener(v -> mView.displayOrdersActivity())
                 .addIf(orders.size() > 5, this);
 
         new LoadingModel_(imageViewAnimator)
@@ -94,6 +99,7 @@ public class MainController extends EpoxyController
             new ListingModel_(dateFormatter)
                     .datePosted(listing.getPosted())
                     .releaseName(listing.getRelease().getDescription())
+                    .onClickListener(v -> mView.displayListing(listing.getId()))
                     .id("listing" + String.valueOf(listings.indexOf(listing)))
                     .addTo(this);
 
@@ -105,6 +111,7 @@ public class MainController extends EpoxyController
         // Add a link to the rest if there are more than 5
         new ViewMoreModel_()
                 .title("View all for sale")
+                .onClickListener(v -> mView.displayListingsActivity())
                 .addIf(listings.size() > 5, this);
 
         new LoadingModel_(imageViewAnimator)
@@ -122,7 +129,7 @@ public class MainController extends EpoxyController
     public void setLoadingMorePurchases(boolean loadingMorePurchases)
     {
         this.loadingMorePurchases = loadingMorePurchases;
-        requestModelBuild();
+//        requestModelBuild();
     }
 
     public void setSelling(List<Listing> listings)

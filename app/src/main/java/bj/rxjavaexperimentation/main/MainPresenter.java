@@ -66,13 +66,6 @@ public class MainPresenter implements MainContract.Presenter
 
     private void fetchOrders()
     {
-        orderPublishSubject
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(orders ->
-                                mainController.setPurchases(orders),
-                        error ->
-                                Log.e(TAG, error.getMessage()));
-
         discogsInteractor.fetchOrders()
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(disposable -> mainController.setLoadingMorePurchases(true))
@@ -82,17 +75,7 @@ public class MainPresenter implements MainContract.Presenter
 
     private void fetchSelling()
     {
-        sellingPublishSubject
-                .flatMapIterable(listings -> listings)
-                .filter(listing -> listing.getStatus().equals("For Sale"))
-                .toList()
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(listings ->
-                                mainController.setSelling(listings),
-                        error ->
-                                Log.e(TAG, error.getMessage()));
-
-        discogsInteractor.fetchMyListings(userDetails.getUsername())
+        discogsInteractor.fetchListings(userDetails.getUsername())
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(disposable -> mainController.setLoadingMoreSales(true))
                 .subscribeOn(mySchedulerProvider.io())
@@ -105,5 +88,32 @@ public class MainPresenter implements MainContract.Presenter
         this.recyclerView = recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         recyclerView.setAdapter(mainController.getAdapter());
+    }
+
+    @Override
+    public void setupObservers()
+    {
+        sellingPublishSubject
+                .flatMapIterable(listings -> listings)
+                .filter(listing -> listing.getStatus().equals("For Sale"))
+                .toList()
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(listings ->
+                                mainController.setSelling(listings),
+                        error ->
+                                Log.e(TAG, error.getMessage()));
+
+        orderPublishSubject
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(orders ->
+                                mainController.setPurchases(orders),
+                        error ->
+                                Log.e(TAG, error.getMessage()));
+    }
+
+    @Override
+    public UserDetails getUserDetails()
+    {
+        return userDetails;
     }
 }

@@ -68,9 +68,9 @@ public class NavigationDrawerBuilder
                         new ExpandableDrawerItem().withName("Marketplace")
                                 .withIcon(R.drawable.ic_attach_money_black_24dp)
                                 .withIdentifier(3).withSelectable(false).withSubItems(
-                                new SecondaryDrawerItem().withName("Purchases").withLevel(2)
-                                        .withIdentifier(3001),
                                 new SecondaryDrawerItem().withName("Orders").withLevel(2)
+                                        .withIdentifier(3001),
+                                new SecondaryDrawerItem().withName("For Sale").withLevel(2)
                                         .withIdentifier(3002)
                         ),
                         new PrimaryDrawerItem().withName(context.getString(R.string.drawer_item_search))

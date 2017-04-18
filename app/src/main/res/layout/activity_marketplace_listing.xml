@@ -19,57 +19,43 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.25">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <TextView
             android:id="@+id/tvItemName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:includeFontPadding="false"
-            android:maxLines="1"
+            android:lines="2"
+            android:maxLines="2"
             android:text="Joy Orbison"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/ivImage"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/tvArtists"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:text="Joy Orbison"
-            android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvItemName"
-            app:layout_constraintRight_toLeftOf="@+id/ivImage"
-            android:layout_marginRight="16dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivImage"
             android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -83,9 +69,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:background="#D3D3D3"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvArtists"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvItemName"/>
 
         <TextView
             android:id="@+id/tvSeller"
@@ -125,7 +112,7 @@
             android:layout_marginTop="8dp"
             android:includeFontPadding="false"
             android:padding="4dp"
-            android:text="Seller rating"
+            android:text="Seller rating: "
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSeller"/>
@@ -242,7 +229,7 @@
                 android:layout_weight="1"
                 android:includeFontPadding="false"
                 android:padding="4dp"
-                android:text="View on Discogs"
+                android:text="Purchase on Discogs"
                 android:textSize="18sp"/>
 
             <ImageView

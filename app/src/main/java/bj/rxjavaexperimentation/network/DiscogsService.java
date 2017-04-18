@@ -8,6 +8,7 @@ import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.listing.RootListingResponse;
 import bj.rxjavaexperimentation.model.master.Master;
+import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.model.order.RootOrderResponse;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
@@ -68,4 +69,7 @@ public interface DiscogsService
 
     @GET("/users/{username}/inventory")
     Observable<RootListingResponse> fetchSelling(@Path("username") String username, @Query("sort_order") String desc, @Query("per_page") String perPage, @Query("sort") String sortBy);
+
+    @GET("/marketplace/orders/{order_id}")
+    Observable<Order> fetchOrderDetails(@Path("order_id") String orderId);
 }

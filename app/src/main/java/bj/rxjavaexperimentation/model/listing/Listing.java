@@ -4,7 +4,8 @@ package bj.rxjavaexperimentation.model.listing;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Listing {
+public class Listing
+{
 
     @SerializedName("status")
     @Expose
@@ -20,7 +21,7 @@ public class Listing {
     private String sleeveCondition;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("condition")
     @Expose
     private String condition;
@@ -52,123 +53,153 @@ public class Listing {
     @Expose
     private Boolean audio;
 
-    public String getStatus() {
+    public String getStatus()
+    {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(String status)
+    {
         this.status = status;
     }
 
-    public Price getPrice() {
+    public Price getPrice()
+    {
         return price;
     }
 
-    public void setPrice(Price price) {
+    public void setPrice(Price price)
+    {
         this.price = price;
     }
 
-    public Boolean getAllowOffers() {
+    public Boolean getAllowOffers()
+    {
         return allowOffers;
     }
 
-    public void setAllowOffers(Boolean allowOffers) {
+    public void setAllowOffers(Boolean allowOffers)
+    {
         this.allowOffers = allowOffers;
     }
 
-    public String getSleeveCondition() {
+    public String getSleeveCondition()
+    {
         return sleeveCondition;
     }
 
-    public void setSleeveCondition(String sleeveCondition) {
+    public void setSleeveCondition(String sleeveCondition)
+    {
         this.sleeveCondition = sleeveCondition;
     }
 
-    public Integer getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getCondition() {
+    public String getCondition()
+    {
         return condition;
     }
 
-    public void setCondition(String condition) {
+    public void setCondition(String condition)
+    {
         this.condition = condition;
     }
 
-    public String getPosted() {
+    public String getPosted()
+    {
         return posted;
     }
 
-    public void setPosted(String posted) {
+    public void setPosted(String posted)
+    {
         this.posted = posted;
     }
 
-    public String getShipsFrom() {
+    public String getShipsFrom()
+    {
         return shipsFrom;
     }
 
-    public void setShipsFrom(String shipsFrom) {
+    public void setShipsFrom(String shipsFrom)
+    {
         this.shipsFrom = shipsFrom;
     }
 
-    public String getUri() {
+    public String getUri()
+    {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public void setUri(String uri)
+    {
         this.uri = uri;
     }
 
-    public String getComments() {
+    public String getComments()
+    {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(String comments)
+    {
         this.comments = comments;
     }
 
-    public Seller getSeller() {
+    public Seller getSeller()
+    {
         return seller;
     }
 
-    public void setSeller(Seller seller) {
+    public void setSeller(Seller seller)
+    {
         this.seller = seller;
     }
 
-    public ShippingPrice getShippingPrice() {
+    public ShippingPrice getShippingPrice()
+    {
         return shippingPrice;
     }
 
-    public void setShippingPrice(ShippingPrice shippingPrice) {
+    public void setShippingPrice(ShippingPrice shippingPrice)
+    {
         this.shippingPrice = shippingPrice;
     }
 
-    public Release getRelease() {
+    public Release getRelease()
+    {
         return release;
     }
 
-    public void setRelease(Release release) {
+    public void setRelease(Release release)
+    {
         this.release = release;
     }
 
-    public String getResourceUrl() {
+    public String getResourceUrl()
+    {
         return resourceUrl;
     }
 
-    public void setResourceUrl(String resourceUrl) {
+    public void setResourceUrl(String resourceUrl)
+    {
         this.resourceUrl = resourceUrl;
     }
 
-    public Boolean getAudio() {
+    public Boolean getAudio()
+    {
         return audio;
     }
 
-    public void setAudio(Boolean audio) {
+    public void setAudio(Boolean audio)
+    {
         this.audio = audio;
     }
 

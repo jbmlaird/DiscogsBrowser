@@ -33,7 +33,14 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(listing ->
-                                view.displayListing(listing),
+                        {
+                            view.displayListing(listing);
+                            searchDiscogsInteractor.fetchUserDetails(listing.getSeller().getUsername())
+                                    .subscribeOn(mySchedulerProvider.io())
+                                    .observeOn(mySchedulerProvider.ui())
+                                    .subscribe(userDetails ->
+                                            view.updateUserDetails(userDetails));
+                        },
                         error ->
                                 Log.e(TAG, "error")
                 );

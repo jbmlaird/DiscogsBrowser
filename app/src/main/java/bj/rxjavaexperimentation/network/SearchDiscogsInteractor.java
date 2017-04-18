@@ -179,9 +179,19 @@ public class SearchDiscogsInteractor
                 .map(RootOrderResponse::getOrders);
     }
 
-    public Observable<List<Listing>> fetchMyListings(String username)
+    public Observable<Order> fetchOrderDetails(String orderId)
+    {
+        return discogsService.fetchOrderDetails(orderId);
+    }
+
+    public Observable<List<Listing>> fetchListings(String username)
     {
         return discogsService.fetchSelling(username, "desc", "500", "status")
                 .map(RootListingResponse::getListings);
+    }
+
+    public Observable<UserDetails> fetchUserDetails(String username)
+    {
+        return discogsService.fetchUserDetails(username);
     }
 }

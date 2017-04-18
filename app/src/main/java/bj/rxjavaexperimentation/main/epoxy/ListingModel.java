@@ -13,13 +13,15 @@ import bj.rxjavaexperimentation.utils.DateFormatter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
+
 /**
  * Created by Josh Laird on 18/04/2017.
  */
 @EpoxyModelClass(layout = R.layout.model_listing)
 public abstract class ListingModel extends EpoxyModel<ConstraintLayout>
 {
-    @EpoxyAttribute View.OnClickListener onClickListener;
+    @EpoxyAttribute(DoNotHash) View.OnClickListener onClickListener;
     @EpoxyAttribute String releaseName;
     @EpoxyAttribute String datePosted;
     @BindView(R.id.lytListing) ConstraintLayout lytListing;

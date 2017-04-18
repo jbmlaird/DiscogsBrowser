@@ -19,6 +19,7 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.model.listing.Listing;
+import bj.rxjavaexperimentation.model.user.UserDetails;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,7 +34,6 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     @Inject MarketplacePresenter presenter;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tvItemName) TextView tvItemName;
-    @BindView(R.id.tvArtists) TextView tvArtists;
     @BindView(R.id.ivImage) CircleImageView ivImage;
     @BindView(R.id.tvSeller) TextView tvSeller;
     @BindView(R.id.tvPrice) TextView tvPrice;
@@ -62,9 +62,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
         setupActionBar(toolbar);
         presenter.getListingDetails(getIntent().getStringExtra("id"));
         tvItemName.setText(getIntent().getStringExtra("title"));
-        tvArtists.setText(getIntent().getStringExtra("artist"));
         tvSeller.setText(getIntent().getStringExtra("seller"));
-        tvSellerRating.setText("Average rating: " + getIntent().getStringExtra("sellerRating"));
     }
 
     @Override
@@ -76,6 +74,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
 //                .placeholder(android.R.drawable.progress_indeterminate_horizontal)
                 .dontAnimate()
                 .into(ivImage);
+        tvItemName.setText(listing.getRelease().getDescription());
         tvSleeve.setText("{fa-inbox} " + listing.getSleeveCondition());
         tvMedia.setText("{fa-music} " + listing.getCondition());
         tvSeller.setText("Seller: " + listing.getSeller().getUsername());
@@ -83,6 +82,12 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
             tvComments.setText(listing.getComments());
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
         tvPrice.setText(numberFormat.format(listing.getPrice().getValue()));
+    }
+
+    @Override
+    public void updateUserDetails(UserDetails userDetails)
+    {
+        tvSellerRating.setText("Seller rating: " + userDetails.getSellerRating() + "%");
     }
 
     @OnClick(R.id.lytViewOnDiscogs)
