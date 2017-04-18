@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import bj.rxjavaexperimentation.model.common.Pagination;
+
 public class RootSearchResponse
 {
     @SerializedName("pagination")

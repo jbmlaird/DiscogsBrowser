@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import bj.rxjavaexperimentation.model.listing.MyListing;
+import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 
 /**
  * Created by Josh Laird on 12/04/2017.
@@ -25,11 +25,11 @@ public class DiscogsScraper
 
     }
 
-    public ArrayList<MyListing> scrapeListings(String id, String type) throws IOException
+    public ArrayList<ScrapeListing> scrapeListings(String id, String type) throws IOException
     {
         // Only searches for 12"
         StringBuilder stringBuilder = new StringBuilder("http://www.discogs.com/sell/list?sort=price%2Casc&limit=50&ev=mbformat_desc=12\"");
-        ArrayList<MyListing> myListings = new ArrayList<>();
+        ArrayList<ScrapeListing> scrapeListings = new ArrayList<>();
         switch (type)
         {
             case "master":
@@ -88,8 +88,8 @@ public class DiscogsScraper
 
             String marketPlaceId = element.getElementsByClass("button button_green cart_button ").attr("data-item-id");
 
-            myListings.add(new MyListing(price, convertedPrice, mediaCondition, sleeveCondition, sellerUrl, sellerName, sellerRating, shipsFrom, marketPlaceId));
+            scrapeListings.add(new ScrapeListing(price, convertedPrice, mediaCondition, sleeveCondition, sellerUrl, sellerName, sellerRating, shipsFrom, marketPlaceId));
         }
-        return myListings;
+        return scrapeListings;
     }
 }

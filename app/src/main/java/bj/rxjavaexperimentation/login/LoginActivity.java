@@ -18,8 +18,8 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends BaseActivity implements LoginContract.View
 {
+    private final String TAG = getClass().getSimpleName();
     @Inject LoginPresenter presenter;
-    private static final String TAG = "LoginActivity";
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -40,7 +40,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
         ButterKnife.bind(this);
         if (presenter.hasUserLoggedIn())
         {
-            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
     }

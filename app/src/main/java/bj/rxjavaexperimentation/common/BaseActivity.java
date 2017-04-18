@@ -34,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity
     public void setupActionBar(Toolbar toolbar)
     {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

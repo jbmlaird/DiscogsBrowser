@@ -8,7 +8,7 @@ import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.listing.MyListing;
+import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
@@ -47,7 +47,7 @@ public interface CacheProviders
     Observable<RootArtistReleaseResponse> fetchArtistsReleases(Observable<RootArtistReleaseResponse> fetchArtistsReleasesSingle, DynamicKey artistId);
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
-    Observable<ArrayList<MyListing>> getReleaseMarketListings(Observable<ArrayList<MyListing>> releaseMarketListings, DynamicKey listingIdAndType);
+    Observable<ArrayList<ScrapeListing>> getReleaseMarketListings(Observable<ArrayList<ScrapeListing>> releaseMarketListings, DynamicKey listingIdAndType);
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Observable<Listing> fetchListingDetails(Observable<Listing> fetchListingDetailsObservable, DynamicKey listingId);

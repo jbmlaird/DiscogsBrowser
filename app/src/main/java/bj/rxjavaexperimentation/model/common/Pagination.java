@@ -1,5 +1,5 @@
 
-package bj.rxjavaexperimentation.model.artistrelease;
+package bj.rxjavaexperimentation.model.common;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -9,18 +9,18 @@ public class Pagination {
     @SerializedName("per_page")
     @Expose
     private Integer perPage;
-    @SerializedName("items")
-    @Expose
-    private Integer items;
-    @SerializedName("page")
-    @Expose
-    private Integer page;
-    @SerializedName("urls")
-    @Expose
-    private Urls urls;
     @SerializedName("pages")
     @Expose
     private Integer pages;
+    @SerializedName("page")
+    @Expose
+    private Integer page;
+    @SerializedName("items")
+    @Expose
+    private Integer items;
+    @SerializedName("urls")
+    @Expose
+    private Urls urls;
 
     public Integer getPerPage() {
         return perPage;
@@ -30,12 +30,12 @@ public class Pagination {
         this.perPage = perPage;
     }
 
-    public Integer getItems() {
-        return items;
+    public Integer getPages() {
+        return pages;
     }
 
-    public void setItems(Integer items) {
-        this.items = items;
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 
     public Integer getPage() {
@@ -46,20 +46,20 @@ public class Pagination {
         this.page = page;
     }
 
+    public Integer getItems() {
+        return items;
+    }
+
+    public void setItems(Integer items) {
+        this.items = items;
+    }
+
     public Urls getUrls() {
         return urls;
     }
 
     public void setUrls(Urls urls) {
         this.urls = urls;
-    }
-
-    public Integer getPages() {
-        return pages;
-    }
-
-    public void setPages(Integer pages) {
-        this.pages = pages;
     }
 
 }

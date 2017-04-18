@@ -19,8 +19,11 @@ import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.listing.MyListing;
+import bj.rxjavaexperimentation.model.listing.RootListingResponse;
+import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.master.Master;
+import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.order.RootOrderResponse;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.search.SearchResult;
@@ -136,7 +139,7 @@ public class SearchDiscogsInteractor
      * @param type Release or master.
      * @return Parsed HTML.
      */
-    public Observable<ArrayList<MyListing>> getReleaseMarketListings(String id, String type)
+    public Observable<ArrayList<ScrapeListing>> getReleaseMarketListings(String id, String type)
     {
         return cacheProviders.getReleaseMarketListings(Observable.create(emitter ->
                 emitter.onNext(discogsScraper.scrapeListings(id, type))), new DynamicKey(id + type));
@@ -168,5 +171,17 @@ public class SearchDiscogsInteractor
     {
         return discogsService.fetchWantlist(username, "desc", "500")
                 .map(RootWantlistResponse::getWants);
+    }
+
+    public Observable<List<Order>> fetchOrders()
+    {
+        return discogsService.fetchOrders("desc", "500", "last_activity")
+                .map(RootOrderResponse::getOrders);
+    }
+
+    public Observable<List<Listing>> fetchMyListings(String username)
+    {
+        return discogsService.fetchSelling(username, "desc", "500", "status")
+                .map(RootListingResponse::getListings);
     }
 }

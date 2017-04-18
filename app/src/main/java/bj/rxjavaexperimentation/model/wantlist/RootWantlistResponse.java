@@ -1,11 +1,15 @@
 
 package bj.rxjavaexperimentation.model.wantlist;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RootWantlistResponse {
+import java.util.List;
+
+import bj.rxjavaexperimentation.model.common.Pagination;
+
+public class RootWantlistResponse
+{
 
     @SerializedName("pagination")
     @Expose
@@ -14,19 +18,23 @@ public class RootWantlistResponse {
     @Expose
     private List<Want> wants = null;
 
-    public Pagination getPagination() {
+    public Pagination getPagination()
+    {
         return pagination;
     }
 
-    public void setPagination(Pagination pagination) {
+    public void setPagination(Pagination pagination)
+    {
         this.pagination = pagination;
     }
 
-    public List<Want> getWants() {
+    public List<Want> getWants()
+    {
         return wants;
     }
 
-    public void setWants(List<Want> wants) {
+    public void setWants(List<Want> wants)
+    {
         this.wants = wants;
     }
 

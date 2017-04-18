@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.rxjavaexperimentation.R;
-import bj.rxjavaexperimentation.model.listing.MyListing;
+import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,13 +25,13 @@ import butterknife.OnClick;
 /**
  * Created by Josh Laird on 13/04/2017.
  */
-@EpoxyModelClass(layout = R.layout.model_marketplace)
+@EpoxyModelClass(layout = R.layout.model_release_marketplace)
 public abstract class MarketplaceModel extends EpoxyModel<LinearLayout>
 {
     private final LayoutInflater layoutInflater;
     private DetailedAdapter adapter;
     private final Context context;
-    @EpoxyAttribute List<MyListing> myListings = new ArrayList<>();
+    @EpoxyAttribute List<ScrapeListing> listings = new ArrayList<>();
     @EpoxyAttribute String numberForSale;
     @EpoxyAttribute String lowestPrice;
     @EpoxyAttribute String title;
@@ -55,14 +55,14 @@ public abstract class MarketplaceModel extends EpoxyModel<LinearLayout>
     {
         ButterKnife.bind(this, view);
         tvMarketplaceSummary.setText(" - " + numberForSale + " 12\" from " + lowestPrice);
-        if (myListings.size() > 0)
+        if (listings.size() > 0)
         {
             lytMarketplaceHeader.setVisibility(View.GONE);
             lytMarketplaceList.setVisibility(View.VISIBLE);
-            for (MyListing myListing : myListings)
+            for (ScrapeListing scrapeListing : listings)
             {
-                inflateMarketplaceItem(myListings.indexOf(myListing));
-                if (myListings.indexOf(myListing) == 2 && myListings.size() > 3)
+                inflateMarketplaceItem(listings.indexOf(scrapeListing));
+                if (listings.indexOf(scrapeListing) == 2 && listings.size() > 3)
                 {
                     tvViewMore.setVisibility(View.VISIBLE);
                     break;
@@ -74,7 +74,7 @@ public abstract class MarketplaceModel extends EpoxyModel<LinearLayout>
     @OnClick(R.id.tvViewMore)
     public void viewMoreListings()
     {
-        for (int i = 3; i < myListings.size(); i++)
+        for (int i = 3; i < listings.size(); i++)
         {
             inflateMarketplaceItem(i);
         }
@@ -85,21 +85,21 @@ public abstract class MarketplaceModel extends EpoxyModel<LinearLayout>
     {
         View listingView = layoutInflater.inflate(R.layout.item_listing, lytMarketplaceList, false);
         ListingViewHolder listingViewHolder = new ListingViewHolder(listingView);
-        listingViewHolder.tvSleeve.setText("{fa-inbox} " + myListings.get(i).getSleeveCondition());
-        listingViewHolder.tvMedia.setText("{fa-music} " + myListings.get(i).getMediaCondition());
-        listingViewHolder.tvShipsFrom.setText(myListings.get(i).getShipsFrom());
-        listingViewHolder.tvSeller.setText(myListings.get(i).getSellerName());
-        listingViewHolder.tvRating.setText(myListings.get(i).getSellerRating());
-        listingViewHolder.tvConvertedPrice.setText(myListings.get(i).getConvertedPrice());
-        listingViewHolder.tvListedPrice.setText(myListings.get(i).getPrice());
-        listingViewHolder.lytMarketplaceItemContainer.setOnClickListener(getMarketplaceOnClickListener(myListings.get(i)));
+        listingViewHolder.tvSleeve.setText("{fa-inbox} " + listings.get(i).getSleeveCondition());
+        listingViewHolder.tvMedia.setText("{fa-music} " + listings.get(i).getMediaCondition());
+        listingViewHolder.tvShipsFrom.setText(listings.get(i).getShipsFrom());
+        listingViewHolder.tvSeller.setText(listings.get(i).getSellerName());
+        listingViewHolder.tvRating.setText(listings.get(i).getSellerRating());
+        listingViewHolder.tvConvertedPrice.setText(listings.get(i).getConvertedPrice());
+        listingViewHolder.tvListedPrice.setText(listings.get(i).getPrice());
+        listingViewHolder.lytMarketplaceItemContainer.setOnClickListener(getMarketplaceOnClickListener(listings.get(i)));
         lytMarketplaceList.addView(listingView);
     }
 
-    public View.OnClickListener getMarketplaceOnClickListener(MyListing myListing)
+    public View.OnClickListener getMarketplaceOnClickListener(ScrapeListing scrapeListing)
     {
         return v ->
-                adapter.displayListingInformation(myListing);
+                adapter.displayListingInformation(scrapeListing);
     }
 
     public void listingsError()

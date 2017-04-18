@@ -3,18 +3,17 @@ package bj.rxjavaexperimentation.detailedview.epoxy;
 import android.content.Context;
 import android.content.Intent;
 
-import com.airbnb.epoxy.EpoxyAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import bj.rxjavaexperimentation.common.BaseAdapter;
 import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
 import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
-import bj.rxjavaexperimentation.model.listing.MyListing;
+import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
@@ -26,7 +25,7 @@ import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
  * // TODO: Dependency inject this class
  * // TODO: Create a delegate
  */
-public class DetailedAdapter extends EpoxyAdapter
+public class DetailedAdapter extends BaseAdapter
 {
     private final DetailedHeaderModel_ detailedHeaderModel;
     private DetailedArtistBodyModel_ detailedArtistBodyModel;
@@ -116,11 +115,11 @@ public class DetailedAdapter extends EpoxyAdapter
         notifyModelChanged(detailedLabelModel);
     }
 
-    public void setReleaseListings(ArrayList<MyListing> myListings)
+    public void setReleaseListings(ArrayList<ScrapeListing> scrapeListings)
     {
-        if (myListings.size() > 0)
+        if (scrapeListings.size() > 0)
         {
-            marketplaceModel.myListings(myListings);
+            marketplaceModel.listings(scrapeListings);
             notifyModelChanged(marketplaceModel);
         }
         else
@@ -132,14 +131,14 @@ public class DetailedAdapter extends EpoxyAdapter
         marketplaceModel.listingsError();
     }
 
-    public void displayListingInformation(MyListing myListing)
+    public void displayListingInformation(ScrapeListing scrapeListing)
     {
         Intent intent = new Intent(context, MarketplaceListingActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("artist", artistsBeautifier.formatArtists(release.getArtists()));
-        intent.putExtra("seller", myListing.getSellerName());
-        intent.putExtra("sellerRating", myListing.getSellerRating());
-        intent.putExtra("id", myListing.getMarketPlaceId());
+        intent.putExtra("seller", scrapeListing.getSellerName());
+        intent.putExtra("sellerRating", scrapeListing.getSellerRating());
+        intent.putExtra("id", scrapeListing.getMarketPlaceId());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

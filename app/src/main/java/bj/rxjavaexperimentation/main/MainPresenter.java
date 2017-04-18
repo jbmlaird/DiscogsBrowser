@@ -1,12 +1,23 @@
 package bj.rxjavaexperimentation.main;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import bj.rxjavaexperimentation.main.epoxy.MainController;
+import bj.rxjavaexperimentation.model.listing.Listing;
+import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by j on 18/02/2017.
@@ -18,14 +29,22 @@ public class MainPresenter implements MainContract.Presenter
     private SearchDiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private NavigationDrawerBuilder navigationDrawerBuilder;
+    private MainController mainController;
+    private UserDetails userDetails;
+    private RecyclerView recyclerView;
+    private PublishSubject<List<Order>> orderPublishSubject = PublishSubject.create();
+    private PublishSubject<List<Listing>> sellingPublishSubject = PublishSubject.create();
 
     @Inject
-    public MainPresenter(MainContract.View view, SearchDiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, NavigationDrawerBuilder navigationDrawerBuilder)
+    public MainPresenter(@NonNull MainContract.View view, @NonNull SearchDiscogsInteractor discogsInteractor,
+                         @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
+                         @NonNull MainController mainController)
     {
         mView = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.navigationDrawerBuilder = navigationDrawerBuilder;
+        this.mainController = mainController;
     }
 
     @Override
@@ -35,8 +54,56 @@ public class MainPresenter implements MainContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(userDetails ->
                 {
+                    this.userDetails = userDetails;
                     mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, userDetails));
+                    mView.setupRecyclerView();
                     toolbar.setTitle(userDetails.getUsername());
+                    mView.stopLoading();
+                    fetchOrders();
+                    fetchSelling();
                 });
+    }
+
+    private void fetchOrders()
+    {
+        orderPublishSubject
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(orders ->
+                                mainController.setPurchases(orders),
+                        error ->
+                                Log.e(TAG, error.getMessage()));
+
+        discogsInteractor.fetchOrders()
+                .observeOn(mySchedulerProvider.ui())
+                .doOnSubscribe(disposable -> mainController.setLoadingMorePurchases(true))
+                .subscribeOn(mySchedulerProvider.io())
+                .subscribe(orderPublishSubject);
+    }
+
+    private void fetchSelling()
+    {
+        sellingPublishSubject
+                .flatMapIterable(listings -> listings)
+                .filter(listing -> listing.getStatus().equals("For Sale"))
+                .toList()
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(listings ->
+                                mainController.setSelling(listings),
+                        error ->
+                                Log.e(TAG, error.getMessage()));
+
+        discogsInteractor.fetchMyListings(userDetails.getUsername())
+                .observeOn(mySchedulerProvider.ui())
+                .doOnSubscribe(disposable -> mainController.setLoadingMoreSales(true))
+                .subscribeOn(mySchedulerProvider.io())
+                .subscribe(sellingPublishSubject);
+    }
+
+    @Override
+    public void setupRecyclerView(MainActivity mainActivity, RecyclerView recyclerView)
+    {
+        this.recyclerView = recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
+        recyclerView.setAdapter(mainController.getAdapter());
     }
 }

@@ -54,10 +54,4 @@ public class LoginPresenter implements LoginContract.Presenter
                 }, error ->
                         Log.e(TAG, error.getMessage()));
     }
-
-    @Override
-    public boolean getUsername()
-    {
-        return false;
-    }
 }

@@ -1,11 +1,15 @@
 
 package bj.rxjavaexperimentation.model.labelrelease;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RootLabelResponse {
+import java.util.List;
+
+import bj.rxjavaexperimentation.model.common.Pagination;
+
+public class RootLabelResponse
+{
 
     @SerializedName("pagination")
     @Expose
@@ -14,19 +18,23 @@ public class RootLabelResponse {
     @Expose
     private List<LabelRelease> labelReleases = null;
 
-    public Pagination getPagination() {
+    public Pagination getPagination()
+    {
         return pagination;
     }
 
-    public void setPagination(Pagination pagination) {
+    public void setPagination(Pagination pagination)
+    {
         this.pagination = pagination;
     }
 
-    public List<LabelRelease> getLabelReleases() {
+    public List<LabelRelease> getLabelReleases()
+    {
         return labelReleases;
     }
 
-    public void setLabelReleases(List<LabelRelease> labelReleases) {
+    public void setLabelReleases(List<LabelRelease> labelReleases)
+    {
         this.labelReleases = labelReleases;
     }
 

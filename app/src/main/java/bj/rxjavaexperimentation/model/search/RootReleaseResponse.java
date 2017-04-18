@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import bj.rxjavaexperimentation.model.common.Pagination;
 import bj.rxjavaexperimentation.model.release.Release;
 
 public class RootReleaseResponse

@@ -38,8 +38,13 @@ It is not ready for consumers at this stage.
 * Carousels for images
 * Preview releases in app (Picture in picture?)
 * Refactor models with duplicate parameters
-* Order placing? (the API does not allow that at this stage)
 * Notifications
+
+# Limitations
+
+Currently, in April 2017, the public API does not allow any of the following:
+* Order placing
+* Purchasing/Viewing purchases
 
 # License
 

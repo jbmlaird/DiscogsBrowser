@@ -5,7 +5,7 @@ package bj.rxjavaexperimentation.model.listing;
  * <p>
  * Model containing the scraped Listing information to display on a release page.
  */
-public class MyListing
+public class ScrapeListing
 {
     private final String price;
     private final String convertedPrice;
@@ -17,7 +17,7 @@ public class MyListing
     private final String shipsFrom;
     private final String marketPlaceId;
 
-    public MyListing(String price, String convertedPrice, String mediaCondition, String sleeveCondition, String sellerUrl, String sellerName, String sellerRating, String shipsFrom, String marketPlaceId)
+    public ScrapeListing(String price, String convertedPrice, String mediaCondition, String sleeveCondition, String sellerUrl, String sellerName, String sellerRating, String shipsFrom, String marketPlaceId)
     {
         this.price = price;
         this.convertedPrice = convertedPrice;

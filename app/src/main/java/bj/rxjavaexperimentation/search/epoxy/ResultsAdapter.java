@@ -3,18 +3,16 @@ package bj.rxjavaexperimentation.search.epoxy;
 import android.content.Context;
 import android.view.View;
 
-import com.airbnb.epoxy.EpoxyAdapter;
-
 import java.util.ArrayList;
 
+import bj.rxjavaexperimentation.common.BaseAdapter;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.search.SearchPresenter;
 
 /**
  * Created by Josh Laird on 07/04/2017.
  */
-
-public class ResultsAdapter extends EpoxyAdapter
+public class ResultsAdapter extends BaseAdapter
 {
     private Context context;
     private SearchPresenter searchPresenter;

@@ -7,9 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -20,7 +17,9 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.search.SearchActivity;
+import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,18 +27,14 @@ public class MainActivity extends BaseActivity implements MainContract.View
 {
     private static final String TAG = "MainActivity";
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.lytMainContent) LinearLayout lytMainContent;
     @BindView(R.id.ivLoading) ImageView ivLoading;
     @BindView(R.id.lytLoading) ConstraintLayout lytLoading;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.lytMainContent) LinearLayout lytMainContent;
+    @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
+    @Inject ImageViewAnimator imageViewAnimator;
     @Inject MainPresenter presenter;
     private Drawer drawer;
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +46,6 @@ public class MainActivity extends BaseActivity implements MainContract.View
         setSupportActionBar(toolbar);
         presenter.buildNavigationDrawer(this, toolbar);
     }
-
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -82,38 +76,21 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void onBackPressed()
     {
-        // handle the back press :D close the drawer first
         if (drawer != null && drawer.isDrawerOpen())
-        {
             drawer.closeDrawer();
-        }
         else
-        {
             super.onBackPressed();
-        }
     }
 
     private void setupLoading()
     {
         lytMainContent.setVisibility(View.GONE);
-        setupLoadingAnimation();
+        imageViewAnimator.rotateImage(ivLoading);
         lytLoading.setVisibility(View.VISIBLE);
     }
 
-    private void setupLoadingAnimation()
-    {
-        RotateAnimation rotateAnimation = new RotateAnimation(0, 360f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-
-        rotateAnimation.setInterpolator(new LinearInterpolator());
-        rotateAnimation.setDuration(1000);
-        rotateAnimation.setRepeatCount(Animation.INFINITE);
-
-        ivLoading.startAnimation(rotateAnimation);
-    }
-
-    private void stopLoading()
+    @Override
+    public void stopLoading()
     {
         lytMainContent.setVisibility(View.VISIBLE);
         ivLoading.clearAnimation();
@@ -123,7 +100,17 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void setDrawer(Drawer drawer)
     {
-        stopLoading();
         this.drawer = drawer;
+    }
+
+    /**
+     * RecyclerView gets detached upon attaching the navigation drawer.
+     * <p>
+     * Called from the View as it has a reference to the activity.
+     */
+    @Override
+    public void setupRecyclerView()
+    {
+        presenter.setupRecyclerView(this, recyclerView);
     }
 }

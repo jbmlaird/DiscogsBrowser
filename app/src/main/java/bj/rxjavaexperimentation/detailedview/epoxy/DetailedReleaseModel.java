@@ -10,7 +10,7 @@ import com.airbnb.epoxy.EpoxyModelClass;
 import java.util.ArrayList;
 
 import bj.rxjavaexperimentation.R;
-import bj.rxjavaexperimentation.model.listing.MyListing;
+import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import butterknife.ButterKnife;
 
 /**
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 @EpoxyModelClass(layout = R.layout.model_detailed_release)
 public abstract class DetailedReleaseModel extends EpoxyModel<LinearLayout>
 {
-    @EpoxyAttribute ArrayList<MyListing> myListings = new ArrayList<>();
+    @EpoxyAttribute ArrayList<ScrapeListing> scrapeListings = new ArrayList<>();
 
     @Override
     public void bind(LinearLayout view)

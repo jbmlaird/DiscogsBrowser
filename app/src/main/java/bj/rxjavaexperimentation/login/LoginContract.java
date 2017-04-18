@@ -16,7 +16,5 @@ public interface LoginContract
         boolean hasUserLoggedIn();
 
         void startOAuthService(LoginActivity loginActivity);
-
-        boolean getUsername();
     }
 }
