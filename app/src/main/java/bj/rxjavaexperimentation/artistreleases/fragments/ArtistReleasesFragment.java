@@ -31,7 +31,7 @@ public class ArtistReleasesFragment extends Fragment
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @Inject BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     @Inject ArtistReleasesPresenter presenter;
-    private RecyclerViewReleasesAdapter rvReleasesAdapter;
+    private ArtistReleasesAdapter rvReleasesAdapter;
 
     @Nullable
     @Override

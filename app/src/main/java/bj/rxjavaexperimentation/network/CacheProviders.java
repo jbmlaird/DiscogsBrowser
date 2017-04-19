@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
+import bj.rxjavaexperimentation.model.collectionrelease.RootCollectionRelease;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
@@ -12,6 +13,9 @@ import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
+import bj.rxjavaexperimentation.model.user.User;
+import bj.rxjavaexperimentation.model.user.UserDetails;
+import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
 import io.reactivex.Observable;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.LifeCache;
@@ -51,4 +55,16 @@ public interface CacheProviders
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Observable<Listing> fetchListingDetails(Observable<Listing> fetchListingDetailsObservable, DynamicKey listingId);
+
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
+    Observable<User> fetchIdentity(Observable<User> identityObservable);
+
+    @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
+    Observable<UserDetails> fetchUserDetails(Observable<UserDetails> userDetailsObservable, DynamicKey username);
+
+    @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
+    Observable<RootCollectionRelease> fetchCollection(Observable<RootCollectionRelease> fetchCollectionObservable, DynamicKey username);
+
+    @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
+    Observable<RootWantlistResponse> fetchWantlist(Observable<RootWantlistResponse> fetchWantlistObservable, DynamicKey username);
 }

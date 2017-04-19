@@ -1,7 +1,6 @@
 package bj.rxjavaexperimentation.artistreleases.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import java.util.List;
 
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artistreleases.ArtistReleasesPresenter;
-import bj.rxjavaexperimentation.detailedview.DetailedActivity;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,13 +24,13 @@ import butterknife.ButterKnife;
  * Created by Josh Laird on 10/04/2017.
  */
 
-public class RecyclerViewReleasesAdapter extends RecyclerView.Adapter<RecyclerViewReleasesAdapter.MyViewHolder>
+public class ArtistReleasesAdapter extends RecyclerView.Adapter<ArtistReleasesAdapter.MyViewHolder>
 {
     private List<ArtistRelease> releases = new ArrayList<>();
     private ArtistReleasesPresenter presenter;
     private Context context;
 
-    public RecyclerViewReleasesAdapter(ArtistReleasesPresenter presenter, Context context)
+    public ArtistReleasesAdapter(ArtistReleasesPresenter presenter, Context context)
     {
         this.presenter = presenter;
         this.context = context;

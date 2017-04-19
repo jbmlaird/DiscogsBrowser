@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import javax.inject.Inject;
 
@@ -45,19 +44,7 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
         ButterKnife.bind(this);
         presenter.setupRecyclerView(rvDetailed, getIntent().getStringExtra("title"), toolbar);
         presenter.fetchDetailedInformation(getIntent().getStringExtra("type"), getIntent().getStringExtra("id"));
-        setupActionBar(toolbar);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                super.onBackPressed();
-                break;
-        }
-        return true;
+        setupToolbar(toolbar);
     }
 
     @Override

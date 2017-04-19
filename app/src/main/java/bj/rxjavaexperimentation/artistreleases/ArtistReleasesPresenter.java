@@ -18,9 +18,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesAdapter;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesFragment;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistResultFunction;
-import bj.rxjavaexperimentation.artistreleases.fragments.RecyclerViewReleasesAdapter;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
@@ -83,10 +83,10 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     }
 
     @Override
-    public RecyclerViewReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity)
+    public ArtistReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity)
     {
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        RecyclerViewReleasesAdapter rvReleasesAdapter = new RecyclerViewReleasesAdapter(this, context);
+        ArtistReleasesAdapter rvReleasesAdapter = new ArtistReleasesAdapter(this, context);
         recyclerView.setAdapter(rvReleasesAdapter);
         return rvReleasesAdapter;
     }

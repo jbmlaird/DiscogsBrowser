@@ -1,13 +1,16 @@
 
 package bj.rxjavaexperimentation.model.collectionrelease;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CollectionRelease
-{
+import java.util.List;
 
+import bj.rxjavaexperimentation.model.common.RecyclerViewModel;
+import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
+
+public class CollectionRelease implements RecyclerViewModel
+{
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -26,53 +29,94 @@ public class CollectionRelease
     @SerializedName("notes")
     @Expose
     private List<Note> notes = null;
+    private String subtitle;
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public Integer getInstanceId() {
+    public Integer getInstanceId()
+    {
         return instanceId;
     }
 
-    public void setInstanceId(Integer instanceId) {
+    public void setInstanceId(Integer instanceId)
+    {
         this.instanceId = instanceId;
     }
 
-    public Integer getFolderId() {
+    public Integer getFolderId()
+    {
         return folderId;
     }
 
-    public void setFolderId(Integer folderId) {
+    public void setFolderId(Integer folderId)
+    {
         this.folderId = folderId;
     }
 
-    public Integer getRating() {
+    public Integer getRating()
+    {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Integer rating)
+    {
         this.rating = rating;
     }
 
-    public BasicInformation getBasicInformation() {
+    public BasicInformation getBasicInformation()
+    {
         return basicInformation;
     }
 
-    public void setBasicInformation(BasicInformation basicInformation) {
+    public void setBasicInformation(BasicInformation basicInformation)
+    {
         this.basicInformation = basicInformation;
     }
 
-    public List<Note> getNotes() {
+    public List<Note> getNotes()
+    {
         return notes;
     }
 
-    public void setNotes(List<Note> notes) {
+    public void setNotes(List<Note> notes)
+    {
         this.notes = notes;
     }
 
+    @Override
+    public String getTitle()
+    {
+        return basicInformation.getTitle();
+    }
+
+    @Override
+    public String getSubtitle()
+    {
+        if (subtitle == null)
+        {
+            ArtistsBeautifier artistsBeautifier = new ArtistsBeautifier();
+            subtitle = artistsBeautifier.formatArtists(basicInformation.getArtists());
+        }
+        return subtitle;
+    }
+
+    @Override
+    public String getThumb()
+    {
+        return basicInformation.getThumb();
+    }
+
+    @Override
+    public String getType()
+    {
+        return "release";
+    }
 }

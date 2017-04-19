@@ -3,7 +3,6 @@ package bj.rxjavaexperimentation.marketplace;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -59,7 +58,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace_listing);
         ButterKnife.bind(this);
-        setupActionBar(toolbar);
+        setupToolbar(toolbar);
         presenter.getListingDetails(getIntent().getStringExtra("id"));
         tvItemName.setText(getIntent().getStringExtra("title"));
         tvSeller.setText("Seller: " + getIntent().getStringExtra("seller"));
@@ -105,17 +104,4 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
                 .negativeText("Dismiss")
                 .show();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                super.onBackPressed();
-                break;
-        }
-        return true;
-    }
-
 }

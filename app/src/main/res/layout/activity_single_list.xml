@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
               android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <EditText
@@ -15,13 +20,36 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:hint="Filter"/>
+            android:hint="Filter"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"/>
 
-    </LinearLayout>
+    </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivLoading"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="64dp"
+            android:src="@drawable/ic_app_loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <bj.rxjavaexperimentation.common.MyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

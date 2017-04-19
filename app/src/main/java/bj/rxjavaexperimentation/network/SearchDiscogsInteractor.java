@@ -48,7 +48,6 @@ import retrofit2.Retrofit;
 public class SearchDiscogsInteractor
 {
     private final CacheProviders cacheProviders;
-    //    private String token;
     private DiscogsService discogsService;
     private MySchedulerProvider mySchedulerProvider;
     private DiscogsScraper discogsScraper;
@@ -154,7 +153,7 @@ public class SearchDiscogsInteractor
 
     public Observable<UserDetails> fetchUserDetails()
     {
-        return discogsService.fetchIdentity()
+        return cacheProviders.fetchIdentity(discogsService.fetchIdentity())
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .flatMap(user ->
@@ -163,13 +162,13 @@ public class SearchDiscogsInteractor
 
     public Observable<List<CollectionRelease>> fetchCollection(String username)
     {
-        return discogsService.fetchCollection(username, "desc", "500")
+        return cacheProviders.fetchCollection(discogsService.fetchCollection(username, "desc", "500"), new DynamicKey(username + "desc500"))
                 .map(RootCollectionRelease::getCollectionReleases);
     }
 
     public Observable<List<Want>> fetchWantlist(String username)
     {
-        return discogsService.fetchWantlist(username, "desc", "500")
+        return cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "desc", "500"), new DynamicKey(username + "desc500"))
                 .map(RootWantlistResponse::getWants);
     }
 
@@ -192,6 +191,6 @@ public class SearchDiscogsInteractor
 
     public Observable<UserDetails> fetchUserDetails(String username)
     {
-        return discogsService.fetchUserDetails(username);
+        return cacheProviders.fetchUserDetails(discogsService.fetchUserDetails(username), new DynamicKey(username));
     }
 }

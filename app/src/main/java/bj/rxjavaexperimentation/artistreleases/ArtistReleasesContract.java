@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
-import bj.rxjavaexperimentation.artistreleases.fragments.RecyclerViewReleasesAdapter;
+import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesAdapter;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import io.reactivex.functions.Consumer;
 
@@ -29,7 +29,7 @@ public interface ArtistReleasesContract
 
         void setupViewPager(TabLayout tabLayout, ViewPager viewPager, FragmentManager supportFragmentManager);
 
-        RecyclerViewReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity);
+        ArtistReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity);
 
         void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, String searchFilter);
 

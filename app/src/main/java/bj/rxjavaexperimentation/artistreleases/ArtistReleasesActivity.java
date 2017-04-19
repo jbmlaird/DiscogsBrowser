@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import javax.inject.Inject;
 
@@ -52,18 +51,6 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getIntent().getStringExtra("name"));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                super.onBackPressed();
-                break;
-        }
-        return true;
     }
 
     @Override
