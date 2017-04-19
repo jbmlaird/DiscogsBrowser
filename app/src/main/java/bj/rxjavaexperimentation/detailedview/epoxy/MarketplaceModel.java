@@ -111,7 +111,7 @@ public abstract class MarketplaceModel extends EpoxyModel<LinearLayout>
     public void noListings()
     {
         pbMarketplaceHeader.setVisibility(View.GONE);
-        tvMarketplaceHeader.setText("No current listings");
+        tvMarketplaceHeader.setText("No 12\" for sale");
     }
 
     class ListingViewHolder

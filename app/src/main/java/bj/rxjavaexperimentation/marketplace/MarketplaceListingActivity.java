@@ -62,7 +62,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
         setupActionBar(toolbar);
         presenter.getListingDetails(getIntent().getStringExtra("id"));
         tvItemName.setText(getIntent().getStringExtra("title"));
-        tvSeller.setText(getIntent().getStringExtra("seller"));
+        tvSeller.setText("Seller: " + getIntent().getStringExtra("seller"));
     }
 
     @Override

@@ -6,9 +6,12 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import bj.rxjavaexperimentation.common.BaseAdapter;
 import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
-import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
+import bj.rxjavaexperimentation.detailedview.DetailedContract;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.label.Label;
@@ -22,35 +25,31 @@ import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
  * Created by Josh Laird on 07/04/2017.
  * <p>
  * Epoxy adapter to populate RecyclerView.
- * // TODO: Dependency inject this class
  * // TODO: Create a delegate
  */
+@Singleton
 public class DetailedAdapter extends BaseAdapter
 {
-    private final DetailedHeaderModel_ detailedHeaderModel;
+    private DetailedHeaderModel_ detailedHeaderModel;
     private DetailedArtistBodyModel_ detailedArtistBodyModel;
     private DetailedLabelModel_ detailedLabelModel;
     private DetailedReleaseModel_ detailedReleaseModel;
     private MarketplaceModel_ marketplaceModel;
-    private final DetailedPresenter detailedPresenter;
-    private final String title;
     private Context context;
     private DetailedBodyModelPresenter detailedBodyModelPresenter;
     private ArtistsBeautifier artistsBeautifier;
     private Release release;
+    private String title;
+    private DetailedContract.View view;
 
-    public DetailedAdapter(DetailedPresenter detailedPresenter, Context context, String title, DetailedBodyModelPresenter detailedBodyModelPresenter, ArtistsBeautifier artistsBeautifier)
+    @Inject
+    public DetailedAdapter(DetailedContract.View view, Context context, DetailedBodyModelPresenter detailedBodyModelPresenter, ArtistsBeautifier artistsBeautifier)
     {
         enableDiffing();
+        this.view = view;
         this.detailedBodyModelPresenter = detailedBodyModelPresenter;
-        this.detailedPresenter = detailedPresenter;
-        this.title = title;
         this.context = context;
         this.artistsBeautifier = artistsBeautifier;
-        // TODO: Move this to a method
-        detailedHeaderModel = new DetailedHeaderModel_(context)
-                .title(title);
-        addModel(detailedHeaderModel);
     }
 
     public void addArtist(ArtistResult artist)
@@ -60,7 +59,7 @@ public class DetailedAdapter extends BaseAdapter
         detailedHeaderModel.subtitle = artist.getProfile();
         notifyModelChanged(detailedHeaderModel);
 
-        detailedArtistBodyModel = new DetailedArtistBodyModel_(detailedPresenter, context, detailedBodyModelPresenter);
+        detailedArtistBodyModel = new DetailedArtistBodyModel_(context, detailedBodyModelPresenter);
         detailedArtistBodyModel.artistId(String.valueOf(artist.getId()));
         detailedArtistBodyModel.members = artist.getMembers();
         detailedArtistBodyModel.links = artist.getUrls();
@@ -102,7 +101,7 @@ public class DetailedAdapter extends BaseAdapter
         detailedHeaderModel.subtitle = label.getProfile();
         notifyModelChanged(detailedHeaderModel);
 
-        detailedLabelModel = new DetailedLabelModel_(context, detailedPresenter);
+        detailedLabelModel = new DetailedLabelModel_(context, view);
         detailedLabelModel.discogsUrl(label.getUri());
         detailedLabelModel.labelId(label.getId());
         detailedLabelModel.labelName(label.getProfile());
@@ -141,5 +140,13 @@ public class DetailedAdapter extends BaseAdapter
         intent.putExtra("id", scrapeListing.getMarketPlaceId());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    public void setHeader(String title)
+    {
+        this.title = title;
+        detailedHeaderModel = new DetailedHeaderModel_(context)
+                .title(title);
+        addModel(detailedHeaderModel);
     }
 }

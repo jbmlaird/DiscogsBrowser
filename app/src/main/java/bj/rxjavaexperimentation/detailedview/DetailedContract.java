@@ -24,8 +24,6 @@ public interface DetailedContract
 
         void setupRecyclerView(RecyclerView rvDetailed, String title, Toolbar toolbar);
 
-        void displayRelease(Integer id, String title);
-
         void displayLabelReleases(Integer labelId, String releasesUrl);
 
         void unsubscribe();

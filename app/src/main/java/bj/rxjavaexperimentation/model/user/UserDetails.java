@@ -4,7 +4,8 @@ package bj.rxjavaexperimentation.model.user;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserDetails {
+public class UserDetails
+{
 
     @SerializedName("profile")
     @Expose
@@ -77,19 +78,19 @@ public class UserDetails {
     private String resourceUrl;
     @SerializedName("buyer_rating")
     @Expose
-    private Integer buyerRating;
+    private Double buyerRating;
     @SerializedName("buyer_rating_stars")
     @Expose
-    private Integer buyerRatingStars;
+    private Double buyerRatingStars;
     @SerializedName("buyer_num_ratings")
     @Expose
     private Integer buyerNumRatings;
     @SerializedName("seller_rating")
     @Expose
-    private Integer sellerRating;
+    private Double sellerRating;
     @SerializedName("seller_rating_stars")
     @Expose
-    private Integer sellerRatingStars;
+    private Double sellerRatingStars;
     @SerializedName("seller_num_ratings")
     @Expose
     private Integer sellerNumRatings;
@@ -97,243 +98,303 @@ public class UserDetails {
     @Expose
     private String currAbbr;
 
-    public String getProfile() {
+    public String getProfile()
+    {
         return profile;
     }
 
-    public void setProfile(String profile) {
+    public void setProfile(String profile)
+    {
         this.profile = profile;
     }
 
-    public String getWantlistUrl() {
+    public String getWantlistUrl()
+    {
         return wantlistUrl;
     }
 
-    public void setWantlistUrl(String wantlistUrl) {
+    public void setWantlistUrl(String wantlistUrl)
+    {
         this.wantlistUrl = wantlistUrl;
     }
 
-    public Integer getRank() {
+    public Integer getRank()
+    {
         return rank;
     }
 
-    public void setRank(Integer rank) {
+    public void setRank(Integer rank)
+    {
         this.rank = rank;
     }
 
-    public Integer getNumPending() {
+    public Integer getNumPending()
+    {
         return numPending;
     }
 
-    public void setNumPending(Integer numPending) {
+    public void setNumPending(Integer numPending)
+    {
         this.numPending = numPending;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public Integer getNumForSale() {
+    public Integer getNumForSale()
+    {
         return numForSale;
     }
 
-    public void setNumForSale(Integer numForSale) {
+    public void setNumForSale(Integer numForSale)
+    {
         this.numForSale = numForSale;
     }
 
-    public String getHomePage() {
+    public String getHomePage()
+    {
         return homePage;
     }
 
-    public void setHomePage(String homePage) {
+    public void setHomePage(String homePage)
+    {
         this.homePage = homePage;
     }
 
-    public String getLocation() {
+    public String getLocation()
+    {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(String location)
+    {
         this.location = location;
     }
 
-    public String getCollectionFoldersUrl() {
+    public String getCollectionFoldersUrl()
+    {
         return collectionFoldersUrl;
     }
 
-    public void setCollectionFoldersUrl(String collectionFoldersUrl) {
+    public void setCollectionFoldersUrl(String collectionFoldersUrl)
+    {
         this.collectionFoldersUrl = collectionFoldersUrl;
     }
 
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
 
-    public String getCollectionFieldsUrl() {
+    public String getCollectionFieldsUrl()
+    {
         return collectionFieldsUrl;
     }
 
-    public void setCollectionFieldsUrl(String collectionFieldsUrl) {
+    public void setCollectionFieldsUrl(String collectionFieldsUrl)
+    {
         this.collectionFieldsUrl = collectionFieldsUrl;
     }
 
-    public Integer getReleasesContributed() {
+    public Integer getReleasesContributed()
+    {
         return releasesContributed;
     }
 
-    public void setReleasesContributed(Integer releasesContributed) {
+    public void setReleasesContributed(Integer releasesContributed)
+    {
         this.releasesContributed = releasesContributed;
     }
 
-    public String getRegistered() {
+    public String getRegistered()
+    {
         return registered;
     }
 
-    public void setRegistered(String registered) {
+    public void setRegistered(String registered)
+    {
         this.registered = registered;
     }
 
-    public Double getRatingAvg() {
+    public Double getRatingAvg()
+    {
         return ratingAvg;
     }
 
-    public void setRatingAvg(Double ratingAvg) {
+    public void setRatingAvg(Double ratingAvg)
+    {
         this.ratingAvg = ratingAvg;
     }
 
-    public Integer getNumCollection() {
+    public Integer getNumCollection()
+    {
         return numCollection;
     }
 
-    public void setNumCollection(Integer numCollection) {
+    public void setNumCollection(Integer numCollection)
+    {
         this.numCollection = numCollection;
     }
 
-    public Integer getReleasesRated() {
+    public Integer getReleasesRated()
+    {
         return releasesRated;
     }
 
-    public void setReleasesRated(Integer releasesRated) {
+    public void setReleasesRated(Integer releasesRated)
+    {
         this.releasesRated = releasesRated;
     }
 
-    public Integer getNumLists() {
+    public Integer getNumLists()
+    {
         return numLists;
     }
 
-    public void setNumLists(Integer numLists) {
+    public void setNumLists(Integer numLists)
+    {
         this.numLists = numLists;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public Integer getNumWantlist() {
+    public Integer getNumWantlist()
+    {
         return numWantlist;
     }
 
-    public void setNumWantlist(Integer numWantlist) {
+    public void setNumWantlist(Integer numWantlist)
+    {
         this.numWantlist = numWantlist;
     }
 
-    public String getInventoryUrl() {
+    public String getInventoryUrl()
+    {
         return inventoryUrl;
     }
 
-    public void setInventoryUrl(String inventoryUrl) {
+    public void setInventoryUrl(String inventoryUrl)
+    {
         this.inventoryUrl = inventoryUrl;
     }
 
-    public String getAvatarUrl() {
+    public String getAvatarUrl()
+    {
         return avatarUrl;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
+    public void setAvatarUrl(String avatarUrl)
+    {
         this.avatarUrl = avatarUrl;
     }
 
-    public String getUri() {
+    public String getUri()
+    {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public void setUri(String uri)
+    {
         this.uri = uri;
     }
 
-    public String getResourceUrl() {
+    public String getResourceUrl()
+    {
         return resourceUrl;
     }
 
-    public void setResourceUrl(String resourceUrl) {
+    public void setResourceUrl(String resourceUrl)
+    {
         this.resourceUrl = resourceUrl;
     }
 
-    public Integer getBuyerRating() {
+    public Double getBuyerRating()
+    {
         return buyerRating;
     }
 
-    public void setBuyerRating(Integer buyerRating) {
+    public void setBuyerRating(Double buyerRating)
+    {
         this.buyerRating = buyerRating;
     }
 
-    public Integer getBuyerRatingStars() {
+    public Double getBuyerRatingStars()
+    {
         return buyerRatingStars;
     }
 
-    public void setBuyerRatingStars(Integer buyerRatingStars) {
+    public void setBuyerRatingStars(Double buyerRatingStars)
+    {
         this.buyerRatingStars = buyerRatingStars;
     }
 
-    public Integer getBuyerNumRatings() {
+    public Integer getBuyerNumRatings()
+    {
         return buyerNumRatings;
     }
 
-    public void setBuyerNumRatings(Integer buyerNumRatings) {
+    public void setBuyerNumRatings(Integer buyerNumRatings)
+    {
         this.buyerNumRatings = buyerNumRatings;
     }
 
-    public Integer getSellerRating() {
+    public Double getSellerRating()
+    {
         return sellerRating;
     }
 
-    public void setSellerRating(Integer sellerRating) {
+    public void setSellerRating(Double sellerRating)
+    {
         this.sellerRating = sellerRating;
     }
 
-    public Integer getSellerRatingStars() {
+    public Double getSellerRatingStars()
+    {
         return sellerRatingStars;
     }
 
-    public void setSellerRatingStars(Integer sellerRatingStars) {
+    public void setSellerRatingStars(Double sellerRatingStars)
+    {
         this.sellerRatingStars = sellerRatingStars;
     }
 
-    public Integer getSellerNumRatings() {
+    public Integer getSellerNumRatings()
+    {
         return sellerNumRatings;
     }
 
-    public void setSellerNumRatings(Integer sellerNumRatings) {
+    public void setSellerNumRatings(Integer sellerNumRatings)
+    {
         this.sellerNumRatings = sellerNumRatings;
     }
 
-    public String getCurrAbbr() {
+    public String getCurrAbbr()
+    {
         return currAbbr;
     }
 
-    public void setCurrAbbr(String currAbbr) {
+    public void setCurrAbbr(String currAbbr)
+    {
         this.currAbbr = currAbbr;
     }
 

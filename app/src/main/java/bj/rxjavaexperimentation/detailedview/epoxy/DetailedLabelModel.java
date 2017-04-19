@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.rxjavaexperimentation.R;
-import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
+import bj.rxjavaexperimentation.detailedview.DetailedContract;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,13 +39,13 @@ public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
     @BindView(R.id.lytReleases) LinearLayout lytReleases;
     private Context context;
     private LayoutInflater mInflater;
-    private DetailedPresenter presenter;
+    private DetailedContract.View view;
 
-    public DetailedLabelModel(Context context, DetailedPresenter presenter)
+    public DetailedLabelModel(Context context, DetailedContract.View view)
     {
         this.context = context;
         mInflater = LayoutInflater.from(context);
-        this.presenter = presenter;
+        this.view = view;
     }
 
     @Override
@@ -128,7 +128,7 @@ public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
         @OnClick(R.id.lytLabelReleaseContainer)
         public void showRelease()
         {
-            presenter.displayRelease(labelRelease.getId(), labelRelease.getTitle());
+            view.displayRelease(labelRelease.getId(), labelRelease.getTitle());
         }
     }
 }

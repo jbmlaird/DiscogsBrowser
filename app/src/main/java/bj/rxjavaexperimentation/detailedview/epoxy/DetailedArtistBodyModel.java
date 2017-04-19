@@ -15,7 +15,6 @@ import java.util.List;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artistreleases.ArtistReleasesActivity;
 import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
-import bj.rxjavaexperimentation.detailedview.DetailedPresenter;
 import bj.rxjavaexperimentation.model.artist.Member;
 import bj.rxjavaexperimentation.model.release.Release;
 import butterknife.BindView;
@@ -28,7 +27,6 @@ import butterknife.ButterKnife;
 @EpoxyModelClass(layout = R.layout.model_detailed_artist_body)
 public abstract class DetailedArtistBodyModel extends EpoxyModel<LinearLayout>
 {
-    private final DetailedPresenter detailedPresenter;
     private final Context context;
     private final LayoutInflater inflater;
     private DetailedBodyModelPresenter presenter;
@@ -43,9 +41,8 @@ public abstract class DetailedArtistBodyModel extends EpoxyModel<LinearLayout>
     @BindView(R.id.lytLinksContainer) LinearLayout lytLinksContainer;
     @BindView(R.id.lytLinks) LinearLayout lytLinks;
 
-    public DetailedArtistBodyModel(DetailedPresenter detailedPresenter, Context context, DetailedBodyModelPresenter presenter)
+    public DetailedArtistBodyModel(Context context, DetailedBodyModelPresenter presenter)
     {
-        this.detailedPresenter = detailedPresenter;
         this.context = context;
         this.presenter = presenter;
         inflater = LayoutInflater.from(context);

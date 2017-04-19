@@ -6,8 +6,8 @@ import java.text.ParseException;
 
 import javax.inject.Inject;
 
-import bj.rxjavaexperimentation.utils.wrapper.DateUtilsWrapper;
-import bj.rxjavaexperimentation.utils.wrapper.SimpleDateFormatWrapper;
+import bj.rxjavaexperimentation.wrappers.DateUtilsWrapper;
+import bj.rxjavaexperimentation.wrappers.SimpleDateFormatWrapper;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
 

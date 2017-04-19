@@ -9,8 +9,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.text.ParseException;
 import java.util.Date;
 
-import bj.rxjavaexperimentation.utils.wrapper.DateUtilsWrapper;
-import bj.rxjavaexperimentation.utils.wrapper.SimpleDateFormatWrapper;
+import bj.rxjavaexperimentation.wrappers.DateUtilsWrapper;
+import bj.rxjavaexperimentation.wrappers.SimpleDateFormatWrapper;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;

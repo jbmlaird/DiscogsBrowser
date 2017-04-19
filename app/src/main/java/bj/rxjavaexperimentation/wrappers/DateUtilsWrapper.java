@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.utils.wrapper;
+package bj.rxjavaexperimentation.wrappers;
 
 import android.text.format.DateUtils;
 
