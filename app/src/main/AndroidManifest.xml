@@ -15,6 +15,9 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".search.SearchActivity"/>
+        <meta-data
+            android:name="com.bugsnag.android.API_KEY"
+            android:value="7440ffd2d3d4aaf13e86b7bd633aae34"/>
 
         <activity
             android:name=".login.LoginActivity"

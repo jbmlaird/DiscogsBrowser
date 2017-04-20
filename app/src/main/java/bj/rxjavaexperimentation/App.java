@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import com.bugsnag.android.Bugsnag;
 import com.bumptech.glide.Glide;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
@@ -38,11 +39,12 @@ public class App extends Application
         }
         LeakCanary.install(this);
         setupGraph();
-        Iconify
-                .with(new FontAwesomeModule());
+        Iconify.with(new FontAwesomeModule());
+        if (!BuildConfig.DEBUG)
+            Bugsnag.init(this);
 
         // Empty string while RxSocialConnect's disk cache is not working
-        RxSocialConnect.register(this, "testString")
+        RxSocialConnect.register(this, "")
                 .using(new GsonSpeaker());
         initialiseMaterialDrawerImageLoader();
     }

@@ -18,6 +18,7 @@ import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.TestSchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
+import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 
@@ -42,6 +43,7 @@ public class MainPresenterUnitTest
     @Mock NavigationDrawerBuilder navigationDrawerBuilder;
     @Mock MainController mainController;
     @Mock RecyclerView recyclerView;
+    @Mock SharedPrefsManager sharedPrefsManager;
 
     @Mock MainActivity mainActivity;
     @Mock Toolbar toolbar;
@@ -53,7 +55,7 @@ public class MainPresenterUnitTest
         testUserDetails = new UserDetails();
         testUserDetails.setUsername(username);
         testScheduler = new TestScheduler();
-        mainPresenter = new MainPresenter(mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController);
+        mainPresenter = new MainPresenter(mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager);
     }
 
     @Test

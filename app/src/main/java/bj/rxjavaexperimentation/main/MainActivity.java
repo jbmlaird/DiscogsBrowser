@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.materialdrawer.Drawer;
 
 import javax.inject.Inject;
@@ -83,7 +84,13 @@ public class MainActivity extends BaseActivity implements MainContract.View
         if (drawer != null && drawer.isDrawerOpen())
             drawer.closeDrawer();
         else
-            super.onBackPressed();
+            new MaterialDialog.Builder(this)
+                    .title("Quit")
+                    .content("Really quit?")
+                    .negativeText("Cancel")
+                    .positiveText("Quit")
+                    .onPositive((dialog, which) -> super.onBackPressed())
+                    .show();
     }
 
     private void setupLoading()
@@ -148,7 +155,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     {
         Intent intent = new Intent(this, SingleListActivity.class);
         intent.putExtra("username", presenter.getUserDetails().getUsername());
-        intent.putExtra("type", "orders");
+        intent.putExtra("type", "selling");
         startActivity(intent);
     }
 }

@@ -14,7 +14,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,8 +54,6 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-design:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0'
-    compile 'frankiesardo:icepick:3.2.0'
-    provided 'frankiesardo:icepick-processor:3.2.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -75,4 +73,5 @@ dependencies {
     compile "com.github.VictorAlbertos.RxCache:runtime:1.8.0-2.x"
     compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
     compile 'com.github.VictorAlbertos.RxSocialConnect-Android:core:1.0.1-2.x'
+    compile 'com.bugsnag:bugsnag-android:3.+'
 }

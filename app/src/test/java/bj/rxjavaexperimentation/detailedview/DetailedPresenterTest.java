@@ -121,8 +121,8 @@ public class DetailedPresenterTest
     @Test
     public void displayLabelReleases_viewDisplaysReleases() throws Exception
     {
-        detailedPresenter.displayLabelReleases(0, "url");
-        verify(view).displayLabelReleases(0, "url");
+        detailedPresenter.displayLabelReleases("0", "url");
+        verify(view).displayLabelReleases("0", "url");
     }
 
     @Test
