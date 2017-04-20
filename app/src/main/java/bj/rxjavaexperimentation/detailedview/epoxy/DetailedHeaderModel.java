@@ -41,7 +41,7 @@ public abstract class DetailedHeaderModel extends EpoxyModel<LinearLayout>
         tvTitle.setText(title);
         Glide.with(context)
                 .load(imageUrl)
-                .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+                .placeholder(R.drawable.ic_vinyl)
                 .crossFade()
                 .into(ivImage);
         tvSubtitle.setText(subtitle);

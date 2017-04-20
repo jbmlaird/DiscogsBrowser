@@ -9,6 +9,7 @@ import com.github.scribejava.core.model.OAuth1AccessToken;
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.model.user.UserDetails;
 
 /**
  * Created by Josh Laird on 15/04/2017.
@@ -47,14 +48,33 @@ public class SharedPrefsManager
         editor.apply();
     }
 
-    public void removeStoredToken()
+    public void storeUserDetails(UserDetails userDetails)
+    {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(context.getString(R.string.avatar_url), userDetails.getAvatarUrl());
+        editor.putString(context.getString(R.string.username), userDetails.getUsername());
+
+        editor.apply();
+    }
+
+    public String getUsername()
+    {
+        return settings.getString(context.getString(R.string.username), "");
+    }
+
+    public String getAvatarUrl()
+    {
+        return settings.getString(context.getString(R.string.avatar_url), "");
+    }
+
+    public void removeUserDetails()
     {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(context.getString(R.string.oauth_access_token), "");
         editor.putString(context.getString(R.string.oauth_access_token_secret), "");
         editor.putString(context.getString(R.string.username), "");
+        editor.putString(context.getString(R.string.avatar_url), "");
 
-        // Commit the edits!
         editor.apply();
     }
 }

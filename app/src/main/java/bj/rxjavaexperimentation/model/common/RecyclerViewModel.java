@@ -13,4 +13,7 @@ public interface RecyclerViewModel
     String getThumb();
 
     String getType();
+
+    // Has to be a String as Order IDs have hyphens
+    String getId();
 }

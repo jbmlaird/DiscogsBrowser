@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingTop="16dp">
 
         <TextView
@@ -31,13 +31,6 @@
             android:text="Buyer: thisBuyer"
             android:textSize="20sp"/>
 
-        <TextView
-            android:id="@+id/tvSpecialInstructions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="20sp"
-            android:textStyle="italic"/>
     </LinearLayout>
 
     <TextView
@@ -47,5 +40,14 @@
         android:paddingBottom="8dp"
         android:text="DAEDE Gilles\n8 rue Trvise\nPARIS, 75009\nFrance\n\nPaypal address:\ngedtrev70@yahoo.com"
         android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvSpecialInstructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="testtesttesttesttesttesttesttesttesttesttest"
+        android:textSize="20sp"
+        android:textStyle="italic"/>
 
 </LinearLayout>

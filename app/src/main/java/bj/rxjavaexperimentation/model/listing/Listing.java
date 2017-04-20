@@ -4,9 +4,13 @@ package bj.rxjavaexperimentation.model.listing;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Listing
-{
+import bj.rxjavaexperimentation.model.common.RecyclerViewModel;
+import bj.rxjavaexperimentation.utils.DateFormatter;
+import bj.rxjavaexperimentation.wrappers.DateUtilsWrapper;
+import bj.rxjavaexperimentation.wrappers.SimpleDateFormatWrapper;
 
+public class Listing implements RecyclerViewModel
+{
     @SerializedName("status")
     @Expose
     private String status;
@@ -203,4 +207,28 @@ public class Listing
         this.audio = audio;
     }
 
+    @Override
+    public String getTitle()
+    {
+        return release.getDescription();
+    }
+
+    @Override
+    public String getSubtitle()
+    {
+        DateFormatter dateFormatter = new DateFormatter(new DateUtilsWrapper(), new SimpleDateFormatWrapper());
+        return "Posted: " + dateFormatter.formatIsoDate(posted);
+    }
+
+    @Override
+    public String getThumb()
+    {
+        return release.getThumbnail();
+    }
+
+    @Override
+    public String getType()
+    {
+        return "listing";
+    }
 }

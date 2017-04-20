@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.singlelist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,9 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.detailedview.DetailedActivity;
+import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
+import bj.rxjavaexperimentation.order.OrderActivity;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +57,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         ButterKnife.bind(this);
         imageViewAnimator.rotateImage(ivLoading);
         setupToolbar(toolbar);
-        presenter.setupSubscription();
+        presenter.setupFilterSubscription();
         presenter.setupRecyclerView(this, recyclerView);
         presenter.getData(getIntent().getStringExtra("type"), getIntent().getStringExtra("username"));
     }
@@ -69,5 +73,31 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     {
         ivLoading.setVisibility(View.GONE);
         ivLoading.clearAnimation();
+    }
+
+    @Override
+    public void displayListing(String listingId)
+    {
+        Intent intent = new Intent(this, MarketplaceListingActivity.class);
+        intent.putExtra("id", listingId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void displayOrder(String id)
+    {
+        Intent intent = new Intent(this, OrderActivity.class);
+        intent.putExtra("orderId", id);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchDetailedActivity(String type, String title, String id)
+    {
+        Intent intent = new Intent(this, DetailedActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 }

@@ -19,5 +19,7 @@ public interface MarketplaceContract
     interface Presenter
     {
         void getListingDetails(String listingId);
+
+        void unsubscribe();
     }
 }

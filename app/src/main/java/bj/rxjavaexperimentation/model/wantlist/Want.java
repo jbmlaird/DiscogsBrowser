@@ -20,7 +20,7 @@ public class Want implements RecyclerViewModel
     private String resourceUrl;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("notes")
     @Expose
     private String notes;
@@ -56,12 +56,12 @@ public class Want implements RecyclerViewModel
         this.resourceUrl = resourceUrl;
     }
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }

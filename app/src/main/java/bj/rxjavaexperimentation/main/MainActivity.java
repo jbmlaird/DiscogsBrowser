@@ -21,6 +21,7 @@ import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.order.OrderActivity;
 import bj.rxjavaexperimentation.search.SearchActivity;
+import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
         ButterKnife.bind(this);
         setupLoading();
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Profile");
         presenter.setupObservers();
         presenter.buildNavigationDrawer(this, toolbar);
     }
@@ -127,7 +129,9 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void displayOrdersActivity()
     {
-        // Display list of orders
+        Intent intent = new Intent(this, SingleListActivity.class);
+        intent.putExtra("type", "orders");
+        startActivity(intent);
     }
 
     @Override
@@ -142,7 +146,9 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void displayListingsActivity()
     {
-        // Display for sale list
-        // getUsername() from Presenter
+        Intent intent = new Intent(this, SingleListActivity.class);
+        intent.putExtra("username", presenter.getUserDetails().getUsername());
+        intent.putExtra("type", "orders");
+        startActivity(intent);
     }
 }

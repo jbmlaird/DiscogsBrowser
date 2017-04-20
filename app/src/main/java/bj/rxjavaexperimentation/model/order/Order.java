@@ -1,12 +1,15 @@
 
 package bj.rxjavaexperimentation.model.order;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Order {
+import java.util.List;
 
+import bj.rxjavaexperimentation.model.common.RecyclerViewModel;
+
+public class Order implements RecyclerViewModel
+{
     @SerializedName("status")
     @Expose
     private String status;
@@ -56,132 +59,187 @@ public class Order {
     @Expose
     private List<String> nextStatus = null;
 
-    public String getStatus() {
+    public String getStatus()
+    {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(String status)
+    {
         this.status = status;
     }
 
-    public Fee getFee() {
+    public Fee getFee()
+    {
         return fee;
     }
 
-    public void setFee(Fee fee) {
+    public void setFee(Fee fee)
+    {
         this.fee = fee;
     }
 
-    public String getCreated() {
+    public String getCreated()
+    {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(String created)
+    {
         this.created = created;
     }
 
-    public List<Item> getItems() {
+    public List<Item> getItems()
+    {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<Item> items)
+    {
         this.items = items;
     }
 
-    public Shipping getShipping() {
+    public Shipping getShipping()
+    {
         return shipping;
     }
 
-    public void setShipping(Shipping shipping) {
+    public void setShipping(Shipping shipping)
+    {
         this.shipping = shipping;
     }
 
-    public String getShippingAddress() {
+    public String getShippingAddress()
+    {
         return shippingAddress;
     }
 
-    public void setShippingAddress(String shippingAddress) {
+    public void setShippingAddress(String shippingAddress)
+    {
         this.shippingAddress = shippingAddress;
     }
 
-    public String getAdditionalInstructions() {
+    public String getAdditionalInstructions()
+    {
         return additionalInstructions;
     }
 
-    public void setAdditionalInstructions(String additionalInstructions) {
+    public void setAdditionalInstructions(String additionalInstructions)
+    {
         this.additionalInstructions = additionalInstructions;
     }
 
-    public Seller getSeller() {
+    public Seller getSeller()
+    {
         return seller;
     }
 
-    public void setSeller(Seller seller) {
+    public void setSeller(Seller seller)
+    {
         this.seller = seller;
     }
 
-    public String getLastActivity() {
+    public String getLastActivity()
+    {
         return lastActivity;
     }
 
-    public void setLastActivity(String lastActivity) {
+    public void setLastActivity(String lastActivity)
+    {
         this.lastActivity = lastActivity;
     }
 
-    public Buyer getBuyer() {
+    public Buyer getBuyer()
+    {
         return buyer;
     }
 
-    public void setBuyer(Buyer buyer) {
+    public void setBuyer(Buyer buyer)
+    {
         this.buyer = buyer;
     }
 
-    public Total getTotal() {
+    public Total getTotal()
+    {
         return total;
     }
 
-    public void setTotal(Total total) {
+    public void setTotal(Total total)
+    {
         this.total = total;
     }
 
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getResourceUrl() {
+    public String getResourceUrl()
+    {
         return resourceUrl;
     }
 
-    public void setResourceUrl(String resourceUrl) {
+    public void setResourceUrl(String resourceUrl)
+    {
         this.resourceUrl = resourceUrl;
     }
 
-    public String getMessagesUrl() {
+    public String getMessagesUrl()
+    {
         return messagesUrl;
     }
 
-    public void setMessagesUrl(String messagesUrl) {
+    public void setMessagesUrl(String messagesUrl)
+    {
         this.messagesUrl = messagesUrl;
     }
 
-    public String getUri() {
+    public String getUri()
+    {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public void setUri(String uri)
+    {
         this.uri = uri;
     }
 
-    public List<String> getNextStatus() {
+    public List<String> getNextStatus()
+    {
         return nextStatus;
     }
 
-    public void setNextStatus(List<String> nextStatus) {
+    public void setNextStatus(List<String> nextStatus)
+    {
         this.nextStatus = nextStatus;
     }
 
+    @Override
+    public String getTitle()
+    {
+        return id;
+    }
+
+    @Override
+    public String getSubtitle()
+    {
+        return status;
+    }
+
+    @Override
+    public String getThumb()
+    {
+        return items.get(0).getRelease().getThumbnail();
+    }
+
+    @Override
+    public String getType()
+    {
+        return "order";
+    }
 }

@@ -32,7 +32,7 @@ public class LabelRelease
     private String artist;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
 
     public String getStatus()
     {
@@ -114,12 +114,12 @@ public class LabelRelease
         this.artist = artist;
     }
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }

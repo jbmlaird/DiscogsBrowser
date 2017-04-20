@@ -4,7 +4,8 @@ package bj.rxjavaexperimentation.model.wantlist;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Label {
+public class Label
+{
 
     @SerializedName("resource_url")
     @Expose
@@ -17,48 +18,58 @@ public class Label {
     private String catno;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("name")
     @Expose
     private String name;
 
-    public String getResourceUrl() {
+    public String getResourceUrl()
+    {
         return resourceUrl;
     }
 
-    public void setResourceUrl(String resourceUrl) {
+    public void setResourceUrl(String resourceUrl)
+    {
         this.resourceUrl = resourceUrl;
     }
 
-    public String getEntityType() {
+    public String getEntityType()
+    {
         return entityType;
     }
 
-    public void setEntityType(String entityType) {
+    public void setEntityType(String entityType)
+    {
         this.entityType = entityType;
     }
 
-    public String getCatno() {
+    public String getCatno()
+    {
         return catno;
     }
 
-    public void setCatno(String catno) {
+    public void setCatno(String catno)
+    {
         this.catno = catno;
     }
 
-    public Integer getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 

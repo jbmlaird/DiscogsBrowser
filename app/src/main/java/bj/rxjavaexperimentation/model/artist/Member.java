@@ -11,7 +11,7 @@ public class Member
     private Boolean active;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -29,12 +29,12 @@ public class Member
         this.active = active;
     }
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }

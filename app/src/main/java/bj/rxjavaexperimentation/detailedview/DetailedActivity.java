@@ -48,22 +48,22 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
     }
 
     @Override
-    public void showMemberDetails(String name, Integer id)
+    public void showMemberDetails(String name, String id)
     {
         Intent intent = new Intent(this, DetailedActivity.class);
         intent.putExtra("title", name);
         intent.putExtra("type", "artist");
-        intent.putExtra("id", String.valueOf(id));
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
     @Override
-    public void displayRelease(Integer id, String title)
+    public void displayRelease(String id, String title)
     {
         Intent intent = new Intent(this, DetailedActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("type", "release");
-        intent.putExtra("id", String.valueOf(id));
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
@@ -75,13 +75,13 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
     }
 
     @Override
-    public void displayLabelReleases(Integer id, String title)
+    public void displayLabelReleases(String id, String title)
     {
         // TODO: Implement
         Intent intent = new Intent(this, SingleListActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("type", "label");
-        intent.putExtra("id", String.valueOf(id));
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 }

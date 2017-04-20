@@ -20,7 +20,7 @@ Common libraries used:
 
 # Usage
 
-In order to run this app you will need to replace `{{YOUR_KEY}}` and `{{YOUR_TOKEN}}` in `strings.xml` with your token provided by [Discogs](https://www.discogs.com/settings/developers).
+This build is login only.
 
 It is not ready for consumers at this stage.
 
@@ -29,22 +29,24 @@ It is not ready for consumers at this stage.
 * Searches your query reactively and displays a list of results. 
 * Displays artist details, release and label information.
 * Displays marketplace information on release page NB: marketplace searches only return 12"
+* Collection/wantlist viewing
 * Request caching
 
 # Forthcoming
 
-* Collection/Wantlist amending
-* Results user filtering
+* Master details
+* Recent releases
+* Collection/wantlist amending
 * Carousels for images
 * Preview releases in app (Picture in picture?)
 * Refactor models with duplicate parameters
-* Notifications
+* Notifications (if API allows)
 
 # Limitations
 
 Currently, in April 2017, the public API does not allow any of the following:
 * Order placing
-* Purchasing/Viewing purchases
+* Marketplace actions. This includes purchasing in app, viewing purchases or searching listings.
 
 # License
 

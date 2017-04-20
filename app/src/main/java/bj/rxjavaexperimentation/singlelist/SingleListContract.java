@@ -15,6 +15,12 @@ public interface SingleListContract
         Observable<CharSequence> filterIntent();
 
         void stopLoading();
+
+        void displayListing(String listingId);
+
+        void displayOrder(String id);
+
+        void launchDetailedActivity(String type, String title, String id);
     }
 
     interface Presenter
@@ -23,6 +29,6 @@ public interface SingleListContract
 
         void setupRecyclerView(SingleListActivity singleListActivity, RecyclerView recyclerView);
 
-        void setupSubscription();
+        void setupFilterSubscription();
     }
 }

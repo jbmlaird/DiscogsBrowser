@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.main.epoxy.MainController;
 import bj.rxjavaexperimentation.model.listing.Listing;
@@ -17,11 +18,13 @@ import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
+import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by j on 18/02/2017.
  */
+@Singleton
 public class MainPresenter implements MainContract.Presenter
 {
     private static final String TAG = "MainPresenter";
@@ -30,6 +33,7 @@ public class MainPresenter implements MainContract.Presenter
     private MySchedulerProvider mySchedulerProvider;
     private NavigationDrawerBuilder navigationDrawerBuilder;
     private MainController mainController;
+    private SharedPrefsManager sharedPrefsManager;
     private UserDetails userDetails;
     private RecyclerView recyclerView;
     private PublishSubject<List<Order>> orderPublishSubject = PublishSubject.create();
@@ -38,13 +42,14 @@ public class MainPresenter implements MainContract.Presenter
     @Inject
     public MainPresenter(@NonNull MainContract.View view, @NonNull SearchDiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
-                         @NonNull MainController mainController)
+                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager)
     {
         mView = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.navigationDrawerBuilder = navigationDrawerBuilder;
         this.mainController = mainController;
+        this.sharedPrefsManager = sharedPrefsManager;
     }
 
     @Override
@@ -55,9 +60,10 @@ public class MainPresenter implements MainContract.Presenter
                 .subscribe(userDetails ->
                 {
                     this.userDetails = userDetails;
+                    sharedPrefsManager.storeUserDetails(userDetails);
                     mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, userDetails));
                     mView.setupRecyclerView();
-                    toolbar.setTitle(userDetails.getUsername());
+//                    toolbar.setTitle(userDetails.getUsername());
                     mView.stopLoading();
                     fetchOrders();
                     fetchSelling();

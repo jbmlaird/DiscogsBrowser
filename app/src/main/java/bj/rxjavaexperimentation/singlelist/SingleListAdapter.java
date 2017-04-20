@@ -30,11 +30,13 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Si
 {
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
     private Context context;
+    private SingleListContract.View view;
 
     @Inject
-    public SingleListAdapter(Context context)
+    public SingleListAdapter(Context context, SingleListContract.View view)
     {
         this.context = context;
+        this.view = view;
     }
 
     @Override
@@ -51,12 +53,26 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Si
         holder.tvSubtitle.setText(items.get(holder.getAdapterPosition()).getSubtitle());
         Glide.with(context)
                 .load(items.get(holder.getAdapterPosition()).getThumb())
-                .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+                .placeholder(R.drawable.ic_vinyl)
                 .crossFade()
                 .into(holder.ivImage);
         // Set in onBind rather than via ButterKnife's @OnClick to prevent UI lock
-//        holder.lytCard.setOnClickListener(v ->
-//                presenter.launchDetailedActivity(releases.get(holder.getAdapterPosition()).getType(), releases.get(holder.getAdapterPosition()).getTitle(), releases.get(holder.getAdapterPosition()).getId()));
+        holder.lytCard.setOnClickListener(v ->
+        {
+            RecyclerViewModel item = items.get(holder.getAdapterPosition());
+            switch (item.getType())
+            {
+                case "listing":
+                    view.displayListing(item.getId());
+                    break;
+                case "order":
+                    view.displayOrder(item.getId());
+                    break;
+                case "release":
+                    view.launchDetailedActivity(item.getType(), item.getTitle(), item.getId());
+                    break;
+            }
+        });
     }
 
     @Override

@@ -13,7 +13,7 @@ public class CollectionRelease implements RecyclerViewModel
 {
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("instance_id")
     @Expose
     private Integer instanceId;
@@ -31,12 +31,12 @@ public class CollectionRelease implements RecyclerViewModel
     private List<Note> notes = null;
     private String subtitle;
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }

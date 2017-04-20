@@ -31,7 +31,7 @@ import butterknife.OnClick;
 public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute List<LabelRelease> labelReleases = new ArrayList<>();
-    @EpoxyAttribute Integer labelId;
+    @EpoxyAttribute String labelId;
     @EpoxyAttribute String labelName;
     @EpoxyAttribute String discogsUrl;
     @BindView(R.id.lytViewReleasesContainer) LinearLayout lytViewReleasesContainer;
@@ -63,7 +63,7 @@ public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
             LabelReleaseViewHolder labelReleaseViewHolder = new LabelReleaseViewHolder(labelRelease, labelReleaseView);
             Glide.with(context)
                     .load(labelRelease.getThumb())
-                    .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+                    .placeholder(R.drawable.ic_vinyl)
                     .crossFade()
                     .into(labelReleaseViewHolder.ivImage);
             lytReleases.addView(labelReleaseView);
@@ -102,7 +102,7 @@ public abstract class DetailedLabelModel extends EpoxyModel<LinearLayout>
             LabelReleaseViewHolder labelReleaseViewHolder = new LabelReleaseViewHolder(labelReleases.get(i), labelReleaseView);
             Glide.with(context)
                     .load(labelReleases.get(i).getThumb())
-                    .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+                    .placeholder(R.drawable.ic_vinyl)
                     .crossFade()
                     .into(labelReleaseViewHolder.ivImage);
             lytReleases.addView(labelReleaseView);

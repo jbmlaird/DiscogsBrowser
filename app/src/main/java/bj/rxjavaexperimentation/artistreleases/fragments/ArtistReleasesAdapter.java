@@ -50,7 +50,7 @@ public class ArtistReleasesAdapter extends RecyclerView.Adapter<ArtistReleasesAd
         holder.tvSubtitle.setText(releases.get(holder.getAdapterPosition()).getArtist());
         Glide.with(context)
                 .load(releases.get(holder.getAdapterPosition()).getThumb())
-                .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+                .placeholder(R.drawable.ic_vinyl)
                 .crossFade()
                 .into(holder.ivImage);
         // Set in onBind rather than via ButterKnife's @OnClick to prevent UI lock

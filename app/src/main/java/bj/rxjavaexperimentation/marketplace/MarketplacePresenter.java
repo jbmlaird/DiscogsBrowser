@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 13/04/2017.
@@ -17,19 +18,21 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
     private MarketplaceContract.View view;
     private SearchDiscogsInteractor searchDiscogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
+    private CompositeDisposable compositeDisposable;
 
     @Inject
-    public MarketplacePresenter(@NonNull MarketplaceContract.View view, @NonNull SearchDiscogsInteractor searchDiscogsInteractor, @NonNull MySchedulerProvider mySchedulerProvider)
+    public MarketplacePresenter(@NonNull MarketplaceContract.View view, @NonNull SearchDiscogsInteractor searchDiscogsInteractor, @NonNull MySchedulerProvider mySchedulerProvider, @NonNull CompositeDisposable compositeDisposable)
     {
         this.view = view;
         this.searchDiscogsInteractor = searchDiscogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
+        this.compositeDisposable = compositeDisposable;
     }
 
     @Override
     public void getListingDetails(String listingId)
     {
-        searchDiscogsInteractor.fetchListingDetails(listingId)
+        compositeDisposable.add(searchDiscogsInteractor.fetchListingDetails(listingId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(listing ->
@@ -43,6 +46,12 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
                         },
                         error ->
                                 Log.e(TAG, "error")
-                );
+                ));
+    }
+
+    @Override
+    public void unsubscribe()
+    {
+        compositeDisposable.dispose();
     }
 }

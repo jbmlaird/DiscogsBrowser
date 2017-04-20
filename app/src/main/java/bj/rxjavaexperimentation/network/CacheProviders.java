@@ -9,8 +9,11 @@ import bj.rxjavaexperimentation.model.collectionrelease.RootCollectionRelease;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
+import bj.rxjavaexperimentation.model.listing.RootListingResponse;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.master.Master;
+import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.order.RootOrderResponse;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.user.User;
@@ -67,4 +70,13 @@ public interface CacheProviders
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
     Observable<RootWantlistResponse> fetchWantlist(Observable<RootWantlistResponse> fetchWantlistObservable, DynamicKey username);
+
+    @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
+    Observable<RootOrderResponse> fetchOrders(Observable<RootOrderResponse> fetchOrdersObservable);
+
+    @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
+    Observable<RootListingResponse> fetchSelling(Observable<RootListingResponse> fetchSellingObservable, DynamicKey username);
+
+    @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
+    Observable<Order> fetchOrderDetails(Observable<Order> fetchOrderDetailsObservable, DynamicKey orderId);
 }

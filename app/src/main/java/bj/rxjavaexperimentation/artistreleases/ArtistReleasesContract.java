@@ -20,7 +20,7 @@ public interface ArtistReleasesContract
 {
     interface View
     {
-        void launchDetailedActivity(String type, String title, Integer id);
+        void launchDetailedActivity(String type, String title, String id);
     }
 
     interface Presenter
@@ -33,6 +33,6 @@ public interface ArtistReleasesContract
 
         void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, String searchFilter);
 
-        void launchDetailedActivity(String type, String title, Integer id);
+        void launchDetailedActivity(String type, String title, String id);
     }
 }

@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.order.epoxy;
 
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,7 +33,10 @@ public abstract class BuyerModel extends EpoxyModel<LinearLayout>
         ButterKnife.bind(this, view);
         tvStatus.setText(status);
         tvBuyer.setText("Buyer: " + buyer);
-        tvSpecialInstructions.setText(specialInstructions);
+        if (specialInstructions == null || specialInstructions.equals(""))
+            tvSpecialInstructions.setVisibility(View.GONE);
+        else
+            tvSpecialInstructions.setText(specialInstructions);
         tvShippingAddress.setText(shippingAddress);
     }
 }

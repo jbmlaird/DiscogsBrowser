@@ -101,7 +101,7 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     }
 
     @Override
-    public void launchDetailedActivity(String type, String title, Integer id)
+    public void launchDetailedActivity(String type, String title, String id)
     {
         view.launchDetailedActivity(type, title, id);
     }

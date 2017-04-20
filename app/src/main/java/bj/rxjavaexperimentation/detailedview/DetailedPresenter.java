@@ -161,7 +161,7 @@ public class DetailedPresenter implements DetailedContract.Presenter
     }
 
     @Override
-    public void displayLabelReleases(Integer labelId, String releasesUrl)
+    public void displayLabelReleases(String labelId, String releasesUrl)
     {
         // TODO: Need a new list activity here?
         view.displayLabelReleases(labelId, releasesUrl);

@@ -11,11 +11,11 @@ public interface DetailedContract
 {
     interface View
     {
-        void showMemberDetails(String name, Integer id);
+        void showMemberDetails(String name, String id);
 
-        void displayRelease(Integer id, String title);
+        void displayRelease(String id, String title);
 
-        void displayLabelReleases(Integer id, String title);
+        void displayLabelReleases(String id, String title);
     }
 
     interface Presenter
@@ -24,7 +24,7 @@ public interface DetailedContract
 
         void setupRecyclerView(RecyclerView rvDetailed, String title, Toolbar toolbar);
 
-        void displayLabelReleases(Integer labelId, String releasesUrl);
+        void displayLabelReleases(String labelId, String releasesUrl);
 
         void unsubscribe();
     }

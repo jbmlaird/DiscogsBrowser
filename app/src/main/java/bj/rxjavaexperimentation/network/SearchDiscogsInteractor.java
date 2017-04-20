@@ -174,18 +174,18 @@ public class SearchDiscogsInteractor
 
     public Observable<List<Order>> fetchOrders()
     {
-        return discogsService.fetchOrders("desc", "500", "last_activity")
+        return cacheProviders.fetchOrders(discogsService.fetchOrders("desc", "500", "last_activity"))
                 .map(RootOrderResponse::getOrders);
     }
 
     public Observable<Order> fetchOrderDetails(String orderId)
     {
-        return discogsService.fetchOrderDetails(orderId);
+        return cacheProviders.fetchOrderDetails(discogsService.fetchOrderDetails(orderId), new DynamicKey(orderId));
     }
 
     public Observable<List<Listing>> fetchListings(String username)
     {
-        return discogsService.fetchSelling(username, "desc", "500", "status")
+        return cacheProviders.fetchSelling(discogsService.fetchSelling(username, "desc", "500", "status"), new DynamicKey(username + "desc500status"))
                 .map(RootListingResponse::getListings);
     }
 

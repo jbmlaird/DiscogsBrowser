@@ -72,6 +72,39 @@ public class SingleListPresenter implements SingleListContract.Presenter
                                 error ->
                                         view.stopLoading());
                 break;
+            case "orders":
+                searchDiscogsInteractor.fetchOrders()
+                        .subscribeOn(mySchedulerProvider.io())
+                        .observeOn(mySchedulerProvider.ui())
+                        .subscribe(wants ->
+                                {
+                                    items = wants;
+                                    singleListAdapter.setItems(wants);
+                                    singleListAdapter.notifyDataSetChanged();
+                                    view.stopLoading();
+                                },
+                                error ->
+                                        view.stopLoading()
+                        );
+                break;
+            case "selling":
+                searchDiscogsInteractor.fetchListings(username)
+                        .observeOn(mySchedulerProvider.io())
+                        .flatMapIterable(listings -> listings)
+                        .filter(listing -> listing.getStatus().equals("For Sale"))
+                        .toList()
+                        .subscribeOn(mySchedulerProvider.io())
+                        .observeOn(mySchedulerProvider.ui())
+                        .subscribe(collectionReleases ->
+                                {
+                                    items = collectionReleases;
+                                    singleListAdapter.setItems(collectionReleases);
+                                    singleListAdapter.notifyDataSetChanged();
+                                    view.stopLoading();
+                                },
+                                error ->
+                                        view.stopLoading());
+                break;
         }
     }
 
@@ -83,7 +116,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
     }
 
     @Override
-    public void setupSubscription()
+    public void setupFilterSubscription()
     {
         compositeDisposable.add(view.filterIntent()
                 .observeOn(mySchedulerProvider.io())

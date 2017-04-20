@@ -18,4 +18,6 @@
     <string name="consumer_key">YkTWFsitqurUQSvyQwaG</string>
     <string name="consumer_secret">PJHslKRSRmZURHXdPWBSKNZPbdsGpASW</string>
     <string name="username">username</string>
+    <string name="avatar_url">avatar_url</string>
+    <string name="selling">Selling</string>
 </resources>

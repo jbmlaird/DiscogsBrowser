@@ -2,14 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical">
+              android:orientation="horizontal">
 
     <TextView
         android:id="@+id/tvHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableTint="#808080"
+        android:includeFontPadding="false"
         android:padding="16dp"
+        android:text="test"
         android:textSize="26sp"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvSeeAll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_weight="1"
+        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+        android:gravity="center_vertical|end"
+        android:includeFontPadding="false"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:text="See all"/>
 
 </LinearLayout>

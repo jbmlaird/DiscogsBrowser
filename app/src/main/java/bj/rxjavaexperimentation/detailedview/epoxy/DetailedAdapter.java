@@ -60,7 +60,7 @@ public class DetailedAdapter extends BaseAdapter
         notifyModelChanged(detailedHeaderModel);
 
         detailedArtistBodyModel = new DetailedArtistBodyModel_(context, detailedBodyModelPresenter);
-        detailedArtistBodyModel.artistId(String.valueOf(artist.getId()));
+        detailedArtistBodyModel.artistId(artist.getId());
         detailedArtistBodyModel.members = artist.getMembers();
         detailedArtistBodyModel.links = artist.getUrls();
         detailedArtistBodyModel.title(title);

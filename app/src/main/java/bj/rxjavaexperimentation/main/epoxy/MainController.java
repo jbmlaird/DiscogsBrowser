@@ -1,5 +1,7 @@
 package bj.rxjavaexperimentation.main.epoxy;
 
+import android.content.Context;
+
 import com.airbnb.epoxy.EpoxyController;
 
 import java.util.ArrayList;
@@ -8,11 +10,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.main.MainContract;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.utils.DateFormatter;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
+import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 
 /**
  * Created by Josh Laird on 17/04/2017.
@@ -25,16 +29,20 @@ public class MainController extends EpoxyController
     private final String TAG = this.getClass().getSimpleName();
     private List<Order> orders = new ArrayList<>();
     private boolean loadingMorePurchases = true;
+    private Context context;
     private MainContract.View mView;
+    private SharedPrefsManager sharedPrefsManager;
     private ImageViewAnimator imageViewAnimator;
     private DateFormatter dateFormatter;
     private boolean loadingMoreSales = true;
     private List<Listing> listings = new ArrayList<>();
 
     @Inject
-    public MainController(MainContract.View mView, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter)
+    public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter)
     {
+        this.context = context;
         this.mView = mView;
+        this.sharedPrefsManager = sharedPrefsManager;
         this.imageViewAnimator = imageViewAnimator;
         this.dateFormatter = dateFormatter;
     }
@@ -42,9 +50,20 @@ public class MainController extends EpoxyController
     @Override
     protected void buildModels()
     {
+        new MainUserModel_(context)
+                .id("user model")
+                .username(sharedPrefsManager.getUsername())
+                .avatarUrl(sharedPrefsManager.getAvatarUrl())
+                .addTo(this);
+
+        new DividerModel_()
+                .id("divider3")
+                .addTo(this);
+
         new MainHeaderModel_()
                 .id("orders header")
                 .title("Orders")
+                .onClickListener(v -> mView.displayOrdersActivity())
                 .addTo(this);
 
         new NoOrderModel_()
@@ -84,7 +103,8 @@ public class MainController extends EpoxyController
 
         new MainHeaderModel_()
                 .id("selling header")
-                .title("For sale")
+                .title(context.getString(R.string.selling))
+                .onClickListener(v -> mView.displayListingsActivity())
                 .addTo(this);
 
         new NoOrderModel_()
@@ -105,7 +125,9 @@ public class MainController extends EpoxyController
 
             new DividerModel_()
                     .id("sale divider " + listings.indexOf(listing))
-                    .addIf(listings.indexOf(listing) != listings.size() - 1, this);
+                    .addTo(this);
+            // As it's the end of the page (for now) add a divider regardless
+            // .addIf(listings.indexOf(listing) != listings.size() - 1, this);
         }
 
         // Add a link to the rest if there are more than 5
@@ -129,7 +151,6 @@ public class MainController extends EpoxyController
     public void setLoadingMorePurchases(boolean loadingMorePurchases)
     {
         this.loadingMorePurchases = loadingMorePurchases;
-//        requestModelBuild();
     }
 
     public void setSelling(List<Listing> listings)

@@ -1,13 +1,15 @@
 
 package bj.rxjavaexperimentation.model.label;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import bj.rxjavaexperimentation.model.release.Image;
 
-public class Label {
+public class Label
+{
 
     @SerializedName("profile")
     @Expose
@@ -29,72 +31,88 @@ public class Label {
     private String resourceUrl;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("data_quality")
     @Expose
     private String dataQuality;
 
-    public String getProfile() {
+    public String getProfile()
+    {
         return profile;
     }
 
-    public void setProfile(String profile) {
+    public void setProfile(String profile)
+    {
         this.profile = profile;
     }
 
-    public String getReleasesUrl() {
+    public String getReleasesUrl()
+    {
         return releasesUrl;
     }
 
-    public void setReleasesUrl(String releasesUrl) {
+    public void setReleasesUrl(String releasesUrl)
+    {
         this.releasesUrl = releasesUrl;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getUri() {
+    public String getUri()
+    {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public void setUri(String uri)
+    {
         this.uri = uri;
     }
 
-    public List<Image> getImages() {
+    public List<Image> getImages()
+    {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<Image> images)
+    {
         this.images = images;
     }
 
-    public String getResourceUrl() {
+    public String getResourceUrl()
+    {
         return resourceUrl;
     }
 
-    public void setResourceUrl(String resourceUrl) {
+    public void setResourceUrl(String resourceUrl)
+    {
         this.resourceUrl = resourceUrl;
     }
 
-    public Integer getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getDataQuality() {
+    public String getDataQuality()
+    {
         return dataQuality;
     }
 
-    public void setDataQuality(String dataQuality) {
+    public void setDataQuality(String dataQuality)
+    {
         this.dataQuality = dataQuality;
     }
 

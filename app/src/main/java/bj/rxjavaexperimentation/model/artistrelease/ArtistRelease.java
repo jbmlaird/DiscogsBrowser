@@ -38,7 +38,7 @@ public class ArtistRelease
     private String type;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("main_release")
     @Expose
     private Integer mainRelease;
@@ -146,12 +146,12 @@ public class ArtistRelease
         this.type = type;
     }
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }

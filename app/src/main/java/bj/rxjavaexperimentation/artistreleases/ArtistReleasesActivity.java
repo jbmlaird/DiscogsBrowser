@@ -54,12 +54,12 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     }
 
     @Override
-    public void launchDetailedActivity(String type, String title, Integer id)
+    public void launchDetailedActivity(String type, String title, String id)
     {
         Intent intent = new Intent(this, DetailedActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("title", title);
-        intent.putExtra("id", String.valueOf(id));
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 }
