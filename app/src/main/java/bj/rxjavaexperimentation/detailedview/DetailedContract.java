@@ -16,6 +16,10 @@ public interface DetailedContract
         void displayRelease(String id, String title);
 
         void displayLabelReleases(String id, String title);
+
+        void showLink(String link);
+
+        void showArtistReleases(String title, String id);
     }
 
     interface Presenter

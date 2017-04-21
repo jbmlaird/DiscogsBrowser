@@ -67,7 +67,8 @@ public class MainController extends EpoxyController
                 .addTo(this);
 
         new NoOrderModel_()
-                .text("No orders")
+                .id("no orders")
+                .text("No order history")
                 .addIf(!loadingMorePurchases && orders.size() == 0, this);
 
         for (Order order : orders)
@@ -89,12 +90,6 @@ public class MainController extends EpoxyController
                     .addIf(orders.indexOf(order) != orders.size() - 1, this);
         }
 
-        // Add a link to the rest if there are more than 5
-        new ViewMoreModel_()
-                .title("View all orders")
-                .onClickListener(v -> mView.displayOrdersActivity())
-                .addIf(orders.size() > 5, this);
-
         new LoadingModel_(imageViewAnimator)
                 .id("loading model")
                 .addIf(loadingMorePurchases, this);
@@ -108,6 +103,7 @@ public class MainController extends EpoxyController
                 .addTo(this);
 
         new NoOrderModel_()
+                .id("not selling")
                 .text("You're not currently selling anything")
                 .addIf(!loadingMoreSales && listings.size() == 0, this);
 
@@ -129,12 +125,6 @@ public class MainController extends EpoxyController
             // As it's the end of the page (for now) add a divider regardless
             // .addIf(listings.indexOf(listing) != listings.size() - 1, this);
         }
-
-        // Add a link to the rest if there are more than 5
-        new ViewMoreModel_()
-                .title("View all for sale")
-                .onClickListener(v -> mView.displayListingsActivity())
-                .addIf(listings.size() > 5, this);
 
         new LoadingModel_(imageViewAnimator)
                 .id("sales loading model")

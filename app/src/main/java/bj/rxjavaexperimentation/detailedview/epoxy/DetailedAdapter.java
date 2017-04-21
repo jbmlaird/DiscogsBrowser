@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.common.BaseAdapter;
-import bj.rxjavaexperimentation.detailedview.DetailedBodyModelPresenter;
 import bj.rxjavaexperimentation.detailedview.DetailedContract;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
@@ -31,23 +30,20 @@ import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 public class DetailedAdapter extends BaseAdapter
 {
     private DetailedHeaderModel_ detailedHeaderModel;
-    private DetailedArtistBodyModel_ detailedArtistBodyModel;
     private DetailedLabelModel_ detailedLabelModel;
     private DetailedReleaseModel_ detailedReleaseModel;
     private MarketplaceModel_ marketplaceModel;
     private Context context;
-    private DetailedBodyModelPresenter detailedBodyModelPresenter;
     private ArtistsBeautifier artistsBeautifier;
     private Release release;
     private String title;
     private DetailedContract.View view;
 
     @Inject
-    public DetailedAdapter(DetailedContract.View view, Context context, DetailedBodyModelPresenter detailedBodyModelPresenter, ArtistsBeautifier artistsBeautifier)
+    public DetailedAdapter(DetailedContract.View view, Context context, ArtistsBeautifier artistsBeautifier)
     {
         enableDiffing();
         this.view = view;
-        this.detailedBodyModelPresenter = detailedBodyModelPresenter;
         this.context = context;
         this.artistsBeautifier = artistsBeautifier;
     }
@@ -58,13 +54,6 @@ public class DetailedAdapter extends BaseAdapter
             detailedHeaderModel.imageUrl(artist.getImages().get(0).getResourceUrl());
         detailedHeaderModel.subtitle = artist.getProfile();
         notifyModelChanged(detailedHeaderModel);
-
-        detailedArtistBodyModel = new DetailedArtistBodyModel_(context, detailedBodyModelPresenter);
-        detailedArtistBodyModel.artistId(artist.getId());
-        detailedArtistBodyModel.members = artist.getMembers();
-        detailedArtistBodyModel.links = artist.getUrls();
-        detailedArtistBodyModel.title(title);
-        addModel(detailedArtistBodyModel);
     }
 
     public void addRelease(Release release)

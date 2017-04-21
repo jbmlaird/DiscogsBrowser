@@ -38,13 +38,12 @@ public class DetailedPresenterTest
     @Mock Context context;
     @Mock DetailedContract.View view;
     @Mock SearchDiscogsInteractor searchDiscogsInteractor;
-    @Mock DetailedBodyModelPresenter detailedBodyModelPresenter;
     private TestScheduler testScheduler;
     @Mock ArtistsBeautifier artistsBeautifier;
     @Mock DetailedAdapter detailedAdapter;
     @Mock CompositeDisposable compositeDisposable;
     @Mock LogWrapper logWrapper;
-
+    @Mock DetailedController detailedController;
     @Mock RecyclerView recyclerView;
     @Mock Toolbar toolbar;
 
@@ -57,7 +56,7 @@ public class DetailedPresenterTest
         initMocks(this);
         testScheduler = new TestScheduler();
         TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(testScheduler);
-        detailedPresenter = new DetailedPresenter(context, view, searchDiscogsInteractor, detailedBodyModelPresenter, testSchedulerProvider, artistsBeautifier, detailedAdapter, compositeDisposable, logWrapper);
+        detailedPresenter = new DetailedPresenter(context, view, searchDiscogsInteractor, testSchedulerProvider, artistsBeautifier, detailedAdapter, compositeDisposable, logWrapper, detailedController);
 
         detailedMockObjects = new DetailedMockObjects();
     }

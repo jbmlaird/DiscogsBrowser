@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.rxjavaexperimentation.model.release.Image;
+import bj.rxjavaexperimentation.utils.WantedUrl;
 
 public class ArtistResult
 {
@@ -40,6 +41,7 @@ public class ArtistResult
     @SerializedName("members")
     @Expose
     private List<Member> members = null;
+    private ArrayList<WantedUrl> wantedUrls;
 
     public List<String> getNamevariations()
     {
@@ -141,4 +143,13 @@ public class ArtistResult
         this.members = members;
     }
 
+    public void setWantedUrls(ArrayList<WantedUrl> wantedUrls)
+    {
+        this.wantedUrls = wantedUrls;
+    }
+
+    public ArrayList<WantedUrl> getWantedUrls()
+    {
+        return wantedUrls;
+    }
 }

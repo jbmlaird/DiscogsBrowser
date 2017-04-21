@@ -6,10 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.thefinestartist.finestwebview.FinestWebView;
+
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.artistreleases.ArtistReleasesActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import butterknife.BindView;
@@ -81,6 +84,21 @@ public class DetailedActivity extends BaseActivity implements DetailedContract.V
         Intent intent = new Intent(this, SingleListActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("type", "label");
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showLink(String link)
+    {
+        new FinestWebView.Builder(this).show(link);
+    }
+
+    @Override
+    public void showArtistReleases(String title, String id)
+    {
+        Intent intent = new Intent(this, ArtistReleasesActivity.class);
+        intent.putExtra("name", title);
         intent.putExtra("id", id);
         startActivity(intent);
     }
