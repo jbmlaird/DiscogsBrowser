@@ -40,8 +40,8 @@ public class ResultsAdapter extends BaseAdapter
         removeAllModels();
     }
 
-    View.OnClickListener onSearchResultClickListener(SearchResult searchResult, int index)
+    private View.OnClickListener onSearchResultClickListener(SearchResult searchResult, int index)
     {
-        return (v -> searchPresenter.viewDetailed(searchResult, ((SearchResultModel_) models.get(index)).ivImage));
+        return (v -> searchPresenter.viewDetailed(searchResult));
     }
 }

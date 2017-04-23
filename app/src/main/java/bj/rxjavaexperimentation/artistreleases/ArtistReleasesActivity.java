@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
-import bj.rxjavaexperimentation.detailedview.DetailedActivity;
+import bj.rxjavaexperimentation.artist.ArtistActivity;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +56,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
-        Intent intent = new Intent(this, DetailedActivity.class);
+        Intent intent = new Intent(this, ArtistActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("title", title);
         intent.putExtra("id", id);

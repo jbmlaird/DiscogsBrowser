@@ -15,8 +15,8 @@ import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.artist.ArtistActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
-import bj.rxjavaexperimentation.detailedview.DetailedActivity;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.order.OrderActivity;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
@@ -94,8 +94,22 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
-        Intent intent = new Intent(this, DetailedActivity.class);
-        intent.putExtra("type", type);
+        Intent intent = null;
+        switch (type)
+        {
+            case "release":
+//                intent = new Intent(this, ArtistActivity.class);
+                break;
+            case "label":
+//                intent = new Intent(this, ArtistActivity.class);
+                break;
+            case "artist":
+                intent = new Intent(this, ArtistActivity.class);
+                break;
+            case "master":
+//                intent = new Intent(this, ArtistActivity.class);
+                break;
+        }
         intent.putExtra("title", title);
         intent.putExtra("id", id);
         startActivity(intent);

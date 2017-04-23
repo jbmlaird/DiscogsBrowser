@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
@@ -21,9 +20,12 @@ import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.artist.ArtistActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
-import bj.rxjavaexperimentation.detailedview.DetailedActivity;
+import bj.rxjavaexperimentation.label.LabelActivity;
+import bj.rxjavaexperimentation.master.MasterActivity;
 import bj.rxjavaexperimentation.model.search.SearchResult;
+import bj.rxjavaexperimentation.release.ReleaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -93,11 +95,25 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     }
 
     @Override
-    public void startDetailedActivity(SearchResult searchResult, ImageView imageView)
+    public void startDetailedActivity(SearchResult searchResult)
     {
-        Intent intent = new Intent(this, DetailedActivity.class);
+        Intent intent = null;
+        switch (searchResult.getType())
+        {
+            case "artist":
+                intent = new Intent(this, ArtistActivity.class);
+                break;
+            case "label":
+                intent = new Intent(this, LabelActivity.class);
+                break;
+            case "release":
+                intent = new Intent(this, ReleaseActivity.class);
+                break;
+            case "master":
+                intent = new Intent(this, MasterActivity.class);
+                break;
+        }
         intent.putExtra("title", searchResult.getTitle());
-        intent.putExtra("type", searchResult.getType());
         intent.putExtra("id", searchResult.getId());
         startActivity(intent);
     }

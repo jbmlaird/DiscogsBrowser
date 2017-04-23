@@ -52,7 +52,7 @@
 
 ##---------------Begin: proguard configuration for ButterKnife  ----------
 # Retain generated class which implement Unbinder.
--keep public class * implements butterknife.Unbinder { public <init>(**, android.view.View); }
+-keep public class * implements butterknife.Unbinder { public <init>(**, android.mView.View); }
 
 # Prevent obfuscation of types which use ButterKnife annotations since the simple name
 # is used to reflectively look up the generated ViewBinding.

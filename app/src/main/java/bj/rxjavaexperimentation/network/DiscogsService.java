@@ -27,7 +27,7 @@ import retrofit2.http.Query;
  */
 public interface DiscogsService
 {
-    @GET("database/search?")
+    @GET("database/search")
     Observable<RootSearchResponse> getSearchResults(@Query("q") String searchTerm);
 
     @GET("releases/{release_id}")

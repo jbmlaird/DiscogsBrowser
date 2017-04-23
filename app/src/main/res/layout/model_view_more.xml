@@ -10,8 +10,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:textSize="18sp"/>
+        android:includeFontPadding="false"
+        android:text="View all"
+        android:textSize="16sp"/>
 
 </LinearLayout>

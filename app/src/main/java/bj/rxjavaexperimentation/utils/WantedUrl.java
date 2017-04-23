@@ -1,9 +1,12 @@
 package bj.rxjavaexperimentation.utils;
 
+import bj.rxjavaexperimentation.artist.ArtistController;
+import bj.rxjavaexperimentation.artist.epoxy.UrlModel;
+
 /**
  * Created by Josh Laird on 21/04/2017.
  * <p>
- * To ease {@link bj.rxjavaexperimentation.detailedview.DetailedController}'s creation of {@link bj.rxjavaexperimentation.detailedview.UrlModel}.
+ * To ease {@link ArtistController}'s creation of {@link UrlModel}.
  */
 public class WantedUrl
 {

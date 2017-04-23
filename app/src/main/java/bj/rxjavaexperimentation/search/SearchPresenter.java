@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
@@ -55,12 +54,11 @@ public class SearchPresenter implements SearchContract.Presenter
      * Shows a more detailed view of the user's selected result.
      *
      * @param searchResult Epoxy model of result clicked.
-     * @param ivImage      This is there for shared element transition.
      */
     @Override
-    public void viewDetailed(SearchResult searchResult, ImageView ivImage)
+    public void viewDetailed(SearchResult searchResult)
     {
-        mView.startDetailedActivity(searchResult, ivImage);
+        mView.startDetailedActivity(searchResult);
     }
 
     @Override
