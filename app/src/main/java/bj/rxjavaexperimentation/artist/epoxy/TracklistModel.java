@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.rxjavaexperimentation.R;
-import bj.rxjavaexperimentation.model.release.Tracklist;
+import bj.rxjavaexperimentation.model.release.Track;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,30 +27,30 @@ public abstract class TracklistModel extends EpoxyModel<LinearLayout>
 {
     private Context context;
     private LayoutInflater layoutInflater;
-    @EpoxyAttribute List<Tracklist> tracklist = new ArrayList<>();
+    @EpoxyAttribute List<Track> track = new ArrayList<>();
     @BindView(R.id.lytTracklist) LinearLayout lytTracklist;
     @BindView(R.id.lytViewMore) LinearLayout lytViewMore;
     @BindView(R.id.tvViewMore) TextView tvViewMore;
 
-    public TracklistModel(Context context, List<Tracklist> tracklist)
+    public TracklistModel(Context context, List<Track> track)
     {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
-        this.tracklist = tracklist;
+        this.track = track;
     }
 
     @Override
     public void bind(LinearLayout view)
     {
         ButterKnife.bind(this, view);
-        for (Tracklist track : tracklist)
+        for (Track track : this.track)
         {
             View tracklistView = layoutInflater.inflate(R.layout.item_tracklist, lytTracklist, false);
             TracklistViewHolder tracklistViewHolder = new TracklistViewHolder(tracklistView);
             tracklistViewHolder.tvTrackNumber.setText(track.getPosition());
             tracklistViewHolder.tvTrack.setText(track.getTitle());
             lytTracklist.addView(tracklistView);
-            if (tracklist.indexOf(track) == 4 && tracklist.size() > 5)
+            if (this.track.indexOf(track) == 4 && this.track.size() > 5)
             {
                 lytViewMore.setVisibility(View.VISIBLE);
                 break;
@@ -61,12 +61,12 @@ public abstract class TracklistModel extends EpoxyModel<LinearLayout>
     @OnClick(R.id.lytViewMore)
     public void showFullTracklist()
     {
-        for (int i = 5; i < tracklist.size(); i++)
+        for (int i = 5; i < track.size(); i++)
         {
             View tracklistView = layoutInflater.inflate(R.layout.item_tracklist, null, false);
             TracklistViewHolder tracklistViewHolder = new TracklistViewHolder(tracklistView);
-            tracklistViewHolder.tvTrackNumber.setText(tracklist.get(i).getPosition());
-            tracklistViewHolder.tvTrack.setText(tracklist.get(i).getTitle());
+            tracklistViewHolder.tvTrackNumber.setText(track.get(i).getPosition());
+            tracklistViewHolder.tvTrack.setText(track.get(i).getTitle());
             lytTracklist.addView(tracklistView);
         }
         lytViewMore.setVisibility(View.GONE);

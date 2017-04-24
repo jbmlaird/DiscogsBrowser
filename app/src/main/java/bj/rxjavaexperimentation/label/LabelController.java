@@ -78,11 +78,10 @@ public class LabelController extends EpoxyController
                     break;
                 }
             }
+            new DividerModel_()
+                    .id("releases divider")
+                    .addTo(this);
         }
-
-        new DividerModel_()
-                .id("releases divider")
-                .addTo(this);
 
         new ViewOnDiscogsModel_()
                 .id("View on discogs")

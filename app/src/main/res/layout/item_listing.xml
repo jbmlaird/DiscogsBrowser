@@ -3,19 +3,9 @@
                                              xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              android:layout_width="match_parent"
-                                             android:layout_height="wrap_content">
-
-    <com.joanzapata.iconify.widget.IconTextView
-        android:id="@+id/tvSleeve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:padding="4dp"
-        android:text="test"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMedia"/>
+                                             android:layout_height="wrap_content"
+                                             android:layout_marginEnd="16dp"
+                                             android:layout_marginStart="16dp">
 
     <com.joanzapata.iconify.widget.IconTextView
         android:id="@+id/tvMedia"
@@ -31,6 +21,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tvSeller"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/tvSleeve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:padding="4dp"
+        android:text="test"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMedia"/>
 
     <TextView
         android:id="@+id/tvShipsFrom"

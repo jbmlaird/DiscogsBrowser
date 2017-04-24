@@ -17,8 +17,11 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artist.ArtistActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
+import bj.rxjavaexperimentation.master.MasterActivity;
 import bj.rxjavaexperimentation.order.OrderActivity;
+import bj.rxjavaexperimentation.release.ReleaseActivity;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,16 +101,16 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         switch (type)
         {
             case "release":
-//                intent = new Intent(this, ArtistActivity.class);
+                intent = new Intent(this, ReleaseActivity.class);
                 break;
             case "label":
-//                intent = new Intent(this, ArtistActivity.class);
+                intent = new Intent(this, LabelActivity.class);
                 break;
             case "artist":
                 intent = new Intent(this, ArtistActivity.class);
                 break;
             case "master":
-//                intent = new Intent(this, ArtistActivity.class);
+                intent = new Intent(this, MasterActivity.class);
                 break;
         }
         intent.putExtra("title", title);

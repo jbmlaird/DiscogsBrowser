@@ -4,7 +4,8 @@ package bj.rxjavaexperimentation.model.release;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tracklist {
+public class Track
+{
 
     @SerializedName("duration")
     @Expose
