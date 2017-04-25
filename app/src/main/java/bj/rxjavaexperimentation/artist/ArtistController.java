@@ -9,6 +9,7 @@ import bj.rxjavaexperimentation.epoxy.artist.MemberModel_;
 import bj.rxjavaexperimentation.epoxy.artist.UrlModel_;
 import bj.rxjavaexperimentation.epoxy.artist.ViewReleasesModel_;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
+import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.main.epoxy.DividerModel_;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
@@ -35,7 +36,8 @@ public class ArtistController extends BaseController
     @Override
     protected void buildModels()
     {
-        header
+        new HeaderModel_()
+                .id("header model")
                 .context(context)
                 .title(title)
                 .subtitle(subtitle)

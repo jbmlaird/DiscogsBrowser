@@ -2,12 +2,15 @@ package bj.rxjavaexperimentation.master;
 
 import android.content.Context;
 
+import com.airbnb.epoxy.AutoModel;
+
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
+import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.ListItemModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.main.epoxy.DividerModel_;
@@ -42,7 +45,8 @@ public class MasterController extends BaseController
     @Override
     protected void buildModels()
     {
-        header
+        new HeaderModel_()
+                .id("header model")
                 .context(context)
                 .title(title)
                 .subtitle(subtitle)

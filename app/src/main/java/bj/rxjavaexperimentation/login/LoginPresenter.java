@@ -1,6 +1,5 @@
 package bj.rxjavaexperimentation.login;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -19,15 +18,13 @@ import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 public class LoginPresenter implements LoginContract.Presenter
 {
     private static final String TAG = "LoginPresenter";
-    private Context context;
     private LoginContract.View view;
     private SharedPrefsManager sharedPrefsManager;
     private OAuth10aService oAuth10aService;
 
     @Inject
-    public LoginPresenter(@NonNull Context context, @NonNull LoginContract.View view, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull OAuth10aService oAuth10aService)
+    public LoginPresenter(@NonNull LoginContract.View view, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull OAuth10aService oAuth10aService)
     {
-        this.context = context;
         this.view = view;
         this.sharedPrefsManager = sharedPrefsManager;
         this.oAuth10aService = oAuth10aService;

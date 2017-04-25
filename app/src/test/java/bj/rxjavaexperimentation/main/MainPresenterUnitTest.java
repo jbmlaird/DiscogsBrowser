@@ -77,6 +77,5 @@ public class MainPresenterUnitTest
         verify(mView).setDrawer(drawer);
         verify(navigationDrawerBuilder).buildNavigationDrawer(mainActivity, toolbar, testUserDetails);
         verify(mView).setupRecyclerView();
-        verify(toolbar).setTitle(username);
     }
 }

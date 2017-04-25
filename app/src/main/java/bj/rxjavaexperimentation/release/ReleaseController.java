@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
+import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubDividerModel_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceListingsHeader_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceModel_;
@@ -51,7 +52,8 @@ public class ReleaseController extends BaseController
     @Override
     protected void buildModels()
     {
-        header
+        new HeaderModel_()
+                .id("header model")
                 .context(context)
                 .title(title)
                 .subtitle(subtitle)

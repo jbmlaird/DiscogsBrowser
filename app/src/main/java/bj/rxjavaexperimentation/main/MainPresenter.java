@@ -62,6 +62,7 @@ public class MainPresenter implements MainContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(userDetails ->
                         {
+                            log.e(TAG, "Successfully got user details");
                             this.userDetails = userDetails;
                             sharedPrefsManager.storeUserDetails(userDetails);
                             mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, userDetails));
@@ -72,8 +73,11 @@ public class MainPresenter implements MainContract.Presenter
                             fetchSelling();
                         },
                         error ->
-                                // TODO: Implement proper error handling here
-                                log.e(TAG, "Wtf"));
+                        {
+                            // TODO: Implement proper error handling here
+                            error.printStackTrace();
+                            log.e(TAG, "Wtf");
+                        });
     }
 
     private void fetchOrders()
