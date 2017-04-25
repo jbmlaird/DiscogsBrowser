@@ -28,6 +28,7 @@ import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 
 /**
@@ -86,11 +87,20 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         pbRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    @OnClick(R.id.search_close_btn)
+    public void onClose()
+    {
+        searchView.setQuery("", false);
+        presenter.showSuggestions();
+    }
+
     @Override
     public Observable<SearchViewQueryTextEvent> searchIntent()
     {
         return RxSearchView.queryTextChangeEvents(searchView)
                 .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
+                // Gotta comment this out otherwise it doesn't track when search box is cleared
+                // Adverse effects of searching straightaway
                 .filter(searchViewQueryTextEvent -> searchViewQueryTextEvent.queryText().length() > 2);
     }
 
@@ -116,5 +126,11 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         intent.putExtra("title", searchResult.getTitle());
         intent.putExtra("id", searchResult.getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void fillSearchBox(String searchTerm)
+    {
+        searchView.setQuery(searchTerm, false);
     }
 }

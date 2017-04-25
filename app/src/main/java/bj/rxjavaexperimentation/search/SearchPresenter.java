@@ -7,15 +7,17 @@ import android.util.Log;
 
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import bj.rxjavaexperimentation.entity.DaoSession;
+import bj.rxjavaexperimentation.entity.SearchTerm;
+import bj.rxjavaexperimentation.entity.SearchTermDao;
 import bj.rxjavaexperimentation.model.search.SearchResult;
-import bj.rxjavaexperimentation.search.epoxy.ResultsAdapter;
+import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
@@ -26,72 +28,90 @@ import io.reactivex.observers.DisposableObserver;
 public class SearchPresenter implements SearchContract.Presenter
 {
     private static final String TAG = "SearchPresenter";
+    private MySchedulerProvider mySchedulerProvider;
+    private final SearchTermDao searchTermDao;
 
     private Context mContext;
     private SearchContract.View mView;
-    private ResultsAdapter resultsAdapter;
-    private Function<SearchViewQueryTextEvent, ObservableSource<?>> searchModelFunc;
-    private DisposableObserver<Object> disposableObserver;
+    private SearchController searchController;
+    private Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchModelFunc;
     private CompositeDisposable disposable = new CompositeDisposable();
 
     @Inject
-    public SearchPresenter(Context mContext, SearchContract.View mView, Function<SearchViewQueryTextEvent, ObservableSource<?>> searchModelFunc)
+    public SearchPresenter(Context mContext, SearchContract.View mView, SearchController searchController, Function<SearchViewQueryTextEvent,
+            ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoSession daoSession)
     {
         this.mContext = mContext;
         this.mView = mView;
+        this.searchController = searchController;
         this.searchModelFunc = searchModelFunc;
+        this.mySchedulerProvider = mySchedulerProvider;
+        this.searchTermDao = daoSession.getSearchTermDao();
     }
 
     @Override
     public void setupRecyclerView(RecyclerView rvResults)
     {
         rvResults.setLayoutManager(new LinearLayoutManager(mContext));
-        resultsAdapter = new ResultsAdapter(mContext, this);
-        rvResults.setAdapter(resultsAdapter);
-    }
-
-    /**
-     * Shows a more detailed view of the user's selected result.
-     *
-     * @param searchResult Epoxy model of result clicked.
-     */
-    @Override
-    public void viewDetailed(SearchResult searchResult)
-    {
-        mView.startDetailedActivity(searchResult);
+        rvResults.setAdapter(searchController.getAdapter());
+        searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
     }
 
     @Override
     public void setupSubscription()
     {
         disposable.add(mView.searchIntent()
+                .observeOn(mySchedulerProvider.io())
+                .map(this::storeSearchTerm)
                 .flatMap(searchModelFunc)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(mySchedulerProvider.ui())
                 .onErrorResumeNext(mView.searchIntent()
                         .flatMap(searchModelFunc))
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(mySchedulerProvider.ui())
                 .subscribeWith(getDisposableObserver()));
     }
 
-    private DisposableObserver<Object> getDisposableObserver()
+    @Override
+    public void showSuggestions()
     {
-        return new DisposableObserver<Object>()
+        searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
+        searchController.clearResults();
+    }
+
+    private SearchViewQueryTextEvent storeSearchTerm(SearchViewQueryTextEvent queryTextEvent)
+    {
+        SearchTerm searchTerm = new SearchTerm();
+        searchTerm.setSearchTerm(queryTextEvent.queryText().toString());
+        searchTerm.setDate(new Date());
+        searchTermDao.insertOrReplace(searchTerm);
+        Log.d(TAG, "Stored new search term: " + searchTerm.getSearchTerm());
+        return queryTextEvent;
+    }
+
+    private DisposableObserver<List<SearchResult>> getDisposableObserver()
+    {
+        return new DisposableObserver<List<SearchResult>>()
         {
             @Override
-            public void onNext(Object o)
+            public void onNext(List<SearchResult> o)
             {
                 Log.e(TAG, "ye");
-                Log.e(TAG, String.valueOf(((List) o).size()));
-                // .startWith() empty string means new query
-                if (((List) o).size() == 0)
+                Log.e(TAG, String.valueOf(o.size()));
+                if (o.size() == 0)
                 {
+                    // Show no results
+                    searchController.setResults(o);
+                }
+                else if (o.get(0).getId().equals("bj"))
+                {
+                    // New search
                     mView.showProgressBar();
-                    resultsAdapter.clearResults();
+                    searchController.setResults(o);
                 }
                 else
                 {
                     mView.hideProgressBar();
-                    resultsAdapter.addResults((ArrayList<SearchResult>) o);
+                    searchController.setResults(o);
                 }
             }
 
@@ -101,7 +121,7 @@ public class SearchPresenter implements SearchContract.Presenter
                 Log.e(TAG, "error");
                 e.printStackTrace();
                 mView.hideProgressBar();
-//                        mView.showError();
+                // TODO: Show error
             }
 
             @Override

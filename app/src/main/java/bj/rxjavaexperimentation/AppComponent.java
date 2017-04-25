@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.github.scribejava.core.oauth.OAuth10aService;
 
+import bj.rxjavaexperimentation.entity.DaoSession;
 import dagger.Component;
 import retrofit2.Retrofit;
 
@@ -16,6 +17,8 @@ public interface AppComponent
     void inject(App app);
 
     Context getContext();
+
+    DaoSession getDaoSession();
 
     Retrofit getRetrofit();
 

@@ -29,12 +29,7 @@ public abstract class SearchResultModel extends EpoxyModel<CardView>
     @EpoxyAttribute String subtitle;
     @EpoxyAttribute String image;
     @EpoxyAttribute(hash = false) View.OnClickListener clickListener;
-    private Context context;
-
-    public SearchResultModel(Context context)
-    {
-        this.context = context;
-    }
+    @EpoxyAttribute Context context;
 
     @Override
     public void bind(CardView view)

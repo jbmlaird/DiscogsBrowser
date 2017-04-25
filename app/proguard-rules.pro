@@ -117,3 +117,9 @@
 -keep class org.fuckboilerplate.rx_social_connect.internal.persistence.OAuth1AccessToken {
     <fields>;
 }
+
+### greenDAO 3
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties

@@ -22,14 +22,16 @@ public interface SearchContract
         Observable<SearchViewQueryTextEvent> searchIntent();
 
         void startDetailedActivity(SearchResult searchResult);
+
+        void fillSearchBox(String searchTerm);
     }
 
     interface Presenter
     {
         void setupRecyclerView(RecyclerView rvResults);
 
-        void viewDetailed(SearchResult searchResult);
-
         void setupSubscription();
+
+        void showSuggestions();
     }
 }

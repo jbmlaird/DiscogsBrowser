@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "bj.rxjavaexperimentation"
         minSdkVersion 23
@@ -73,4 +74,5 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'
     compile 'com.github.VictorAlbertos.RxSocialConnect-Android:core:1.0.1-2.x'
     compile 'com.bugsnag:bugsnag-android:3.+'
+    compile 'org.greenrobot:greendao:3.2.2'
 }

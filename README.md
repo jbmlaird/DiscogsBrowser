@@ -25,6 +25,7 @@ It is not ready for consumers at this stage.
 # Features
 
 * Reactive search
+* Search history
 * Displays artist, master, release and label information.
 * Displays marketplace information on release page NB: marketplace searches only return 12"
 * Collection/wantlist viewing
@@ -32,10 +33,10 @@ It is not ready for consumers at this stage.
 
 # Forthcoming
 
-* Recent releases
-* Search history
 * Collection/wantlist amending
 * Carousels for images
+* Browsing history
+* Recent releases
 * Preview releases in app (Picture in picture?)
 * Notifications (if API allows)
 

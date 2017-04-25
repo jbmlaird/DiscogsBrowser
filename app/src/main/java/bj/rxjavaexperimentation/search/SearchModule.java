@@ -3,9 +3,11 @@ package bj.rxjavaexperimentation.search;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import dagger.Module;
 import dagger.Provides;
@@ -36,10 +38,13 @@ public class SearchModule
 
     @Provides
     @Singleton
-    Function<SearchViewQueryTextEvent, ObservableSource<?>> providesSearchFunction(SearchDiscogsInteractor searchDiscogsInteractor)
+    Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(SearchDiscogsInteractor searchDiscogsInteractor)
     {
+        SearchResult startingSearchResult = new SearchResult();
+        startingSearchResult.setId("bj");
+
         return searchViewQueryTextEvent ->
                 searchDiscogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString())
-                        .startWith(Observable.just(Collections.emptyList()));
+                        .startWith(Observable.just(Collections.singletonList(startingSearchResult)));
     }
 }
