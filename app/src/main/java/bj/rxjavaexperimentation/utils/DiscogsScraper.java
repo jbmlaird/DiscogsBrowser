@@ -41,9 +41,6 @@ public class DiscogsScraper
         }
         Document doc = Jsoup
                 .connect(stringBuilder.toString())
-                // Try and get the mobile site.
-                // They don't have a mobile site
-                .userAgent("Mozilla/5.0 (Linux; <Android Version>; <Build Tag etc.>) AppleWebKit/<WebKit Rev> (KHTML, like Gecko) Chrome/<Chrome Rev> Mobile Safari/<WebKit Rev>")
                 .get();
         Elements marketplaceListings = doc.getElementsByClass("shortcut_navigable ");
         for (Element element : marketplaceListings)
@@ -87,6 +84,9 @@ public class DiscogsScraper
             String shipsFrom = element.getElementsByTag("li").get(2).text().replace(":", ": ");
 
             String marketPlaceId = element.getElementsByClass("button button_green cart_button ").attr("data-item-id");
+            if (marketPlaceId.equals(""))
+                // Discogs' page HTML is sometimes weird af
+                marketPlaceId = element.getElementsByClass("button button_green cart_button confirm-add-to-cart").attr("data-item-id");
 
             scrapeListings.add(new ScrapeListing(price, convertedPrice, mediaCondition, sleeveCondition, sellerUrl, sellerName, sellerRating, shipsFrom, marketPlaceId));
         }

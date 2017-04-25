@@ -16,6 +16,17 @@
 #   public *;
 #}
 
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-verbose
+-dontpreverify
+-allowaccessmodification
+-mergeinterfacesaggressively
+-overloadaggressively
+-keepattributes *Annotation*
+
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by default, so configure it to keep all of it.
@@ -41,7 +52,7 @@
 
 ##---------------Begin: proguard configuration for ButterKnife  ----------
 # Retain generated class which implement Unbinder.
--keep public class * implements butterknife.Unbinder { public <init>(**, android.view.View); }
+-keep public class * implements butterknife.Unbinder { public <init>(**, android.mView.View); }
 
 # Prevent obfuscation of types which use ButterKnife annotations since the simple name
 # is used to reflectively look up the generated ViewBinding.
@@ -50,7 +61,6 @@
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
 
 ##---------------Begin: proguard configuration for Retrofit2 ----------
-## https://square.github.io/retrofit/ ##
 
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }

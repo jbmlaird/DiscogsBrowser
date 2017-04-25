@@ -97,7 +97,7 @@ public class Release
     private List<String> styles = null;
     @SerializedName("tracklist")
     @Expose
-    private List<Tracklist> tracklist = null;
+    private List<Track> track = null;
     @SerializedName("uri")
     @Expose
     private String uri;
@@ -409,14 +409,14 @@ public class Release
         this.styles = styles;
     }
 
-    public List<Tracklist> getTracklist()
+    public List<Track> getTracklist()
     {
-        return tracklist;
+        return track;
     }
 
-    public void setTracklist(List<Tracklist> tracklist)
+    public void setTracklist(List<Track> track)
     {
-        this.tracklist = tracklist;
+        this.track = track;
     }
 
     public String getUri()

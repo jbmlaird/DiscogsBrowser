@@ -1,7 +1,6 @@
 package bj.rxjavaexperimentation.marketplace;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import javax.inject.Inject;
 
@@ -44,8 +43,7 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
                                     .subscribe(userDetails ->
                                             view.updateUserDetails(userDetails));
                         },
-                        error ->
-                                Log.e(TAG, "error")
+                        Throwable::printStackTrace
                 ));
     }
 

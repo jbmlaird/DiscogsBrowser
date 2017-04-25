@@ -28,6 +28,8 @@ import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.model.user.UserDetails;
+import bj.rxjavaexperimentation.model.version.RootVersionsResponse;
+import bj.rxjavaexperimentation.model.version.Version;
 import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
 import bj.rxjavaexperimentation.model.wantlist.Want;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
@@ -101,6 +103,14 @@ public class SearchDiscogsInteractor
                         master.setLowestPriceString(numberFormat.format(master.getLowestPrice()));
                     return master;
                 });
+    }
+
+    public Observable<List<Version>> fetchMasterVersions(String masterId)
+    {
+        return discogsService.getMasterVersions(masterId)
+                .subscribeOn(mySchedulerProvider.io())
+                .observeOn(mySchedulerProvider.io())
+                .map(RootVersionsResponse::getVersions);
     }
 
     public Observable<Label> fetchLabelDetails(String labelId)

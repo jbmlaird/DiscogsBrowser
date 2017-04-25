@@ -19,6 +19,7 @@ import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
+import bj.rxjavaexperimentation.wrappers.LogWrapper;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -34,6 +35,7 @@ public class MainPresenter implements MainContract.Presenter
     private NavigationDrawerBuilder navigationDrawerBuilder;
     private MainController mainController;
     private SharedPrefsManager sharedPrefsManager;
+    private LogWrapper log;
     private UserDetails userDetails;
     private RecyclerView recyclerView;
     private PublishSubject<List<Order>> orderPublishSubject = PublishSubject.create();
@@ -42,7 +44,7 @@ public class MainPresenter implements MainContract.Presenter
     @Inject
     public MainPresenter(@NonNull MainContract.View view, @NonNull SearchDiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
-                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager)
+                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log)
     {
         mView = view;
         this.discogsInteractor = discogsInteractor;
@@ -50,6 +52,7 @@ public class MainPresenter implements MainContract.Presenter
         this.navigationDrawerBuilder = navigationDrawerBuilder;
         this.mainController = mainController;
         this.sharedPrefsManager = sharedPrefsManager;
+        this.log = log;
     }
 
     @Override
@@ -58,16 +61,19 @@ public class MainPresenter implements MainContract.Presenter
         discogsInteractor.fetchUserDetails()
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(userDetails ->
-                {
-                    this.userDetails = userDetails;
-                    sharedPrefsManager.storeUserDetails(userDetails);
-                    mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, userDetails));
-                    mView.setupRecyclerView();
+                        {
+                            this.userDetails = userDetails;
+                            sharedPrefsManager.storeUserDetails(userDetails);
+                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, userDetails));
+                            mView.setupRecyclerView();
 //                    toolbar.setTitle(userDetails.getUsername());
-                    mView.stopLoading();
-                    fetchOrders();
-                    fetchSelling();
-                });
+                            mView.stopLoading();
+                            fetchOrders();
+                            fetchSelling();
+                        },
+                        error ->
+                                // TODO: Implement proper error handling here
+                                log.e(TAG, "Wtf"));
     }
 
     private void fetchOrders()

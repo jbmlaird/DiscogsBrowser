@@ -76,10 +76,10 @@ public class SingleListPresenter implements SingleListContract.Presenter
                 searchDiscogsInteractor.fetchOrders()
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .subscribe(wants ->
+                        .subscribe(orders ->
                                 {
-                                    items = wants;
-                                    singleListAdapter.setItems(wants);
+                                    items = orders;
+                                    singleListAdapter.setItems(orders);
                                     singleListAdapter.notifyDataSetChanged();
                                     view.stopLoading();
                                 },

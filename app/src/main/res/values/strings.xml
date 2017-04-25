@@ -20,4 +20,5 @@
     <string name="username">username</string>
     <string name="avatar_url">avatar_url</string>
     <string name="selling">Selling</string>
+    <string name="no_12_for_sale">No 12\" for sale</string>
 </resources>

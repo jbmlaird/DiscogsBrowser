@@ -13,5 +13,4 @@ import bj.rxjavaexperimentation.R;
 @EpoxyModelClass(layout = R.layout.divider)
 public abstract class DividerModel extends EpoxyModel<View>
 {
-
 }

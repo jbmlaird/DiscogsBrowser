@@ -1,0 +1,35 @@
+package bj.rxjavaexperimentation.release;
+
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
+
+/**
+ * Created by Josh Laird on 23/04/2017.
+ */
+@Module
+public class ReleaseModule
+{
+    private ReleaseContract.View mView;
+
+    public ReleaseModule(ReleaseContract.View view)
+    {
+        mView = view;
+    }
+
+    @Provides
+    @Singleton
+    ReleaseContract.View provideReleaseView()
+    {
+        return mView;
+    }
+
+    @Provides
+    @Singleton
+    CompositeDisposable provideCompositeDisposable()
+    {
+        return new CompositeDisposable();
+    }
+}

@@ -37,11 +37,13 @@ public class App extends Application
             // You should not init your app in this process.
             return;
         }
-        LeakCanary.install(this);
         setupGraph();
         Iconify.with(new FontAwesomeModule());
         if (!BuildConfig.DEBUG)
             Bugsnag.init(this);
+        else
+            LeakCanary.install(this);
+
 
         // Empty string while RxSocialConnect's disk cache is not working
         RxSocialConnect.register(this, "")
