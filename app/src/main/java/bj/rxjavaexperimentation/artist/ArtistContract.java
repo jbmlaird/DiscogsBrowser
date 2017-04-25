@@ -12,8 +12,6 @@ public interface ArtistContract
     {
         void showMemberDetails(String name, String id);
 
-        void displayLabelReleases(String id, String title);
-
         void showLink(String link);
 
         void showArtistReleases(String title, String id);

@@ -2,57 +2,40 @@ package bj.rxjavaexperimentation.artist;
 
 import android.content.Context;
 
-import com.airbnb.epoxy.EpoxyController;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.artist.epoxy.HeaderModel_;
-import bj.rxjavaexperimentation.artist.epoxy.MemberModel_;
-import bj.rxjavaexperimentation.artist.epoxy.ViewReleasesModel_;
-import bj.rxjavaexperimentation.artist.epoxy.SubHeaderModel_;
-import bj.rxjavaexperimentation.artist.epoxy.UrlModel_;
+import bj.rxjavaexperimentation.epoxy.artist.MemberModel_;
+import bj.rxjavaexperimentation.epoxy.artist.UrlModel_;
+import bj.rxjavaexperimentation.epoxy.artist.ViewReleasesModel_;
+import bj.rxjavaexperimentation.epoxy.common.BaseController;
+import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.main.epoxy.DividerModel_;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artist.Member;
-import bj.rxjavaexperimentation.model.label.Label;
-import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
-import bj.rxjavaexperimentation.model.listing.ScrapeListing;
-import bj.rxjavaexperimentation.model.master.Master;
-import bj.rxjavaexperimentation.model.release.Release;
-import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.WantedUrl;
 
 /**
  * Created by Josh Laird on 21/04/2017.
  */
 @Singleton
-public class ArtistController extends EpoxyController
+public class ArtistController extends BaseController
 {
     private final ArtistContract.View view;
     private final Context context;
-    private final ArtistsBeautifier artistsBeautifier;
-    private String title = "";
-    private String subtitle = "";
-    private String imageUrl = "";
     private ArtistResult artistResult;
 
     @Inject
-    public ArtistController(ArtistContract.View view, Context context, ArtistsBeautifier artistsBeautifier)
+    public ArtistController(ArtistContract.View view, Context context)
     {
         this.view = view;
         this.context = context;
-        this.artistsBeautifier = artistsBeautifier;
     }
 
     @Override
     protected void buildModels()
     {
-        new HeaderModel_()
-                .id("header")
+        header
                 .context(context)
                 .title(title)
                 .subtitle(subtitle)
@@ -123,11 +106,6 @@ public class ArtistController extends EpoxyController
         }
     }
 
-    public void setHeader(String title)
-    {
-        this.title = title;
-    }
-
     public void setArtist(ArtistResult artistResult)
     {
         this.artistResult = artistResult;
@@ -136,47 +114,5 @@ public class ArtistController extends EpoxyController
 
         subtitle = artistResult.getProfile();
         requestModelBuild();
-    }
-
-    public void setRelease(Release release)
-    {
-
-    }
-
-    public void setMaster(Master master)
-    {
-
-    }
-
-    public void setLabel(Label label)
-    {
-
-    }
-
-    public void addLabelReleases(List<LabelRelease> labelReleases)
-    {
-//        detailedLabelModel.labelReleases = labelReleases;
-//        notifyModelChanged(detailedLabelModel);
-    }
-
-    public void setReleaseListings(ArrayList<ScrapeListing> scrapeListings)
-    {
-//        if (scrapeListings.size() > 0)
-//        {
-//            marketplaceModel.listings(scrapeListings);
-//            notifyModelChanged(marketplaceModel);
-//        }
-//        else
-//            marketplaceModel.noListings();
-    }
-
-    public void setReleaseListingsError()
-    {
-//        marketplaceModel.listingsError();
-    }
-
-    public void displayListingInformation(ScrapeListing scrapeListing)
-    {
-
     }
 }

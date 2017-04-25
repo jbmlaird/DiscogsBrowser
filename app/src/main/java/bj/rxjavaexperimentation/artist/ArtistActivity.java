@@ -14,7 +14,6 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artistreleases.ArtistReleasesActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
-import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,9 +43,9 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
         ButterKnife.bind(this);
+        setupToolbar(toolbar);
         presenter.setupRecyclerView(this, rvDetailed, getIntent().getStringExtra("title"));
         presenter.getData(getIntent().getStringExtra("id"));
-        setupToolbar(toolbar);
     }
 
     @Override
@@ -63,15 +62,6 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     {
         super.onPause();
         presenter.unsubscribe();
-    }
-
-    @Override
-    public void displayLabelReleases(String id, String title)
-    {
-        Intent intent = new Intent(this, SingleListActivity.class);
-        intent.putExtra("title", title);
-        intent.putExtra("id", id);
-        startActivity(intent);
     }
 
     @Override

@@ -2,9 +2,8 @@
 <LinearLayout
     android:id="@+id/lytLabelReleaseContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
     android:layout_marginEnd="16dp"
     android:layout_marginStart="16dp"
@@ -18,33 +17,45 @@
         android:layout_margin="8dp"
         android:scaleType="fitCenter"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="4dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:ellipsize="marquee"
-            android:text="Test"
-            android:textSize="16sp"
-            />
-
-        <TextView
-            android:id="@+id/tvArtists"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toRightOf="@+id/ivImage"
-            app:layout_constraintRight_toLeftOf="@+id/tvPrice"/>
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:ellipsize="marquee"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:paddingBottom="2dp"
+                android:text="Test"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tvArtists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:paddingTop="2dp"
+                android:text="Test"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -40,10 +40,10 @@ public class App extends Application
         setupGraph();
         Iconify.with(new FontAwesomeModule());
         if (!BuildConfig.DEBUG)
-        {
-            LeakCanary.install(this);
             Bugsnag.init(this);
-        }
+        else
+            LeakCanary.install(this);
+
 
         // Empty string while RxSocialConnect's disk cache is not working
         RxSocialConnect.register(this, "")

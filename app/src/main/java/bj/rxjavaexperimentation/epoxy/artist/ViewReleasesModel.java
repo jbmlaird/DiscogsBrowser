@@ -1,8 +1,7 @@
-package bj.rxjavaexperimentation.artist.epoxy;
+package bj.rxjavaexperimentation.epoxy.artist;
 
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
@@ -17,19 +16,16 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
 /**
  * Created by Josh Laird on 21/04/2017.
  */
-@EpoxyModelClass(layout = R.layout.item_member)
-public abstract class MemberModel extends EpoxyModel<LinearLayout>
+@EpoxyModelClass(layout = R.layout.model_view_releases)
+public abstract class ViewReleasesModel extends EpoxyModel<LinearLayout>
 {
-    @EpoxyAttribute(DoNotHash) View.OnClickListener onClick;
-    @EpoxyAttribute String name;
-    @BindView(R.id.lytMember) LinearLayout lytMember;
-    @BindView(R.id.tvName) TextView tvName;
+    @BindView(R.id.lytReleases) LinearLayout lytReleases;
+    @EpoxyAttribute(DoNotHash) View.OnClickListener onViewReleasesClicked;
 
     @Override
     public void bind(LinearLayout view)
     {
         ButterKnife.bind(this, view);
-        tvName.setText(name);
-        lytMember.setOnClickListener(onClick);
+        lytReleases.setOnClickListener(onViewReleasesClicked);
     }
 }

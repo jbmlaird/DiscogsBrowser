@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.common;
+package bj.rxjavaexperimentation.epoxy.common;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

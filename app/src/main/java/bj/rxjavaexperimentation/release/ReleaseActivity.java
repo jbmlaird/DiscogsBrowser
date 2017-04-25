@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import javax.inject.Inject;
 
@@ -24,6 +25,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Inject ArtistsBeautifier artistsBeautifier;
     @Inject ReleasePresenter presenter;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -42,6 +44,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
         ButterKnife.bind(this);
+        setupToolbar(toolbar);
         presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
         presenter.getData(getIntent().getStringExtra("id"));
     }

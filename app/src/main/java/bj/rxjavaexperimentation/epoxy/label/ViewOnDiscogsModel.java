@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.label.epoxy;
+package bj.rxjavaexperimentation.epoxy.label;
 
 import android.view.View;
 import android.widget.LinearLayout;

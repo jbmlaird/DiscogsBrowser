@@ -2,24 +2,23 @@ package bj.rxjavaexperimentation.release;
 
 import android.content.Context;
 
-import com.airbnb.epoxy.EpoxyController;
-
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.artist.epoxy.HeaderModel_;
+import bj.rxjavaexperimentation.epoxy.common.BaseController;
+import bj.rxjavaexperimentation.epoxy.common.SubDividerModel_;
+import bj.rxjavaexperimentation.epoxy.release.MarketplaceListingsHeader_;
+import bj.rxjavaexperimentation.epoxy.release.MarketplaceModel_;
+import bj.rxjavaexperimentation.epoxy.release.NoListingsModel_;
+import bj.rxjavaexperimentation.epoxy.release.TrackModel_;
 import bj.rxjavaexperimentation.main.epoxy.DividerModel_;
 import bj.rxjavaexperimentation.main.epoxy.LoadingModel_;
 import bj.rxjavaexperimentation.main.epoxy.ViewMoreModel_;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.release.Track;
-import bj.rxjavaexperimentation.release.epoxy.MarketplaceListingsHeader_;
-import bj.rxjavaexperimentation.release.epoxy.MarketplaceModel_;
-import bj.rxjavaexperimentation.release.epoxy.NoListingsModel_;
-import bj.rxjavaexperimentation.release.epoxy.TrackModel_;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 
@@ -27,20 +26,18 @@ import bj.rxjavaexperimentation.utils.ImageViewAnimator;
  * Created by Josh Laird on 24/04/2017.
  */
 @Singleton
-public class ReleaseController extends EpoxyController
+public class ReleaseController extends BaseController
 {
     private final Context context;
     private final ReleaseContract.View view;
     private ArtistsBeautifier artistsBeautifier;
     private ImageViewAnimator imageViewAnimator;
-    private String title = "";
-    private String subtitle = "";
-    private String imageUrl = "";
     private Release release;
     private ArrayList<ScrapeListing> releaseListings;
-    private boolean viewAll = false;
+    private boolean viewFullTracklist = false;
     private boolean isError = false;
     private boolean marketplaceLoading = true;
+    private boolean viewAllListings = false;
 
     @Inject
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator)
@@ -54,8 +51,7 @@ public class ReleaseController extends EpoxyController
     @Override
     protected void buildModels()
     {
-        new HeaderModel_()
-                .id("header")
+        header
                 .context(context)
                 .title(title)
                 .subtitle(subtitle)
@@ -76,12 +72,12 @@ public class ReleaseController extends EpoxyController
                         .trackNumber(track.getPosition())
                         .addTo(this);
 
-                if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewAll)
+                if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewFullTracklist)
                 {
                     new ViewMoreModel_()
                             .id("view more")
                             .title("View full tracklist")
-                            .onClickListener(v -> setViewAll(true))
+                            .onClickListener(v -> setViewFullTracklist(true))
                             .addTo(this);
                     break;
                 }
@@ -124,16 +120,22 @@ public class ReleaseController extends EpoxyController
                                 .onClickListener(v -> view.displayListingInformation(title, subtitle, scrapeListing))
                                 .addTo(this);
 
-                        new DividerModel_()
-                                .id("release divider" + releaseListings.indexOf(scrapeListing))
+                        new SubDividerModel_()
+                                .id("marketplace divider" + releaseListings.indexOf(scrapeListing))
                                 .addIf(releaseListings.indexOf(scrapeListing) != releaseListings.size() - 1, this);
+
+                        if (releaseListings.indexOf(scrapeListing) == 4 && !viewAllListings && releaseListings.size() > 5)
+                        {
+                            new ViewMoreModel_()
+                                    .id("view all")
+                                    .title("View all label releases")
+                                    .onClickListener(v -> setViewListings(true))
+                                    .addTo(this);
+                            break;
+                        }
                     }
                 }
             }
-            new DividerModel_()
-                    .id("marketplace divider")
-                    .addTo(this);
-
         }
     }
 
@@ -144,11 +146,6 @@ public class ReleaseController extends EpoxyController
             this.imageUrl = release.getImages().get(0).getUri();
         this.subtitle = artistsBeautifier.formatArtists(release.getArtists());
         requestModelBuild();
-    }
-
-    public void setTitle(String title)
-    {
-        this.title = title;
     }
 
     public void setReleaseListings(ArrayList<ScrapeListing> releaseListings)
@@ -166,9 +163,15 @@ public class ReleaseController extends EpoxyController
         requestModelBuild();
     }
 
-    private void setViewAll(boolean viewAll)
+    private void setViewFullTracklist(boolean viewFullTracklist)
     {
-        this.viewAll = viewAll;
+        this.viewFullTracklist = viewFullTracklist;
+        requestModelBuild();
+    }
+
+    private void setViewListings(boolean viewFullListings)
+    {
+        this.viewAllListings = viewFullListings;
         requestModelBuild();
     }
 }

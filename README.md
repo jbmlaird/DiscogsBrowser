@@ -5,8 +5,6 @@ Android app to interact with Discogs' API
 
 # Description
 
-I don't have any of my Android code uploaded anywhere so this is just an example of what I can do.
-
 Common libraries used:
 
 * [ButterKnife](https://github.com/JakeWharton/butterknife)
@@ -26,20 +24,19 @@ It is not ready for consumers at this stage.
 
 # Features
 
-* Searches your query reactively and displays a list of results. 
-* Displays artist details, release and label information.
+* Reactive search
+* Displays artist, master, release and label information.
 * Displays marketplace information on release page NB: marketplace searches only return 12"
 * Collection/wantlist viewing
 * Request caching
 
 # Forthcoming
 
-* Master details
 * Recent releases
+* Search history
 * Collection/wantlist amending
 * Carousels for images
 * Preview releases in app (Picture in picture?)
-* Refactor models with duplicate parameters
 * Notifications (if API allows)
 
 # Limitations

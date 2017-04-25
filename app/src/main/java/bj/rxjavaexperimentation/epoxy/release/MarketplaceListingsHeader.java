@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.release.epoxy;
+package bj.rxjavaexperimentation.epoxy.release;
 
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +19,7 @@ public abstract class MarketplaceListingsHeader extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute String lowestPrice;
     @EpoxyAttribute String numForSale;
+    @BindView(R.id.tvHeader) TextView tvHeader;
     @BindView(R.id.tvMarketplaceSummary) TextView tvMarketplaceSummary;
 
     @Override
@@ -26,7 +27,10 @@ public abstract class MarketplaceListingsHeader extends EpoxyModel<LinearLayout>
     {
         ButterKnife.bind(this, view);
         if (numForSale.equals("0"))
+        {
+            tvHeader.setText("Listings");
             tvMarketplaceSummary.setText("");
+        }
         else
             tvMarketplaceSummary.setText(numForSale + " from " + lowestPrice);
     }

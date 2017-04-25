@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.release.epoxy;
+package bj.rxjavaexperimentation.epoxy.release;
 
 import android.support.constraint.ConstraintLayout;
 

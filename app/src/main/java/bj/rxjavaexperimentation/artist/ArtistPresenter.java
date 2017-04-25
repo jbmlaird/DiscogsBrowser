@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.artist.epoxy.DetailedAdapter;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
@@ -26,21 +25,19 @@ public class ArtistPresenter implements ArtistContract.Presenter
     private ArtistContract.View view;
     private SearchDiscogsInteractor searchDiscogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
-    private DetailedAdapter detailedAdapter;
     private CompositeDisposable compositeDisposable;
     private LogWrapper log;
     private ArtistController artistController;
     private Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction;
 
     @Inject
-    public ArtistPresenter(@NonNull Context context, @NonNull ArtistContract.View view, @NonNull SearchDiscogsInteractor searchDiscogsInteractor,
-                           @NonNull MySchedulerProvider mySchedulerProvider, @NonNull DetailedAdapter detailedAdapter, @NonNull CompositeDisposable compositeDisposable,
+    public ArtistPresenter(@NonNull ArtistContract.View view, @NonNull SearchDiscogsInteractor searchDiscogsInteractor,
+                           @NonNull MySchedulerProvider mySchedulerProvider, @NonNull CompositeDisposable compositeDisposable,
                            @NonNull LogWrapper log, @NonNull ArtistController artistController, @NonNull Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction)
     {
         this.view = view;
         this.searchDiscogsInteractor = searchDiscogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
-        this.detailedAdapter = detailedAdapter;
         this.compositeDisposable = compositeDisposable;
         this.log = log;
         this.artistController = artistController;
@@ -66,85 +63,14 @@ public class ArtistPresenter implements ArtistContract.Presenter
                 }));
     }
 
-    private void fetchLabelDetails(String id)
-    {
-        compositeDisposable.add(searchDiscogsInteractor.fetchLabelDetails(id)
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .doOnComplete(() ->
-                        searchDiscogsInteractor.fetchLabelReleases(id)
-                                .subscribeOn(mySchedulerProvider.io())
-                                .observeOn(mySchedulerProvider.ui())
-                                .subscribe(labelReleases ->
-                                                detailedAdapter.addLabelReleases(labelReleases)
-                                        , Throwable::printStackTrace))
-                .subscribe(label ->
-                {
-                    detailedAdapter.addLabel(label);
-                    log.e(TAG, label.getName());
-                }, error ->
-                {
-                    log.e(TAG, "onFetchLabelDetails");
-                    error.printStackTrace();
-                }));
-    }
-
-    private void fetchMasterDetails(String id)
-    {
-        compositeDisposable.add(searchDiscogsInteractor.fetchMasterDetails(id)
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(master ->
-                {
-                    detailedAdapter.addMaster(master);
-                    log.e(TAG, master.getTitle());
-                }, error ->
-                {
-                    log.e(TAG, "onFetchMasterDetailsError");
-                    error.printStackTrace();
-                }));
-    }
-
-    private void fetchReleaseInformation(String id)
-    {
-        compositeDisposable.add(searchDiscogsInteractor.fetchReleaseDetails(id)
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(release ->
-                        {
-                            detailedAdapter.addRelease(release);
-                            log.e(TAG, release.getTitle());
-                            searchDiscogsInteractor.getReleaseMarketListings(id, "release")
-                                    .subscribeOn(mySchedulerProvider.io())
-                                    .observeOn(mySchedulerProvider.ui())
-                                    .subscribe(o ->
-                                                    detailedAdapter.setReleaseListings(o),
-                                            error ->
-                                                    detailedAdapter.setReleaseListingsError()
-                                    );
-                        }, error ->
-                        {
-                            log.e(TAG, "onReleaseDetailsError");
-                            error.printStackTrace();
-                        }
-                ));
-    }
-
     @Override
     public void setupRecyclerView(Context context, RecyclerView rvDetailed, String title)
     {
         rvDetailed.setLayoutManager(new LinearLayoutManager(context));
         rvDetailed.setAdapter(artistController.getAdapter());
-        artistController.setHeader(title);
+        artistController.setTitle(title);
         artistController.requestModelBuild();
     }
-
-    // TODO: Reimplement
-//    @Override
-//    public void displayLabelReleases(String labelId, String releasesUrl)
-//    {
-//        view.displayLabelReleases(labelId, releasesUrl);
-//    }
 
     @Override
     public void unsubscribe()

@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.artist.epoxy;
+package bj.rxjavaexperimentation.epoxy.common;
 
 import android.content.Context;
 import android.view.View;

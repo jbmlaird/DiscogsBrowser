@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.artist.epoxy;
+package bj.rxjavaexperimentation.epoxy.common;
 
 import android.widget.LinearLayout;
 import android.widget.TextView;

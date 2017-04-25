@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.release.epoxy;
+package bj.rxjavaexperimentation.epoxy.release;
 
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Josh Laird on 24/04/2017.
  */
-@EpoxyModelClass(layout = R.layout.item_tracklist)
+@EpoxyModelClass(layout = R.layout.model_track)
 public abstract class TrackModel extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute String trackNumber;

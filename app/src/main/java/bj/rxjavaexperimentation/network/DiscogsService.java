@@ -14,6 +14,7 @@ import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.user.User;
 import bj.rxjavaexperimentation.model.user.UserDetails;
+import bj.rxjavaexperimentation.model.version.RootVersionsResponse;
 import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -38,6 +39,9 @@ public interface DiscogsService
 
     @GET("masters/{master_id}")
     Observable<Master> getMaster(@Path("master_id") String masterId);
+
+    @GET("masters/{master_id}/versions")
+    Observable<RootVersionsResponse> getMasterVersions(@Path("master_id") String masterId);
 
     @GET("labels/{label_id}")
     Observable<Label> getLabel(@Path("label_id") String labelId);

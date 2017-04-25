@@ -5,7 +5,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import bj.rxjavaexperimentation.common.BaseAdapter;
+import bj.rxjavaexperimentation.epoxy.common.BaseAdapter;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.search.SearchPresenter;
 

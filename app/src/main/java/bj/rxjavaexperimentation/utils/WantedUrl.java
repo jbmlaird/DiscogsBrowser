@@ -1,7 +1,7 @@
 package bj.rxjavaexperimentation.utils;
 
 import bj.rxjavaexperimentation.artist.ArtistController;
-import bj.rxjavaexperimentation.artist.epoxy.UrlModel;
+import bj.rxjavaexperimentation.epoxy.artist.UrlModel;
 
 /**
  * Created by Josh Laird on 21/04/2017.

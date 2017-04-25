@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.label.epoxy;
+package bj.rxjavaexperimentation.epoxy.common;
 
 import android.content.Context;
 import android.view.View;
@@ -21,25 +21,25 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
  * Created by Josh Laird on 23/04/2017.
  */
 @EpoxyModelClass(layout = R.layout.model_label_release)
-public abstract class LabelReleaseModel extends EpoxyModel<LinearLayout>
+public abstract class ListItemModel extends EpoxyModel<LinearLayout>
 {
     @BindView(R.id.lytLabelReleaseContainer) LinearLayout lytLabelReleaseContainer;
     @BindView(R.id.ivImage) ImageView ivImage;
     @BindView(R.id.tvTitle) TextView tvTitle;
     @BindView(R.id.tvArtists) TextView tvArtists;
-    @EpoxyAttribute(DoNotHash) View.OnClickListener onLabelClick;
+    @EpoxyAttribute(DoNotHash) View.OnClickListener onClick;
     @EpoxyAttribute(DoNotHash) Context context;
     @EpoxyAttribute String imageUrl;
     @EpoxyAttribute String title;
-    @EpoxyAttribute String artists;
+    @EpoxyAttribute String subtitle;
 
     @Override
     public void bind(LinearLayout view)
     {
         ButterKnife.bind(this, view);
-        lytLabelReleaseContainer.setOnClickListener(onLabelClick);
+        lytLabelReleaseContainer.setOnClickListener(onClick);
         tvTitle.setText(title);
-        tvArtists.setText(artists);
+        tvArtists.setText(subtitle);
         Glide.with(context)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_vinyl)

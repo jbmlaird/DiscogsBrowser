@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.thefinestartist.finestwebview.FinestWebView;
 
@@ -23,6 +24,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
 {
     @Inject LabelPresenter presenter;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -41,6 +43,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
         ButterKnife.bind(this);
+        setupToolbar(toolbar);
         presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
         presenter.getData(getIntent().getStringExtra("id"));
     }
