@@ -15,11 +15,12 @@ import bj.rxjavaexperimentation.main.epoxy.MainController;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.model.user.UserDetails;
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -30,21 +31,23 @@ public class MainPresenter implements MainContract.Presenter
 {
     private static final String TAG = "MainPresenter";
     private MainContract.View mView;
-    private SearchDiscogsInteractor discogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private NavigationDrawerBuilder navigationDrawerBuilder;
     private MainController mainController;
     private SharedPrefsManager sharedPrefsManager;
     private LogWrapper log;
+    private CompositeDisposable compositeDisposable;
     private UserDetails userDetails;
     private RecyclerView recyclerView;
     private PublishSubject<List<Order>> orderPublishSubject = PublishSubject.create();
     private PublishSubject<List<Listing>> sellingPublishSubject = PublishSubject.create();
 
     @Inject
-    public MainPresenter(@NonNull MainContract.View view, @NonNull SearchDiscogsInteractor discogsInteractor,
+    public MainPresenter(@NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
-                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log)
+                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log,
+                         @NonNull CompositeDisposable compositeDisposable)
     {
         mView = view;
         this.discogsInteractor = discogsInteractor;
@@ -53,6 +56,7 @@ public class MainPresenter implements MainContract.Presenter
         this.mainController = mainController;
         this.sharedPrefsManager = sharedPrefsManager;
         this.log = log;
+        this.compositeDisposable = compositeDisposable;
     }
 
     @Override
@@ -109,27 +113,34 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void setupObservers()
     {
-        sellingPublishSubject
-                .flatMapIterable(listings -> listings)
-                .filter(listing -> listing.getStatus().equals("For Sale"))
-                .toList()
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(listings ->
-                                mainController.setSelling(listings),
-                        error ->
-                                Log.e(TAG, error.getMessage()));
+        compositeDisposable.add(
+                sellingPublishSubject
+                        .flatMapIterable(listings -> listings)
+                        .filter(listing -> listing.getStatus().equals("For Sale"))
+                        .toList()
+                        .observeOn(mySchedulerProvider.ui())
+                        .subscribe(listings ->
+                                        mainController.setSelling(listings),
+                                error ->
+                                        Log.e(TAG, error.getMessage())));
 
-        orderPublishSubject
+        compositeDisposable.add(orderPublishSubject
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(orders ->
                                 mainController.setPurchases(orders),
                         error ->
-                                Log.e(TAG, error.getMessage()));
+                                Log.e(TAG, error.getMessage())));
     }
 
     @Override
     public UserDetails getUserDetails()
     {
         return userDetails;
+    }
+
+    @Override
+    public void unsubscribe()
+    {
+        compositeDisposable.dispose();
     }
 }

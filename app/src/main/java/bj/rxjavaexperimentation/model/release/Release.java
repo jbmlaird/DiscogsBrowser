@@ -108,6 +108,9 @@ public class Release
     @Expose
     private Integer year;
     private String lowestPriceString;
+    private boolean isInCollection;
+    private boolean isInWantlist;
+    private String instanceId;
 
     public String getTitle()
     {
@@ -447,5 +450,35 @@ public class Release
     public void setYear(Integer year)
     {
         this.year = year;
+    }
+
+    public void setIsInCollection(boolean b)
+    {
+        isInCollection = b;
+    }
+
+    public void setIsInWantlist(boolean b)
+    {
+        isInWantlist = b;
+    }
+
+    public boolean isInCollection()
+    {
+        return isInCollection;
+    }
+
+    public boolean isInWantlist()
+    {
+        return isInWantlist;
+    }
+
+    public void setInstanceId(String instanceId)
+    {
+        this.instanceId = instanceId;
+    }
+
+    public String getInstanceId()
+    {
+        return instanceId;
     }
 }

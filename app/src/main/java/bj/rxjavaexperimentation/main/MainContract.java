@@ -39,5 +39,7 @@ public interface MainContract
         void setupObservers();
 
         UserDetails getUserDetails();
+
+        void unsubscribe();
     }
 }

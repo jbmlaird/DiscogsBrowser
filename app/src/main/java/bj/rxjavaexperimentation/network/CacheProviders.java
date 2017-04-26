@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
-import bj.rxjavaexperimentation.model.collectionrelease.RootCollectionRelease;
+import bj.rxjavaexperimentation.model.collection.RootCollectionRelease;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
@@ -21,6 +21,7 @@ import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
 import io.reactivex.Observable;
 import io.rx_cache2.DynamicKey;
+import io.rx_cache2.EvictDynamicKey;
 import io.rx_cache2.LifeCache;
 
 /**
@@ -63,13 +64,13 @@ public interface CacheProviders
     Observable<User> fetchIdentity(Observable<User> identityObservable);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<UserDetails> fetchUserDetails(Observable<UserDetails> userDetailsObservable, DynamicKey username);
+    Observable<UserDetails> fetchUserDetails(Observable<UserDetails> userDetailsObservable, DynamicKey username, EvictDynamicKey update);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<RootCollectionRelease> fetchCollection(Observable<RootCollectionRelease> fetchCollectionObservable, DynamicKey username);
+    Observable<RootCollectionRelease> fetchCollection(Observable<RootCollectionRelease> fetchCollectionObservable, DynamicKey username, EvictDynamicKey update);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<RootWantlistResponse> fetchWantlist(Observable<RootWantlistResponse> fetchWantlistObservable, DynamicKey username);
+    Observable<RootWantlistResponse> fetchWantlist(Observable<RootWantlistResponse> fetchWantlistObservable, DynamicKey username, EvictDynamicKey update);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
     Observable<RootOrderResponse> fetchOrders(Observable<RootOrderResponse> fetchOrdersObservable);

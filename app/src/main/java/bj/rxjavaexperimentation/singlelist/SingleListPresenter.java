@@ -9,7 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.model.common.RecyclerViewModel;
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
@@ -22,17 +22,17 @@ import io.reactivex.observers.DisposableObserver;
 public class SingleListPresenter implements SingleListContract.Presenter
 {
     private SingleListContract.View view;
-    private SearchDiscogsInteractor searchDiscogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private SingleListAdapter singleListAdapter;
     private CompositeDisposable compositeDisposable;
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
 
     @Inject
-    public SingleListPresenter(SingleListContract.View view, SearchDiscogsInteractor searchDiscogsInteractor, MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable compositeDisposable)
+    public SingleListPresenter(SingleListContract.View view, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable compositeDisposable)
     {
         this.view = view;
-        this.searchDiscogsInteractor = searchDiscogsInteractor;
+        this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.singleListAdapter = singleListAdapter;
         this.compositeDisposable = compositeDisposable;
@@ -44,7 +44,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
         switch (type)
         {
             case "wantlist":
-                searchDiscogsInteractor.fetchWantlist(username)
+                discogsInteractor.fetchWantlist(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(wants ->
@@ -59,7 +59,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
                         );
                 break;
             case "collection":
-                searchDiscogsInteractor.fetchCollection(username)
+                discogsInteractor.fetchCollection(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(collectionReleases ->
@@ -73,7 +73,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
                                         view.stopLoading());
                 break;
             case "orders":
-                searchDiscogsInteractor.fetchOrders()
+                discogsInteractor.fetchOrders()
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(orders ->
@@ -88,7 +88,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
                         );
                 break;
             case "selling":
-                searchDiscogsInteractor.fetchListings(username)
+                discogsInteractor.fetchListings(username)
                         .observeOn(mySchedulerProvider.io())
                         .flatMapIterable(listings -> listings)
                         .filter(listing -> listing.getStatus().equals("For Sale"))

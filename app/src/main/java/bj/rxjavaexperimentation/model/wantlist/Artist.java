@@ -4,26 +4,37 @@ package bj.rxjavaexperimentation.model.wantlist;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Label {
+public class Artist {
 
+    @SerializedName("join")
+    @Expose
+    private String join;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("entity_type")
+    @SerializedName("anv")
     @Expose
-    private String entityType;
-    @SerializedName("catno")
+    private String anv;
+    @SerializedName("tracks")
     @Expose
-    private String catno;
+    private String tracks;
+    @SerializedName("role")
+    @Expose
+    private String role;
     @SerializedName("resource_url")
     @Expose
     private String resourceUrl;
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("entity_type_name")
-    @Expose
-    private String entityTypeName;
+
+    public String getJoin() {
+        return join;
+    }
+
+    public void setJoin(String join) {
+        this.join = join;
+    }
 
     public String getName() {
         return name;
@@ -33,20 +44,28 @@ public class Label {
         this.name = name;
     }
 
-    public String getEntityType() {
-        return entityType;
+    public String getAnv() {
+        return anv;
     }
 
-    public void setEntityType(String entityType) {
-        this.entityType = entityType;
+    public void setAnv(String anv) {
+        this.anv = anv;
     }
 
-    public String getCatno() {
-        return catno;
+    public String getTracks() {
+        return tracks;
     }
 
-    public void setCatno(String catno) {
-        this.catno = catno;
+    public void setTracks(String tracks) {
+        this.tracks = tracks;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getResourceUrl() {
@@ -63,14 +82,6 @@ public class Label {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getEntityTypeName() {
-        return entityTypeName;
-    }
-
-    public void setEntityTypeName(String entityTypeName) {
-        this.entityTypeName = entityTypeName;
     }
 
 }

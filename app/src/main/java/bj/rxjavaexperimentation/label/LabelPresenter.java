@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
 import io.reactivex.disposables.CompositeDisposable;
@@ -22,17 +22,17 @@ public class LabelPresenter implements LabelContract.Presenter
     private final String TAG = getClass().getSimpleName();
     private LabelController controller;
     private CompositeDisposable compositeDisposable;
-    private SearchDiscogsInteractor searchDiscogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private LogWrapper log;
 
     @Inject
-    public LabelPresenter(@NonNull LabelController controller, @NonNull CompositeDisposable compositeDisposable, @NonNull SearchDiscogsInteractor searchDiscogsInteractor,
+    public LabelPresenter(@NonNull LabelController controller, @NonNull CompositeDisposable compositeDisposable, @NonNull DiscogsInteractor discogsInteractor,
                           @NonNull MySchedulerProvider mySchedulerProvider, @NonNull LogWrapper log)
     {
         this.controller = controller;
         this.compositeDisposable = compositeDisposable;
-        this.searchDiscogsInteractor = searchDiscogsInteractor;
+        this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.log = log;
     }
@@ -49,11 +49,11 @@ public class LabelPresenter implements LabelContract.Presenter
     @Override
     public void getData(String id)
     {
-        compositeDisposable.add(searchDiscogsInteractor.fetchLabelDetails(id)
+        compositeDisposable.add(discogsInteractor.fetchLabelDetails(id)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .doOnComplete(() ->
-                        searchDiscogsInteractor.fetchLabelReleases(id)
+                        discogsInteractor.fetchLabelReleases(id)
                                 .subscribeOn(mySchedulerProvider.io())
                                 .observeOn(mySchedulerProvider.ui())
                                 .subscribe(labelReleases ->

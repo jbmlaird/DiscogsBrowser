@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
@@ -24,7 +25,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
 {
     @Inject ArtistsBeautifier artistsBeautifier;
     @Inject ReleasePresenter presenter;
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override

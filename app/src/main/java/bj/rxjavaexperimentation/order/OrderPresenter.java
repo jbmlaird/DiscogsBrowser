@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import javax.inject.Inject;
 
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.order.epoxy.OrderController;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 
@@ -15,15 +15,15 @@ import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 public class OrderPresenter implements OrderContract.Presenter
 {
     private OrderContract.View view;
-    private SearchDiscogsInteractor searchDiscogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private OrderController orderController;
 
     @Inject
-    public OrderPresenter(OrderContract.View view, SearchDiscogsInteractor searchDiscogsInteractor, MySchedulerProvider mySchedulerProvider, OrderController orderController)
+    public OrderPresenter(OrderContract.View view, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, OrderController orderController)
     {
         this.view = view;
-        this.searchDiscogsInteractor = searchDiscogsInteractor;
+        this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.orderController = orderController;
     }
@@ -31,7 +31,7 @@ public class OrderPresenter implements OrderContract.Presenter
     @Override
     public void fetchOrderDetails(String orderId)
     {
-        searchDiscogsInteractor.fetchOrderDetails(orderId)
+        discogsInteractor.fetchOrderDetails(orderId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(orderDetails ->

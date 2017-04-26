@@ -66,7 +66,8 @@ public class AppModule
                 .addInterceptor(chain ->
                 {
                     Request request = chain.request();
-                    HttpUrl url = request.url().newBuilder()
+                    Request build = request.newBuilder().addHeader("User-Agent", "DiscogsBrowser/0.1").build();
+                    HttpUrl url = build.url().newBuilder()
                             .addQueryParameter("oauth_consumer_key", context.getString(R.string.consumer_key))
                             .addQueryParameter("oauth_token", sharedPrefsManager.getUserOAuthToken().getToken())
                             .addQueryParameter("oauth_signature_method", "PLAINTEXT")
@@ -75,7 +76,7 @@ public class AppModule
                             .addQueryParameter("oauth_version", "1.0")
                             .addQueryParameter("oauth_signature", context.getString(R.string.consumer_secret) + "%26" + sharedPrefsManager.getUserOAuthToken().getTokenSecret())
                             .build();
-                    request = request.newBuilder().url(url).build();
+                    request = build.newBuilder().url(url).build();
                     return chain.proceed(request);
                 })
                 .build();

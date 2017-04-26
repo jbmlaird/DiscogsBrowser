@@ -15,7 +15,7 @@ import bj.rxjavaexperimentation.artist.ArtistActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.master.MasterActivity;
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +29,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.viewpager) ViewPager viewPager;
-    @Inject SearchDiscogsInteractor searchDiscogsInteractor;
+    @Inject DiscogsInteractor discogsInteractor;
     @Inject ArtistReleasesPresenter presenter;
 
     @Override

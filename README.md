@@ -28,17 +28,18 @@ It is not ready for consumers at this stage.
 * Search history
 * Displays artist, master, release and label information.
 * Displays marketplace information on release page NB: marketplace searches only return 12"
-* Collection/wantlist viewing
+* Collection/wantlist editing
 * Request caching
 
 # Forthcoming
 
-* Collection/wantlist amending
 * Carousels for images
 * Browsing history
 * Recent releases
-* Preview releases in app (Picture in picture?)
+* Browsing without being logged in
+* Listen to releases in-app (Picture in picture YouTube?)
 * Notifications (if API allows)
+* Adding notes to items in collection
 
 # Limitations
 

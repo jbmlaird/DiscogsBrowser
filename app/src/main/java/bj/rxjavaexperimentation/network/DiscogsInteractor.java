@@ -13,8 +13,9 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.model.artistrelease.RootArtistReleaseResponse;
-import bj.rxjavaexperimentation.model.collectionrelease.CollectionRelease;
-import bj.rxjavaexperimentation.model.collectionrelease.RootCollectionRelease;
+import bj.rxjavaexperimentation.model.collection.AddToCollectionResponse;
+import bj.rxjavaexperimentation.model.collection.CollectionRelease;
+import bj.rxjavaexperimentation.model.collection.RootCollectionRelease;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
 import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
@@ -30,15 +31,19 @@ import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.model.version.RootVersionsResponse;
 import bj.rxjavaexperimentation.model.version.Version;
+import bj.rxjavaexperimentation.model.wantlist.AddToWantlistResponse;
 import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
 import bj.rxjavaexperimentation.model.wantlist.Want;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.DiscogsScraper;
+import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.rx_cache2.DynamicKey;
+import io.rx_cache2.EvictDynamicKey;
 import io.rx_cache2.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -47,16 +52,17 @@ import retrofit2.Retrofit;
  * Interactor to interact with the Discogs API.
  */
 @Singleton
-public class SearchDiscogsInteractor
+public class DiscogsInteractor
 {
     private final CacheProviders cacheProviders;
+    private SharedPrefsManager sharedPrefsManager;
     private DiscogsService discogsService;
     private MySchedulerProvider mySchedulerProvider;
     private DiscogsScraper discogsScraper;
     private NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
 
     @Inject
-    public SearchDiscogsInteractor(Context context, Retrofit retrofit, MySchedulerProvider mySchedulerProvider, DiscogsScraper discogsScraper)
+    public DiscogsInteractor(Context context, Retrofit retrofit, MySchedulerProvider mySchedulerProvider, DiscogsScraper discogsScraper, SharedPrefsManager sharedPrefsManager)
     {
         this.mySchedulerProvider = mySchedulerProvider;
         discogsService = retrofit.create(DiscogsService.class);
@@ -66,6 +72,7 @@ public class SearchDiscogsInteractor
                 .setMaxMBPersistenceCache(5)
                 .persistence(context.getFilesDir(), new GsonSpeaker())
                 .using(CacheProviders.class);
+        this.sharedPrefsManager = sharedPrefsManager;
     }
 
     public Observable<List<SearchResult>> searchDiscogs(String searchTerm)
@@ -172,14 +179,48 @@ public class SearchDiscogsInteractor
 
     public Observable<List<CollectionRelease>> fetchCollection(String username)
     {
-        return cacheProviders.fetchCollection(discogsService.fetchCollection(username, "desc", "500"), new DynamicKey(username + "desc500"))
+        Observable<List<CollectionRelease>> collectionObservable = cacheProviders.fetchCollection(discogsService.fetchCollection(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextCollection()))
                 .map(RootCollectionRelease::getCollectionReleases);
+        if (sharedPrefsManager.fetchNextCollection())
+            sharedPrefsManager.setFetchNextCollection("no");
+        return collectionObservable;
+    }
+
+    public Observable<AddToCollectionResponse> addToCollection(String releaseId)
+    {
+        sharedPrefsManager.setFetchNextCollection("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        return discogsService.addToCollection(sharedPrefsManager.getUsername(), releaseId);
+    }
+
+    public Observable<Response<Void>> removeFromCollection(String releaseId, String instanceId)
+    {
+        sharedPrefsManager.setFetchNextCollection("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        return discogsService.removeFromCollection(sharedPrefsManager.getUsername(), releaseId, instanceId);
     }
 
     public Observable<List<Want>> fetchWantlist(String username)
     {
-        return cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "desc", "500"), new DynamicKey(username + "desc500"))
+        Observable<List<Want>> wantlistObservable = cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
                 .map(RootWantlistResponse::getWants);
+        if (sharedPrefsManager.fetchNextWantlist())
+            sharedPrefsManager.setFetchNextWantlist("no");
+        return wantlistObservable;
+    }
+
+    public Observable<AddToWantlistResponse> addToWantlist(String releaseId)
+    {
+        sharedPrefsManager.setFetchNextWantlist("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        return discogsService.addToWantlist(sharedPrefsManager.getUsername(), releaseId);
+    }
+
+    public Observable<Response<Void>> removeFromWantlist(String releaseId)
+    {
+        sharedPrefsManager.setFetchNextWantlist("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        return discogsService.removeFromWantlist(sharedPrefsManager.getUsername(), releaseId);
     }
 
     public Observable<List<Order>> fetchOrders()
@@ -201,6 +242,9 @@ public class SearchDiscogsInteractor
 
     public Observable<UserDetails> fetchUserDetails(String username)
     {
-        return cacheProviders.fetchUserDetails(discogsService.fetchUserDetails(username), new DynamicKey(username));
+        Observable<UserDetails> userDetailsObservable = cacheProviders.fetchUserDetails(discogsService.fetchUserDetails(username), new DynamicKey(username), new EvictDynamicKey(sharedPrefsManager.fetchNextUserDetails()));
+        if (sharedPrefsManager.fetchNextUserDetails())
+            sharedPrefsManager.setfetchNextUserDetails("no");
+        return userDetailsObservable;
     }
 }

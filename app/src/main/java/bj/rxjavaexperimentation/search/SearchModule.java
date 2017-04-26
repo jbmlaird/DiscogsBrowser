@@ -8,7 +8,7 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.model.search.SearchResult;
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Observable;
@@ -38,13 +38,13 @@ public class SearchModule
 
     @Provides
     @Singleton
-    Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(SearchDiscogsInteractor searchDiscogsInteractor)
+    Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(DiscogsInteractor discogsInteractor)
     {
         SearchResult startingSearchResult = new SearchResult();
         startingSearchResult.setId("bj");
 
         return searchViewQueryTextEvent ->
-                searchDiscogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString())
+                discogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString())
                         .startWith(Observable.just(Collections.singletonList(startingSearchResult)));
     }
 }

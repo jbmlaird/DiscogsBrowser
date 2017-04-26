@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,6 +21,7 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artist.ArtistActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.master.MasterActivity;
 import bj.rxjavaexperimentation.model.search.SearchResult;
@@ -43,7 +43,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @BindView(R.id.searchView) SearchView searchView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.pbRecyclerView) ProgressBar pbRecyclerView;
-    @BindView(R.id.rvResults) RecyclerView rvResults;
+    @BindView(R.id.rvResults) MyRecyclerView rvResults;
     private SearchComponent component;
 
     @Override

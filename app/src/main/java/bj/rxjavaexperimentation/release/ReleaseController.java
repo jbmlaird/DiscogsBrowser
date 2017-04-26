@@ -10,6 +10,8 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubDividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
+import bj.rxjavaexperimentation.epoxy.release.CollectionWantlistModel_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceListingsHeader_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceModel_;
 import bj.rxjavaexperimentation.epoxy.release.NoListingsModel_;
@@ -20,6 +22,8 @@ import bj.rxjavaexperimentation.main.epoxy.ViewMoreModel_;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.release.Track;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
+import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 
@@ -33,20 +37,26 @@ public class ReleaseController extends BaseController
     private final ReleaseContract.View view;
     private ArtistsBeautifier artistsBeautifier;
     private ImageViewAnimator imageViewAnimator;
+    private DiscogsInteractor discogsInteractor;
+    private MySchedulerProvider mySchedulerProvider;
     private Release release;
     private ArrayList<ScrapeListing> releaseListings;
     private boolean viewFullTracklist = false;
     private boolean isError = false;
     private boolean marketplaceLoading = true;
     private boolean viewAllListings = false;
+    private boolean collectionWantlistChecked;
 
     @Inject
-    public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator)
+    public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
+                             DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider)
     {
         this.context = context;
         this.view = view;
         this.artistsBeautifier = artistsBeautifier;
         this.imageViewAnimator = imageViewAnimator;
+        this.discogsInteractor = discogsInteractor;
+        this.mySchedulerProvider = mySchedulerProvider;
     }
 
     @Override
@@ -89,14 +99,36 @@ public class ReleaseController extends BaseController
                     .id("tracklist divider")
                     .addTo(this);
 
+            new SubHeaderModel_()
+                    .id("collectionwantlistsubheader")
+                    .subheader("Collection/Wantlist")
+                    .addIf(!collectionWantlistChecked, this);
+
+            new LoadingModel_()
+                    .imageViewAnimator(imageViewAnimator)
+                    .id("collection loading")
+                    .addIf(!collectionWantlistChecked, this);
+
+            new CollectionWantlistModel_()
+                    .id("collectionwantlist")
+                    .context(context)
+                    .releaseId(release.getId())
+                    .instanceId(release.getInstanceId())
+                    .inCollection(release.isInCollection())
+                    .inWantlist(release.isInWantlist())
+                    .mySchedulerProvider(mySchedulerProvider)
+                    .discogsInteractor(discogsInteractor)
+                    .addIf(collectionWantlistChecked, this);
+
             new MarketplaceListingsHeader_()
                     .id("marketplace listings header")
                     .lowestPrice(release.getLowestPriceString())
                     .numForSale(String.valueOf(release.getNumForSale()))
                     .addTo(this);
 
-            new LoadingModel_(imageViewAnimator)
+            new LoadingModel_()
                     .id("loading")
+                    .imageViewAnimator(imageViewAnimator)
                     .addIf(marketplaceLoading, this);
 
             if (releaseListings != null)
@@ -126,11 +158,11 @@ public class ReleaseController extends BaseController
                                 .id("marketplace divider" + releaseListings.indexOf(scrapeListing))
                                 .addIf(releaseListings.indexOf(scrapeListing) != releaseListings.size() - 1, this);
 
-                        if (releaseListings.indexOf(scrapeListing) == 4 && !viewAllListings && releaseListings.size() > 5)
+                        if (releaseListings.indexOf(scrapeListing) == 2 && !viewAllListings && releaseListings.size() > 3)
                         {
                             new ViewMoreModel_()
                                     .id("view all")
-                                    .title("View all label releases")
+                                    .title("View all listings")
                                     .onClickListener(v -> setViewListings(true))
                                     .addTo(this);
                             break;
@@ -174,6 +206,12 @@ public class ReleaseController extends BaseController
     private void setViewListings(boolean viewFullListings)
     {
         this.viewAllListings = viewFullListings;
+        requestModelBuild();
+    }
+
+    public void collectionWantlistChecked(boolean b)
+    {
+        collectionWantlistChecked = b;
         requestModelBuild();
     }
 }

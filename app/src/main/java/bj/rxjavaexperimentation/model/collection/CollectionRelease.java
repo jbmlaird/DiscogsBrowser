@@ -1,5 +1,5 @@
 
-package bj.rxjavaexperimentation.model.collectionrelease;
+package bj.rxjavaexperimentation.model.collection;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -16,10 +16,10 @@ public class CollectionRelease implements RecyclerViewModel
     private String id;
     @SerializedName("instance_id")
     @Expose
-    private Integer instanceId;
+    private String instanceId;
     @SerializedName("folder_id")
     @Expose
-    private Integer folderId;
+    private String folderId;
     @SerializedName("rating")
     @Expose
     private Integer rating;
@@ -41,22 +41,22 @@ public class CollectionRelease implements RecyclerViewModel
         this.id = id;
     }
 
-    public Integer getInstanceId()
+    public String getInstanceId()
     {
         return instanceId;
     }
 
-    public void setInstanceId(Integer instanceId)
+    public void setInstanceId(String instanceId)
     {
         this.instanceId = instanceId;
     }
 
-    public Integer getFolderId()
+    public String getFolderId()
     {
         return folderId;
     }
 
-    public void setFolderId(Integer folderId)
+    public void setFolderId(String folderId)
     {
         this.folderId = folderId;
     }

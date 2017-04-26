@@ -3,7 +3,6 @@ package bj.rxjavaexperimentation.master;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import javax.inject.Inject;
@@ -11,6 +10,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 public class MasterActivity extends BaseActivity implements MasterContract.View
 {
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject MasterPresenter presenter;
 

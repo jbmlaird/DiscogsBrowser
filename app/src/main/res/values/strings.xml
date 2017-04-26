@@ -21,4 +21,9 @@
     <string name="avatar_url">avatar_url</string>
     <string name="selling">Selling</string>
     <string name="no_12_for_sale">No 12\" for sale</string>
+    <string name="add_to_collection">Add to collection</string>
+    <string name="add_to_wantlist">Add to wantlist</string>
+    <string name="fetch_next_collection">fetch_next_collection</string>
+    <string name="fetch_next_wantlist">fetch_next_wantlist</string>
+    <string name="fetch_next_user_details">fetch_next_user_details</string>
 </resources>

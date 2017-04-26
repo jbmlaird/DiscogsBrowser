@@ -3,6 +3,7 @@ package bj.rxjavaexperimentation.main.epoxy;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 
@@ -18,12 +19,7 @@ import butterknife.ButterKnife;
 public abstract class LoadingModel extends EpoxyModel<LinearLayout>
 {
     @BindView(R.id.ivLoading) ImageView ivLoading;
-    private ImageViewAnimator imageViewAnimator;
-
-    public LoadingModel(ImageViewAnimator imageViewAnimator)
-    {
-        this.imageViewAnimator = imageViewAnimator;
-    }
+    @EpoxyAttribute ImageViewAnimator imageViewAnimator;
 
     @Override
     public void bind(LinearLayout view)

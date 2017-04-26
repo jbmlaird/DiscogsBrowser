@@ -22,7 +22,7 @@ import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesAdapter;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesFragment;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistResultFunction;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import io.reactivex.functions.Consumer;
 
@@ -34,17 +34,17 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
 {
     private Context context;
     private ArtistReleasesContract.View view;
-    private SearchDiscogsInteractor searchDiscogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     private MySchedulerProvider mySchedulerProvider;
     private ArtistResultFunction artistResultFunction;
 
     @Inject
-    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, SearchDiscogsInteractor searchDiscogsInteractor, BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistResultFunction artistResultFunction)
+    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistResultFunction artistResultFunction)
     {
         this.context = context;
         this.view = view;
-        this.searchDiscogsInteractor = searchDiscogsInteractor;
+        this.discogsInteractor = discogsInteractor;
         this.behaviorRelay = behaviorRelay;
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistResultFunction = artistResultFunction;
@@ -53,7 +53,7 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void getArtistReleases(String id)
     {
-        searchDiscogsInteractor.fetchArtistsReleases(id)
+        discogsInteractor.fetchArtistsReleases(id)
                 .subscribe(behaviorRelay);
     }
 

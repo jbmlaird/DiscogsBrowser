@@ -14,6 +14,7 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artistreleases.ArtistReleasesActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.common.MyRecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class ArtistActivity extends BaseActivity implements ArtistContract.View
 {
     private static final String TAG = "DetailedActivity";
-    @BindView(R.id.recyclerView) RecyclerView rvDetailed;
+    @BindView(R.id.recyclerView) MyRecyclerView rvDetailed;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject ArtistPresenter presenter;
 

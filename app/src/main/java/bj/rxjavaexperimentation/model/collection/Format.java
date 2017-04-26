@@ -1,5 +1,5 @@
 
-package bj.rxjavaexperimentation.model.collectionrelease;
+package bj.rxjavaexperimentation.model.collection;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class LabelActivity extends BaseActivity implements LabelContract.View
 {
     @Inject LabelPresenter presenter;
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override

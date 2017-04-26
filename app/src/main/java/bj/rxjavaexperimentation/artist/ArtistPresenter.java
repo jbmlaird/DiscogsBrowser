@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,7 +23,7 @@ public class ArtistPresenter implements ArtistContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
     private ArtistContract.View view;
-    private SearchDiscogsInteractor searchDiscogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private CompositeDisposable compositeDisposable;
     private LogWrapper log;
@@ -31,12 +31,12 @@ public class ArtistPresenter implements ArtistContract.Presenter
     private Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction;
 
     @Inject
-    public ArtistPresenter(@NonNull ArtistContract.View view, @NonNull SearchDiscogsInteractor searchDiscogsInteractor,
+    public ArtistPresenter(@NonNull ArtistContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                            @NonNull MySchedulerProvider mySchedulerProvider, @NonNull CompositeDisposable compositeDisposable,
                            @NonNull LogWrapper log, @NonNull ArtistController artistController, @NonNull Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction)
     {
         this.view = view;
-        this.searchDiscogsInteractor = searchDiscogsInteractor;
+        this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.compositeDisposable = compositeDisposable;
         this.log = log;
@@ -47,7 +47,7 @@ public class ArtistPresenter implements ArtistContract.Presenter
     @Override
     public void getData(String id)
     {
-        compositeDisposable.add(searchDiscogsInteractor.fetchArtistDetails(id)
+        compositeDisposable.add(discogsInteractor.fetchArtistDetails(id)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(removeUnwantedLinksFunction)

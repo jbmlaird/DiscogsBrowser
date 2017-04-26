@@ -15,7 +15,7 @@ import java.util.Collections;
 
 import bj.rxjavaexperimentation.main.epoxy.MainController;
 import bj.rxjavaexperimentation.model.user.UserDetails;
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.TestSchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
@@ -40,7 +40,7 @@ public class MainPresenterUnitTest
     private TestScheduler testScheduler;
     private UserDetails testUserDetails;
     @Mock MainContract.View mView;
-    @Mock SearchDiscogsInteractor discogsInteractor;
+    @Mock DiscogsInteractor discogsInteractor;
     @Mock NavigationDrawerBuilder navigationDrawerBuilder;
     @Mock MainController mainController;
     @Mock RecyclerView recyclerView;

@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
+import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -19,13 +19,13 @@ import io.reactivex.disposables.CompositeDisposable;
 public class MasterPresenter implements MasterContract.Presenter
 {
     private MasterContract.View mView;
-    private SearchDiscogsInteractor discogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private MasterController controller;
     private CompositeDisposable compositeDisposable;
     private MySchedulerProvider mySchedulerProvider;
 
     @Inject
-    public MasterPresenter(@NonNull MasterContract.View mView, @NonNull SearchDiscogsInteractor discogsInteractor, @NonNull MasterController masterController,
+    public MasterPresenter(@NonNull MasterContract.View mView, @NonNull DiscogsInteractor discogsInteractor, @NonNull MasterController masterController,
                            @NonNull CompositeDisposable compositeDisposable, @NonNull MySchedulerProvider mySchedulerProvider)
     {
         this.mView = mView;

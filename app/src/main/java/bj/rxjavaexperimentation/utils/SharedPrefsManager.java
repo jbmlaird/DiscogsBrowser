@@ -77,4 +77,62 @@ public class SharedPrefsManager
 
         editor.apply();
     }
+
+    public void setFetchNextCollection(String fetchNextCollection)
+    {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(context.getString(R.string.fetch_next_collection), fetchNextCollection);
+        editor.apply();
+    }
+
+    public boolean fetchNextCollection()
+    {
+        String fetchNextCollection = settings.getString(context.getString(R.string.fetch_next_collection), "");
+        if (fetchNextCollection.equals("") || fetchNextCollection.equals("yes"))
+        {
+            setFetchNextCollection("no");
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void setFetchNextWantlist(String fetchNextWantlist)
+    {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(context.getString(R.string.fetch_next_wantlist), fetchNextWantlist);
+        editor.apply();
+    }
+
+
+    public boolean fetchNextWantlist()
+    {
+        String fetchNextWantlist = settings.getString(context.getString(R.string.fetch_next_wantlist), "");
+        if (fetchNextWantlist.equals("") || fetchNextWantlist.equals("yes"))
+        {
+            setFetchNextWantlist("no");
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean fetchNextUserDetails()
+    {
+        String fetchNextUserDetails = settings.getString(context.getString(R.string.fetch_next_user_details), "");
+        if (fetchNextUserDetails.equals("") || fetchNextUserDetails.equals("yes"))
+        {
+            setfetchNextUserDetails("no");
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void setfetchNextUserDetails(String fetchNextUserDetails)
+    {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(context.getString(R.string.fetch_next_user_details), fetchNextUserDetails);
+        editor.apply();
+    }
 }

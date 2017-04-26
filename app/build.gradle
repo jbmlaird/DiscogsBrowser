@@ -75,4 +75,6 @@ dependencies {
     compile 'com.github.VictorAlbertos.RxSocialConnect-Android:core:1.0.1-2.x'
     compile 'com.bugsnag:bugsnag-android:3.+'
     compile 'org.greenrobot:greendao:3.2.2'
+    compile 'br.com.simplepass:loading-button-android:1.6.5'
+    compile 'com.github.GrenderG:Toasty:1.1.5'
 }

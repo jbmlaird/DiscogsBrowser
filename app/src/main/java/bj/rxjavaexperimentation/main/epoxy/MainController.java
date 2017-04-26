@@ -90,7 +90,8 @@ public class MainController extends EpoxyController
                     .addIf(orders.indexOf(order) != orders.size() - 1, this);
         }
 
-        new LoadingModel_(imageViewAnimator)
+        new LoadingModel_()
+                .imageViewAnimator(imageViewAnimator)
                 .id("loading model")
                 .addIf(loadingMorePurchases, this);
 
@@ -126,8 +127,9 @@ public class MainController extends EpoxyController
             // .addIf(listings.indexOf(listing) != listings.size() - 1, this);
         }
 
-        new LoadingModel_(imageViewAnimator)
+        new LoadingModel_()
                 .id("sales loading model")
+                .imageViewAnimator(imageViewAnimator)
                 .addIf(loadingMoreSales, this);
     }
 

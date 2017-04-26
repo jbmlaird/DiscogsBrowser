@@ -109,6 +109,13 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
     public void setDrawer(Drawer drawer)
     {
         this.drawer = drawer;
