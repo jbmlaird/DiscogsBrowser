@@ -1,3 +1,5 @@
+[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=58ff64f23f33870001d2e016&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/58ff64f23f33870001d2e016/build/latest?branch=master)
+
 ![app_logo](app/src/main/res/drawable-xxxhdpi/ic_app.png)
 
 # DiscogsBrowser
