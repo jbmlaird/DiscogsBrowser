@@ -61,6 +61,12 @@ public class ArtistReleasesAdapter extends RecyclerView.Adapter<ArtistReleasesAd
     public void setReleases(List<ArtistRelease> releases)
     {
         this.releases = releases;
+        notifyDataSetChanged();
+    }
+
+    public List<ArtistRelease> getArtistReleases()
+    {
+        return releases;
     }
 
     @Override

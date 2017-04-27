@@ -8,17 +8,27 @@ import android.view.MenuItem;
 
 import bj.rxjavaexperimentation.App;
 import bj.rxjavaexperimentation.AppComponent;
+import butterknife.Unbinder;
 
 /**
  * Created by j on 18/02/2017.
  */
 public abstract class BaseActivity extends AppCompatActivity
 {
+    protected Unbinder unbinder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setupComponent(App.appComponent);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     public abstract void setupComponent(AppComponent appComponent);

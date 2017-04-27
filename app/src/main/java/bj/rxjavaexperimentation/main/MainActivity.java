@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setupLoading();
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Profile");

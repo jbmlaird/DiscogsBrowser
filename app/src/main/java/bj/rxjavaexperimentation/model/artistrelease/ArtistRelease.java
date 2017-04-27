@@ -26,7 +26,7 @@ public class ArtistRelease
     private String role;
     @SerializedName("year")
     @Expose
-    private Integer year;
+    private String year;
     @SerializedName("resource_url")
     @Expose
     private String resourceUrl;
@@ -41,7 +41,7 @@ public class ArtistRelease
     private String id;
     @SerializedName("main_release")
     @Expose
-    private Integer mainRelease;
+    private String mainRelease;
     @SerializedName("trackinfo")
     @Expose
     private String trackinfo;
@@ -106,12 +106,12 @@ public class ArtistRelease
         this.role = role;
     }
 
-    public Integer getYear()
+    public String getYear()
     {
         return year;
     }
 
-    public void setYear(Integer year)
+    public void setYear(String year)
     {
         this.year = year;
     }
@@ -156,12 +156,12 @@ public class ArtistRelease
         this.id = id;
     }
 
-    public Integer getMainRelease()
+    public String getMainRelease()
     {
         return mainRelease;
     }
 
-    public void setMainRelease(Integer mainRelease)
+    public void setMainRelease(String mainRelease)
     {
         this.mainRelease = mainRelease;
     }

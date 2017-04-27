@@ -10,6 +10,7 @@ import java.util.List;
 
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesAdapter;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
+import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -21,6 +22,8 @@ public interface ArtistReleasesContract
     interface View
     {
         void launchDetailedActivity(String type, String title, String id);
+
+        Observable<CharSequence> filterIntent();
     }
 
     interface Presenter
@@ -34,5 +37,7 @@ public interface ArtistReleasesContract
         void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, String searchFilter);
 
         void launchDetailedActivity(String type, String title, String id);
+
+        void setupFilter(Consumer<CharSequence> filterConsumer);
     }
 }

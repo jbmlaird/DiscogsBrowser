@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.artistreleases;
+package bj.rxjavaexperimentation.artistreleases.fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

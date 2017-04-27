@@ -17,7 +17,7 @@
         android:background="@drawable/button_collection"
         android:text="@string/add_to_collection"
         android:textColor="@color/colorPrimary"
-        app:spinning_bar_color="@color/colorAccent"
+        app:spinning_bar_color="@color/colorPrimary"
         app:spinning_bar_padding="6dp"
         app:spinning_bar_width="4dp"/>
 
@@ -30,7 +30,7 @@
         android:background="@drawable/button_wantlist"
         android:text="@string/add_to_wantlist"
         android:textColor="@color/colorAccent"
-        app:spinning_bar_color="@color/colorPrimary"
+        app:spinning_bar_color="@color/colorAccent"
         app:spinning_bar_padding="6dp"
         app:spinning_bar_width="4dp"/>
     <!--android:background="@drawable/circular_border_shape"-->

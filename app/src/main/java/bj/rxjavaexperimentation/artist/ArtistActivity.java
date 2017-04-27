@@ -3,7 +3,6 @@ package bj.rxjavaexperimentation.artist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.thefinestartist.finestwebview.FinestWebView;
@@ -43,7 +42,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.setupRecyclerView(this, rvDetailed, getIntent().getStringExtra("title"));
         presenter.getData(getIntent().getStringExtra("id"));

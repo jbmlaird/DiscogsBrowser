@@ -61,7 +61,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_bar);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         presenter.setupSubscription();
         presenter.setupRecyclerView(rvResults);
         setSupportActionBar(toolbar);

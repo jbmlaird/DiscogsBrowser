@@ -40,7 +40,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
         presenter.getData(getIntent().getStringExtra("id"));

@@ -45,7 +45,7 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         imageViewAnimator.rotateImage(ivLoading);
         setupToolbar(toolbar);
         toolbar.setTitle(getIntent().getStringExtra("orderId"));

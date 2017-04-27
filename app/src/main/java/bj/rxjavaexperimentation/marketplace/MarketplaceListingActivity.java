@@ -57,7 +57,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace_listing);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.getListingDetails(getIntent().getStringExtra("id"));
         tvItemName.setText(getIntent().getStringExtra("title"));

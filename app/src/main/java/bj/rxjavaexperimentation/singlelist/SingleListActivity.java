@@ -57,7 +57,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_list);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         imageViewAnimator.rotateImage(ivLoading);
         setupToolbar(toolbar);
         presenter.setupFilterSubscription();

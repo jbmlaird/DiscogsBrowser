@@ -21,6 +21,7 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesAdapter;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesFragment;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistResultFunction;
+import bj.rxjavaexperimentation.artistreleases.fragments.ViewPagerAdapter;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
@@ -40,7 +41,9 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private ArtistResultFunction artistResultFunction;
 
     @Inject
-    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistResultFunction artistResultFunction)
+    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor,
+                                   BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider,
+                                   ArtistResultFunction artistResultFunction)
     {
         this.context = context;
         this.view = view;
@@ -63,9 +66,8 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
         tabLayout.setupWithViewPager(viewPager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(supportFragmentManager);
         ArrayList<Pair> fragmentValues = new ArrayList<>();
-        fragmentValues.add(Pair.create("Main", "Releases"));
-        fragmentValues.add(Pair.create("Remix", "Remixes"));
-        fragmentValues.add(Pair.create("UnofficialRelease", "Unofficial"));
+        fragmentValues.add(Pair.create("master", "Masters"));
+        fragmentValues.add(Pair.create("release", "Releases"));
         addFragmentsToViewPager(viewPagerAdapter, fragmentValues);
         viewPager.setAdapter(viewPagerAdapter);
     }
@@ -104,5 +106,11 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     public void launchDetailedActivity(String type, String title, String id)
     {
         view.launchDetailedActivity(type, title, id);
+    }
+
+    @Override
+    public void setupFilter(Consumer<CharSequence> filterConsumer)
+    {
+        view.filterIntent().subscribe(filterConsumer);
     }
 }

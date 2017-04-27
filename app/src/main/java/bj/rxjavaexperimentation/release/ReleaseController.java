@@ -26,6 +26,7 @@ import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 24/04/2017.
@@ -111,6 +112,7 @@ public class ReleaseController extends BaseController
 
             new CollectionWantlistModel_()
                     .id("collectionwantlist")
+                    .disposable(new CompositeDisposable())
                     .context(context)
                     .releaseId(release.getId())
                     .instanceId(release.getInstanceId())

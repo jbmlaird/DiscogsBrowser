@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <bj.rxjavaexperimentation.common.MyRecyclerView
+        android:id="@+id/recyclerView"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray"/>
+
+    <ImageView
+        android:id="@+id/ivLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="64dp"
+        android:contentDescription="loading image"
+        android:src="@drawable/ic_app_loading"/>
+
+    <TextView
+        android:id="@+id/tvNoItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableBottom="@drawable/ic_not_interested_black_24dp"
+        android:drawablePadding="8dp"
+        android:text="Test"
+        android:textColor="@color/colorAccent"
+        android:textSize="32sp"
+        android:visibility="gone"/>
+
+</FrameLayout>

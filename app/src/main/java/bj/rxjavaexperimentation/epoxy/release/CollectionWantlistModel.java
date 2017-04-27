@@ -1,6 +1,7 @@
 package bj.rxjavaexperimentation.epoxy.release;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -15,7 +16,9 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 26/04/2017.
@@ -27,6 +30,7 @@ import es.dmoral.toasty.Toasty;
 @EpoxyModelClass(layout = R.layout.model_collection_wantlist)
 public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
 {
+    @EpoxyAttribute CompositeDisposable disposable;
     @EpoxyAttribute Context context;
     @EpoxyAttribute boolean inCollection;
     @EpoxyAttribute boolean inWantlist;
@@ -37,11 +41,21 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     @EpoxyAttribute MySchedulerProvider mySchedulerProvider;
     @BindView(R.id.btnCollection) CircularProgressButton btnCollection;
     @BindView(R.id.btnWantlist) CircularProgressButton btnWantlist;
+    private Unbinder unbinder;
+
+    @Override
+    public void unbind(LinearLayout view)
+    {
+        super.unbind(view);
+        disposable.dispose();
+        unbinder.unbind();
+        Log.e("CollectionWantlistModel", "unbind");
+    }
 
     @Override
     public void bind(LinearLayout view)
     {
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         if (inCollection)
             btnCollection.setText("Remove from Collection");
         if (inWantlist)
@@ -53,7 +67,7 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnCollection.startAnimation();
         if (!inCollection)
-            discogsInteractor.addToCollection(releaseId)
+            disposable.add(discogsInteractor.addToCollection(releaseId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -76,9 +90,9 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                                 Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
                                 error.printStackTrace();
                                 btnCollection.revertAnimation();
-                            });
+                            }));
         else
-            discogsInteractor.removeFromCollection(releaseId, instanceId)
+            disposable.add(discogsInteractor.removeFromCollection(releaseId, instanceId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -100,7 +114,7 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                                 Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
                                 error.printStackTrace();
                                 btnCollection.revertAnimation();
-                            });
+                            }));
     }
 
     @OnClick(R.id.btnWantlist)
@@ -108,7 +122,7 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnWantlist.startAnimation();
         if (!inWantlist)
-            discogsInteractor.addToWantlist(releaseId)
+            disposable.add(discogsInteractor.addToWantlist(releaseId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -122,9 +136,9 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                                 Toasty.error(context, "Unable to add to Wantlist", Toast.LENGTH_SHORT, true).show();
                                 error.printStackTrace();
                                 btnWantlist.revertAnimation();
-                            });
+                            }));
         else
-            discogsInteractor.removeFromWantlist(releaseId)
+            disposable.add(discogsInteractor.removeFromWantlist(releaseId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -145,6 +159,6 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                             {
                                 Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
                                 btnWantlist.revertAnimation();
-                            });
+                            }));
     }
 }

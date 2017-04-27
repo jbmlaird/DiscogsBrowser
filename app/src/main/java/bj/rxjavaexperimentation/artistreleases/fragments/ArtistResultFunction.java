@@ -27,7 +27,7 @@ public class ArtistResultFunction
             ArrayList<ArtistRelease> remixes = new ArrayList<>();
             for (ArtistRelease release : releases)
             {
-                if (release.getRole().equals(parameterToMapTo))
+                if (release.getType().equals(parameterToMapTo))
                     remixes.add(release);
             }
             return remixes;
