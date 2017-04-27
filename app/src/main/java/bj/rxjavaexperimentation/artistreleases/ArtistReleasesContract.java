@@ -25,8 +25,6 @@ public interface ArtistReleasesContract
         void launchDetailedActivity(String type, String title, String id);
 
         Observable<CharSequence> filterIntent();
-
-        void enableFilter();
     }
 
     interface Presenter extends BasePresenter

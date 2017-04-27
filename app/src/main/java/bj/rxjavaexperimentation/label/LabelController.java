@@ -69,6 +69,7 @@ public class LabelController extends BaseController
                     new ViewMoreModel_()
                             .id("view all")
                             .title("View all label releases")
+                            .textSize(18f)
                             .onClickListener(v -> setViewMore(true))
                             .addTo(this);
                     break;

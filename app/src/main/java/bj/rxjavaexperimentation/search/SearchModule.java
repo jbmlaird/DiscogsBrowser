@@ -13,6 +13,7 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 
 /**
@@ -34,6 +35,13 @@ public class SearchModule
     SearchContract.View providesSearchView()
     {
         return mView;
+    }
+
+    @Provides
+    @Singleton
+    CompositeDisposable providesCompositeDisposable()
+    {
+        return new CompositeDisposable();
     }
 
     @Provides

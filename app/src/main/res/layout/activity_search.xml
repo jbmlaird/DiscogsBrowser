@@ -22,6 +22,6 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <include layout="@layout/content_search_bar"/>
+    <include layout="@layout/content_search"/>
 
 </LinearLayout>

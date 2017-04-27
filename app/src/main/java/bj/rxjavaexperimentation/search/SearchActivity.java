@@ -4,14 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
+import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
@@ -26,6 +30,7 @@ import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.master.MasterActivity;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,8 +43,10 @@ import io.reactivex.Observable;
 public class SearchActivity extends BaseActivity implements SearchContract.View
 {
     private static final String TAG = "SearchActivity";
-
     @Inject SearchPresenter presenter;
+    @Inject MySchedulerProvider mySchedulerProvider;
+    @BindView(R.id.lytTabs) LinearLayout lytTabs;
+    @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.searchView) SearchView searchView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.pbRecyclerView) ProgressBar pbRecyclerView;
@@ -57,12 +64,32 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     }
 
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        presenter.destroy();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        presenter.setupSubscriptions();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_bar);
+        setContentView(R.layout.activity_search);
         unbinder = ButterKnife.bind(this);
-        presenter.setupSubscription();
         presenter.setupRecyclerView(rvResults);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -90,8 +117,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @OnClick(R.id.search_close_btn)
     public void onClose()
     {
+//        lytTabs.setVisibility(View.GONE);
         searchView.setQuery("", false);
-        presenter.showSuggestions();
+        presenter.showPastSearches(true);
     }
 
     @Override
@@ -99,9 +127,24 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     {
         return RxSearchView.queryTextChangeEvents(searchView)
                 .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
-                // Gotta comment this out otherwise it doesn't track when search box is cleared
-                // Adverse effects of searching straightaway
+                .skip(1)
+                .observeOn(mySchedulerProvider.ui())
+                .map(searchViewQueryTextEvent ->
+                {
+                    if (searchViewQueryTextEvent.queryText().length() == 0)
+                        presenter.showPastSearches(true);
+                    else
+                        presenter.showPastSearches(false);
+                    return searchViewQueryTextEvent;
+                })
                 .filter(searchViewQueryTextEvent -> searchViewQueryTextEvent.queryText().length() > 2);
+    }
+
+    @Override
+    public Observable<TabLayoutSelectionEvent> tabIntent()
+    {
+        return RxTabLayout.selectionEvents(tabLayout)
+                .skip(1);
     }
 
     @Override

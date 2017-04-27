@@ -2,8 +2,10 @@ package bj.rxjavaexperimentation.search;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
+import bj.rxjavaexperimentation.common.BasePresenter;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import io.reactivex.Observable;
 
@@ -21,17 +23,21 @@ public interface SearchContract
 
         Observable<SearchViewQueryTextEvent> searchIntent();
 
+        Observable<TabLayoutSelectionEvent> tabIntent();
+
         void startDetailedActivity(SearchResult searchResult);
 
         void fillSearchBox(String searchTerm);
     }
 
-    interface Presenter
+    interface Presenter extends BasePresenter
     {
         void setupRecyclerView(RecyclerView rvResults);
 
-        void setupSubscription();
+        void setupSubscriptions();
 
-        void showSuggestions();
+        void showPastSearches(boolean b);
+
+        void destroy();
     }
 }

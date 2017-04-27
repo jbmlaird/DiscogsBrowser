@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity implements MainContract.View
         setupLoading();
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Profile");
-        presenter.setupObservers();
         presenter.buildNavigationDrawer(this, toolbar);
     }
 
@@ -113,6 +112,13 @@ public class MainActivity extends BaseActivity implements MainContract.View
     {
         super.onPause();
         presenter.unsubscribe();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        presenter.setupObservers();
     }
 
     @Override

@@ -4,9 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +20,8 @@ import bj.rxjavaexperimentation.entity.SearchTerm;
 import bj.rxjavaexperimentation.entity.SearchTermDao;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
+import es.dmoral.toasty.Toasty;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
@@ -30,16 +35,19 @@ public class SearchPresenter implements SearchContract.Presenter
     private static final String TAG = "SearchPresenter";
     private MySchedulerProvider mySchedulerProvider;
     private final SearchTermDao searchTermDao;
-
+    private final DaoSession daoSession;
+    private List<SearchResult> searchResults = new ArrayList<>();
+    private String currentFilter = "all";
     private Context mContext;
     private SearchContract.View mView;
     private SearchController searchController;
     private Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchModelFunc;
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private CompositeDisposable disposable;
+    private DisposableObserver<List<SearchResult>> searchObserver;
 
     @Inject
     public SearchPresenter(Context mContext, SearchContract.View mView, SearchController searchController, Function<SearchViewQueryTextEvent,
-            ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoSession daoSession)
+            ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoSession daoSession, CompositeDisposable disposable)
     {
         this.mContext = mContext;
         this.mView = mView;
@@ -47,6 +55,8 @@ public class SearchPresenter implements SearchContract.Presenter
         this.searchModelFunc = searchModelFunc;
         this.mySchedulerProvider = mySchedulerProvider;
         this.searchTermDao = daoSession.getSearchTermDao();
+        this.daoSession = daoSession;
+        this.disposable = disposable;
     }
 
     @Override
@@ -58,7 +68,7 @@ public class SearchPresenter implements SearchContract.Presenter
     }
 
     @Override
-    public void setupSubscription()
+    public void setupSubscriptions()
     {
         disposable.add(mView.searchIntent()
                 .observeOn(mySchedulerProvider.io())
@@ -68,14 +78,53 @@ public class SearchPresenter implements SearchContract.Presenter
                 .onErrorResumeNext(mView.searchIntent()
                         .flatMap(searchModelFunc))
                 .observeOn(mySchedulerProvider.ui())
-                .subscribeWith(getDisposableObserver()));
+                .subscribeWith(getSearchObserver()));
+
+        disposable.add(mView.tabIntent()
+                .subscribeOn(mySchedulerProvider.ui())
+                .subscribeWith(getTabObserver()));
+    }
+
+    private DisposableObserver<TabLayoutSelectionEvent> getTabObserver()
+    {
+        return new DisposableObserver<TabLayoutSelectionEvent>()
+        {
+            @Override
+            public void onNext(TabLayoutSelectionEvent tabLayoutSelectionEvent)
+            {
+                String currentTabText = tabLayoutSelectionEvent.tab().getText().toString().toLowerCase();
+                if (!currentFilter.equals(currentTabText))
+                {
+                    currentFilter = currentTabText;
+                    searchObserver.onNext(searchResults);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e)
+            {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete()
+            {
+                Log.e("SearchPresenter", "tabLayout onComplete()");
+            }
+        };
     }
 
     @Override
-    public void showSuggestions()
+    public void showPastSearches(boolean showPastSearches)
     {
-        searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
-        searchController.clearResults();
+        if (showPastSearches)
+        {
+            searchController.clearResults();
+            searchController.setShowPastSearches(showPastSearches);
+            searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
+        }
+        else
+            searchController.setShowPastSearches(showPastSearches);
     }
 
     private SearchViewQueryTextEvent storeSearchTerm(SearchViewQueryTextEvent queryTextEvent)
@@ -88,47 +137,74 @@ public class SearchPresenter implements SearchContract.Presenter
         return queryTextEvent;
     }
 
-    private DisposableObserver<List<SearchResult>> getDisposableObserver()
+    private DisposableObserver<List<SearchResult>> getSearchObserver()
     {
-        return new DisposableObserver<List<SearchResult>>()
-        {
-            @Override
-            public void onNext(List<SearchResult> o)
+        if (searchObserver == null)
+            searchObserver = new DisposableObserver<List<SearchResult>>()
             {
-                Log.e(TAG, "ye");
-                Log.e(TAG, String.valueOf(o.size()));
-                if (o.size() == 0)
+                @Override
+                public void onNext(List<SearchResult> o)
                 {
-                    // Show no results
-                    searchController.setResults(o);
+                    searchResults = o;
+                    if (o.size() == 0)
+                    {
+                        // Show no results
+                        mView.hideProgressBar();
+                        searchController.setResults(o);
+                    }
+                    else if (o.get(0).getId().equals("bj"))
+                    {
+                        // New search
+                        mView.showProgressBar();
+                        searchController.setResults(o);
+                    }
+                    else
+                    {
+                        mView.hideProgressBar();
+                        if (!currentFilter.equals("all"))
+                            Observable.just(o)
+                                    .subscribeOn(mySchedulerProvider.io())
+                                    .observeOn(mySchedulerProvider.io())
+                                    .flatMapIterable(results -> results)
+                                    .filter(searchResult ->
+                                            searchResult.getType().equals(currentFilter))
+                                    .toList()
+                                    .observeOn(mySchedulerProvider.ui())
+                                    .subscribe(filteredResults ->
+                                                    searchController.setResults(filteredResults),
+                                            Throwable::printStackTrace);
+                        else
+                            searchController.setResults(o);
+                    }
                 }
-                else if (o.get(0).getId().equals("bj"))
+
+                @Override
+                public void onError(Throwable e)
                 {
-                    // New search
-                    mView.showProgressBar();
-                    searchController.setResults(o);
-                }
-                else
-                {
+                    Log.e(TAG, "error");
+                    e.printStackTrace();
                     mView.hideProgressBar();
-                    searchController.setResults(o);
+                    Toasty.error(mContext, "Unable to fetch search results", Toast.LENGTH_SHORT, true).show();
                 }
-            }
 
-            @Override
-            public void onError(Throwable e)
-            {
-                Log.e(TAG, "error");
-                e.printStackTrace();
-                mView.hideProgressBar();
-                // TODO: Show error
-            }
+                @Override
+                public void onComplete()
+                {
+                    Log.e(TAG, "complete");
+                }
+            };
+        return searchObserver;
+    }
 
-            @Override
-            public void onComplete()
-            {
-                Log.e(TAG, "complete");
-            }
-        };
+    @Override
+    public void destroy()
+    {
+        disposable.dispose();
+    }
+
+    @Override
+    public void unsubscribe()
+    {
+        disposable.clear();
     }
 }

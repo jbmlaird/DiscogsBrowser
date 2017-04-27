@@ -78,6 +78,7 @@ public class MasterController extends BaseController
                     new ViewMoreModel_()
                             .id("view all")
                             .title("View all versions")
+                            .textSize(18f)
                             .onClickListener(v -> setViewAllVersions(true))
                             .addTo(this);
                     break;

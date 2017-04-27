@@ -88,6 +88,7 @@ public class ReleaseController extends BaseController
                     new ViewMoreModel_()
                             .id("view more")
                             .title("View full tracklist")
+                            .textSize(16f)
                             .onClickListener(v -> setViewFullTracklist(true))
                             .addTo(this);
                     break;
@@ -154,6 +155,7 @@ public class ReleaseController extends BaseController
                             new ViewMoreModel_()
                                     .id("view all")
                                     .title("View all listings")
+                                    .textSize(18f)
                                     .onClickListener(v -> setViewListings(true))
                                     .addTo(this);
                             break;
@@ -169,6 +171,7 @@ public class ReleaseController extends BaseController
         this.release = release;
         if (release.getImages() != null)
             this.imageUrl = release.getImages().get(0).getUri();
+        this.title = release.getTitle();
         this.subtitle = artistsBeautifier.formatArtists(release.getArtists());
         requestModelBuild();
     }

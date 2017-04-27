@@ -92,12 +92,6 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     }
 
     @Override
-    public void enableFilter()
-    {
-        etFilter.setEnabled(true);
-    }
-
-    @Override
     protected void onDestroy()
     {
         super.onDestroy();

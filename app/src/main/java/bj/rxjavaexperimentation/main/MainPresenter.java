@@ -15,12 +15,12 @@ import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by j on 18/02/2017.
@@ -38,9 +38,8 @@ public class MainPresenter implements MainContract.Presenter
     private LogWrapper log;
     private CompositeDisposable compositeDisposable;
     private UserDetails userDetails;
-    private RecyclerView recyclerView;
-    private PublishSubject<List<Order>> orderPublishSubject = PublishSubject.create();
-    private PublishSubject<List<Listing>> sellingPublishSubject = PublishSubject.create();
+    private BehaviorSubject<List<Order>> orderBehaviorSubject = BehaviorSubject.create();
+    private BehaviorSubject<List<Listing>> sellingBehaviorSubject = BehaviorSubject.create();
 
     @Inject
     public MainPresenter(@NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
@@ -89,7 +88,7 @@ public class MainPresenter implements MainContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(disposable -> mainController.setLoadingMorePurchases(true))
                 .subscribeOn(mySchedulerProvider.io())
-                .subscribe(orderPublishSubject);
+                .subscribe(orderBehaviorSubject);
     }
 
     private void fetchSelling()
@@ -98,13 +97,12 @@ public class MainPresenter implements MainContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(disposable -> mainController.setLoadingMoreSales(true))
                 .subscribeOn(mySchedulerProvider.io())
-                .subscribe(sellingPublishSubject);
+                .subscribe(sellingBehaviorSubject);
     }
 
     @Override
     public void setupRecyclerView(MainActivity mainActivity, RecyclerView recyclerView)
     {
-        this.recyclerView = recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         recyclerView.setAdapter(mainController.getAdapter());
     }
@@ -113,7 +111,7 @@ public class MainPresenter implements MainContract.Presenter
     public void setupObservers()
     {
         compositeDisposable.add(
-                sellingPublishSubject
+                sellingBehaviorSubject
                         .flatMapIterable(listings -> listings)
                         .filter(listing -> listing.getStatus().equals("For Sale"))
                         .toList()
@@ -123,7 +121,7 @@ public class MainPresenter implements MainContract.Presenter
                                 error ->
                                         Log.e(TAG, error.getMessage())));
 
-        compositeDisposable.add(orderPublishSubject
+        compositeDisposable.add(orderBehaviorSubject
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(orders ->
                                 mainController.setPurchases(orders),

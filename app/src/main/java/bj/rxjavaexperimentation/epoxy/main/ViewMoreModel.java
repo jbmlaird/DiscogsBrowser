@@ -21,6 +21,7 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
 public abstract class ViewMoreModel extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute String title;
+    @EpoxyAttribute float textSize;
     @EpoxyAttribute(DoNotHash) View.OnClickListener onClickListener;
     @BindView(R.id.textView) TextView textView;
     @BindView(R.id.lytViewMore) LinearLayout lytViewMore;
@@ -29,6 +30,7 @@ public abstract class ViewMoreModel extends EpoxyModel<LinearLayout>
     public void bind(LinearLayout view)
     {
         ButterKnife.bind(this, view);
+        textView.setTextSize(textSize);
         textView.setText(title);
         lytViewMore.setOnClickListener(onClickListener);
     }

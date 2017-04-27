@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.entity.SearchTerm;
+import bj.rxjavaexperimentation.epoxy.common.CenterTextModel_;
 import bj.rxjavaexperimentation.epoxy.search.PastSearchModel_;
 import bj.rxjavaexperimentation.epoxy.search.SearchResultModel_;
 import bj.rxjavaexperimentation.model.search.SearchResult;
@@ -25,6 +26,8 @@ public class SearchController extends EpoxyController
     private SearchContract.View mView;
     private List<SearchResult> searchResults = new ArrayList<>();
     private List<SearchTerm> searchTerms;
+    private boolean noResults;
+    private boolean showPastSearches = true;
 
     @Inject
     public SearchController(Context context, SearchContract.View mView)
@@ -36,8 +39,7 @@ public class SearchController extends EpoxyController
     @Override
     protected void buildModels()
     {
-        if (searchResults.size() == 0)
-        {
+        if (showPastSearches)
             for (SearchTerm searchTerm : searchTerms)
             {
                 new PastSearchModel_()
@@ -46,10 +48,14 @@ public class SearchController extends EpoxyController
                         .searchTerm(searchTerm.getSearchTerm())
                         .addTo(this);
             }
-        }
+        else if (searchResults.size() == 0)
+            new CenterTextModel_()
+                    .text("No search results")
+                    .id("no results")
+                    .addTo(this);
         else if (searchResults.size() == 1 && searchResults.get(0).getId().equals("bj"))
         {
-            // Remove the search terms as the user is searching
+            // Remove the search terms as the user is searching. ProgressBar displays.
         }
         else
             for (SearchResult searchResult : searchResults)
@@ -81,5 +87,10 @@ public class SearchController extends EpoxyController
     {
         this.searchTerms = searchTerms;
         requestModelBuild();
+    }
+
+    public void setShowPastSearches(boolean showPastSearches)
+    {
+        this.showPastSearches = showPastSearches;
     }
 }
