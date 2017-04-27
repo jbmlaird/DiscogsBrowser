@@ -38,8 +38,6 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Inject DiscogsInteractor discogsInteractor;
     @Inject ArtistReleasesPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
-    private String mastersFilter = "";
-    private String releasesFilter = "";
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -91,5 +89,18 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     public Observable<CharSequence> filterIntent()
     {
         return RxTextView.textChanges(etFilter);
+    }
+
+    @Override
+    public void enableFilter()
+    {
+        etFilter.setEnabled(true);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        presenter.unsubscribe();
     }
 }

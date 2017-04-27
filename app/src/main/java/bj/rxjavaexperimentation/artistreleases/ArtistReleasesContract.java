@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.List;
 
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesAdapter;
+import bj.rxjavaexperimentation.common.BasePresenter;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -24,9 +25,11 @@ public interface ArtistReleasesContract
         void launchDetailedActivity(String type, String title, String id);
 
         Observable<CharSequence> filterIntent();
+
+        void enableFilter();
     }
 
-    interface Presenter
+    interface Presenter extends BasePresenter
     {
         void getArtistReleases(String id);
 

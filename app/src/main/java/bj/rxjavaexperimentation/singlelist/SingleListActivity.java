@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -34,6 +35,9 @@ import io.reactivex.Observable;
  */
 public class SingleListActivity extends BaseActivity implements SingleListContract.View
 {
+    @BindView(R.id.tvNoItems) TextView tvNoItems;
+    @BindView(R.id.tvError) TextView tvError;
+
     @BindView(R.id.ivLoading) ImageView ivLoading;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
@@ -76,6 +80,33 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     {
         ivLoading.setVisibility(View.GONE);
         ivLoading.clearAnimation();
+        showNoItems(false, "");
+        showError(false, "");
+    }
+
+    @Override
+    public void showNoItems(boolean showNoItems, String noItems)
+    {
+        if (showNoItems)
+        {
+            tvNoItems.setVisibility(View.VISIBLE);
+            tvNoItems.setText(noItems);
+        }
+        else
+            tvNoItems.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public void showError(boolean showError, String error)
+    {
+        if (showError)
+        {
+            tvError.setVisibility(View.VISIBLE);
+            tvError.setText(error);
+        }
+        else
+            tvError.setVisibility(View.GONE);
     }
 
     @Override

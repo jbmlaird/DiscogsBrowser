@@ -2,19 +2,17 @@ package bj.rxjavaexperimentation.master;
 
 import android.content.Context;
 
-import com.airbnb.epoxy.AutoModel;
-
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
+import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.ListItemModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
-import bj.rxjavaexperimentation.main.epoxy.DividerModel_;
-import bj.rxjavaexperimentation.main.epoxy.ViewMoreModel_;
+import bj.rxjavaexperimentation.epoxy.main.ViewMoreModel_;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.version.Version;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;

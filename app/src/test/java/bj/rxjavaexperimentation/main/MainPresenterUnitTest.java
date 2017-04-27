@@ -13,14 +13,14 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 
-import bj.rxjavaexperimentation.main.epoxy.MainController;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.schedulerprovider.TestSchedulerProvider;
+import bj.rxjavaexperimentation.utils.schedulerprovider.TestSchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.Mockito.verify;
@@ -46,6 +46,7 @@ public class MainPresenterUnitTest
     @Mock RecyclerView recyclerView;
     @Mock SharedPrefsManager sharedPrefsManager;
     @Mock LogWrapper logWrapper;
+    @Mock CompositeDisposable compositeDisposable;
 
     @Mock MainActivity mainActivity;
     @Mock Toolbar toolbar;
@@ -57,7 +58,7 @@ public class MainPresenterUnitTest
         testUserDetails = new UserDetails();
         testUserDetails.setUsername(username);
         testScheduler = new TestScheduler();
-        mainPresenter = new MainPresenter(mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper);
+        mainPresenter = new MainPresenter(mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, compositeDisposable);
     }
 
     @Test
@@ -65,7 +66,7 @@ public class MainPresenterUnitTest
     {
         when(discogsInteractor.fetchUserDetails()).thenReturn(Observable.just(testUserDetails));
         when(discogsInteractor.fetchOrders()).thenReturn(Observable.just(Collections.emptyList()));
-        when(discogsInteractor.fetchListings(username)).thenReturn(Observable.just(Collections.emptyList()));
+        when(discogsInteractor.fetchSelling(username)).thenReturn(Observable.just(Collections.emptyList()));
         when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, testUserDetails)).thenReturn(drawer);
 
         mainPresenter.buildNavigationDrawer(mainActivity, toolbar);
@@ -73,7 +74,7 @@ public class MainPresenterUnitTest
 
         verify(discogsInteractor).fetchUserDetails();
         verify(discogsInteractor).fetchOrders();
-        verify(discogsInteractor).fetchListings(username);
+        verify(discogsInteractor).fetchSelling(username);
         verify(mView).setDrawer(drawer);
         verify(navigationDrawerBuilder).buildNavigationDrawer(mainActivity, toolbar, testUserDetails);
         verify(mView).setupRecyclerView();

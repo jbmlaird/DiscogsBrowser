@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
@@ -34,7 +34,7 @@ public class ArtistReleasesFragment extends BaseFragment
 {
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.ivLoading) ImageView ivLoading;
-    @BindView(R.id.tvNoItems) TextView tvNoItems;
+    @BindView(R.id.lytNoItems) LinearLayout lytNoItems;
     @Inject BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     @Inject ArtistReleasesPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
@@ -51,7 +51,6 @@ public class ArtistReleasesFragment extends BaseFragment
         imageViewAnimator.rotateImage(ivLoading);
         presenter.connectToBehaviorRelay(getConsumer(), getArguments().getString("map"));
         rvReleasesAdapter = presenter.setupRecyclerView(recyclerView, getActivity());
-        presenter.setupFilter(filterConsumer());
         return view;
     }
 
@@ -60,12 +59,16 @@ public class ArtistReleasesFragment extends BaseFragment
         return o ->
         {
             this.artistReleases = o;
+            if (o.size() == 0)
+                lytNoItems.setVisibility(View.VISIBLE);
+            else if (o.get(0).getId().equals("bj"))
+                return;
+            else
+                lytNoItems.setVisibility(View.GONE);
+            presenter.setupFilter(filterConsumer());
             ivLoading.clearAnimation();
             ivLoading.setVisibility(View.GONE);
-            if (o.size() == 0)
-                tvNoItems.setText("No " + getArguments().getString("map") + "s");
             rvReleasesAdapter.setReleases(artistReleases);
-            rvReleasesAdapter.notifyDataSetChanged();
         };
     }
 
@@ -86,6 +89,12 @@ public class ArtistReleasesFragment extends BaseFragment
                                         (artistRelease.getYear() != null && artistRelease.getYear().toLowerCase().contains(filterText.toString().toLowerCase())))
                         .toList()
                         .subscribe(filteredReleases ->
-                                rvReleasesAdapter.setReleases(filteredReleases));
+                        {
+                            if (filteredReleases.size() == 0)
+                                lytNoItems.setVisibility(View.VISIBLE);
+                            else
+                                lytNoItems.setVisibility(View.GONE);
+                            rvReleasesAdapter.setReleases(filteredReleases);
+                        });
     }
 }

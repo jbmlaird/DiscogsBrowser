@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.main.epoxy;
+package bj.rxjavaexperimentation.epoxy.main;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,21 +15,22 @@ import butterknife.ButterKnife;
 import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
 
 /**
- * Created by Josh Laird on 18/04/2017.
+ * Created by Josh Laird on 17/04/2017.
  */
-@EpoxyModelClass(layout = R.layout.model_view_more)
-public abstract class ViewMoreModel extends EpoxyModel<LinearLayout>
+
+@EpoxyModelClass(layout = R.layout.model_main_header)
+public abstract class MainHeaderModel extends EpoxyModel<LinearLayout>
 {
-    @EpoxyAttribute String title;
     @EpoxyAttribute(DoNotHash) View.OnClickListener onClickListener;
-    @BindView(R.id.textView) TextView textView;
-    @BindView(R.id.lytViewMore) LinearLayout lytViewMore;
+    @EpoxyAttribute String title;
+    @BindView(R.id.tvSeeAll) TextView tvSeeAll;
+    @BindView(R.id.tvHeader) TextView tvHeader;
 
     @Override
     public void bind(LinearLayout view)
     {
         ButterKnife.bind(this, view);
-        textView.setText(title);
-        lytViewMore.setOnClickListener(onClickListener);
+        tvSeeAll.setOnClickListener(onClickListener);
+        tvHeader.setText(title);
     }
 }

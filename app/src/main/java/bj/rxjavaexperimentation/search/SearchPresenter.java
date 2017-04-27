@@ -16,7 +16,7 @@ import bj.rxjavaexperimentation.entity.DaoSession;
 import bj.rxjavaexperimentation.entity.SearchTerm;
 import bj.rxjavaexperimentation.entity.SearchTermDao;
 import bj.rxjavaexperimentation.model.search.SearchResult;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;

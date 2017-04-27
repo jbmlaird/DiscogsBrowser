@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;

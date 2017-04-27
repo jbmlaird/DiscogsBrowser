@@ -11,9 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.entity.SearchTerm;
+import bj.rxjavaexperimentation.epoxy.search.PastSearchModel_;
+import bj.rxjavaexperimentation.epoxy.search.SearchResultModel_;
 import bj.rxjavaexperimentation.model.search.SearchResult;
-import bj.rxjavaexperimentation.search.epoxy.PastSearchModel_;
-import bj.rxjavaexperimentation.search.epoxy.SearchResultModel_;
 
 /**
  * Created by Josh Laird on 25/04/2017.

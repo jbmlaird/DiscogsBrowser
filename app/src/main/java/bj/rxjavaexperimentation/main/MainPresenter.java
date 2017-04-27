@@ -11,12 +11,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.main.epoxy.MainController;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
@@ -95,7 +94,7 @@ public class MainPresenter implements MainContract.Presenter
 
     private void fetchSelling()
     {
-        discogsInteractor.fetchListings(userDetails.getUsername())
+        discogsInteractor.fetchSelling(userDetails.getUsername())
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(disposable -> mainController.setLoadingMoreSales(true))
                 .subscribeOn(mySchedulerProvider.io())

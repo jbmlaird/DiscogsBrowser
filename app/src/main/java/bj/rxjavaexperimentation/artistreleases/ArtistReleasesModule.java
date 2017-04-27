@@ -2,7 +2,7 @@ package bj.rxjavaexperimentation.artistreleases;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 10/04/2017.
@@ -34,8 +35,21 @@ class ArtistReleasesModule
 
     @Provides
     @Singleton
+    CompositeDisposable providesCompositeDisposable()
+    {
+        return new CompositeDisposable();
+    }
+
+    @Provides
+    @Singleton
     BehaviorRelay<List<ArtistRelease>> provideBehaviorRelay()
     {
-        return BehaviorRelay.createDefault(Collections.emptyList());
+        ArtistRelease initialArtistRelease = new ArtistRelease();
+        initialArtistRelease.setId("bj");
+        initialArtistRelease.setType("release");
+        ArtistRelease initialArtistMaster = new ArtistRelease();
+        initialArtistMaster.setId("bj");
+        initialArtistMaster.setType("master");
+        return BehaviorRelay.createDefault(Arrays.asList(initialArtistRelease, initialArtistMaster));
     }
 }

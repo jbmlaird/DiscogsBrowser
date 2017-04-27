@@ -15,6 +15,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
+import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -76,9 +78,9 @@ public class NavigationDrawerBuilder
                         new PrimaryDrawerItem().withName(context.getString(R.string.drawer_item_search))
                                 .withIcon(R.drawable.ic_search_black_24dp)
                                 .withIdentifier(4).withSelectable(false),
-                        new PrimaryDrawerItem().withName(context.getString(R.string.drawer_item_settings))
-                                .withIcon(R.drawable.ic_settings_black_24dp)
-                                .withIdentifier(5).withSelectable(false),
+//                        new PrimaryDrawerItem().withName(context.getString(R.string.drawer_item_settings))
+//                                .withIcon(R.drawable.ic_settings_black_24dp)
+//                                .withIdentifier(5).withSelectable(false),
                         new PrimaryDrawerItem().withName(context.getString(R.string.drawer_item_about))
                                 .withIcon(R.drawable.ic_info_outline_black_24dp)
                                 .withIdentifier(6).withSelectable(false),
@@ -116,13 +118,14 @@ public class NavigationDrawerBuilder
                                 case 4:
                                     activity.startActivity(new Intent(activity, SearchActivity.class));
                                     break;
-                                case 5:
-                                    // TODO: Implement Settings
-                                    break;
+//                                case 5:
+//                                    // TODO: Implement Settings
+//                                    break;
                                 case 6:
                                     // TODO: Implement About
                                     break;
                                 case 7:
+                                    RxSocialConnect.closeConnections();
                                     sharedPrefsManager.removeUserDetails();
                                     Intent intent = new Intent(activity, LoginActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -81,7 +81,7 @@ public class DiscogsScraper
             {
                 // New account, no rating
             }
-            String shipsFrom = element.getElementsByTag("li").get(2).text().replace(":", ": ");
+            String shipsFrom = element.getElementsByTag("li").get(2).text().replace("Ships From:", "From: ");
 
             String marketPlaceId = element.getElementsByClass("button button_green cart_button ").attr("data-item-id");
             if (marketPlaceId.equals(""))

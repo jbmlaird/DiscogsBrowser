@@ -26,4 +26,12 @@
     <string name="fetch_next_collection">fetch_next_collection</string>
     <string name="fetch_next_wantlist">fetch_next_wantlist</string>
     <string name="fetch_next_user_details">fetch_next_user_details</string>
+    <string name="wantlist_none">Nothing in your Wantlist yet</string>
+    <string name="error_wantlist">Unable to load Wantlist</string>
+    <string name="collection_none">Nothing in your Collection yet</string>
+    <string name="error_collection">Unable to load Collection</string>
+    <string name="orders_none">Not sold anything</string>
+    <string name="error_orders">Unable to load selling</string>
+    <string name="selling_none">Not selling anything</string>
+    <string name="error_selling">Unable to load selling</string>
 </resources>

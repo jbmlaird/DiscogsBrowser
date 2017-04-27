@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.schedulerprovider;
+package bj.rxjavaexperimentation.utils.schedulerprovider;
 
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.TestScheduler;

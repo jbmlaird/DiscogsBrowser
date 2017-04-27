@@ -30,8 +30,8 @@ public class SharedPrefsManager
 
     public OAuth1AccessToken getUserOAuthToken()
     {
-        return new OAuth1AccessToken(settings.getString(context.getString(R.string.oauth_access_token), "")
-                , settings.getString(context.getString(R.string.oauth_access_token_secret), ""));
+        return new OAuth1AccessToken(settings.getString(context.getString(R.string.oauth_access_token), ""),
+                settings.getString(context.getString(R.string.oauth_access_token_secret), ""));
     }
 
     /**
@@ -65,17 +65,6 @@ public class SharedPrefsManager
     public String getAvatarUrl()
     {
         return settings.getString(context.getString(R.string.avatar_url), "");
-    }
-
-    public void removeUserDetails()
-    {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(context.getString(R.string.oauth_access_token), "");
-        editor.putString(context.getString(R.string.oauth_access_token_secret), "");
-        editor.putString(context.getString(R.string.username), "");
-        editor.putString(context.getString(R.string.avatar_url), "");
-
-        editor.apply();
     }
 
     public void setFetchNextCollection(String fetchNextCollection)
@@ -133,6 +122,17 @@ public class SharedPrefsManager
     {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(context.getString(R.string.fetch_next_user_details), fetchNextUserDetails);
+        editor.apply();
+    }
+
+    public void removeUserDetails()
+    {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(context.getString(R.string.oauth_access_token), "");
+        editor.putString(context.getString(R.string.oauth_access_token_secret), "");
+        editor.putString(context.getString(R.string.username), "");
+        editor.putString(context.getString(R.string.avatar_url), "");
+
         editor.apply();
     }
 }

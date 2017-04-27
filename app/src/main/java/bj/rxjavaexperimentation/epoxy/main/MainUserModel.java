@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.main.epoxy;
+package bj.rxjavaexperimentation.epoxy.main;
 
 import android.content.Context;
 import android.widget.ImageView;

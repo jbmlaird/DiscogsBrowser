@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.singlelist;
 
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -7,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.common.RecyclerViewModel;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -18,9 +21,10 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Created by Josh Laird on 16/04/2017.
  */
-
+@Singleton
 public class SingleListPresenter implements SingleListContract.Presenter
 {
+    private Context context;
     private SingleListContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
@@ -29,8 +33,9 @@ public class SingleListPresenter implements SingleListContract.Presenter
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
 
     @Inject
-    public SingleListPresenter(SingleListContract.View view, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable compositeDisposable)
+    public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable compositeDisposable)
     {
+        this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
@@ -49,13 +54,18 @@ public class SingleListPresenter implements SingleListContract.Presenter
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(wants ->
                                 {
+                                    view.stopLoading();
                                     items = wants;
+                                    if (items.size() == 0)
+                                        view.showNoItems(true, context.getString(R.string.wantlist_none));
                                     singleListAdapter.setItems(wants);
                                     singleListAdapter.notifyDataSetChanged();
-                                    view.stopLoading();
                                 },
                                 error ->
-                                        view.stopLoading()
+                                {
+                                    view.stopLoading();
+                                    view.showError(true, context.getString(R.string.error_wantlist));
+                                }
                         );
                 break;
             case "collection":
@@ -64,13 +74,18 @@ public class SingleListPresenter implements SingleListContract.Presenter
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(collectionReleases ->
                                 {
+                                    view.stopLoading();
                                     items = collectionReleases;
+                                    if (items.size() == 0)
+                                        view.showNoItems(true, context.getString(R.string.collection_none));
                                     singleListAdapter.setItems(collectionReleases);
                                     singleListAdapter.notifyDataSetChanged();
-                                    view.stopLoading();
                                 },
                                 error ->
-                                        view.stopLoading());
+                                {
+                                    view.stopLoading();
+                                    view.showError(true, context.getString(R.string.error_collection));
+                                });
                 break;
             case "orders":
                 discogsInteractor.fetchOrders()
@@ -78,17 +93,22 @@ public class SingleListPresenter implements SingleListContract.Presenter
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(orders ->
                                 {
+                                    view.stopLoading();
                                     items = orders;
+                                    if (items.size() == 0)
+                                        view.showNoItems(true, context.getString(R.string.orders_none));
                                     singleListAdapter.setItems(orders);
                                     singleListAdapter.notifyDataSetChanged();
-                                    view.stopLoading();
                                 },
                                 error ->
-                                        view.stopLoading()
+                                {
+                                    view.stopLoading();
+                                    view.showError(true, context.getString(R.string.error_orders));
+                                }
                         );
                 break;
             case "selling":
-                discogsInteractor.fetchListings(username)
+                discogsInteractor.fetchSelling(username)
                         .observeOn(mySchedulerProvider.io())
                         .flatMapIterable(listings -> listings)
                         .filter(listing -> listing.getStatus().equals("For Sale"))
@@ -97,13 +117,20 @@ public class SingleListPresenter implements SingleListContract.Presenter
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(collectionReleases ->
                                 {
+                                    view.stopLoading();
                                     items = collectionReleases;
+                                    if (items.size() == 0)
+                                        view.showNoItems(true, context.getString(R.string.selling_none));
+                                    else
+                                        view.showNoItems(false, "");
                                     singleListAdapter.setItems(collectionReleases);
                                     singleListAdapter.notifyDataSetChanged();
-                                    view.stopLoading();
                                 },
                                 error ->
-                                        view.stopLoading());
+                                {
+                                    view.stopLoading();
+                                    view.showError(true, context.getString(R.string.error_selling));
+                                });
                 break;
         }
     }
@@ -138,6 +165,10 @@ public class SingleListPresenter implements SingleListContract.Presenter
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(filteredItems ->
                         {
+                            if (filteredItems.size() == 0)
+                                view.showNoItems(true, "No items");
+                            else
+                                view.showNoItems(false, "");
                             singleListAdapter.setItems(filteredItems);
                             singleListAdapter.notifyDataSetChanged();
                         });

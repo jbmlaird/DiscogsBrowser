@@ -16,6 +16,10 @@ public interface SingleListContract
 
         void stopLoading();
 
+        void showNoItems(boolean showNoItems, String s);
+
+        void showError(boolean showError, String s);
+
         void displayListing(String listingId);
 
         void displayOrder(String id);

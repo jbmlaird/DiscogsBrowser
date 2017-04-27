@@ -60,8 +60,8 @@ public interface CacheProviders
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Observable<Listing> fetchListingDetails(Observable<Listing> fetchListingDetailsObservable, DynamicKey listingId);
 
-    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<User> fetchIdentity(Observable<User> identityObservable);
+    @LifeCache(duration = 365, timeUnit = TimeUnit.DAYS)
+    Observable<User> fetchIdentity(Observable<User> identityObservable, DynamicKey dynamicKey);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
     Observable<UserDetails> fetchUserDetails(Observable<UserDetails> userDetailsObservable, DynamicKey username, EvictDynamicKey update);
@@ -73,7 +73,7 @@ public interface CacheProviders
     Observable<RootWantlistResponse> fetchWantlist(Observable<RootWantlistResponse> fetchWantlistObservable, DynamicKey username, EvictDynamicKey update);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<RootOrderResponse> fetchOrders(Observable<RootOrderResponse> fetchOrdersObservable);
+    Observable<RootOrderResponse> fetchOrders(Observable<RootOrderResponse> fetchOrdersObservable, DynamicKey username);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
     Observable<RootListingResponse> fetchSelling(Observable<RootListingResponse> fetchSellingObservable, DynamicKey username);

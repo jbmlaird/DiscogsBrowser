@@ -24,7 +24,8 @@ import bj.rxjavaexperimentation.artistreleases.fragments.ArtistResultFunction;
 import bj.rxjavaexperimentation.artistreleases.fragments.ViewPagerAdapter;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -36,18 +37,20 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private Context context;
     private ArtistReleasesContract.View view;
     private DiscogsInteractor discogsInteractor;
+    private CompositeDisposable compositeDisposable;
     private BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     private MySchedulerProvider mySchedulerProvider;
     private ArtistResultFunction artistResultFunction;
 
     @Inject
-    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor,
+    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, CompositeDisposable compositeDisposable,
                                    BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider,
                                    ArtistResultFunction artistResultFunction)
     {
         this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
+        this.compositeDisposable = compositeDisposable;
         this.behaviorRelay = behaviorRelay;
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistResultFunction = artistResultFunction;
@@ -56,8 +59,8 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void getArtistReleases(String id)
     {
-        discogsInteractor.fetchArtistsReleases(id)
-                .subscribe(behaviorRelay);
+        compositeDisposable.add(discogsInteractor.fetchArtistsReleases(id)
+                .subscribe(behaviorRelay));
     }
 
     @Override
@@ -112,5 +115,11 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     public void setupFilter(Consumer<CharSequence> filterConsumer)
     {
         view.filterIntent().subscribe(filterConsumer);
+    }
+
+    @Override
+    public void unsubscribe()
+    {
+        compositeDisposable.dispose();
     }
 }

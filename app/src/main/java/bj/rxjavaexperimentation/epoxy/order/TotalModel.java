@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.order.epoxy;
+package bj.rxjavaexperimentation.epoxy.order;
 
 import android.widget.LinearLayout;
 import android.widget.TextView;

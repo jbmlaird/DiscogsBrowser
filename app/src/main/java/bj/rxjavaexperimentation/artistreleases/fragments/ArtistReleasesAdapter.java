@@ -64,11 +64,6 @@ public class ArtistReleasesAdapter extends RecyclerView.Adapter<ArtistReleasesAd
         notifyDataSetChanged();
     }
 
-    public List<ArtistRelease> getArtistReleases()
-    {
-        return releases;
-    }
-
     @Override
     public int getItemCount()
     {

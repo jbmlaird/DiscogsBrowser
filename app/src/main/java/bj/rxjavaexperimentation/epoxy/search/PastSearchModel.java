@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.search.epoxy;
+package bj.rxjavaexperimentation.epoxy.search;
 
 import android.support.v7.widget.CardView;
 import android.view.View;

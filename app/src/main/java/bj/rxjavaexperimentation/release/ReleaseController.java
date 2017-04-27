@@ -8,24 +8,22 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
+import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
-import bj.rxjavaexperimentation.epoxy.common.SubDividerModel_;
-import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
+import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
+import bj.rxjavaexperimentation.epoxy.main.ViewMoreModel_;
 import bj.rxjavaexperimentation.epoxy.release.CollectionWantlistModel_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceListingsHeader_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceModel_;
 import bj.rxjavaexperimentation.epoxy.release.NoListingsModel_;
 import bj.rxjavaexperimentation.epoxy.release.TrackModel_;
-import bj.rxjavaexperimentation.main.epoxy.DividerModel_;
-import bj.rxjavaexperimentation.main.epoxy.LoadingModel_;
-import bj.rxjavaexperimentation.main.epoxy.ViewMoreModel_;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.release.Track;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -100,14 +98,9 @@ public class ReleaseController extends BaseController
                     .id("tracklist divider")
                     .addTo(this);
 
-            new SubHeaderModel_()
-                    .id("collectionwantlistsubheader")
-                    .subheader("Collection/Wantlist")
-                    .addIf(!collectionWantlistChecked, this);
-
             new LoadingModel_()
+                    .id("collectionwantlistloader")
                     .imageViewAnimator(imageViewAnimator)
-                    .id("collection loading")
                     .addIf(!collectionWantlistChecked, this);
 
             new CollectionWantlistModel_()
@@ -155,10 +148,6 @@ public class ReleaseController extends BaseController
                                 .price(scrapeListing.getPrice())
                                 .onClickListener(v -> view.displayListingInformation(title, subtitle, scrapeListing))
                                 .addTo(this);
-
-                        new SubDividerModel_()
-                                .id("marketplace divider" + releaseListings.indexOf(scrapeListing))
-                                .addIf(releaseListings.indexOf(scrapeListing) != releaseListings.size() - 1, this);
 
                         if (releaseListings.indexOf(scrapeListing) == 2 && !viewAllListings && releaseListings.size() > 3)
                         {

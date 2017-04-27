@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.main.epoxy;
+package bj.rxjavaexperimentation.main;
 
 import android.content.Context;
 
@@ -11,7 +11,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
-import bj.rxjavaexperimentation.main.MainContract;
+import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
+import bj.rxjavaexperimentation.epoxy.main.ListingModel_;
+import bj.rxjavaexperimentation.epoxy.main.MainHeaderModel_;
+import bj.rxjavaexperimentation.epoxy.main.MainUserModel_;
+import bj.rxjavaexperimentation.epoxy.main.NoOrderModel_;
+import bj.rxjavaexperimentation.epoxy.main.OrderModel_;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.utils.DateFormatter;

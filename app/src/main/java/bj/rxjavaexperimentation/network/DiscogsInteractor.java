@@ -34,9 +34,9 @@ import bj.rxjavaexperimentation.model.version.Version;
 import bj.rxjavaexperimentation.model.wantlist.AddToWantlistResponse;
 import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
 import bj.rxjavaexperimentation.model.wantlist.Want;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.utils.DiscogsScraper;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.rx_cache2.DynamicKey;
@@ -170,7 +170,8 @@ public class DiscogsInteractor
 
     public Observable<UserDetails> fetchUserDetails()
     {
-        return cacheProviders.fetchIdentity(discogsService.fetchIdentity())
+        // Assuming that there will be no duplicate OAuth token
+        return cacheProviders.fetchIdentity(discogsService.fetchIdentity(), new DynamicKey(sharedPrefsManager.getUserOAuthToken().getToken()))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .flatMap(user ->
@@ -225,7 +226,7 @@ public class DiscogsInteractor
 
     public Observable<List<Order>> fetchOrders()
     {
-        return cacheProviders.fetchOrders(discogsService.fetchOrders("desc", "500", "last_activity"))
+        return cacheProviders.fetchOrders(discogsService.fetchOrders("desc", "500", "last_activity"), new DynamicKey(sharedPrefsManager.getUsername()))
                 .map(RootOrderResponse::getOrders);
     }
 
@@ -234,7 +235,7 @@ public class DiscogsInteractor
         return cacheProviders.fetchOrderDetails(discogsService.fetchOrderDetails(orderId), new DynamicKey(orderId));
     }
 
-    public Observable<List<Listing>> fetchListings(String username)
+    public Observable<List<Listing>> fetchSelling(String username)
     {
         return cacheProviders.fetchSelling(discogsService.fetchSelling(username, "desc", "500", "status"), new DynamicKey(username + "desc500status"))
                 .map(RootListingResponse::getListings);

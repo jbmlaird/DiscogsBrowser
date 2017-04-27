@@ -1,6 +1,7 @@
 package bj.rxjavaexperimentation.epoxy.release;
 
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
  * Created by Josh Laird on 24/04/2017.
  */
 @EpoxyModelClass(layout = R.layout.item_listing)
-public abstract class MarketplaceModel extends EpoxyModel<ConstraintLayout>
+public abstract class MarketplaceModel extends EpoxyModel<CardView>
 {
     @BindView(R.id.lytMarketplaceItemContainer) ConstraintLayout lytMarketplaceItemContainer;
     @BindView(R.id.tvSleeve) IconTextView tvSleeve;
@@ -39,7 +40,7 @@ public abstract class MarketplaceModel extends EpoxyModel<ConstraintLayout>
     @EpoxyAttribute String price;
 
     @Override
-    public void bind(ConstraintLayout view)
+    public void bind(CardView view)
     {
         ButterKnife.bind(this, view);
         if (sleeve != null)

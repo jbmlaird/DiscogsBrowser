@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.order.epoxy.OrderController;
-import bj.rxjavaexperimentation.schedulerprovider.MySchedulerProvider;
+import bj.rxjavaexperimentation.epoxy.order.OrderController;
+import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 
 /**
  * Created by Josh Laird on 18/04/2017.

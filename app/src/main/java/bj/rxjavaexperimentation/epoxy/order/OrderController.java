@@ -1,11 +1,11 @@
-package bj.rxjavaexperimentation.order.epoxy;
+package bj.rxjavaexperimentation.epoxy.order;
 
 import com.airbnb.epoxy.EpoxyController;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.main.epoxy.DividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.model.order.Item;
 import bj.rxjavaexperimentation.model.order.Order;
 

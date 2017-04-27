@@ -13,7 +13,7 @@
 //
 //import bj.rxjavaexperimentation.artist.epoxy.DetailedAdapter;
 //import bj.rxjavaexperimentation.network.SearchDiscogsInteractor;
-//import bj.rxjavaexperimentation.schedulerprovider.TestSchedulerProvider;
+//import bj.rxjavaexperimentation.utils.schedulerprovider.TestSchedulerProvider;
 //import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 //import bj.rxjavaexperimentation.wrappers.LogWrapper;
 //import io.reactivex.Observable;
