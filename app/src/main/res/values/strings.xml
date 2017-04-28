@@ -17,6 +17,9 @@
 
     <string name="consumer_key">YkTWFsitqurUQSvyQwaG</string>
     <string name="consumer_secret">PJHslKRSRmZURHXdPWBSKNZPbdsGpASW</string>
+
+    <string name="youtube_key">AIzaSyAQ75jaUUbURNpuA9bdyY-pgb72awgw68I</string>
+
     <string name="username">username</string>
     <string name="avatar_url">avatar_url</string>
     <string name="selling">Selling</string>
@@ -34,4 +37,5 @@
     <string name="error_orders">Unable to load selling</string>
     <string name="selling_none">Not selling anything</string>
     <string name="error_selling">Unable to load selling</string>
+    <string name="privacy_policy">The only information I store is your username so I can buid a recommendation system for you</string>
 </resources>

@@ -5,19 +5,6 @@
 # DiscogsBrowser
 Android app to interact with Discogs' API
 
-# Description
-
-Common libraries used:
-
-* [ButterKnife](https://github.com/JakeWharton/butterknife)
-* [Dagger2](https://google.github.io/dagger/)
-* [RxJava2](https://github.com/ReactiveX/RxJava)
-* [RxBinding2](https://github.com/JakeWharton/RxBinding)
-* [RetroLambda](https://github.com/evant/gradle-retrolambda)
-* [LeakCanary](https://github.com/square/leakcanary)
-* [RxCache](https://github.com/VictorAlbertos/RxCache) - new favourite library
-* etc.
-
 # Usage
 
 This build is login only.
@@ -39,15 +26,20 @@ It is not ready for consumers at this stage.
 * Browsing history
 * Recent releases
 * Browsing without being logged in
-* Listen to releases in-app (Picture in picture YouTube?)
-* Notifications (if API allows)
+* Recommendation system
 * Adding notes to items in collection
+* Seeing order comments/updates
+
+# Desirable but no plans to implement
+
+* Listen to releases in-app. This would require an architecture change and would have to use a library like [DraggablePanel](https://github.com/pedrovgs/DraggablePanel). Effectively, the whole app has to be one activity to keep the window displaying in the bottom-right.
 
 # Limitations
 
 Currently, in April 2017, the public API does not allow any of the following:
 * Order placing
 * Marketplace actions. This includes purchasing in app, viewing purchases or searching listings.
+* Notifications
 
 # License
 

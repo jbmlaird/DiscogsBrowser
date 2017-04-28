@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.youtube.player.YouTubeIntents;
+
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
@@ -59,6 +61,15 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
         intent.putExtra("sellerRating", scrapeListing.getSellerRating());
         intent.putExtra("id", scrapeListing.getMarketPlaceId());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchYouTube(String youtubeId)
+    {
+//        new FinestWebView.Builder(this).show(uri);
+        // Launch in the native YouTube app
+        Intent intent = YouTubeIntents.createPlayVideoIntentWithOptions(this, youtubeId, false, false);
         startActivity(intent);
     }
 }

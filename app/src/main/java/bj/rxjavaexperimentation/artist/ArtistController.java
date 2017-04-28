@@ -113,7 +113,8 @@ public class ArtistController extends BaseController
         this.artistResult = artistResult;
         if (artistResult.getImages() != null)
             imageUrl = artistResult.getImages().get(0).getResourceUrl();
-
+        if (artistResult.getNamevariations() != null)
+            title = artistResult.getNamevariations().get(0);
         subtitle = artistResult.getProfile();
         requestModelBuild();
     }

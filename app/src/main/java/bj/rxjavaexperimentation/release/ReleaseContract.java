@@ -12,6 +12,8 @@ public interface ReleaseContract
     interface View
     {
         void displayListingInformation(String title, String subtitle, ScrapeListing scrapeListing);
+
+        void launchYouTube(String uri);
     }
 
     interface Presenter extends RecyclerViewPresenter {}

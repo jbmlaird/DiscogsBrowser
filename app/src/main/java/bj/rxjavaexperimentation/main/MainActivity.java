@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainContract.View
 {
-    private final String TAG = getClass().getSimpleName();
     @BindView(R.id.ivLoading) ImageView ivLoading;
     @BindView(R.id.lytLoading) ConstraintLayout lytLoading;
     @BindView(R.id.toolbar) Toolbar toolbar;

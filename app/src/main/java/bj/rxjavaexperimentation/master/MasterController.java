@@ -97,6 +97,7 @@ public class MasterController extends BaseController
     {
         this.master = master;
         this.subtitle = artistsBeautifier.formatArtists(master.getArtists());
+        this.title = master.getTitle();
         if (master.getImages() != null && master.getImages().size() > 0)
             this.imageUrl = master.getImages().get(0).getUri();
         requestModelBuild();

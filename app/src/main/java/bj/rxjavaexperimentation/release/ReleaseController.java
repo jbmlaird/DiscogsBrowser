@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
@@ -17,9 +18,11 @@ import bj.rxjavaexperimentation.epoxy.release.MarketplaceListingsHeader_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceModel_;
 import bj.rxjavaexperimentation.epoxy.release.NoListingsModel_;
 import bj.rxjavaexperimentation.epoxy.release.TrackModel_;
+import bj.rxjavaexperimentation.epoxy.release.YouTubeModel_;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.release.Track;
+import bj.rxjavaexperimentation.model.release.Video;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
@@ -116,6 +119,26 @@ public class ReleaseController extends BaseController
                     .discogsInteractor(discogsInteractor)
                     .addIf(collectionWantlistChecked, this);
 
+            if (release.getVideos() != null)
+            {
+                for (Video video : release.getVideos())
+                {
+                    String youtubeId = video.getUri().split("=")[1];
+                    new YouTubeModel_()
+                            .onClick(v -> view.launchYouTube(youtubeId))
+                            .youTubeId(youtubeId)
+                            .youTubeKey(context.getString(R.string.youtube_key))
+                            .id("youtube" + release.getVideos().indexOf(video))
+                            .title(video.getTitle())
+                            .description(video.getDescription())
+                            .addTo(this);
+                }
+
+                new DividerModel_()
+                        .id("video divider")
+                        .addTo(this);
+            }
+
             new MarketplaceListingsHeader_()
                     .id("marketplace listings header")
                     .lowestPrice(release.getLowestPriceString())
@@ -127,6 +150,7 @@ public class ReleaseController extends BaseController
                     .imageViewAnimator(imageViewAnimator)
                     .addIf(marketplaceLoading, this);
 
+
             if (releaseListings != null)
             {
                 if (releaseListings.size() == 0)
@@ -135,7 +159,6 @@ public class ReleaseController extends BaseController
                             .addTo(this);
                 else
                 {
-
                     for (ScrapeListing scrapeListing : releaseListings)
                     {
                         new MarketplaceModel_()
@@ -171,8 +194,8 @@ public class ReleaseController extends BaseController
         this.release = release;
         if (release.getImages() != null)
             this.imageUrl = release.getImages().get(0).getUri();
-        this.title = release.getTitle();
-        this.subtitle = artistsBeautifier.formatArtists(release.getArtists());
+        title = release.getTitle();
+        subtitle = artistsBeautifier.formatArtists(release.getArtists());
         requestModelBuild();
     }
 

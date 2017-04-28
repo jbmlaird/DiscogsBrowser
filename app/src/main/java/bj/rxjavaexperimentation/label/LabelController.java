@@ -91,6 +91,7 @@ public class LabelController extends BaseController
         this.label = label;
         if (label.getImages() != null)
             this.imageUrl = label.getImages().get(0).getUri();
+        this.title = label.getName();
         this.subtitle = label.getProfile();
         requestModelBuild();
     }

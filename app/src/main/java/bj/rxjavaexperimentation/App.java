@@ -44,7 +44,6 @@ public class App extends Application
         else
             LeakCanary.install(this);
 
-
         // Empty string while RxSocialConnect's disk cache is not working
         RxSocialConnect.register(this, "")
                 .using(new GsonSpeaker());

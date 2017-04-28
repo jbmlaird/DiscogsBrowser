@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
@@ -48,6 +50,16 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     public void loginTapped()
     {
         presenter.startOAuthService(this);
+    }
+
+    @OnClick(R.id.tvTnCs)
+    public void onTsnCsClicked()
+    {
+        new MaterialDialog.Builder(this)
+                .title("Privacy Policy")
+                .negativeText("Back")
+                .content(R.string.privacy_policy)
+                .show();
     }
 
     @Override
