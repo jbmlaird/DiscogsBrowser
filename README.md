@@ -2,6 +2,8 @@
 
 ![app_logo](app/src/main/res/drawable-xxxhdpi/ic_app.png)
 
+![app_gif](https://media.giphy.com/media/UHn06Zh8EBCGA/giphy.gif)
+
 # DiscogsBrowser
 Android app to interact with Discogs' API
 
