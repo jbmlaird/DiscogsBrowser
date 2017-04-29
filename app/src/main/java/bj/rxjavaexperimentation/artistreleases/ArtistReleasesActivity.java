@@ -92,9 +92,16 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     }
 
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        presenter.unsubscribe();
+        presenter.dispose();
     }
 }

@@ -19,7 +19,7 @@ import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.user.User;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.model.wantlist.RootWantlistResponse;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
 import io.rx_cache2.LifeCache;
@@ -34,50 +34,50 @@ import io.rx_cache2.LifeCache;
 public interface CacheProviders
 {
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<RootSearchResponse> searchDiscogs(Observable<RootSearchResponse> searchDiscogsObservable, DynamicKey searchTerm);
+    Single<RootSearchResponse> searchDiscogs(Single<RootSearchResponse> searchDiscogsSingle, DynamicKey searchTerm);
 
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<ArtistResult> fetchArtistDetails(Observable<ArtistResult> fetchArtistDetailsObservable, DynamicKey artistId);
+    Single<ArtistResult> fetchArtistDetails(Single<ArtistResult> fetchArtistDetailsSingle, DynamicKey artistId);
 
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<Release> fetchReleaseDetails(Observable<Release> fetchReleaseDetailsObservable, DynamicKey releaseId);
+    Single<Release> fetchReleaseDetails(Single<Release> fetchReleaseDetailsSingle, DynamicKey releaseId);
 
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<Master> fetchMasterDetails(Observable<Master> fetchMasterDetailsObservable, DynamicKey masterId);
+    Single<Master> fetchMasterDetails(Single<Master> fetchMasterDetailsSingle, DynamicKey masterId);
 
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<Label> fetchLabelDetails(Observable<Label> fetchLabelDetailsObservable, DynamicKey labelId);
+    Single<Label> fetchLabelDetails(Single<Label> fetchLabelDetailsSingle, DynamicKey labelId);
 
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<RootLabelResponse> fetchLabelReleases(Observable<RootLabelResponse> fetchLabelReleasesObservable, DynamicKey labelId);
+    Single<RootLabelResponse> fetchLabelReleases(Single<RootLabelResponse> fetchLabelReleasesSingle, DynamicKey labelId);
 
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
-    Observable<RootArtistReleaseResponse> fetchArtistsReleases(Observable<RootArtistReleaseResponse> fetchArtistsReleasesSingle, DynamicKey artistId);
+    Single<RootArtistReleaseResponse> fetchArtistsReleases(Single<RootArtistReleaseResponse> fetchArtistsReleasesSingle, DynamicKey artistId);
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
-    Observable<ArrayList<ScrapeListing>> getReleaseMarketListings(Observable<ArrayList<ScrapeListing>> releaseMarketListings, DynamicKey listingIdAndType);
+    Single<ArrayList<ScrapeListing>> getReleaseMarketListings(Single<ArrayList<ScrapeListing>> releaseMarketListings, DynamicKey listingIdAndType);
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
-    Observable<Listing> fetchListingDetails(Observable<Listing> fetchListingDetailsObservable, DynamicKey listingId);
+    Single<Listing> fetchListingDetails(Single<Listing> fetchListingDetailsSingle, DynamicKey listingId);
 
     @LifeCache(duration = 365, timeUnit = TimeUnit.DAYS)
-    Observable<User> fetchIdentity(Observable<User> identityObservable, DynamicKey dynamicKey);
+    Single<User> fetchIdentity(Single<User> identitySingle, DynamicKey dynamicKey);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<UserDetails> fetchUserDetails(Observable<UserDetails> userDetailsObservable, DynamicKey username, EvictDynamicKey update);
+    Single<UserDetails> fetchUserDetails(Single<UserDetails> userDetailsSingle, DynamicKey username, EvictDynamicKey update);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<RootCollectionRelease> fetchCollection(Observable<RootCollectionRelease> fetchCollectionObservable, DynamicKey username, EvictDynamicKey update);
+    Single<RootCollectionRelease> fetchCollection(Single<RootCollectionRelease> fetchCollectionSingle, DynamicKey username, EvictDynamicKey update);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<RootWantlistResponse> fetchWantlist(Observable<RootWantlistResponse> fetchWantlistObservable, DynamicKey username, EvictDynamicKey update);
+    Single<RootWantlistResponse> fetchWantlist(Single<RootWantlistResponse> fetchWantlistSingle, DynamicKey username, EvictDynamicKey update);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<RootOrderResponse> fetchOrders(Observable<RootOrderResponse> fetchOrdersObservable, DynamicKey username);
+    Single<RootOrderResponse> fetchOrders(Single<RootOrderResponse> fetchOrdersSingle, DynamicKey username);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<RootListingResponse> fetchSelling(Observable<RootListingResponse> fetchSellingObservable, DynamicKey username);
+    Single<RootListingResponse> fetchSelling(Single<RootListingResponse> fetchSellingSingle, DynamicKey username);
 
     @LifeCache(duration = 5, timeUnit = TimeUnit.MINUTES)
-    Observable<Order> fetchOrderDetails(Observable<Order> fetchOrderDetailsObservable, DynamicKey orderId);
+    Single<Order> fetchOrderDetails(Single<Order> fetchOrderDetailsSingle, DynamicKey orderId);
 }

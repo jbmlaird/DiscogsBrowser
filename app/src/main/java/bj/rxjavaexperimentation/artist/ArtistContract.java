@@ -19,6 +19,5 @@ public interface ArtistContract
 
     interface Presenter extends RecyclerViewPresenter
     {
-        void unsubscribe();
     }
 }

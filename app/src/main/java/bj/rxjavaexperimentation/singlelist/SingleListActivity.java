@@ -148,4 +148,18 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         intent.putExtra("id", id);
         startActivity(intent);
     }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        presenter.dispose();
+    }
 }

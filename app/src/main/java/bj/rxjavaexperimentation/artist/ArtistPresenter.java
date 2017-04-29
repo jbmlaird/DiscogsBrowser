@@ -12,7 +12,6 @@ import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 
 /**
@@ -25,20 +24,18 @@ public class ArtistPresenter implements ArtistContract.Presenter
     private ArtistContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
-    private CompositeDisposable compositeDisposable;
     private LogWrapper log;
     private ArtistController artistController;
     private Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction;
 
     @Inject
     public ArtistPresenter(@NonNull ArtistContract.View view, @NonNull DiscogsInteractor discogsInteractor,
-                           @NonNull MySchedulerProvider mySchedulerProvider, @NonNull CompositeDisposable compositeDisposable,
-                           @NonNull LogWrapper log, @NonNull ArtistController artistController, @NonNull Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction)
+                           @NonNull MySchedulerProvider mySchedulerProvider, @NonNull LogWrapper log, @NonNull ArtistController artistController,
+                           @NonNull Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction)
     {
         this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
-        this.compositeDisposable = compositeDisposable;
         this.log = log;
         this.artistController = artistController;
         this.removeUnwantedLinksFunction = removeUnwantedLinksFunction;
@@ -47,7 +44,7 @@ public class ArtistPresenter implements ArtistContract.Presenter
     @Override
     public void getData(String id)
     {
-        compositeDisposable.add(discogsInteractor.fetchArtistDetails(id)
+        discogsInteractor.fetchArtistDetails(id)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(removeUnwantedLinksFunction)
@@ -60,7 +57,7 @@ public class ArtistPresenter implements ArtistContract.Presenter
                 {
                     log.e(TAG, "onFetchArtistDetailsError");
                     error.printStackTrace();
-                }));
+                });
     }
 
     @Override
@@ -70,11 +67,5 @@ public class ArtistPresenter implements ArtistContract.Presenter
         rvDetailed.setAdapter(artistController.getAdapter());
         artistController.setTitle(title);
         artistController.requestModelBuild();
-    }
-
-    @Override
-    public void unsubscribe()
-    {
-        compositeDisposable.dispose();
     }
 }

@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.epoxy.order.OrderController;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 
 /**
@@ -35,10 +34,7 @@ public class OrderPresenter implements OrderContract.Presenter
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(orderDetails ->
-                        {
-                            view.hideLoading();
-                            orderController.setOrderDetails(orderDetails);
-                        },
+                                orderController.setOrderDetails(orderDetails),
                         error ->
                                 orderController.errorFetchingDetails());
     }
@@ -47,5 +43,6 @@ public class OrderPresenter implements OrderContract.Presenter
     {
         recyclerView.setLayoutManager(new LinearLayoutManager(orderActivity));
         recyclerView.setAdapter(orderController.getAdapter());
+        orderController.requestModelBuild();
     }
 }

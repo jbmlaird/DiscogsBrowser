@@ -69,7 +69,7 @@ public class MainPresenterUnitTest
         when(discogsInteractor.fetchSelling(username)).thenReturn(Observable.just(Collections.emptyList()));
         when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, testUserDetails)).thenReturn(drawer);
 
-        mainPresenter.buildNavigationDrawer(mainActivity, toolbar);
+        mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchUserDetails();

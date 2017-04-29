@@ -26,11 +26,13 @@ import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements MainContract.View
 {
     @BindView(R.id.ivLoading) ImageView ivLoading;
     @BindView(R.id.lytLoading) ConstraintLayout lytLoading;
+    @BindView(R.id.lytError) ConstraintLayout lytError;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.lytMainContent) LinearLayout lytMainContent;
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
@@ -44,10 +46,9 @@ public class MainActivity extends BaseActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-        setupLoading();
+        showLoading(true);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Profile");
-        presenter.buildNavigationDrawer(this, toolbar);
     }
 
     @Override
@@ -87,43 +88,45 @@ public class MainActivity extends BaseActivity implements MainContract.View
                     .content("Really quit?")
                     .negativeText("Cancel")
                     .positiveText("Quit")
-                    .onPositive((dialog, which) -> super.onBackPressed())
+                    .onPositive((dialog, which) ->
+                    {
+                        dialog.dismiss();
+                        super.onBackPressed();
+                    })
                     .show();
     }
 
-    private void setupLoading()
-    {
-        lytMainContent.setVisibility(View.GONE);
-        imageViewAnimator.rotateImage(ivLoading);
-        lytLoading.setVisibility(View.VISIBLE);
-    }
-
     @Override
-    public void stopLoading()
+    public void showLoading(boolean b)
     {
-        lytMainContent.setVisibility(View.VISIBLE);
-        ivLoading.clearAnimation();
-        lytLoading.setVisibility(View.GONE);
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        presenter.unsubscribe();
+        if (b)
+        {
+            lytMainContent.setVisibility(View.GONE);
+            imageViewAnimator.rotateImage(ivLoading);
+            lytLoading.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            lytMainContent.setVisibility(View.VISIBLE);
+            ivLoading.clearAnimation();
+            lytLoading.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        presenter.setupObservers();
+        if (drawer == null)
+            presenter.connectAndBuildNavigationDrawer(this, toolbar);
     }
 
     @Override
     public void setDrawer(Drawer drawer)
     {
         this.drawer = drawer;
+        showLoading(false);
+        displayError(false);
     }
 
     /**
@@ -154,20 +157,36 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
-    public void displayListing(String listingId)
+    public void displayListing(String listingId, String username)
     {
         Intent intent = new Intent(this, MarketplaceListingActivity.class);
         intent.putExtra("id", listingId);
-        intent.putExtra("seller", presenter.getUserDetails().getUsername());
+        intent.putExtra("seller", username);
         startActivity(intent);
     }
 
     @Override
-    public void displayListingsActivity()
+    public void displayError(boolean b)
+    {
+        showLoading(false);
+        if (b)
+            lytError.setVisibility(View.VISIBLE);
+        else
+            lytError.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void displayListingsActivity(String username)
     {
         Intent intent = new Intent(this, SingleListActivity.class);
-        intent.putExtra("username", presenter.getUserDetails().getUsername());
+        intent.putExtra("username", username);
         intent.putExtra("type", "selling");
         startActivity(intent);
+    }
+
+    @OnClick(R.id.btnError)
+    public void reconnectPressed()
+    {
+        presenter.connectAndBuildNavigationDrawer(this, toolbar);
     }
 }

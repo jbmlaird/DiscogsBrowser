@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 23/04/2017.
@@ -21,17 +20,15 @@ public class MasterPresenter implements MasterContract.Presenter
     private MasterContract.View mView;
     private DiscogsInteractor discogsInteractor;
     private MasterController controller;
-    private CompositeDisposable compositeDisposable;
     private MySchedulerProvider mySchedulerProvider;
 
     @Inject
     public MasterPresenter(@NonNull MasterContract.View mView, @NonNull DiscogsInteractor discogsInteractor, @NonNull MasterController masterController,
-                           @NonNull CompositeDisposable compositeDisposable, @NonNull MySchedulerProvider mySchedulerProvider)
+                           @NonNull MySchedulerProvider mySchedulerProvider)
     {
         this.mView = mView;
         this.discogsInteractor = discogsInteractor;
         this.controller = masterController;
-        this.compositeDisposable = compositeDisposable;
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
@@ -40,23 +37,22 @@ public class MasterPresenter implements MasterContract.Presenter
     {
         discogsInteractor.fetchMasterDetails(id)
                 .observeOn(mySchedulerProvider.ui())
-                .subscribe(master ->
+                .flatMap(master ->
                 {
                     controller.setMaster(master);
-                    discogsInteractor.fetchMasterVersions(id)
-                            .observeOn(mySchedulerProvider.ui())
-                            .subscribe(masterVersions ->
-                                            controller.setMasterVersions(masterVersions),
-                                    error ->
-                                    {
-                                        controller.setVersionsError(true);
-                                        error.printStackTrace();
-                                    });
-                }, error ->
-                {
-                    controller.setError(true);
-                    error.printStackTrace();
-                });
+                    return discogsInteractor.fetchMasterVersions(id);
+                })
+                .subscribe(masterVersions ->
+                        {
+                            controller.setMasterVersions(masterVersions);
+                            controller.setError(false);
+
+                        },
+                        error ->
+                        {
+                            controller.setError(true);
+                            error.printStackTrace();
+                        });
     }
 
     @Override

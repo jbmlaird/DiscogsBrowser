@@ -21,8 +21,8 @@ import bj.rxjavaexperimentation.entity.SearchTermDao;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
@@ -35,7 +35,6 @@ public class SearchPresenter implements SearchContract.Presenter
     private static final String TAG = "SearchPresenter";
     private MySchedulerProvider mySchedulerProvider;
     private final SearchTermDao searchTermDao;
-    private final DaoSession daoSession;
     private List<SearchResult> searchResults = new ArrayList<>();
     private String currentFilter = "all";
     private Context mContext;
@@ -55,7 +54,6 @@ public class SearchPresenter implements SearchContract.Presenter
         this.searchModelFunc = searchModelFunc;
         this.mySchedulerProvider = mySchedulerProvider;
         this.searchTermDao = daoSession.getSearchTermDao();
-        this.daoSession = daoSession;
         this.disposable = disposable;
     }
 
@@ -120,11 +118,9 @@ public class SearchPresenter implements SearchContract.Presenter
         if (showPastSearches)
         {
             searchController.clearResults();
-            searchController.setShowPastSearches(showPastSearches);
             searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
         }
-        else
-            searchController.setShowPastSearches(showPastSearches);
+        searchController.setShowPastSearches(showPastSearches);
     }
 
     private SearchViewQueryTextEvent storeSearchTerm(SearchViewQueryTextEvent queryTextEvent)
@@ -139,7 +135,7 @@ public class SearchPresenter implements SearchContract.Presenter
 
     private DisposableObserver<List<SearchResult>> getSearchObserver()
     {
-        if (searchObserver == null)
+        if (searchObserver == null || searchObserver.isDisposed())
             searchObserver = new DisposableObserver<List<SearchResult>>()
             {
                 @Override
@@ -162,10 +158,10 @@ public class SearchPresenter implements SearchContract.Presenter
                     {
                         mView.hideProgressBar();
                         if (!currentFilter.equals("all"))
-                            Observable.just(o)
+                            Single.just(o)
                                     .subscribeOn(mySchedulerProvider.io())
                                     .observeOn(mySchedulerProvider.io())
-                                    .flatMapIterable(results -> results)
+                                    .flattenAsObservable(results -> results)
                                     .filter(searchResult ->
                                             searchResult.getType().equals(currentFilter))
                                     .toList()
@@ -197,14 +193,14 @@ public class SearchPresenter implements SearchContract.Presenter
     }
 
     @Override
-    public void destroy()
-    {
-        disposable.dispose();
-    }
-
-    @Override
     public void unsubscribe()
     {
         disposable.clear();
+    }
+
+    @Override
+    public void dispose()
+    {
+        disposable.dispose();
     }
 }

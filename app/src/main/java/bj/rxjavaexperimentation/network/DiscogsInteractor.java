@@ -3,6 +3,7 @@ package bj.rxjavaexperimentation.network;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,6 @@ import bj.rxjavaexperimentation.model.wantlist.Want;
 import bj.rxjavaexperimentation.utils.DiscogsScraper;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
@@ -75,18 +75,18 @@ public class DiscogsInteractor
         this.sharedPrefsManager = sharedPrefsManager;
     }
 
-    public Observable<List<SearchResult>> searchDiscogs(String searchTerm)
+    public Single<List<SearchResult>> searchDiscogs(String searchTerm)
     {
         return cacheProviders.searchDiscogs(discogsService.getSearchResults(searchTerm), new DynamicKey(searchTerm))
                 .map(RootSearchResponse::getSearchResults);
     }
 
-    public Observable<ArtistResult> fetchArtistDetails(String artistId)
+    public Single<ArtistResult> fetchArtistDetails(String artistId)
     {
         return cacheProviders.fetchArtistDetails(discogsService.getArtist(artistId), new DynamicKey(artistId));
     }
 
-    public Observable<Release> fetchReleaseDetails(String releaseId)
+    public Single<Release> fetchReleaseDetails(String releaseId)
     {
         return cacheProviders.fetchReleaseDetails(discogsService.getRelease(releaseId), new DynamicKey(releaseId))
                 .subscribeOn(mySchedulerProvider.io())
@@ -99,7 +99,7 @@ public class DiscogsInteractor
                 });
     }
 
-    public Observable<Master> fetchMasterDetails(String masterId)
+    public Single<Master> fetchMasterDetails(String masterId)
     {
         return cacheProviders.fetchMasterDetails(discogsService.getMaster(masterId), new DynamicKey(masterId))
                 .subscribeOn(mySchedulerProvider.io())
@@ -112,7 +112,7 @@ public class DiscogsInteractor
                 });
     }
 
-    public Observable<List<Version>> fetchMasterVersions(String masterId)
+    public Single<List<Version>> fetchMasterVersions(String masterId)
     {
         return discogsService.getMasterVersions(masterId)
                 .subscribeOn(mySchedulerProvider.io())
@@ -120,14 +120,14 @@ public class DiscogsInteractor
                 .map(RootVersionsResponse::getVersions);
     }
 
-    public Observable<Label> fetchLabelDetails(String labelId)
+    public Single<Label> fetchLabelDetails(String labelId)
     {
         return cacheProviders.fetchLabelDetails(discogsService.getLabel(labelId), new DynamicKey(labelId))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io());
     }
 
-    public Observable<List<LabelRelease>> fetchLabelReleases(String labelId)
+    public Single<List<LabelRelease>> fetchLabelReleases(String labelId)
     {
         return cacheProviders.fetchLabelReleases(discogsService.getLabelReleases(labelId, "desc", "500"), new DynamicKey(labelId))
                 .subscribeOn(mySchedulerProvider.io())
@@ -140,7 +140,7 @@ public class DiscogsInteractor
         return cacheProviders.fetchArtistsReleases(discogsService.getArtistReleases(artistId, "desc", "500"), new DynamicKey(artistId))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
-                .flatMapIterable(RootArtistReleaseResponse::getArtistReleases)
+                .flattenAsObservable(RootArtistReleaseResponse::getArtistReleases)
                 .filter(release -> (!release.getRole().equals("TrackAppearance") && !release.getRole().equals("Appearance")))
                 .toList()
                 .doOnError(throwable ->
@@ -155,20 +155,21 @@ public class DiscogsInteractor
      * @param type Release or master.
      * @return Parsed HTML.
      */
-    public Observable<ArrayList<ScrapeListing>> getReleaseMarketListings(String id, String type)
+    public Single<ArrayList<ScrapeListing>> getReleaseMarketListings(String id, String type) throws IOException
     {
-        return cacheProviders.getReleaseMarketListings(Observable.create(emitter ->
-                emitter.onNext(discogsScraper.scrapeListings(id, type))), new DynamicKey(id + type));
+        return cacheProviders.getReleaseMarketListings(
+                Single.defer(() -> Single.just(discogsScraper.scrapeListings(id, type))),
+                new DynamicKey(id + type));
     }
 
-    public Observable<Listing> fetchListingDetails(String listingId)
+    public Single<Listing> fetchListingDetails(String listingId)
     {
         return cacheProviders.fetchListingDetails(discogsService.getListing(listingId, "GBP"), new DynamicKey(listingId))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io());
     }
 
-    public Observable<UserDetails> fetchUserDetails()
+    public Single<UserDetails> fetchUserDetails()
     {
         // Assuming that there will be no duplicate OAuth token
         return cacheProviders.fetchIdentity(discogsService.fetchIdentity(), new DynamicKey(sharedPrefsManager.getUserOAuthToken().getToken()))
@@ -178,74 +179,74 @@ public class DiscogsInteractor
                         discogsService.fetchUserDetails(user.getUsername()));
     }
 
-    public Observable<List<CollectionRelease>> fetchCollection(String username)
+    public Single<List<CollectionRelease>> fetchCollection(String username)
     {
-        Observable<List<CollectionRelease>> collectionObservable = cacheProviders.fetchCollection(discogsService.fetchCollection(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextCollection()))
+        Single<List<CollectionRelease>> collectionSingle = cacheProviders.fetchCollection(discogsService.fetchCollection(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextCollection()))
                 .map(RootCollectionRelease::getCollectionReleases);
         if (sharedPrefsManager.fetchNextCollection())
             sharedPrefsManager.setFetchNextCollection("no");
-        return collectionObservable;
+        return collectionSingle;
     }
 
-    public Observable<AddToCollectionResponse> addToCollection(String releaseId)
+    public Single<AddToCollectionResponse> addToCollection(String releaseId)
     {
         sharedPrefsManager.setFetchNextCollection("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
         return discogsService.addToCollection(sharedPrefsManager.getUsername(), releaseId);
     }
 
-    public Observable<Response<Void>> removeFromCollection(String releaseId, String instanceId)
+    public Single<Response<Void>> removeFromCollection(String releaseId, String instanceId)
     {
         sharedPrefsManager.setFetchNextCollection("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
         return discogsService.removeFromCollection(sharedPrefsManager.getUsername(), releaseId, instanceId);
     }
 
-    public Observable<List<Want>> fetchWantlist(String username)
+    public Single<List<Want>> fetchWantlist(String username)
     {
-        Observable<List<Want>> wantlistObservable = cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
+        Single<List<Want>> wantlistSingle = cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
                 .map(RootWantlistResponse::getWants);
         if (sharedPrefsManager.fetchNextWantlist())
             sharedPrefsManager.setFetchNextWantlist("no");
-        return wantlistObservable;
+        return wantlistSingle;
     }
 
-    public Observable<AddToWantlistResponse> addToWantlist(String releaseId)
+    public Single<AddToWantlistResponse> addToWantlist(String releaseId)
     {
         sharedPrefsManager.setFetchNextWantlist("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
         return discogsService.addToWantlist(sharedPrefsManager.getUsername(), releaseId);
     }
 
-    public Observable<Response<Void>> removeFromWantlist(String releaseId)
+    public Single<Response<Void>> removeFromWantlist(String releaseId)
     {
         sharedPrefsManager.setFetchNextWantlist("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
         return discogsService.removeFromWantlist(sharedPrefsManager.getUsername(), releaseId);
     }
 
-    public Observable<List<Order>> fetchOrders()
+    public Single<List<Order>> fetchOrders()
     {
         return cacheProviders.fetchOrders(discogsService.fetchOrders("desc", "500", "last_activity"), new DynamicKey(sharedPrefsManager.getUsername()))
                 .map(RootOrderResponse::getOrders);
     }
 
-    public Observable<Order> fetchOrderDetails(String orderId)
+    public Single<Order> fetchOrderDetails(String orderId)
     {
         return cacheProviders.fetchOrderDetails(discogsService.fetchOrderDetails(orderId), new DynamicKey(orderId));
     }
 
-    public Observable<List<Listing>> fetchSelling(String username)
+    public Single<List<Listing>> fetchSelling(String username)
     {
         return cacheProviders.fetchSelling(discogsService.fetchSelling(username, "desc", "500", "status"), new DynamicKey(username + "desc500status"))
                 .map(RootListingResponse::getListings);
     }
 
-    public Observable<UserDetails> fetchUserDetails(String username)
+    public Single<UserDetails> fetchUserDetails(String username)
     {
-        Observable<UserDetails> userDetailsObservable = cacheProviders.fetchUserDetails(discogsService.fetchUserDetails(username), new DynamicKey(username), new EvictDynamicKey(sharedPrefsManager.fetchNextUserDetails()));
+        Single<UserDetails> userDetailsSingle = cacheProviders.fetchUserDetails(discogsService.fetchUserDetails(username), new DynamicKey(username), new EvictDynamicKey(sharedPrefsManager.fetchNextUserDetails()));
         if (sharedPrefsManager.fetchNextUserDetails())
             sharedPrefsManager.setfetchNextUserDetails("no");
-        return userDetailsObservable;
+        return userDetailsSingle;
     }
 }

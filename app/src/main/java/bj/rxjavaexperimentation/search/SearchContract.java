@@ -37,7 +37,5 @@ public interface SearchContract
         void setupSubscriptions();
 
         void showPastSearches(boolean b);
-
-        void destroy();
     }
 }

@@ -37,20 +37,20 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private Context context;
     private ArtistReleasesContract.View view;
     private DiscogsInteractor discogsInteractor;
-    private CompositeDisposable compositeDisposable;
+    private CompositeDisposable disposable;
     private BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     private MySchedulerProvider mySchedulerProvider;
     private ArtistResultFunction artistResultFunction;
 
     @Inject
-    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, CompositeDisposable compositeDisposable,
+    public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, CompositeDisposable disposable,
                                    BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider,
                                    ArtistResultFunction artistResultFunction)
     {
         this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
-        this.compositeDisposable = compositeDisposable;
+        this.disposable = disposable;
         this.behaviorRelay = behaviorRelay;
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistResultFunction = artistResultFunction;
@@ -59,7 +59,7 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void getArtistReleases(String id)
     {
-        compositeDisposable.add(discogsInteractor.fetchArtistsReleases(id)
+        disposable.add(discogsInteractor.fetchArtistsReleases(id)
                 .subscribe(behaviorRelay));
     }
 
@@ -120,6 +120,12 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void unsubscribe()
     {
-        compositeDisposable.dispose();
+        disposable.clear();
+    }
+
+    @Override
+    public void dispose()
+    {
+        disposable.dispose();
     }
 }

@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
 import bj.rxjavaexperimentation.epoxy.main.ViewMoreModel_;
@@ -48,6 +49,8 @@ public class ReleaseController extends BaseController
     private boolean marketplaceLoading = true;
     private boolean viewAllListings = false;
     private boolean collectionWantlistChecked;
+    private boolean collectionError;
+    private boolean wantlistError;
 
     @Inject
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
@@ -118,6 +121,16 @@ public class ReleaseController extends BaseController
                     .mySchedulerProvider(mySchedulerProvider)
                     .discogsInteractor(discogsInteractor)
                     .addIf(collectionWantlistChecked, this);
+
+            new ErrorModel_()
+                    .errorString("Unable to check Collection")
+                    .id("Collection error")
+                    .addIf(collectionError, this);
+
+            new ErrorModel_()
+                    .errorString("Unable to check Wantlist")
+                    .id("Wantlist error")
+                    .addIf(wantlistError, this);
 
             if (release.getVideos() != null)
             {
@@ -229,6 +242,20 @@ public class ReleaseController extends BaseController
     public void collectionWantlistChecked(boolean b)
     {
         collectionWantlistChecked = b;
+        this.collectionError = false;
+        this.wantlistError = false;
+        requestModelBuild();
+    }
+
+    public void setCollectionError(boolean collectionError)
+    {
+        this.collectionError = collectionError;
+        requestModelBuild();
+    }
+
+    public void setWantlistError(boolean wantlistError)
+    {
+        this.wantlistError = wantlistError;
         requestModelBuild();
     }
 }

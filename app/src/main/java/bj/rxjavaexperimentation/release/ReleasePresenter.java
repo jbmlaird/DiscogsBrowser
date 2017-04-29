@@ -16,7 +16,6 @@ import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 23/04/2017.
@@ -27,7 +26,6 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private final String TAG = getClass().getSimpleName();
     private final ReleaseContract.View mView;
     private final ReleaseController controller;
-    private final CompositeDisposable compositeDisposable;
     private final DiscogsInteractor discogsInteractor;
     private final MySchedulerProvider mySchedulerProvider;
     private SharedPrefsManager sharedPrefsManager;
@@ -36,12 +34,11 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private boolean wantlistChecked;
 
     @Inject
-    public ReleasePresenter(@NonNull ReleaseContract.View view, @NonNull ReleaseController controller, @NonNull CompositeDisposable compositeDisposable, @NonNull DiscogsInteractor discogsInteractor,
+    public ReleasePresenter(@NonNull ReleaseContract.View view, @NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor,
                             @NonNull MySchedulerProvider mySchedulerProvider, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log)
     {
         this.mView = view;
         this.controller = controller;
-        this.compositeDisposable = compositeDisposable;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.sharedPrefsManager = sharedPrefsManager;
@@ -51,7 +48,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     @Override
     public void getData(String id)
     {
-        compositeDisposable.add(discogsInteractor.fetchReleaseDetails(id)
+        discogsInteractor.fetchReleaseDetails(id)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(release ->
@@ -75,7 +72,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 {
                     log.e(TAG, "onReleaseDetailsError");
                     error.printStackTrace();
-                }));
+                });
     }
 
     private void checkIfInWantlist(Release release)
@@ -83,25 +80,25 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         discogsInteractor.fetchWantlist(sharedPrefsManager.getUsername())
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
-                .flatMapIterable(results -> results)
-                .filter(collectionRelease -> collectionRelease.getId().equals(release.getId()))
+                .flattenAsObservable(results -> results)
+                .map(want ->
+                {
+                    if (want.getId().equals(release.getId()))
+                        release.setIsInWantlist(true);
+                    return want;
+                })
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(want ->
                         {
-                            if (want.getId().equals(release.getId()))
-                                release.setIsInWantlist(true);
-                        },
-                        error ->
-                        {
-                            error.printStackTrace();
-                            Log.e("wantlist", "wtf");
-                        },
-                        () ->
-                        {
-                            // onComplete()
                             wantlistChecked = true;
                             if (collectionChecked)
                                 controller.collectionWantlistChecked(true);
+                        },
+                        error ->
+                        {
+                            controller.setWantlistError(true);
+                            error.printStackTrace();
+                            Log.e(TAG, "checkInWantlistFail");
                         });
     }
 
@@ -110,28 +107,28 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         discogsInteractor.fetchCollection(sharedPrefsManager.getUsername())
                 .observeOn(mySchedulerProvider.io())
                 .subscribeOn(mySchedulerProvider.io())
-                .flatMapIterable(results -> results)
-                .filter(collectionRelease -> collectionRelease.getId().equals(release.getId()))
+                .flattenAsObservable(results -> results)
+                .map(collectionRelease ->
+                {
+                    if (collectionRelease.getId().equals(release.getId()))
+                    {
+                        release.setIsInCollection(true);
+                        release.setInstanceId(collectionRelease.getInstanceId());
+                    }
+                    return collectionRelease;
+                })
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {
-                            if (result.getId().equals(release.getId()))
-                            {
-                                release.setIsInCollection(true);
-                                release.setInstanceId(result.getInstanceId());
-                            }
+                            collectionChecked = true;
+                            if (wantlistChecked)
+                                controller.collectionWantlistChecked(true);
                         },
                         error ->
                         {
                             error.printStackTrace();
-                            Log.e("collection", "wtf");
-                        },
-                        () ->
-                        {
-                            // onComplete()
-                            collectionChecked = true;
-                            if (wantlistChecked)
-                                controller.collectionWantlistChecked(true);
+                            controller.setCollectionError(true);
+                            Log.e(TAG, "checkInCollection");
                         });
     }
 

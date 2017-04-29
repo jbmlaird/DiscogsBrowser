@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  */
 public class ArtistActivity extends BaseActivity implements ArtistContract.View
 {
-    private static final String TAG = "DetailedActivity";
+    private final String TAG = getClass().getSimpleName();
     @BindView(R.id.recyclerView) MyRecyclerView rvDetailed;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject ArtistPresenter presenter;
@@ -55,13 +55,6 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
         intent.putExtra("title", name);
         intent.putExtra("id", id);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        presenter.unsubscribe();
     }
 
     @Override

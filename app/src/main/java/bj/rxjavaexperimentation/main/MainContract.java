@@ -5,7 +5,11 @@ import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.materialdrawer.Drawer;
 
-import bj.rxjavaexperimentation.model.user.UserDetails;
+import java.util.List;
+
+import bj.rxjavaexperimentation.model.listing.Listing;
+import bj.rxjavaexperimentation.model.order.Order;
+import io.reactivex.Single;
 
 /**
  * Created by j on 18/02/2017.
@@ -15,31 +19,32 @@ public interface MainContract
 {
     interface View
     {
-        void stopLoading();
+        void showLoading(boolean b);
 
         void setDrawer(Drawer drawer);
 
+        // RecyclerView gets detached upon adding the NavigationDrawer
         void setupRecyclerView();
 
         void displayOrder(String id);
 
         void displayOrdersActivity();
 
-        void displayListingsActivity();
+        void displayListingsActivity(String username);
 
-        void displayListing(String listingId);
+        void displayListing(String listingId, String username);
+
+        void displayError(boolean b);
     }
 
     interface Presenter
     {
-        void buildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar);
+        void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar);
+
+        Single<List<Order>> fetchOrders();
+
+        Single<List<Listing>> fetchSelling();
 
         void setupRecyclerView(MainActivity mainActivity, RecyclerView recyclerView);
-
-        void setupObservers();
-
-        UserDetails getUserDetails();
-
-        void unsubscribe();
     }
 }

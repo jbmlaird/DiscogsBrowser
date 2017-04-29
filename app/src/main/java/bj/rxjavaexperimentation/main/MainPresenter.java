@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import java.util.List;
 
@@ -13,14 +12,12 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
-import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.Single;
 
 /**
  * Created by j on 18/02/2017.
@@ -28,7 +25,7 @@ import io.reactivex.subjects.BehaviorSubject;
 @Singleton
 public class MainPresenter implements MainContract.Presenter
 {
-    private static final String TAG = "MainPresenter";
+    private final String TAG = getClass().getSimpleName();
     private MainContract.View mView;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
@@ -36,16 +33,11 @@ public class MainPresenter implements MainContract.Presenter
     private MainController mainController;
     private SharedPrefsManager sharedPrefsManager;
     private LogWrapper log;
-    private CompositeDisposable compositeDisposable;
-    private UserDetails userDetails;
-    private BehaviorSubject<List<Order>> orderBehaviorSubject = BehaviorSubject.create();
-    private BehaviorSubject<List<Listing>> sellingBehaviorSubject = BehaviorSubject.create();
 
     @Inject
     public MainPresenter(@NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
-                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log,
-                         @NonNull CompositeDisposable compositeDisposable)
+                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log)
     {
         mView = view;
         this.discogsInteractor = discogsInteractor;
@@ -54,50 +46,58 @@ public class MainPresenter implements MainContract.Presenter
         this.mainController = mainController;
         this.sharedPrefsManager = sharedPrefsManager;
         this.log = log;
-        this.compositeDisposable = compositeDisposable;
     }
 
     @Override
-    public void buildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar)
+    public void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar)
     {
+        mView.showLoading(true);
         discogsInteractor.fetchUserDetails()
                 .observeOn(mySchedulerProvider.ui())
-                .subscribe(userDetails ->
+                .flatMap(userDetails ->
+                {
+                    sharedPrefsManager.storeUserDetails(userDetails);
+                    return fetchOrders();
+                })
+                .flatMap(orders ->
+                {
+                    mainController.setOrders(orders);
+                    return fetchSelling();
+                })
+                .flattenAsObservable(listings -> listings)
+                .filter(listing -> listing.getStatus().equals("For Sale"))
+                .toList()
+                .subscribe(listing ->
                         {
-                            log.e(TAG, "Successfully got user details");
-                            this.userDetails = userDetails;
-                            sharedPrefsManager.storeUserDetails(userDetails);
-                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, userDetails));
+                            mainController.setSelling(listing);
+                            // As RecyclerView gets detached, these must be called after attaching NavDrawer
+                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
                             mView.setupRecyclerView();
-//                    toolbar.setTitle(userDetails.getUsername());
-                            mView.stopLoading();
-                            fetchOrders();
-                            fetchSelling();
                         },
                         error ->
                         {
-                            // TODO: Implement proper error handling here
+                            mView.displayError(true);
                             error.printStackTrace();
                             log.e(TAG, "Wtf");
                         });
     }
 
-    private void fetchOrders()
+    @Override
+    public Single<List<Order>> fetchOrders()
     {
-        discogsInteractor.fetchOrders()
+        return discogsInteractor.fetchOrders()
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(disposable -> mainController.setLoadingMorePurchases(true))
-                .subscribeOn(mySchedulerProvider.io())
-                .subscribe(orderBehaviorSubject);
+                .subscribeOn(mySchedulerProvider.io());
     }
 
-    private void fetchSelling()
+    @Override
+    public Single<List<Listing>> fetchSelling()
     {
-        discogsInteractor.fetchSelling(userDetails.getUsername())
+        return discogsInteractor.fetchSelling(sharedPrefsManager.getUsername())
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(disposable -> mainController.setLoadingMoreSales(true))
-                .subscribeOn(mySchedulerProvider.io())
-                .subscribe(sellingBehaviorSubject);
+                .subscribeOn(mySchedulerProvider.io());
     }
 
     @Override
@@ -105,39 +105,6 @@ public class MainPresenter implements MainContract.Presenter
     {
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         recyclerView.setAdapter(mainController.getAdapter());
-    }
-
-    @Override
-    public void setupObservers()
-    {
-        compositeDisposable.add(
-                sellingBehaviorSubject
-                        .flatMapIterable(listings -> listings)
-                        .filter(listing -> listing.getStatus().equals("For Sale"))
-                        .toList()
-                        .observeOn(mySchedulerProvider.ui())
-                        .subscribe(listings ->
-                                        mainController.setSelling(listings),
-                                error ->
-                                        Log.e(TAG, error.getMessage())));
-
-        compositeDisposable.add(orderBehaviorSubject
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(orders ->
-                                mainController.setPurchases(orders),
-                        error ->
-                                Log.e(TAG, error.getMessage())));
-    }
-
-    @Override
-    public UserDetails getUserDetails()
-    {
-        return userDetails;
-    }
-
-    @Override
-    public void unsubscribe()
-    {
-        compositeDisposable.dispose();
+        mainController.requestModelBuild();
     }
 }

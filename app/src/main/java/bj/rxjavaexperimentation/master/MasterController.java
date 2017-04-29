@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.ListItemModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
@@ -28,7 +29,6 @@ public class MasterController extends BaseController
     private ArtistsBeautifier artistsBeautifier;
     private boolean error = false;
     private Master master;
-    private boolean versionsError = false;
     private List<Version> masterVersions;
     private boolean viewAllVersions;
 
@@ -59,6 +59,11 @@ public class MasterController extends BaseController
                 .subheader("Versions")
                 .id("subheader")
                 .addTo(this);
+
+        new ErrorModel_()
+                .id("error model")
+                .errorString("Unable to load Master")
+                .addIf(error, this);
 
         if (masterVersions != null)
         {
@@ -106,12 +111,6 @@ public class MasterController extends BaseController
     public void setError(boolean b)
     {
         error = b;
-        requestModelBuild();
-    }
-
-    public void setVersionsError(boolean b)
-    {
-        versionsError = b;
         requestModelBuild();
     }
 

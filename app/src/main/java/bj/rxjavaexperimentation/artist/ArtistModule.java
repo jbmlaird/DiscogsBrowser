@@ -8,7 +8,6 @@ import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.utils.WantedUrl;
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 
 /**
@@ -29,13 +28,6 @@ public class ArtistModule
     ArtistContract.View providesDetailedView()
     {
         return view;
-    }
-
-    @Provides
-    @Singleton
-    CompositeDisposable provideCompositeDisposable()
-    {
-        return new CompositeDisposable();
     }
 
     /**

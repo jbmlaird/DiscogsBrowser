@@ -23,7 +23,6 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.login.LoginActivity;
 import bj.rxjavaexperimentation.main.MainActivity;
-import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.search.SearchActivity;
 import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 
@@ -43,7 +42,7 @@ public class NavigationDrawerBuilder
         this.sharedPrefsManager = sharedPrefsManager;
     }
 
-    public Drawer buildNavigationDrawer(MainActivity activity, Toolbar toolbar, UserDetails userDetails)
+    public Drawer buildNavigationDrawer(MainActivity activity, Toolbar toolbar)
     {
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -51,7 +50,7 @@ public class NavigationDrawerBuilder
                 .withSelectionListEnabledForSingleProfile(false)
                 .withHeaderBackground(ContextCompat.getDrawable(context, R.drawable.gradient))
                 .addProfiles(
-                        new ProfileDrawerItem().withName(userDetails.getName()).withEmail(userDetails.getUsername()).withIcon(userDetails.getAvatarUrl())
+                        new ProfileDrawerItem().withName(sharedPrefsManager.getName()).withEmail(sharedPrefsManager.getUsername()).withIcon(sharedPrefsManager.getAvatarUrl())
                 )
                 .build();
 
@@ -63,10 +62,10 @@ public class NavigationDrawerBuilder
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(context.getString(R.string.drawer_item_collection))
                                 .withIcon(R.drawable.ic_library_music_black_24dp)
-                                .withIdentifier(1).withSelectable(false).withBadge(String.valueOf(userDetails.getNumCollection())).withBadgeStyle(new BadgeStyle().withTextColor(ContextCompat.getColor(context, android.R.color.white)).withColorRes(R.color.colorAccent)),
+                                .withIdentifier(1).withSelectable(false).withBadge(String.valueOf(sharedPrefsManager.getNumCollection())).withBadgeStyle(new BadgeStyle().withTextColor(ContextCompat.getColor(context, android.R.color.white)).withColorRes(R.color.colorAccent)),
                         new PrimaryDrawerItem().withName(context.getString(R.string.drawer_item_wantlist))
                                 .withIcon(R.drawable.ic_remove_red_eye_black_24dp)
-                                .withIdentifier(2).withSelectable(false).withBadge(String.valueOf(userDetails.getNumWantlist())).withBadgeStyle(new BadgeStyle().withTextColor(ContextCompat.getColor(context, android.R.color.white)).withColorRes(R.color.colorAccent)),
+                                .withIdentifier(2).withSelectable(false).withBadge(String.valueOf(sharedPrefsManager.getNumWantlist())).withBadgeStyle(new BadgeStyle().withTextColor(ContextCompat.getColor(context, android.R.color.white)).withColorRes(R.color.colorAccent)),
                         new ExpandableDrawerItem().withName("Marketplace")
                                 .withIcon(R.drawable.ic_attach_money_black_24dp)
                                 .withIdentifier(3).withSelectable(false).withSubItems(
@@ -95,18 +94,18 @@ public class NavigationDrawerBuilder
                                 case 1:
                                     Intent collectionIntent = new Intent(activity, SingleListActivity.class);
                                     collectionIntent.putExtra("type", "collection");
-                                    collectionIntent.putExtra("username", userDetails.getUsername());
+                                    collectionIntent.putExtra("username", sharedPrefsManager.getUsername());
                                     activity.startActivity(collectionIntent);
                                     break;
                                 case 2:
                                     Intent wantlistIntent = new Intent(activity, SingleListActivity.class);
                                     wantlistIntent.putExtra("type", "wantlist");
-                                    wantlistIntent.putExtra("username", userDetails.getUsername());
+                                    wantlistIntent.putExtra("username", sharedPrefsManager.getUsername());
                                     activity.startActivity(wantlistIntent);
                                     break;
                                 case 3001:
                                     Intent sellingIntent = new Intent(activity, SingleListActivity.class);
-                                    sellingIntent.putExtra("username", userDetails.getUsername());
+                                    sellingIntent.putExtra("username", sharedPrefsManager.getUsername());
                                     sellingIntent.putExtra("type", "selling");
                                     activity.startActivity(sellingIntent);
                                     break;

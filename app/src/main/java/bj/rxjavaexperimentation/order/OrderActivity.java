@@ -4,17 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
-import bj.rxjavaexperimentation.model.order.Order;
-import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,11 +18,8 @@ import butterknife.ButterKnife;
  */
 public class OrderActivity extends BaseActivity implements OrderContract.View
 {
-    @BindView(R.id.lytLoading) LinearLayout lytLoading;
-    @BindView(R.id.ivLoading) ImageView ivLoading;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
-    @Inject ImageViewAnimator imageViewAnimator;
     @Inject OrderPresenter presenter;
 
     @Override
@@ -46,29 +38,9 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         unbinder = ButterKnife.bind(this);
-        imageViewAnimator.rotateImage(ivLoading);
         setupToolbar(toolbar);
         toolbar.setTitle(getIntent().getStringExtra("orderId"));
         presenter.setupRecyclerView(this, recyclerView);
         presenter.fetchOrderDetails(getIntent().getStringExtra("orderId"));
-    }
-
-    @Override
-    public void displayOrder(Order orderDetails)
-    {
-
-    }
-
-    @Override
-    public void displayError()
-    {
-
-    }
-
-    @Override
-    public void hideLoading()
-    {
-        ivLoading.clearAnimation();
-        lytLoading.setVisibility(View.GONE);
     }
 }

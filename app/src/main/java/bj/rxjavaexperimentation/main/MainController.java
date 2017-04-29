@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
+import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.epoxy.main.ListingModel_;
 import bj.rxjavaexperimentation.epoxy.main.MainHeaderModel_;
 import bj.rxjavaexperimentation.epoxy.main.MainUserModel_;
@@ -32,8 +33,6 @@ import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 @Singleton
 public class MainController extends EpoxyController
 {
-    private final String TAG = this.getClass().getSimpleName();
-    private List<Order> orders = new ArrayList<>();
     private boolean loadingMorePurchases = true;
     private Context context;
     private MainContract.View mView;
@@ -41,7 +40,10 @@ public class MainController extends EpoxyController
     private ImageViewAnimator imageViewAnimator;
     private DateFormatter dateFormatter;
     private boolean loadingMoreSales = true;
+    private List<Order> orders = new ArrayList<>();
     private List<Listing> listings = new ArrayList<>();
+    private boolean sellingError;
+    private boolean ordersError;
 
     @Inject
     public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter)
@@ -69,6 +71,7 @@ public class MainController extends EpoxyController
         new MainHeaderModel_()
                 .id("orders header")
                 .title("Orders")
+                .size(orders.size())
                 .onClickListener(v -> mView.displayOrdersActivity())
                 .addTo(this);
 
@@ -96,6 +99,11 @@ public class MainController extends EpoxyController
                     .addIf(orders.indexOf(order) != orders.size() - 1, this);
         }
 
+        new SubHeaderModel_()
+                .id("no orders")
+                .subheader("Unable to fetch orders")
+                .addIf(ordersError, this);
+
         new LoadingModel_()
                 .imageViewAnimator(imageViewAnimator)
                 .id("loading model")
@@ -106,12 +114,13 @@ public class MainController extends EpoxyController
         new MainHeaderModel_()
                 .id("selling header")
                 .title(context.getString(R.string.selling))
-                .onClickListener(v -> mView.displayListingsActivity())
+                .size(listings.size())
+                .onClickListener(v -> mView.displayListingsActivity(sharedPrefsManager.getUsername()))
                 .addTo(this);
 
         new NoOrderModel_()
                 .id("not selling")
-                .text("You're not currently selling anything")
+                .text(context.getString(R.string.not_selling_anything))
                 .addIf(!loadingMoreSales && listings.size() == 0, this);
 
         for (Listing listing : listings)
@@ -122,16 +131,19 @@ public class MainController extends EpoxyController
             new ListingModel_(dateFormatter)
                     .datePosted(listing.getPosted())
                     .releaseName(listing.getRelease().getDescription())
-                    .onClickListener(v -> mView.displayListing(listing.getId()))
+                    .onClickListener(v -> mView.displayListing(listing.getId(), sharedPrefsManager.getUsername()))
                     .id("listing" + String.valueOf(listings.indexOf(listing)))
                     .addTo(this);
 
             new DividerModel_()
                     .id("sale divider " + listings.indexOf(listing))
                     .addTo(this);
-            // As it's the end of the page (for now) add a divider regardless
-            // .addIf(listings.indexOf(listing) != listings.size() - 1, this);
         }
+
+        new SubHeaderModel_()
+                .id("no orders")
+                .subheader("Unable to fetch live listings")
+                .addIf(ordersError, this);
 
         new LoadingModel_()
                 .id("sales loading model")
@@ -139,10 +151,11 @@ public class MainController extends EpoxyController
                 .addIf(loadingMoreSales, this);
     }
 
-    public void setPurchases(List<Order> purchases)
+    public void setOrders(List<Order> purchases)
     {
         this.orders = purchases;
         this.loadingMorePurchases = false;
+        this.ordersError = false;
         requestModelBuild();
     }
 
@@ -155,11 +168,24 @@ public class MainController extends EpoxyController
     {
         this.listings = listings;
         this.loadingMoreSales = false;
+        this.sellingError = false;
         requestModelBuild();
     }
 
     public void setLoadingMoreSales(boolean loadingMoreSales)
     {
         this.loadingMoreSales = loadingMoreSales;
+    }
+
+    public void setSellingError(boolean sellingError)
+    {
+        this.sellingError = sellingError;
+        requestModelBuild();
+    }
+
+    public void setOrdersError(boolean b)
+    {
+        this.ordersError = b;
+        requestModelBuild();
     }
 }

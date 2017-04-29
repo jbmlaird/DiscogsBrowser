@@ -23,6 +23,7 @@ public abstract class MainHeaderModel extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute(DoNotHash) View.OnClickListener onClickListener;
     @EpoxyAttribute String title;
+    @EpoxyAttribute Integer size;
     @BindView(R.id.tvSeeAll) TextView tvSeeAll;
     @BindView(R.id.tvHeader) TextView tvHeader;
 
@@ -30,7 +31,13 @@ public abstract class MainHeaderModel extends EpoxyModel<LinearLayout>
     public void bind(LinearLayout view)
     {
         ButterKnife.bind(this, view);
-        tvSeeAll.setOnClickListener(onClickListener);
         tvHeader.setText(title);
+        if (size == 0)
+            tvSeeAll.setVisibility(View.GONE);
+        else
+        {
+            tvSeeAll.setVisibility(View.VISIBLE);
+            tvSeeAll.setOnClickListener(onClickListener);
+        }
     }
 }

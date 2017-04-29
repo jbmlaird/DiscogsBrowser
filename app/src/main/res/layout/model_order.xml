@@ -41,6 +41,7 @@
         android:includeFontPadding="false"
         android:maxLines="2"
         android:text="Potentially something long"
+        android:textAlignment="viewEnd"
         android:textSize="@dimen/text_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/tvBuyer"

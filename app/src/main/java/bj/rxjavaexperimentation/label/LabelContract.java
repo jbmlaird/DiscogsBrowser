@@ -16,6 +16,5 @@ public interface LabelContract
 
     interface Presenter extends RecyclerViewPresenter
     {
-
     }
 }

@@ -2,6 +2,7 @@ package bj.rxjavaexperimentation.singlelist;
 
 import android.support.v7.widget.RecyclerView;
 
+import bj.rxjavaexperimentation.common.BasePresenter;
 import io.reactivex.Observable;
 
 /**
@@ -27,7 +28,7 @@ public interface SingleListContract
         void launchDetailedActivity(String type, String title, String id);
     }
 
-    interface Presenter
+    interface Presenter extends BasePresenter
     {
         void getData(String type, String username);
 

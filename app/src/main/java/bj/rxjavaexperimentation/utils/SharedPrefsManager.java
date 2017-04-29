@@ -53,6 +53,9 @@ public class SharedPrefsManager
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(context.getString(R.string.avatar_url), userDetails.getAvatarUrl());
         editor.putString(context.getString(R.string.username), userDetails.getUsername());
+        editor.putString(context.getString(R.string.name), userDetails.getName());
+        editor.putString(context.getString(R.string.num_collection), String.valueOf(userDetails.getNumCollection()));
+        editor.putString(context.getString(R.string.num_wantlist), String.valueOf(userDetails.getNumWantlist()));
 
         editor.apply();
     }
@@ -65,6 +68,21 @@ public class SharedPrefsManager
     public String getAvatarUrl()
     {
         return settings.getString(context.getString(R.string.avatar_url), "");
+    }
+
+    public String getName()
+    {
+        return settings.getString(context.getString(R.string.name), "");
+    }
+
+    public String getNumCollection()
+    {
+        return settings.getString(context.getString(R.string.num_collection), "");
+    }
+
+    public String getNumWantlist()
+    {
+        return settings.getString(context.getString(R.string.num_wantlist), "");
     }
 
     public void setFetchNextCollection(String fetchNextCollection)
@@ -132,6 +150,9 @@ public class SharedPrefsManager
         editor.putString(context.getString(R.string.oauth_access_token_secret), "");
         editor.putString(context.getString(R.string.username), "");
         editor.putString(context.getString(R.string.avatar_url), "");
+        editor.putString(context.getString(R.string.name), "");
+        editor.putString(context.getString(R.string.num_collection), "");
+        editor.putString(context.getString(R.string.num_wantlist), "");
 
         editor.apply();
     }

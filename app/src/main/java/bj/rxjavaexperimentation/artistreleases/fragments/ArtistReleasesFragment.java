@@ -24,7 +24,7 @@ import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -82,8 +82,8 @@ public class ArtistReleasesFragment extends BaseFragment
     private Consumer<CharSequence> filterConsumer()
     {
         return filterText ->
-                Observable.fromArray(artistReleases)
-                        .flatMapIterable(releases -> releases)
+                Single.just(artistReleases)
+                        .flattenAsObservable(releases -> releases)
                         .filter(artistRelease ->
                                 (artistRelease.getTitle() != null && artistRelease.getTitle().toLowerCase().contains(filterText.toString().toLowerCase())) ||
                                         (artistRelease.getYear() != null && artistRelease.getYear().toLowerCase().contains(filterText.toString().toLowerCase())))

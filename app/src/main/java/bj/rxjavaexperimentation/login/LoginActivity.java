@@ -20,7 +20,6 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends BaseActivity implements LoginContract.View
 {
-    private final String TAG = getClass().getSimpleName();
     @Inject LoginPresenter presenter;
 
     @Override

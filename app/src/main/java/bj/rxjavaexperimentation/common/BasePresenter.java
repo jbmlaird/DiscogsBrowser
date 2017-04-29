@@ -7,4 +7,6 @@ package bj.rxjavaexperimentation.common;
 public interface BasePresenter
 {
     void unsubscribe();
+
+    void dispose();
 }

@@ -74,7 +74,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     protected void onDestroy()
     {
         super.onDestroy();
-        presenter.destroy();
+        presenter.dispose();
     }
 
     @Override

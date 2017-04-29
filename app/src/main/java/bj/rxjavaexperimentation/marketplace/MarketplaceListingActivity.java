@@ -71,7 +71,6 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
         Glide.with(this)
                 .load(listing.getRelease().getThumbnail())
                 .placeholder(R.drawable.ic_vinyl)
-//                .dontAnimate()
                 .into(ivImage);
         tvItemName.setText(listing.getRelease().getDescription());
         tvSleeve.setText("{fa-inbox} " + listing.getSleeveCondition());
@@ -103,12 +102,5 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
                 .title(listing.getSeller().getUsername())
                 .negativeText("Dismiss")
                 .show();
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        presenter.unsubscribe();
     }
 }

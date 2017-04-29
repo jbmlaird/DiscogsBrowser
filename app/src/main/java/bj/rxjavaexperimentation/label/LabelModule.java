@@ -4,7 +4,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 23/04/2017.
@@ -24,12 +23,5 @@ public class LabelModule
     LabelContract.View provideLabelView()
     {
         return mView;
-    }
-
-    @Provides
-    @Singleton
-    CompositeDisposable providesCompositeDisposable()
-    {
-        return new CompositeDisposable();
     }
 }

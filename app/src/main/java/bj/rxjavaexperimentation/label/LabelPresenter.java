@@ -10,8 +10,6 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
-import bj.rxjavaexperimentation.wrappers.LogWrapper;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 23/04/2017.
@@ -21,20 +19,16 @@ public class LabelPresenter implements LabelContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
     private LabelController controller;
-    private CompositeDisposable compositeDisposable;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
-    private LogWrapper log;
 
     @Inject
-    public LabelPresenter(@NonNull LabelController controller, @NonNull CompositeDisposable compositeDisposable, @NonNull DiscogsInteractor discogsInteractor,
-                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull LogWrapper log)
+    public LabelPresenter(@NonNull LabelController controller, @NonNull DiscogsInteractor discogsInteractor,
+                          @NonNull MySchedulerProvider mySchedulerProvider)
     {
         this.controller = controller;
-        this.compositeDisposable = compositeDisposable;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
-        this.log = log;
     }
 
     @Override
@@ -49,23 +43,15 @@ public class LabelPresenter implements LabelContract.Presenter
     @Override
     public void getData(String id)
     {
-        compositeDisposable.add(discogsInteractor.fetchLabelDetails(id)
+        discogsInteractor.fetchLabelDetails(id)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
-                .doOnComplete(() ->
-                        discogsInteractor.fetchLabelReleases(id)
-                                .subscribeOn(mySchedulerProvider.io())
-                                .observeOn(mySchedulerProvider.ui())
-                                .subscribe(labelReleases ->
-                                        controller.setLabelReleases(labelReleases), Throwable::printStackTrace))
-                .subscribe(label ->
+                .flatMap(label ->
                 {
                     controller.setLabel(label);
-                    log.e(TAG, label.getName());
-                }, error ->
-                {
-                    log.e(TAG, "onFetchLabelDetails");
-                    error.printStackTrace();
-                }));
+                    return discogsInteractor.fetchLabelReleases(id);
+                })
+                .subscribe(labelReleases ->
+                        controller.setLabelReleases(labelReleases), Throwable::printStackTrace);
     }
 }

@@ -14,7 +14,7 @@ import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.common.RecyclerViewModel;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -29,18 +29,18 @@ public class SingleListPresenter implements SingleListContract.Presenter
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private SingleListAdapter singleListAdapter;
-    private CompositeDisposable compositeDisposable;
+    private CompositeDisposable disposable;
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
 
     @Inject
-    public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable compositeDisposable)
+    public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable disposable)
     {
         this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.singleListAdapter = singleListAdapter;
-        this.compositeDisposable = compositeDisposable;
+        this.disposable = disposable;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
             case "selling":
                 discogsInteractor.fetchSelling(username)
                         .observeOn(mySchedulerProvider.io())
-                        .flatMapIterable(listings -> listings)
+                        .flattenAsObservable(listings -> listings)
                         .filter(listing -> listing.getStatus().equals("For Sale"))
                         .toList()
                         .subscribeOn(mySchedulerProvider.io())
@@ -145,9 +145,21 @@ public class SingleListPresenter implements SingleListContract.Presenter
     @Override
     public void setupFilterSubscription()
     {
-        compositeDisposable.add(view.filterIntent()
+        disposable.add(view.filterIntent()
                 .observeOn(mySchedulerProvider.io())
                 .subscribeWith(getFilterObserver()));
+    }
+
+    @Override
+    public void unsubscribe()
+    {
+        disposable.clear();
+    }
+
+    @Override
+    public void dispose()
+    {
+        disposable.dispose();
     }
 
     private DisposableObserver<CharSequence> getFilterObserver()
@@ -157,15 +169,15 @@ public class SingleListPresenter implements SingleListContract.Presenter
             @Override
             public void onNext(CharSequence o)
             {
-                Observable.fromArray(items)
-                        .flatMapIterable(items -> items)
+                Single.just(items)
+                        .flattenAsObservable(items -> items)
                         .filter(item ->
                                 (item.getSubtitle().toLowerCase().contains(o.toString().toLowerCase())) || item.getTitle().toLowerCase().contains(o.toString().toLowerCase()))
                         .toList()
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(filteredItems ->
                         {
-                            if (filteredItems.size() == 0)
+                            if (filteredItems.size() == 0 && o.length() > 0)
                                 view.showNoItems(true, "No items");
                             else
                                 view.showNoItems(false, "");
