@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:drawableTint="#808080"
         android:includeFontPadding="false"
-        android:padding="16dp"
+        android:padding="@dimen/margin_normal"
         android:text="test"
-        android:textSize="26sp"
+        android:textSize="@dimen/text_large"
         android:textStyle="bold"/>
 
     <TextView
@@ -24,9 +24,9 @@
         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
         android:gravity="center_vertical|end"
         android:includeFontPadding="false"
-        android:paddingBottom="8dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="@dimen/margin_normal_half"
+        android:paddingEnd="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_normal_half"
         android:text="See all"/>
 
 </LinearLayout>

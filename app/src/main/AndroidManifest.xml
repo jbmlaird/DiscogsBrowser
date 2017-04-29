@@ -2,6 +2,26 @@
 <manifest package="bj.rxjavaexperimentation"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <compatible-screens>
+        <!-- all small size screens -->
+        <screen android:screenDensity="ldpi" android:screenSize="small"/>
+        <screen android:screenDensity="mdpi" android:screenSize="small"/>
+        <screen android:screenDensity="hdpi" android:screenSize="small"/>
+        <screen android:screenDensity="xhdpi" android:screenSize="small"/>
+        <screen android:screenDensity="480" android:screenSize="small"/>
+        <screen android:screenDensity="640" android:screenSize="small"/>
+
+        <!-- all normal size screens -->
+        <screen android:screenDensity="ldpi" android:screenSize="normal"/>
+        <screen android:screenDensity="mdpi" android:screenSize="normal"/>
+        <screen android:screenDensity="hdpi" android:screenSize="normal"/>
+        <screen android:screenDensity="xhdpi" android:screenSize="normal"/>
+        <screen android:screenDensity="420" android:screenSize="normal"/>
+        <screen android:screenDensity="480" android:screenSize="normal"/>
+        <screen android:screenDensity="560" android:screenSize="normal"/>
+        <screen android:screenDensity="640" android:screenSize="normal"/>
+    </compatible-screens>
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 

@@ -3,35 +3,35 @@
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginEnd="16dp"
-              android:layout_marginStart="16dp"
+              android:layout_marginEnd="@dimen/margin_normal"
+              android:layout_marginStart="@dimen/margin_normal"
               android:orientation="horizontal"
-              android:paddingBottom="8dp">
+              android:paddingBottom="@dimen/margin_normal_half">
 
     <com.joanzapata.iconify.widget.IconTextView
         android:id="@+id/tvIcon"
-        android:layout_width="32dp"
+        android:layout_width="@dimen/margin_normal_double"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:gravity="center_horizontal"
         android:text=""
         android:textColor="#3b5998"
-        android:textSize="18sp"/>
+        android:textSize="@dimen/text_normal"/>
 
     <TextView
         android:id="@+id/tvText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:layout_weight="1"
         android:text=""
-        android:textSize="18sp"/>
+        android:textSize="@dimen/text_normal"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/margin_normal_half"
         android:scaleType="fitXY"
         android:src="@drawable/ic_chevron_right_black_24dp"/>
 

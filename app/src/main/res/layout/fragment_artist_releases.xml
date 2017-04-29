@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/margin_normal"
         android:contentDescription="loading image"
         android:src="@drawable/ic_app_loading"/>
 
@@ -33,15 +33,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_normal_half"
             android:text="No Results"
             android:textColor="@color/colorPrimary"
             android:textSize="40sp"
             />
 
         <ImageView
-            android:layout_width="52dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/circle_image_view"
+            android:layout_height="@dimen/circle_image_view"
             android:layout_gravity="center"
             android:src="@drawable/ic_not_interested_black_24dp"
             android:tint="@color/colorPrimary"/>

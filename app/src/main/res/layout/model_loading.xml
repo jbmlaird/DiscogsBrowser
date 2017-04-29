@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/ivLoading"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+        android:layout_width="@dimen/image_view_loading_large"
+        android:layout_height="@dimen/image_view_loading_large"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_app_loading"/>
 

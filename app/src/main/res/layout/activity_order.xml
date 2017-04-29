@@ -15,7 +15,7 @@
             android:id="@+id/ivLoading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="64dp"
+            android:layout_margin="@dimen/circle_image_view"
             android:src="@drawable/ic_app_loading"/>
 
     </LinearLayout>

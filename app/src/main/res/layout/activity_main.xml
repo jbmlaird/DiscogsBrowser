@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerInParent="true"
-            android:layout_margin="64dp"
+            android:layout_margin="@dimen/circle_image_view"
             android:src="@drawable/ic_app_loading"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginEnd="16dp"
-              android:layout_marginStart="16dp"
+              android:layout_marginEnd="@dimen/margin_normal"
+              android:layout_marginStart="@dimen/margin_normal"
               android:orientation="horizontal"
-              android:paddingBottom="16dp"
-              android:paddingTop="8dp">
+              android:paddingBottom="@dimen/margin_normal"
+              android:paddingTop="@dimen/margin_normal_half">
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
         android:text="Total"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_normal"
         android:textStyle="bold"/>
 
     <TextView
@@ -24,7 +24,7 @@
         android:gravity="end"
         android:text="£299.99"
         android:textAlignment="viewEnd"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_normal"
         android:textStyle="bold"/>
 
 </LinearLayout>
