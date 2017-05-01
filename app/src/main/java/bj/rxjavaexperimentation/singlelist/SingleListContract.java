@@ -21,7 +21,7 @@ public interface SingleListContract
 
         void showError(boolean showError, String s);
 
-        void displayListing(String listingId);
+        void displayListing(String listingId, String title, String subtitle, String seller);
 
         void displayOrder(String id);
 

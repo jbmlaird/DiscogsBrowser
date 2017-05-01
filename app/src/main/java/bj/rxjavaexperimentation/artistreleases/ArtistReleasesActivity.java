@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.artistreleases;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -49,6 +50,14 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         component.inject(this);
     }
 
+    public static Intent createIntent(Context context, String title, String id)
+    {
+        Intent intent = new Intent(context, ArtistReleasesActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -58,31 +67,27 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         presenter.setupViewPager(tabLayout, viewPager, getSupportFragmentManager());
         presenter.getArtistReleases(getIntent().getStringExtra("id"));
         setupToolbar(toolbar);
-        getSupportActionBar().setTitle(getIntent().getStringExtra("name"));
+        getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
     }
 
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
-        Intent intent = null;
         switch (type)
         {
             case "release":
-                intent = new Intent(this, ReleaseActivity.class);
+                startActivity(ReleaseActivity.createIntent(this, title, id));
                 break;
             case "label":
-                intent = new Intent(this, LabelActivity.class);
+                startActivity(LabelActivity.createIntent(this, title, id));
                 break;
             case "artist":
-                intent = new Intent(this, ArtistActivity.class);
+                startActivity(ArtistActivity.createIntent(this, title, id));
                 break;
             case "master":
-                intent = new Intent(this, MasterActivity.class);
+                startActivity(MasterActivity.createIntent(this, title, id));
                 break;
         }
-        intent.putExtra("title", title);
-        intent.putExtra("id", id);
-        startActivity(intent);
     }
 
     @Override

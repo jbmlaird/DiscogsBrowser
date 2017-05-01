@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.common;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 
 import bj.rxjavaexperimentation.App;
 import bj.rxjavaexperimentation.AppComponent;
+import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import butterknife.Unbinder;
 
 /**

@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.label;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,12 +30,19 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        LabelComponent component = DaggerLabelComponent.builder()
+        DaggerLabelComponent.builder()
                 .appComponent(appComponent)
                 .labelModule(new LabelModule(this))
-                .build();
+                .build()
+                .inject(this);
+    }
 
-        component.inject(this);
+    public static Intent createIntent(Context context, String title, String id)
+    {
+        Intent intent = new Intent(context, LabelActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        return intent;
     }
 
     @Override
@@ -51,10 +59,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     @Override
     public void displayRelease(String id, String title)
     {
-        Intent intent = new Intent(this, ReleaseActivity.class);
-        intent.putExtra("title", title);
-        intent.putExtra("id", id);
-        startActivity(intent);
+        startActivity(ReleaseActivity.createIntent(this, title, id));
     }
 
     @Override

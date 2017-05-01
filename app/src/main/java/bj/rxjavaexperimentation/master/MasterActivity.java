@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.master;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,12 +28,19 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        MasterComponent component = DaggerMasterComponent.builder()
+        DaggerMasterComponent.builder()
                 .appComponent(appComponent)
                 .masterModule(new MasterModule(this))
-                .build();
+                .build()
+                .inject(this);
+    }
 
-        component.inject(this);
+    public static Intent createIntent(Context context, String title, String id)
+    {
+        Intent intent = new Intent(context, MasterActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        return intent;
     }
 
     @Override
@@ -49,9 +57,6 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     @Override
     public void displayRelease(String title, String id)
     {
-        Intent intent = new Intent(this, ReleaseActivity.class);
-        intent.putExtra("title", title);
-        intent.putExtra("id", id);
-        startActivity(intent);
+        startActivity(ReleaseActivity.createIntent(this, title, id));
     }
 }

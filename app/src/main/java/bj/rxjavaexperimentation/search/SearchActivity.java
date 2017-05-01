@@ -63,6 +63,29 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         component.inject(this);
     }
 
+    public static Intent createIntent(Context context)
+    {
+        return new Intent(context, SearchActivity.class);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        unbinder = ButterKnife.bind(this);
+        presenter.setupRecyclerView(rvResults);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        searchView.setIconified(false);
+        searchView.requestFocus();
+        // Set SearchView text color to white
+        ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setTextColor(ContextCompat.getColor(this, android.R.color.white));
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
+    }
+
     @Override
     protected void onPause()
     {
@@ -82,24 +105,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     {
         super.onResume();
         presenter.setupSubscriptions();
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        unbinder = ButterKnife.bind(this);
-        presenter.setupRecyclerView(rvResults);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        searchView.setIconified(false);
-        searchView.requestFocus();
-        // Set SearchView text color to white
-        ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setTextColor(ContextCompat.getColor(this, android.R.color.white));
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override
@@ -150,25 +155,21 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     public void startDetailedActivity(SearchResult searchResult)
     {
-        Intent intent = null;
         switch (searchResult.getType())
         {
-            case "artist":
-                intent = new Intent(this, ArtistActivity.class);
+            case "release":
+                startActivity(ReleaseActivity.createIntent(this, searchResult.getTitle(), searchResult.getId()));
                 break;
             case "label":
-                intent = new Intent(this, LabelActivity.class);
+                startActivity(LabelActivity.createIntent(this, searchResult.getTitle(), searchResult.getId()));
                 break;
-            case "release":
-                intent = new Intent(this, ReleaseActivity.class);
+            case "artist":
+                startActivity(ArtistActivity.createIntent(this, searchResult.getTitle(), searchResult.getId()));
                 break;
             case "master":
-                intent = new Intent(this, MasterActivity.class);
+                startActivity(MasterActivity.createIntent(this, searchResult.getTitle(), searchResult.getId()));
                 break;
         }
-        intent.putExtra("title", searchResult.getTitle());
-        intent.putExtra("id", searchResult.getId());
-        startActivity(intent);
     }
 
     @Override

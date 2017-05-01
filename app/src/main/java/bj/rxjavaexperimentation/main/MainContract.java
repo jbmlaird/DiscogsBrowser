@@ -28,11 +28,11 @@ public interface MainContract
 
         void displayOrder(String id);
 
-        void displayOrdersActivity();
+        void displayOrdersActivity(String username);
 
         void displayListingsActivity(String username);
 
-        void displayListing(String listingId, String username);
+        void displayListing(String listingId, String username, String title, String s, String username1);
 
         void displayError(boolean b);
     }

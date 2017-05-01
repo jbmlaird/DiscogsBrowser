@@ -15,7 +15,7 @@ import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.epoxy.main.ListingModel_;
-import bj.rxjavaexperimentation.epoxy.main.MainHeaderModel_;
+import bj.rxjavaexperimentation.epoxy.main.MainTitleModel_;
 import bj.rxjavaexperimentation.epoxy.main.MainUserModel_;
 import bj.rxjavaexperimentation.epoxy.main.NoOrderModel_;
 import bj.rxjavaexperimentation.epoxy.main.OrderModel_;
@@ -68,11 +68,11 @@ public class MainController extends EpoxyController
                 .id("divider3")
                 .addTo(this);
 
-        new MainHeaderModel_()
+        new MainTitleModel_()
                 .id("orders header")
                 .title("Orders")
                 .size(orders.size())
-                .onClickListener(v -> mView.displayOrdersActivity())
+                .onClickListener(v -> mView.displayOrdersActivity(sharedPrefsManager.getUsername()))
                 .addTo(this);
 
         new NoOrderModel_()
@@ -111,7 +111,7 @@ public class MainController extends EpoxyController
 
         // Selling
 
-        new MainHeaderModel_()
+        new MainTitleModel_()
                 .id("selling header")
                 .title(context.getString(R.string.selling))
                 .size(listings.size())
@@ -131,7 +131,7 @@ public class MainController extends EpoxyController
             new ListingModel_(dateFormatter)
                     .datePosted(listing.getPosted())
                     .releaseName(listing.getRelease().getDescription())
-                    .onClickListener(v -> mView.displayListing(listing.getId(), sharedPrefsManager.getUsername()))
+                    .onClickListener(v -> mView.displayListing(listing.getId(), listing.getTitle(), sharedPrefsManager.getUsername(), "", listing.getSeller().getUsername()))
                     .id("listing" + String.valueOf(listings.indexOf(listing)))
                     .addTo(this);
 

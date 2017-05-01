@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.artist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,11 +31,19 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        ArtistComponent component = DaggerArtistComponent.builder()
+        DaggerArtistComponent.builder()
                 .appComponent(appComponent)
                 .artistModule(new ArtistModule(this))
-                .build();
-        component.inject(this);
+                .build()
+                .inject(this);
+    }
+
+    public static Intent createIntent(Context context, String title, String id)
+    {
+        Intent intent = new Intent(context, ArtistActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        return intent;
     }
 
     @Override
@@ -51,10 +60,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @Override
     public void showMemberDetails(String name, String id)
     {
-        Intent intent = new Intent(this, ArtistActivity.class);
-        intent.putExtra("title", name);
-        intent.putExtra("id", id);
-        startActivity(intent);
+        startActivity(createIntent(this, name, id));
     }
 
     @Override
@@ -66,9 +72,6 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @Override
     public void showArtistReleases(String title, String id)
     {
-        Intent intent = new Intent(this, ArtistReleasesActivity.class);
-        intent.putExtra("name", title);
-        intent.putExtra("id", id);
-        startActivity(intent);
+        startActivity(ArtistReleasesActivity.createIntent(this, title, id));
     }
 }

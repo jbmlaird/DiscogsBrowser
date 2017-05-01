@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.model.release.Label;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
@@ -51,6 +52,16 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         discogsInteractor.fetchReleaseDetails(id)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
+                .map(release ->
+                {
+                    for (Label label : release.getLabels())
+                    {
+                        discogsInteractor.fetchLabelDetails(label.getId())
+                                .subscribe(labelDetails ->
+                                        label.setThumb(labelDetails.getImages().get(0).getUri()));
+                    }
+                    return release;
+                })
                 .subscribe(release ->
                 {
                     controller.setRelease(release);

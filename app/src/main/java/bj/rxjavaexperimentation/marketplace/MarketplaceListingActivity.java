@@ -1,5 +1,7 @@
 package bj.rxjavaexperimentation.marketplace;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -45,11 +47,21 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        MarketplaceComponent component = DaggerMarketplaceComponent.builder()
+        DaggerMarketplaceComponent.builder()
                 .appComponent(appComponent)
                 .marketplaceModule(new MarketplaceModule(this))
-                .build();
-        component.inject(this);
+                .build()
+                .inject(this);
+    }
+
+    public static Intent createIntent(Context context, String id, String title, String artist, String seller)
+    {
+        Intent intent = new Intent(context, MarketplaceListingActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("title", title);
+        intent.putExtra("artist", artist);
+        intent.putExtra("seller", seller);
+        return intent;
     }
 
     @Override

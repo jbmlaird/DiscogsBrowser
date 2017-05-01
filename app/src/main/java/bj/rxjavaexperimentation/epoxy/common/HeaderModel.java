@@ -44,11 +44,11 @@ public abstract class HeaderModel extends EpoxyModel<LinearLayout>
                 .into(ivImage);
         if (!subtitle.equals(""))
         {
+            // Controller reuses the same model so visibility has to be restored
             tvSubtitle.setText(subtitle);
             tvSubtitle.setVisibility(View.VISIBLE);
         }
         else
-            // It reuses the same model so visibility has to be restored
             tvSubtitle.setVisibility(View.GONE);
     }
 }

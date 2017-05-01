@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -54,19 +55,23 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        MainComponent mainComponent = DaggerMainComponent.builder()
+        DaggerMainComponent.builder()
                 .appComponent(appComponent)
                 .mainModule(new MainModule(this))
-                .build();
+                .build()
+                .inject(this);
+    }
 
-        mainComponent.inject(this);
+    public static Intent createIntent(Context context)
+    {
+        return new Intent(context, MainActivity.class);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if (item.getTitle().equals("Search"))
-            startActivity(new Intent(this, SearchActivity.class));
+            startActivity(SearchActivity.createIntent(this));
         return super.onOptionsItemSelected(item);
     }
 
@@ -143,26 +148,19 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void displayOrder(String id)
     {
-        Intent intent = new Intent(this, OrderActivity.class);
-        intent.putExtra("orderId", id);
-        startActivity(intent);
+        startActivity(OrderActivity.createIntent(this, id));
     }
 
     @Override
-    public void displayOrdersActivity()
+    public void displayOrdersActivity(String username)
     {
-        Intent intent = new Intent(this, SingleListActivity.class);
-        intent.putExtra("type", "orders");
-        startActivity(intent);
+        startActivity(SingleListActivity.createIntent(this, "orders", username));
     }
 
     @Override
-    public void displayListing(String listingId, String username)
+    public void displayListing(String listingId, String title, String username, String artist, String seller)
     {
-        Intent intent = new Intent(this, MarketplaceListingActivity.class);
-        intent.putExtra("id", listingId);
-        intent.putExtra("seller", username);
-        startActivity(intent);
+        startActivity(MarketplaceListingActivity.createIntent(this, listingId, title, artist, seller));
     }
 
     @Override
@@ -178,10 +176,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void displayListingsActivity(String username)
     {
-        Intent intent = new Intent(this, SingleListActivity.class);
-        intent.putExtra("username", username);
-        intent.putExtra("type", "selling");
-        startActivity(intent);
+        startActivity(SingleListActivity.createIntent(this, "selling", username));
     }
 
     @OnClick(R.id.btnError)

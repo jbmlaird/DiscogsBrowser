@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
+import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.epoxy.main.ViewMoreModel_;
 import bj.rxjavaexperimentation.epoxy.release.CollectionWantlistModel_;
 import bj.rxjavaexperimentation.epoxy.release.MarketplaceListingsHeader_;
@@ -21,6 +21,7 @@ import bj.rxjavaexperimentation.epoxy.release.NoListingsModel_;
 import bj.rxjavaexperimentation.epoxy.release.TrackModel_;
 import bj.rxjavaexperimentation.epoxy.release.YouTubeModel_;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
+import bj.rxjavaexperimentation.model.release.Label;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.release.Track;
 import bj.rxjavaexperimentation.model.release.Video;
@@ -76,7 +77,7 @@ public class ReleaseController extends BaseController
                 .addTo(this);
 
         new DividerModel_()
-                .id("divider1")
+                .id("header_divider")
                 .addTo(this);
 
         if (release != null)
@@ -102,8 +103,20 @@ public class ReleaseController extends BaseController
             }
 
             new DividerModel_()
-                    .id("tracklist divider")
+                    .id("tracklist_divider")
                     .addTo(this);
+
+            for (Label label : release.getLabels())
+            {
+                new YouTubeModel_()
+                        .id("label" + release.getLabels().indexOf(label))
+                        .onClick(v -> view.displayLabel(label.getName(), label.getId()))
+                        .context(context)
+                        .imageUrl(label.getThumb())
+                        .title(label.getName())
+                        .description(label.getCatno())
+                        .addTo(this);
+            }
 
             new LoadingModel_()
                     .id("collectionwantlistloader")
@@ -132,6 +145,11 @@ public class ReleaseController extends BaseController
                     .id("Wantlist error")
                     .addIf(wantlistError, this);
 
+            new SubHeaderModel_()
+                    .id("youtube subheader")
+                    .subheader("YouTube videos")
+                    .addTo(this);
+
             if (release.getVideos() != null)
             {
                 for (Video video : release.getVideos())
@@ -139,8 +157,8 @@ public class ReleaseController extends BaseController
                     String youtubeId = video.getUri().split("=")[1];
                     new YouTubeModel_()
                             .onClick(v -> view.launchYouTube(youtubeId))
-                            .youTubeId(youtubeId)
-                            .youTubeKey(context.getString(R.string.youtube_key))
+                            .imageUrl("https://img.youtube.com/vi/" + youtubeId + "/default.jpg")
+                            .context(context)
                             .id("youtube" + release.getVideos().indexOf(video))
                             .title(video.getTitle())
                             .description(video.getDescription())
@@ -148,7 +166,7 @@ public class ReleaseController extends BaseController
                 }
 
                 new DividerModel_()
-                        .id("video divider")
+                        .id("video_divider")
                         .addTo(this);
             }
 
@@ -159,7 +177,7 @@ public class ReleaseController extends BaseController
                     .addTo(this);
 
             new LoadingModel_()
-                    .id("loading")
+                    .id("marketplace loader")
                     .imageViewAnimator(imageViewAnimator)
                     .addIf(marketplaceLoading, this);
 
@@ -189,7 +207,7 @@ public class ReleaseController extends BaseController
                         if (releaseListings.indexOf(scrapeListing) == 2 && !viewAllListings && releaseListings.size() > 3)
                         {
                             new ViewMoreModel_()
-                                    .id("view all")
+                                    .id("view all listings")
                                     .title("View all listings")
                                     .textSize(18f)
                                     .onClickListener(v -> setViewListings(true))

@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,6 +34,13 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
         component.inject(this);
     }
 
+    public static Intent createIntent(Context context)
+    {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -64,7 +72,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     @Override
     public void finish()
     {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(MainActivity.createIntent(this));
         super.finish();
     }
 }

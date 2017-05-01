@@ -1,5 +1,7 @@
 package bj.rxjavaexperimentation.order;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +34,13 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
         component.inject(this);
     }
 
+    public static Intent createIntent(Context context, String id)
+    {
+        Intent intent = new Intent(context, OrderActivity.class);
+        intent.putExtra("id", id);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -39,8 +48,8 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
         setContentView(R.layout.activity_order);
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
-        toolbar.setTitle(getIntent().getStringExtra("orderId"));
+        toolbar.setTitle(getIntent().getStringExtra("id"));
         presenter.setupRecyclerView(this, recyclerView);
-        presenter.fetchOrderDetails(getIntent().getStringExtra("orderId"));
+        presenter.fetchOrderDetails(getIntent().getStringExtra("id"));
     }
 }

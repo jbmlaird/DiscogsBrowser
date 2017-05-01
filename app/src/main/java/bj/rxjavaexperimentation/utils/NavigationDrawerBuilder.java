@@ -1,7 +1,6 @@
 package bj.rxjavaexperimentation.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
@@ -92,30 +91,19 @@ public class NavigationDrawerBuilder
                             switch ((int) drawerItem.getIdentifier())
                             {
                                 case 1:
-                                    Intent collectionIntent = new Intent(activity, SingleListActivity.class);
-                                    collectionIntent.putExtra("type", "collection");
-                                    collectionIntent.putExtra("username", sharedPrefsManager.getUsername());
-                                    activity.startActivity(collectionIntent);
+                                    activity.startActivity(SingleListActivity.createIntent(activity, "collection", sharedPrefsManager.getUsername()));
                                     break;
                                 case 2:
-                                    Intent wantlistIntent = new Intent(activity, SingleListActivity.class);
-                                    wantlistIntent.putExtra("type", "wantlist");
-                                    wantlistIntent.putExtra("username", sharedPrefsManager.getUsername());
-                                    activity.startActivity(wantlistIntent);
+                                    activity.startActivity(SingleListActivity.createIntent(activity, "wantlist", sharedPrefsManager.getUsername()));
                                     break;
                                 case 3001:
-                                    Intent sellingIntent = new Intent(activity, SingleListActivity.class);
-                                    sellingIntent.putExtra("username", sharedPrefsManager.getUsername());
-                                    sellingIntent.putExtra("type", "selling");
-                                    activity.startActivity(sellingIntent);
+                                    activity.startActivity(SingleListActivity.createIntent(activity, "selling", sharedPrefsManager.getUsername()));
                                     break;
                                 case 3002:
-                                    Intent ordersIntent = new Intent(activity, SingleListActivity.class);
-                                    ordersIntent.putExtra("type", "orders");
-                                    activity.startActivity(ordersIntent);
+                                    activity.startActivity(SingleListActivity.createIntent(activity, "orders", sharedPrefsManager.getUsername()));
                                     break;
                                 case 4:
-                                    activity.startActivity(new Intent(activity, SearchActivity.class));
+                                    activity.startActivity(SearchActivity.createIntent(activity));
                                     break;
 //                                case 5:
 //                                    // TODO: Implement Settings
@@ -126,9 +114,7 @@ public class NavigationDrawerBuilder
                                 case 7:
                                     RxSocialConnect.closeConnections();
                                     sharedPrefsManager.removeUserDetails();
-                                    Intent intent = new Intent(activity, LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    activity.startActivity(intent);
+                                    activity.startActivity(LoginActivity.createIntent(activity));
                                     activity.finish();
                                     break;
                             }

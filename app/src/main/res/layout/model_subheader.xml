@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_normal_half"
+              android:layout_marginEnd="@dimen/margin_normal"
+              android:layout_marginStart="@dimen/margin_normal"
+              android:layout_marginTop="@dimen/margin_very_small"
               android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvSubheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_normal_half"
-        android:layout_marginEnd="@dimen/margin_normal"
-        android:layout_marginStart="@dimen/margin_normal"
         android:text=""
         android:textSize="@dimen/text_normal"
         android:textStyle="bold"/>

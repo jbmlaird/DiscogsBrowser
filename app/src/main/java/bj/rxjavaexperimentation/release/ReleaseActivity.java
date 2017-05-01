@@ -1,11 +1,11 @@
 package bj.rxjavaexperimentation.release;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-
-import com.google.android.youtube.player.YouTubeIntents;
 
 import javax.inject.Inject;
 
@@ -13,6 +13,7 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.common.MyRecyclerView;
+import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
@@ -32,12 +33,19 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        ReleaseComponent component = DaggerReleaseComponent.builder()
+        DaggerReleaseComponent.builder()
                 .appComponent(appComponent)
                 .releaseModule(new ReleaseModule(this))
-                .build();
+                .build()
+                .inject(this);
+    }
 
-        component.inject(this);
+    public static Intent createIntent(Context context, String title, String id)
+    {
+        Intent intent = new Intent(context, ReleaseActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        return intent;
     }
 
     @Override
@@ -54,22 +62,18 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Override
     public void displayListingInformation(String title, String artists, ScrapeListing scrapeListing)
     {
-        Intent intent = new Intent(this, MarketplaceListingActivity.class);
-        intent.putExtra("title", title);
-        intent.putExtra("artist", artists);
-        intent.putExtra("seller", scrapeListing.getSellerName());
-        intent.putExtra("sellerRating", scrapeListing.getSellerRating());
-        intent.putExtra("id", scrapeListing.getMarketPlaceId());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        startActivity(MarketplaceListingActivity.createIntent(this, scrapeListing.getMarketPlaceId(), title, artists, scrapeListing.getSellerName()));
     }
 
     @Override
     public void launchYouTube(String youtubeId)
     {
-//        new FinestWebView.Builder(this).show(uri);
-        // Launch in the native YouTube app
-        Intent intent = YouTubeIntents.createPlayVideoIntentWithOptions(this, youtubeId, false, false);
-        startActivity(intent);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + youtubeId)));
+    }
+
+    @Override
+    public void displayLabel(String title, String id)
+    {
+        startActivity(LabelActivity.createIntent(this, title, id));
     }
 }

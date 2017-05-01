@@ -59,6 +59,9 @@
 -keepclasseswithmembernames class * { @butterknife.* <methods>; }
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
 
+##---------------Begin: proguard configuration for Dagger2  ----------
+-dontwarn com.google.errorprone.annotations.*
+
 ##---------------Begin: proguard configuration for Retrofit2 ----------
 
 -dontwarn retrofit2.**

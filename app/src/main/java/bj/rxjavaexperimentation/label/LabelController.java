@@ -59,7 +59,7 @@ public class LabelController extends BaseController
                         .id("labelrelease" + labelReleases.indexOf(labelRelease))
                         .subtitle(labelRelease.getArtist())
                         .imageUrl(labelRelease.getThumb())
-                        .title(labelRelease.getTitle())
+                        .title(labelRelease.getTitle() + " (" + labelRelease.getCatno() + ")")
                         .context(context)
                         .onClick(v -> view.displayRelease(labelRelease.getId(), labelRelease.getTitle()))
                         .addTo(this);

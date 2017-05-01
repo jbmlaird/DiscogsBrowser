@@ -81,5 +81,4 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'br.com.simplepass:loading-button-android:1.6.5'
     compile 'com.github.GrenderG:Toasty:1.1.5'
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }

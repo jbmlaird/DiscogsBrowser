@@ -6,8 +6,8 @@
               android:layout_marginEnd="@dimen/margin_normal"
               android:layout_marginStart="@dimen/margin_normal"
               android:orientation="horizontal"
-              android:paddingBottom="@dimen/padding_final_item"
-              android:paddingTop="@dimen/margin_normal">
+              android:paddingBottom="@dimen/margin_normal_half"
+              android:paddingTop="@dimen/margin_normal_half">
 
     <TextView
         android:layout_width="0dp"
@@ -15,7 +15,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/margin_normal"
         android:layout_weight="1"
-        android:padding="@dimen/padding_small"
         android:text="View on Discogs"
         android:textSize="@dimen/text_normal"/>
 

@@ -18,8 +18,8 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
  * Created by Josh Laird on 17/04/2017.
  */
 
-@EpoxyModelClass(layout = R.layout.model_main_header)
-public abstract class MainHeaderModel extends EpoxyModel<LinearLayout>
+@EpoxyModelClass(layout = R.layout.model_main_title)
+public abstract class MainTitleModel extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute(DoNotHash) View.OnClickListener onClickListener;
     @EpoxyAttribute String title;

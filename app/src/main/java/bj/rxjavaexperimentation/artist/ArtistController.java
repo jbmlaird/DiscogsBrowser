@@ -83,7 +83,7 @@ public class ArtistController extends BaseController
                         .addTo(this);
             }
 
-            if (artistResult.getWantedUrls() != null)
+            if (artistResult.getWantedUrls() != null && artistResult.getWantedUrls().size() > 0)
             {
                 new SubHeaderModel_()
                         .id("links subheader")
@@ -113,7 +113,7 @@ public class ArtistController extends BaseController
         this.artistResult = artistResult;
         if (artistResult.getImages() != null)
             imageUrl = artistResult.getImages().get(0).getResourceUrl();
-        if (artistResult.getNamevariations() != null)
+        if (artistResult.getNamevariations() != null && artistResult.getNamevariations().size() > 0)
             title = artistResult.getNamevariations().get(0);
         subtitle = artistResult.getProfile();
         requestModelBuild();

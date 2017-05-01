@@ -63,7 +63,7 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Si
             switch (item.getType())
             {
                 case "listing":
-                    view.displayListing(item.getId());
+                    view.displayListing(item.getId(), item.getTitle(), item.getSubtitle(), "");
                     break;
                 case "order":
                     view.displayOrder(item.getId());

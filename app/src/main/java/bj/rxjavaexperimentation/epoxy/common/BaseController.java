@@ -9,6 +9,7 @@ public abstract class BaseController extends EpoxyController
 {
     public String title = "";
     public String subtitle = "";
+    public String subSubtitle = "";
     public String imageUrl = "";
 
     // Can't use this as ProGuard causes issues with AutoModels :/

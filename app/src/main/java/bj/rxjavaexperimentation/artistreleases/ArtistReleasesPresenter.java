@@ -59,8 +59,8 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void getArtistReleases(String id)
     {
-        disposable.add(discogsInteractor.fetchArtistsReleases(id)
-                .subscribe(behaviorRelay));
+        discogsInteractor.fetchArtistsReleases(id)
+                .subscribe(behaviorRelay);
     }
 
     @Override
@@ -99,10 +99,11 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     @Override
     public void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, String searchFilter)
     {
-        behaviorRelay
-                .map(artistResultFunction.map(searchFilter))
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(consumer);
+        disposable.add(
+                behaviorRelay
+                        .map(artistResultFunction.map(searchFilter))
+                        .observeOn(mySchedulerProvider.ui())
+                        .subscribe(consumer));
     }
 
     @Override

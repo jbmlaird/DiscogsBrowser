@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.singlelist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,6 +57,14 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         component.inject(this);
     }
 
+    public static Intent createIntent(Context context, String type, String username)
+    {
+        Intent intent = new Intent(context, SingleListActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("username", username);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -110,43 +119,35 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     }
 
     @Override
-    public void displayListing(String listingId)
+    public void displayListing(String listingId, String title, String artist, String seller)
     {
-        Intent intent = new Intent(this, MarketplaceListingActivity.class);
-        intent.putExtra("id", listingId);
-        startActivity(intent);
+        startActivity(MarketplaceListingActivity.createIntent(this, listingId, title, artist, seller));
     }
 
     @Override
     public void displayOrder(String id)
     {
-        Intent intent = new Intent(this, OrderActivity.class);
-        intent.putExtra("orderId", id);
-        startActivity(intent);
+        startActivity(OrderActivity.createIntent(this, id));
     }
 
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
-        Intent intent = null;
         switch (type)
         {
             case "release":
-                intent = new Intent(this, ReleaseActivity.class);
+                startActivity(ReleaseActivity.createIntent(this, title, id));
                 break;
             case "label":
-                intent = new Intent(this, LabelActivity.class);
+                startActivity(LabelActivity.createIntent(this, title, id));
                 break;
             case "artist":
-                intent = new Intent(this, ArtistActivity.class);
+                startActivity(ArtistActivity.createIntent(this, title, id));
                 break;
             case "master":
-                intent = new Intent(this, MasterActivity.class);
+                startActivity(MasterActivity.createIntent(this, title, id));
                 break;
         }
-        intent.putExtra("title", title);
-        intent.putExtra("id", id);
-        startActivity(intent);
     }
 
     @Override

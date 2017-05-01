@@ -8,7 +8,7 @@
     android:layout_marginStart="@dimen/margin_normal"
     android:orientation="horizontal">
 
-    <com.google.android.youtube.player.YouTubeThumbnailView
+    <ImageView
         android:id="@+id/ivImage"
         android:layout_width="@dimen/image_view_list"
         android:layout_height="@dimen/image_view_list"

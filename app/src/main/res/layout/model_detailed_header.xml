@@ -15,7 +15,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_normal_half"
+        android:layout_marginBottom="@dimen/padding_small"
         android:layout_marginEnd="@dimen/margin_normal"
         android:layout_marginStart="@dimen/margin_normal"
         android:layout_marginTop="@dimen/margin_normal"
@@ -26,10 +26,10 @@
         android:id="@+id/tvSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_normal_half"
+        android:layout_marginBottom="@dimen/padding_small"
         android:layout_marginEnd="@dimen/margin_normal"
         android:layout_marginStart="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_normal_half"
+        android:layout_marginTop="@dimen/padding_small"
         android:text=""
         android:textSize="@dimen/text_normal"/>
 
