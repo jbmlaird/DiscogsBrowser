@@ -22,7 +22,7 @@ import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 public class OrderController extends EpoxyController
 {
     private Order orderDetails;
-    private boolean loading = true;
+    private boolean loadingOrder = true;
     private boolean error = false;
     private ImageViewAnimator imageViewAnimator;
 
@@ -36,9 +36,9 @@ public class OrderController extends EpoxyController
     protected void buildModels()
     {
         new LoadingModel_()
-                .id("order loading")
+                .id("order loadingOrder")
                 .imageViewAnimator(imageViewAnimator)
-                .addIf(loading, this);
+                .addIf(loadingOrder, this);
 
         new ErrorModel_()
                 .errorString("Unable to load order")
@@ -82,7 +82,7 @@ public class OrderController extends EpoxyController
     public void setOrderDetails(Order orderDetails)
     {
         error = false;
-        loading = false;
+        loadingOrder = false;
         this.orderDetails = orderDetails;
         requestModelBuild();
     }

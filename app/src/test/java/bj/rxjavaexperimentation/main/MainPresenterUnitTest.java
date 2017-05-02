@@ -5,29 +5,37 @@ import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.materialdrawer.Drawer;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collections;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
+import bj.rxjavaexperimentation.model.listing.Listing;
+import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
-import bj.rxjavaexperimentation.utils.schedulerprovider.TestSchedulerProvider;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
+import bj.rxjavaexperimentation.utils.schedulerprovider.TestSchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.TestScheduler;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
- * Example local unit buildNavigationDrawer_initialisesActivity, which will execute on the development machine (host).
+ * Example local unit buildNavigationDrawer_succeeds, which will execute on the development machine (host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
@@ -58,25 +66,65 @@ public class MainPresenterUnitTest
         testUserDetails = new UserDetails();
         testUserDetails.setUsername(username);
         testScheduler = new TestScheduler();
-        mainPresenter = new MainPresenter(mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, compositeDisposable);
+        mainPresenter = new MainPresenter(mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper);
+    }
+
+    @After
+    public void tearDown()
+    {
+        verifyNoMoreInteractions(mView, discogsInteractor, navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper);
     }
 
     @Test
-    public void buildNavigationDrawer_initialisesActivity()
+    public void buildNavigationDrawer_succeeds()
     {
-        when(discogsInteractor.fetchUserDetails()).thenReturn(Observable.just(testUserDetails));
-        when(discogsInteractor.fetchOrders()).thenReturn(Observable.just(Collections.emptyList()));
-        when(discogsInteractor.fetchSelling(username)).thenReturn(Observable.just(Collections.emptyList()));
-        when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar, testUserDetails)).thenReturn(drawer);
+        List<Order> listOrders = new ArrayList();
+        List<Listing> listSelling = new ArrayList();
+        when(sharedPrefsManager.getUsername()).thenReturn(username);
+        when(discogsInteractor.fetchUserDetails()).thenReturn(Single.just(testUserDetails));
+        when(discogsInteractor.fetchOrders()).thenReturn(Single.just(listOrders));
+        when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(listSelling));
+        when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar)).thenReturn(drawer);
 
         mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
         testScheduler.triggerActions();
 
-        verify(discogsInteractor).fetchUserDetails();
-        verify(discogsInteractor).fetchOrders();
-        verify(discogsInteractor).fetchSelling(username);
-        verify(mView).setDrawer(drawer);
-        verify(navigationDrawerBuilder).buildNavigationDrawer(mainActivity, toolbar, testUserDetails);
-        verify(mView).setupRecyclerView();
+        verify(mView, times(1)).showLoading(true);
+        verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
+        verify(discogsInteractor, times(1)).fetchUserDetails();
+        verify(discogsInteractor, times(1)).fetchOrders();
+        verify(sharedPrefsManager, times(1)).getUsername();
+        verify(mainController, times(1)).setOrders(listOrders);
+        verify(discogsInteractor, times(1)).fetchSelling(username);
+        verify(mainController, times(1)).setSelling(listSelling);
+        verify(mView, times(1)).setDrawer(drawer);
+        verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, toolbar);
+        verify(mView, times(1)).setupRecyclerView();
+        verify(mainController, times(1)).setLoadingMorePurchases(true);
+        verify(mainController, times(1)).setLoadingMoreSales(true);
+    }
+
+    @Test
+    public void buildNavigationDrawerUserDetailsError_handles()
+    {
+        when(sharedPrefsManager.getUsername()).thenReturn(username);
+        when(discogsInteractor.fetchUserDetails()).thenReturn(Single.error(new UnknownHostException()));
+
+        mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
+        testScheduler.triggerActions();
+
+        verify(mView, times(1)).showLoading(true);
+        verify(discogsInteractor, times(1)).fetchUserDetails();
+        verify(mainController).setOrdersError(true);
+        verify(logWrapper).e(any(String.class), any(String.class));
+    }
+
+    @Test
+    public void setupRecyclerView_setsUpRecyclerView()
+    {
+        mainPresenter.setupRecyclerView(mainActivity, recyclerView);
+
+        verify(mainController, times(1)).getAdapter();
+        verify(mainController, times(1)).requestModelBuild();
     }
 }

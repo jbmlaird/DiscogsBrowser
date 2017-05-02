@@ -8,7 +8,7 @@ import java.util.List;
 
 import bj.rxjavaexperimentation.model.common.Pagination;
 
-public class RootMessageResponse
+public class RootOrderMessagesResponse
 {
 
     @SerializedName("pagination")

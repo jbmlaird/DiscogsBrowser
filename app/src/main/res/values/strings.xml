@@ -40,4 +40,5 @@
     <string name="name">name</string>
     <string name="num_collection">num_collection</string>
     <string name="num_wantlist">num_wantlist</string>
+    <string name="no_order_messages">No order messages</string>
 </resources>

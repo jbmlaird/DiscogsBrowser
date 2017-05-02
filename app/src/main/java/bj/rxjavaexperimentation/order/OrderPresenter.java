@@ -30,6 +30,23 @@ public class OrderPresenter implements OrderContract.Presenter
     @Override
     public void fetchOrderDetails(String orderId)
     {
+        // Only sellers can see order messages
+//        if (seller)
+//            discogsInteractor.fetchOrderDetails(orderId)
+//                    .subscribeOn(mySchedulerProvider.io())
+//                    .observeOn(mySchedulerProvider.ui())
+//                    .flatMap(orderDetails ->
+//                    {
+//                        orderController.setOrderDetails(orderDetails);
+//                        return discogsInteractor.fetchOrderMessages(orderId)
+//                                .subscribeOn(mySchedulerProvider.io());
+//                    })
+//                    .subscribe(
+//                            orderMessages ->
+//                                    orderController.setOrderMessages(orderMessages),
+//                            error ->
+//                                    orderController.errorFetchingDetails());
+//        else
         discogsInteractor.fetchOrderDetails(orderId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())

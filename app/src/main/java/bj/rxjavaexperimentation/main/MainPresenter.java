@@ -76,7 +76,7 @@ public class MainPresenter implements MainContract.Presenter
                         },
                         error ->
                         {
-                            mView.displayError(true);
+                            mainController.setOrdersError(true);
                             error.printStackTrace();
                             log.e(TAG, "Wtf");
                         });

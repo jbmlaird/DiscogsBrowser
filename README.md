@@ -11,8 +11,6 @@ Android app to interact with Discogs' API
 
 This build is login only.
 
-It is not ready for consumers at this stage.
-
 # Features
 
 * Reactive search
@@ -24,23 +22,24 @@ It is not ready for consumers at this stage.
 
 # Forthcoming
 
-* Carousels for images
 * Browsing history
 * Recent releases
 * Browsing without being logged in
 * Recommendation system
 * Adding notes to items in collection
-* Seeing order comments/updates
 
 # Desirable but no plans to implement
 
-* Listen to releases in-app. This would require an architecture change and would have to use a library like [DraggablePanel](https://github.com/pedrovgs/DraggablePanel). Effectively, the whole app has to be one activity to keep the window displaying in the bottom-right.
+* Listen to releases in-app. This would require an architecture change. The whole app has to be one activity to keep a YouTube window displaying in the bottom-right.
+* Carousels for images. Images are different sizes so I think showing extra images is unnecessary.
+* Seeing/posting order comments/updates. The API restricts this to only being able to see notes for your own orders where you're the seller.
 
 # Limitations
 
 Currently, in April 2017, the public API does not allow any of the following:
 * Order placing
 * Marketplace actions. This includes purchasing in app, viewing purchases or searching listings.
+* Seeing order comments/updates for purchases
 * Notifications
 
 # License

@@ -6,11 +6,12 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Created by Josh Laird on 17/04/2017.
  */
-
+@Singleton
 public class ImageViewAnimator
 {
     @Inject

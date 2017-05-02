@@ -25,6 +25,7 @@ import bj.rxjavaexperimentation.order.OrderActivity;
 import bj.rxjavaexperimentation.search.SearchActivity;
 import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
+import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,6 +40,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @Inject ImageViewAnimator imageViewAnimator;
     @Inject MainPresenter presenter;
+    @Inject SharedPrefsManager sharedPrefsManager;
     private Drawer drawer;
 
     @Override
@@ -47,7 +49,6 @@ public class MainActivity extends BaseActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-        showLoading(true);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Profile");
     }
@@ -109,6 +110,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
             lytMainContent.setVisibility(View.GONE);
             imageViewAnimator.rotateImage(ivLoading);
             lytLoading.setVisibility(View.VISIBLE);
+            displayError(false);
         }
         else
         {
@@ -130,7 +132,6 @@ public class MainActivity extends BaseActivity implements MainContract.View
     public void setDrawer(Drawer drawer)
     {
         this.drawer = drawer;
-        showLoading(false);
         displayError(false);
     }
 
@@ -143,6 +144,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     public void setupRecyclerView()
     {
         presenter.setupRecyclerView(this, recyclerView);
+        showLoading(false);
     }
 
     @Override
@@ -166,9 +168,11 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void displayError(boolean b)
     {
-        showLoading(false);
         if (b)
+        {
+            showLoading(false);
             lytError.setVisibility(View.VISIBLE);
+        }
         else
             lytError.setVisibility(View.GONE);
     }

@@ -46,9 +46,6 @@ public class SearchModule
     @Singleton
     Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(DiscogsInteractor discogsInteractor)
     {
-        SearchResult startingSearchResult = new SearchResult();
-        startingSearchResult.setId("bj");
-
         return searchViewQueryTextEvent ->
                 discogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString()).toObservable();
     }

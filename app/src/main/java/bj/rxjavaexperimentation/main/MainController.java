@@ -12,8 +12,8 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
-import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.epoxy.main.ListingModel_;
 import bj.rxjavaexperimentation.epoxy.main.MainTitleModel_;
 import bj.rxjavaexperimentation.epoxy.main.MainUserModel_;
@@ -33,16 +33,15 @@ import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 @Singleton
 public class MainController extends EpoxyController
 {
-    private boolean loadingMorePurchases = true;
     private Context context;
     private MainContract.View mView;
     private SharedPrefsManager sharedPrefsManager;
     private ImageViewAnimator imageViewAnimator;
     private DateFormatter dateFormatter;
+    private boolean loadingMorePurchases = true;
     private boolean loadingMoreSales = true;
     private List<Order> orders = new ArrayList<>();
     private List<Listing> listings = new ArrayList<>();
-    private boolean sellingError;
     private boolean ordersError;
 
     @Inject
@@ -75,10 +74,15 @@ public class MainController extends EpoxyController
                 .onClickListener(v -> mView.displayOrdersActivity(sharedPrefsManager.getUsername()))
                 .addTo(this);
 
+        new ErrorModel_()
+                .id("orders error")
+                .errorString("Unable to fetch Orders")
+                .addIf(ordersError, this);
+
         new NoOrderModel_()
                 .id("no orders")
                 .text("No order history")
-                .addIf(!loadingMorePurchases && orders.size() == 0, this);
+                .addIf(!loadingMorePurchases && orders.size() == 0 && !ordersError, this);
 
         for (Order order : orders)
         {
@@ -99,11 +103,6 @@ public class MainController extends EpoxyController
                     .addIf(orders.indexOf(order) != orders.size() - 1, this);
         }
 
-        new SubHeaderModel_()
-                .id("no orders")
-                .subheader("Unable to fetch orders")
-                .addIf(ordersError, this);
-
         new LoadingModel_()
                 .imageViewAnimator(imageViewAnimator)
                 .id("loading model")
@@ -118,10 +117,15 @@ public class MainController extends EpoxyController
                 .onClickListener(v -> mView.displayListingsActivity(sharedPrefsManager.getUsername()))
                 .addTo(this);
 
+        new ErrorModel_()
+                .id("selling error")
+                .errorString("Unable to fetch selling")
+                .addIf(ordersError, this);
+
         new NoOrderModel_()
                 .id("not selling")
                 .text(context.getString(R.string.not_selling_anything))
-                .addIf(!loadingMoreSales && listings.size() == 0, this);
+                .addIf(!loadingMoreSales && listings.size() == 0 && !ordersError, this);
 
         for (Listing listing : listings)
         {
@@ -140,11 +144,6 @@ public class MainController extends EpoxyController
                     .addTo(this);
         }
 
-        new SubHeaderModel_()
-                .id("no orders")
-                .subheader("Unable to fetch live listings")
-                .addIf(ordersError, this);
-
         new LoadingModel_()
                 .id("sales loading model")
                 .imageViewAnimator(imageViewAnimator)
@@ -162,30 +161,27 @@ public class MainController extends EpoxyController
     public void setLoadingMorePurchases(boolean loadingMorePurchases)
     {
         this.loadingMorePurchases = loadingMorePurchases;
+        requestModelBuild();
     }
 
     public void setSelling(List<Listing> listings)
     {
         this.listings = listings;
         this.loadingMoreSales = false;
-        this.sellingError = false;
         requestModelBuild();
     }
 
     public void setLoadingMoreSales(boolean loadingMoreSales)
     {
         this.loadingMoreSales = loadingMoreSales;
-    }
-
-    public void setSellingError(boolean sellingError)
-    {
-        this.sellingError = sellingError;
         requestModelBuild();
     }
 
     public void setOrdersError(boolean b)
     {
         this.ordersError = b;
+        this.loadingMorePurchases = false;
+        this.loadingMoreSales = false;
         requestModelBuild();
     }
 }

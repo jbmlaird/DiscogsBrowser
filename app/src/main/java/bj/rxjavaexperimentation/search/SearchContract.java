@@ -17,10 +17,6 @@ public interface SearchContract
 {
     interface View
     {
-        void hideProgressBar();
-
-        void showProgressBar();
-
         Observable<SearchViewQueryTextEvent> searchIntent();
 
         Observable<TabLayoutSelectionEvent> tabIntent();

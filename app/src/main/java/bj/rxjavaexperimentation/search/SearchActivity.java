@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -42,7 +41,7 @@ import io.reactivex.Observable;
 
 public class SearchActivity extends BaseActivity implements SearchContract.View
 {
-    private static final String TAG = "SearchActivity";
+    private final String TAG = getClass().getSimpleName();
     @Inject SearchPresenter presenter;
     @Inject MySchedulerProvider mySchedulerProvider;
     @BindView(R.id.lytTabs) LinearLayout lytTabs;
@@ -107,22 +106,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         presenter.setupSubscriptions();
     }
 
-    @Override
-    public void hideProgressBar()
-    {
-        pbRecyclerView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showProgressBar()
-    {
-        pbRecyclerView.setVisibility(View.VISIBLE);
-    }
-
     @OnClick(R.id.search_close_btn)
     public void onClose()
     {
-//        lytTabs.setVisibility(View.GONE);
         searchView.setQuery("", false);
         presenter.showPastSearches(true);
     }

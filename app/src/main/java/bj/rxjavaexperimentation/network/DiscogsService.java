@@ -95,4 +95,8 @@ public interface DiscogsService
 
     @GET("/marketplace/orders/{order_id}")
     Single<Order> fetchOrderDetails(@Path("order_id") String orderId);
+
+    // Only viewable if you're the seller
+//    @GET("/marketplace/orders/{order_id}/messages/")
+//    Single<RootOrderMessagesResponse> fetchOrderMessages(@Path("order_id") String orderId);
 }

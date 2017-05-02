@@ -69,6 +69,7 @@ public class SearchPresenter implements SearchContract.Presenter
     public void setupSubscriptions()
     {
         disposable.add(mView.searchIntent()
+                .doOnNext(onNext -> searchController.setSearching(true))
                 .observeOn(mySchedulerProvider.io())
                 .map(this::storeSearchTerm)
                 .flatMap(searchModelFunc)
@@ -116,10 +117,7 @@ public class SearchPresenter implements SearchContract.Presenter
     public void showPastSearches(boolean showPastSearches)
     {
         if (showPastSearches)
-        {
-            searchController.clearResults();
             searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
-        }
         searchController.setShowPastSearches(showPastSearches);
     }
 
@@ -145,18 +143,10 @@ public class SearchPresenter implements SearchContract.Presenter
                     if (o.size() == 0)
                     {
                         // Show no results
-                        mView.hideProgressBar();
-                        searchController.setResults(o);
-                    }
-                    else if (o.get(0).getId().equals("bj"))
-                    {
-                        // New search
-                        mView.showProgressBar();
                         searchController.setResults(o);
                     }
                     else
                     {
-                        mView.hideProgressBar();
                         if (!currentFilter.equals("all"))
                             Single.just(o)
                                     .subscribeOn(mySchedulerProvider.io())
@@ -179,7 +169,6 @@ public class SearchPresenter implements SearchContract.Presenter
                 {
                     Log.e(TAG, "error");
                     e.printStackTrace();
-                    mView.hideProgressBar();
                     Toasty.error(mContext, "Unable to fetch search results", Toast.LENGTH_SHORT, true).show();
                 }
 
