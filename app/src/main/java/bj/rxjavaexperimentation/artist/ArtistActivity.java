@@ -74,4 +74,10 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     {
         startActivity(ArtistReleasesActivity.createIntent(this, title, id));
     }
+
+    @Override
+    public void retry()
+    {
+        presenter.getData(getIntent().getStringExtra("id"));
+    }
 }

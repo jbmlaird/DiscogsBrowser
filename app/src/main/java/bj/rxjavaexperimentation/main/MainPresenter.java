@@ -51,8 +51,26 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar)
     {
-        mView.showLoading(true);
-        discogsInteractor.fetchUserDetails()
+        fetchMainPageInformation().subscribe(listing ->
+                {
+                    mainController.setSelling(listing);
+                    // As RecyclerView gets detached, these must be called after attaching NavDrawer
+                    mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
+                    mView.setupRecyclerView();
+                },
+                error ->
+                {
+                    mainController.setOrdersError(true);
+                    mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
+                    mView.setupRecyclerView();
+                    error.printStackTrace();
+                    log.e(TAG, "Wtf");
+                });
+    }
+
+    private Single<List<Listing>> fetchMainPageInformation()
+    {
+        return discogsInteractor.fetchUserDetails()
                 .observeOn(mySchedulerProvider.ui())
                 .flatMap(userDetails ->
                 {
@@ -66,19 +84,19 @@ public class MainPresenter implements MainContract.Presenter
                 })
                 .flattenAsObservable(listings -> listings)
                 .filter(listing -> listing.getStatus().equals("For Sale"))
-                .toList()
+                .toList();
+    }
+
+    @Override
+    public void retry()
+    {
+        fetchMainPageInformation()
                 .subscribe(listing ->
-                        {
-                            mainController.setSelling(listing);
-                            // As RecyclerView gets detached, these must be called after attaching NavDrawer
-                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
-                            mView.setupRecyclerView();
-                        },
+                                mainController.setSelling(listing),
                         error ->
                         {
-                            mainController.setOrdersError(true);
                             error.printStackTrace();
-                            log.e(TAG, "Wtf");
+                            mainController.setOrdersError(true);
                         });
     }
 
@@ -87,8 +105,8 @@ public class MainPresenter implements MainContract.Presenter
     {
         return discogsInteractor.fetchOrders()
                 .observeOn(mySchedulerProvider.ui())
-                .doOnSubscribe(disposable -> mainController.setLoadingMorePurchases(true))
-                .subscribeOn(mySchedulerProvider.io());
+                .subscribeOn(mySchedulerProvider.io())
+                .doOnSubscribe(disposable -> mainController.setLoadingMorePurchases(true));
     }
 
     @Override
@@ -96,7 +114,6 @@ public class MainPresenter implements MainContract.Presenter
     {
         return discogsInteractor.fetchSelling(sharedPrefsManager.getUsername())
                 .observeOn(mySchedulerProvider.ui())
-                .doOnSubscribe(disposable -> mainController.setLoadingMoreSales(true))
                 .subscribeOn(mySchedulerProvider.io());
     }
 

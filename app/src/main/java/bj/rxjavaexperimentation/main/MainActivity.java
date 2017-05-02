@@ -178,6 +178,12 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
+    public void retry()
+    {
+        presenter.retry();
+    }
+
+    @Override
     public void displayListingsActivity(String username)
     {
         startActivity(SingleListActivity.createIntent(this, "selling", username));

@@ -46,12 +46,15 @@ public class ReleaseController extends BaseController
     private Release release;
     private ArrayList<ScrapeListing> releaseListings;
     private boolean viewFullTracklist = false;
-    private boolean isError = false;
+    private boolean releaseLoading = true;
+    private boolean releaseError = false;
     private boolean marketplaceLoading = true;
     private boolean viewAllListings = false;
     private boolean collectionWantlistChecked;
     private boolean collectionError;
     private boolean wantlistError;
+    private boolean listingsError;
+    private boolean collectionLoading = true;
 
     @Inject
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
@@ -79,6 +82,17 @@ public class ReleaseController extends BaseController
         new DividerModel_()
                 .id("header_divider")
                 .addTo(this);
+
+        new LoadingModel_()
+                .imageViewAnimator(imageViewAnimator)
+                .id("release loading")
+                .addIf(releaseLoading, this);
+
+        new ErrorModel_()
+                .errorString("Unable to load release")
+                .onClick(v -> view.retry())
+                .id("release loading")
+                .addIf(releaseError, this);
 
         if (release != null)
         {
@@ -121,7 +135,7 @@ public class ReleaseController extends BaseController
             new LoadingModel_()
                     .id("collectionwantlistloader")
                     .imageViewAnimator(imageViewAnimator)
-                    .addIf(!collectionWantlistChecked, this);
+                    .addIf(collectionLoading, this);
 
             new CollectionWantlistModel_()
                     .id("collectionwantlist")
@@ -138,10 +152,12 @@ public class ReleaseController extends BaseController
             new ErrorModel_()
                     .errorString("Unable to check Collection")
                     .id("Collection error")
+                    .onClick(v -> view.retryCollectionWantlist())
                     .addIf(collectionError, this);
 
             new ErrorModel_()
                     .errorString("Unable to check Wantlist")
+                    .onClick(v -> view.retryCollectionWantlist())
                     .id("Wantlist error")
                     .addIf(wantlistError, this);
 
@@ -181,6 +197,11 @@ public class ReleaseController extends BaseController
                     .imageViewAnimator(imageViewAnimator)
                     .addIf(marketplaceLoading, this);
 
+            new ErrorModel_()
+                    .id("listings error")
+                    .errorString("Unable to fetch listings")
+                    .onClick(v -> view.retryListings())
+                    .addIf(listingsError, this);
 
             if (releaseListings != null)
             {
@@ -189,7 +210,6 @@ public class ReleaseController extends BaseController
                             .id("no listings")
                             .addTo(this);
                 else
-                {
                     for (ScrapeListing scrapeListing : releaseListings)
                     {
                         new MarketplaceModel_()
@@ -215,7 +235,6 @@ public class ReleaseController extends BaseController
                             break;
                         }
                     }
-                }
             }
         }
     }
@@ -227,6 +246,8 @@ public class ReleaseController extends BaseController
             this.imageUrl = release.getImages().get(0).getUri();
         title = release.getTitle();
         subtitle = artistsBeautifier.formatArtists(release.getArtists());
+        releaseLoading = false;
+        releaseError = false;
         requestModelBuild();
     }
 
@@ -234,13 +255,13 @@ public class ReleaseController extends BaseController
     {
         this.releaseListings = releaseListings;
         marketplaceLoading = false;
-        isError = false;
+        listingsError = false;
         requestModelBuild();
     }
 
     public void setReleaseListingsError()
     {
-        isError = true;
+        listingsError = true;
         marketplaceLoading = false;
         requestModelBuild();
     }
@@ -262,18 +283,54 @@ public class ReleaseController extends BaseController
         collectionWantlistChecked = b;
         this.collectionError = false;
         this.wantlistError = false;
+        this.collectionLoading = false;
         requestModelBuild();
     }
 
     public void setCollectionError(boolean collectionError)
     {
         this.collectionError = collectionError;
+        this.collectionLoading = false;
+        requestModelBuild();
+    }
+
+    public void setCollectionLoading(boolean collectionLoading)
+    {
+        this.collectionLoading = collectionLoading;
+        this.collectionError = false;
         requestModelBuild();
     }
 
     public void setWantlistError(boolean wantlistError)
     {
         this.wantlistError = wantlistError;
+        this.collectionLoading = false;
         requestModelBuild();
+    }
+
+    public void setReleaseLoading(boolean releaseLoading)
+    {
+        this.releaseLoading = releaseLoading;
+        releaseError = false;
+        requestModelBuild();
+    }
+
+    public void setReleaseError(boolean releaseError)
+    {
+        this.releaseError = releaseError;
+        releaseLoading = false;
+        requestModelBuild();
+    }
+
+    public void setMarketplaceLoading(boolean marketplaceLoading)
+    {
+        this.marketplaceLoading = marketplaceLoading;
+        listingsError = false;
+        requestModelBuild();
+    }
+
+    public Release getRelease()
+    {
+        return release;
     }
 }

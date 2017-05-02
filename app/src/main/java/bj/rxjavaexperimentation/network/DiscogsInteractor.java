@@ -123,15 +123,13 @@ public class DiscogsInteractor
     public Single<Label> fetchLabelDetails(String labelId)
     {
         return cacheProviders.fetchLabelDetails(discogsService.getLabel(labelId), new DynamicKey(labelId))
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.io());
+                .subscribeOn(mySchedulerProvider.io());
     }
 
     public Single<List<LabelRelease>> fetchLabelReleases(String labelId)
     {
         return cacheProviders.fetchLabelReleases(discogsService.getLabelReleases(labelId, "desc", "500"), new DynamicKey(labelId))
                 .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.io())
                 .map(RootLabelResponse::getLabelReleases);
     }
 
@@ -139,7 +137,6 @@ public class DiscogsInteractor
     {
         return cacheProviders.fetchArtistsReleases(discogsService.getArtistReleases(artistId, "desc", "500"), new DynamicKey(artistId))
                 .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.io())
                 .flattenAsObservable(RootArtistReleaseResponse::getArtistReleases)
                 .filter(release -> (!release.getRole().equals("TrackAppearance") && !release.getRole().equals("Appearance")))
                 .toList()

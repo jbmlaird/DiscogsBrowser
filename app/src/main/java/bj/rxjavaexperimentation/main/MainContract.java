@@ -35,11 +35,15 @@ public interface MainContract
         void displayListing(String listingId, String username, String title, String s, String username1);
 
         void displayError(boolean b);
+
+        void retry();
     }
 
     interface Presenter
     {
         void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar);
+
+        void retry();
 
         Single<List<Order>> fetchOrders();
 

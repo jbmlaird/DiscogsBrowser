@@ -30,7 +30,7 @@ public class OrderPresenter implements OrderContract.Presenter
     @Override
     public void fetchOrderDetails(String orderId)
     {
-        // Only sellers can see order messages
+        // Only sellers can see order messages... so ignore this
 //        if (seller)
 //            discogsInteractor.fetchOrderDetails(orderId)
 //                    .subscribeOn(mySchedulerProvider.io())
@@ -49,6 +49,7 @@ public class OrderPresenter implements OrderContract.Presenter
 //        else
         discogsInteractor.fetchOrderDetails(orderId)
                 .subscribeOn(mySchedulerProvider.io())
+                .doOnSubscribe(onSubscribe -> orderController.setLoadingOrder(true))
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(orderDetails ->
                                 orderController.setOrderDetails(orderDetails),

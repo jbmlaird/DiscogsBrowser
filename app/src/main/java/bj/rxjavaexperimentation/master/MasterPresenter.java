@@ -36,6 +36,7 @@ public class MasterPresenter implements MasterContract.Presenter
     public void getData(String id)
     {
         discogsInteractor.fetchMasterDetails(id)
+                .doOnSubscribe(onSubscribe -> controller.setLoading(true))
                 .observeOn(mySchedulerProvider.ui())
                 .flatMap(master ->
                 {
@@ -43,11 +44,7 @@ public class MasterPresenter implements MasterContract.Presenter
                     return discogsInteractor.fetchMasterVersions(id);
                 })
                 .subscribe(masterVersions ->
-                        {
-                            controller.setMasterVersions(masterVersions);
-                            controller.setError(false);
-
-                        },
+                                controller.setMasterVersions(masterVersions),
                         error ->
                         {
                             controller.setError(true);

@@ -59,4 +59,10 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     {
         startActivity(ReleaseActivity.createIntent(this, title, id));
     }
+
+    @Override
+    public void retry()
+    {
+        presenter.getData(getIntent().getStringExtra("id"));
+    }
 }

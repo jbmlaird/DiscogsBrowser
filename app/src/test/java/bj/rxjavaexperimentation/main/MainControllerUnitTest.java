@@ -110,6 +110,32 @@ public class MainControllerUnitTest
     }
 
     @Test
+    public void errorThenRetry_displaysCorrectly()
+    {
+        controller.setOrdersError(true);
+
+        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.size(), 6);
+
+        controller.setOrders(Collections.emptyList());
+        controller.setSelling(Collections.emptyList());
+
+        copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "NoOrderModel_");
+    }
+
+    @Test
     public void ordersList_displaysList()
     {
         controller.setOrders(Arrays.asList(new TestOrder(), new TestOrder()));
@@ -212,7 +238,6 @@ public class MainControllerUnitTest
         assertEquals(copyOfModels.size(), 6);
 
         controller.setLoadingMorePurchases(true);
-        controller.setLoadingMoreSales(true);
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");

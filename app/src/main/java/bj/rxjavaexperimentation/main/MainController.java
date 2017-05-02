@@ -76,7 +76,8 @@ public class MainController extends EpoxyController
 
         new ErrorModel_()
                 .id("orders error")
-                .errorString("Unable to fetch Orders")
+                .onClick(v -> mView.retry())
+                .errorString("Unable to fetch orders")
                 .addIf(ordersError, this);
 
         new NoOrderModel_()
@@ -120,6 +121,7 @@ public class MainController extends EpoxyController
         new ErrorModel_()
                 .id("selling error")
                 .errorString("Unable to fetch selling")
+                .onClick(v -> mView.retry())
                 .addIf(ordersError, this);
 
         new NoOrderModel_()
@@ -161,6 +163,8 @@ public class MainController extends EpoxyController
     public void setLoadingMorePurchases(boolean loadingMorePurchases)
     {
         this.loadingMorePurchases = loadingMorePurchases;
+        this.loadingMoreSales = loadingMorePurchases;
+        this.ordersError = false;
         requestModelBuild();
     }
 
@@ -168,12 +172,6 @@ public class MainController extends EpoxyController
     {
         this.listings = listings;
         this.loadingMoreSales = false;
-        requestModelBuild();
-    }
-
-    public void setLoadingMoreSales(boolean loadingMoreSales)
-    {
-        this.loadingMoreSales = loadingMoreSales;
         requestModelBuild();
     }
 

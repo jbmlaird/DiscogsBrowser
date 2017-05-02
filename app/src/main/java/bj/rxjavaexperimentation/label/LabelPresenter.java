@@ -44,14 +44,17 @@ public class LabelPresenter implements LabelContract.Presenter
     public void getData(String id)
     {
         discogsInteractor.fetchLabelDetails(id)
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
+                .doOnSubscribe(onSubscribe -> controller.setLoading(true))
+                .subscribeOn(mySchedulerProvider.ui())
                 .flatMap(label ->
                 {
                     controller.setLabel(label);
-                    return discogsInteractor.fetchLabelReleases(id);
+                    return discogsInteractor.fetchLabelReleases(id)
+                            .subscribeOn(mySchedulerProvider.io());
                 })
+                .observeOn(mySchedulerProvider.ui())
                 .subscribe(labelReleases ->
-                        controller.setLabelReleases(labelReleases), Throwable::printStackTrace);
+                        controller.setLabelReleases(labelReleases), error ->
+                        controller.setError(true));
     }
 }

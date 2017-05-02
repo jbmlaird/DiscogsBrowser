@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.artist;
 
+import bj.rxjavaexperimentation.common.BaseView;
 import bj.rxjavaexperimentation.common.RecyclerViewPresenter;
 
 /**
@@ -8,7 +9,7 @@ import bj.rxjavaexperimentation.common.RecyclerViewPresenter;
 
 public interface ArtistContract
 {
-    interface View
+    interface View extends BaseView
     {
         void showMemberDetails(String name, String id);
 

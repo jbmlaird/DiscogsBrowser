@@ -119,10 +119,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         return RxSearchView.queryTextChangeEvents(searchView)
                 .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
                 .skip(1)
-                .observeOn(mySchedulerProvider.ui())
+                .subscribeOn(mySchedulerProvider.ui())
                 .map(searchViewQueryTextEvent ->
                 {
-                    if (searchViewQueryTextEvent.queryText().length() == 0)
+                    if (searchViewQueryTextEvent.queryText().length() <= 2)
                         presenter.showPastSearches(true);
                     else
                         presenter.showPastSearches(false);
@@ -162,5 +162,13 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     public void fillSearchBox(String searchTerm)
     {
         searchView.setQuery(searchTerm, false);
+    }
+
+    @Override
+    public void retry()
+    {
+        String query = searchView.getQuery().toString();
+        searchView.setQuery("", false);
+        searchView.setQuery(query, false);
     }
 }

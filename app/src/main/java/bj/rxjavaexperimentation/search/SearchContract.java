@@ -24,6 +24,8 @@ public interface SearchContract
         void startDetailedActivity(SearchResult searchResult);
 
         void fillSearchBox(String searchTerm);
+
+        void retry();
     }
 
     interface Presenter extends BasePresenter

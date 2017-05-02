@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
@@ -20,7 +19,7 @@ import bj.rxjavaexperimentation.entity.SearchTerm;
 import bj.rxjavaexperimentation.entity.SearchTermDao;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
-import es.dmoral.toasty.Toasty;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
@@ -65,18 +64,24 @@ public class SearchPresenter implements SearchContract.Presenter
         searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
     }
 
+    private Observable<List<SearchResult>> getSearchIntent()
+    {
+        return mView.searchIntent()
+                .subscribeOn(mySchedulerProvider.io())
+                .doOnNext(onNext ->
+                        searchController.setSearching(true))
+                .map(this::storeSearchTerm)
+                .switchMap(searchModelFunc)
+                .doOnError(throwable ->
+                        searchController.setError(true))
+                .onErrorResumeNext(Observable.defer(() ->
+                        getSearchIntent()));
+    }
+
     @Override
     public void setupSubscriptions()
     {
-        disposable.add(mView.searchIntent()
-                .doOnNext(onNext -> searchController.setSearching(true))
-                .observeOn(mySchedulerProvider.io())
-                .map(this::storeSearchTerm)
-                .flatMap(searchModelFunc)
-                .observeOn(mySchedulerProvider.ui())
-                .onErrorResumeNext(mView.searchIntent()
-                        .flatMap(searchModelFunc))
-                .observeOn(mySchedulerProvider.ui())
+        disposable.add(getSearchIntent()
                 .subscribeWith(getSearchObserver()));
 
         disposable.add(mView.tabIntent()
@@ -167,9 +172,9 @@ public class SearchPresenter implements SearchContract.Presenter
                 @Override
                 public void onError(Throwable e)
                 {
-                    Log.e(TAG, "error");
                     e.printStackTrace();
-                    Toasty.error(mContext, "Unable to fetch search results", Toast.LENGTH_SHORT, true).show();
+//                    Toasty.error(mContext, "Unable to fetch search results", Toast.LENGTH_SHORT, true).show();
+                    searchController.setError(true);
                 }
 
                 @Override

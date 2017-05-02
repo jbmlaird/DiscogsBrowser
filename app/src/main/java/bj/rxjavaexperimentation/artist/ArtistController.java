@@ -10,10 +10,13 @@ import bj.rxjavaexperimentation.epoxy.artist.UrlModel_;
 import bj.rxjavaexperimentation.epoxy.artist.ViewReleasesModel_;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
+import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artist.Member;
+import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import bj.rxjavaexperimentation.utils.WantedUrl;
 
 /**
@@ -24,13 +27,17 @@ public class ArtistController extends BaseController
 {
     private final ArtistContract.View view;
     private final Context context;
+    private ImageViewAnimator imageViewAnimator;
     private ArtistResult artistResult;
+    private boolean loading = true;
+    private boolean error;
 
     @Inject
-    public ArtistController(ArtistContract.View view, Context context)
+    public ArtistController(ArtistContract.View view, Context context, ImageViewAnimator imageViewAnimator)
     {
         this.view = view;
         this.context = context;
+        this.imageViewAnimator = imageViewAnimator;
     }
 
     @Override
@@ -47,6 +54,17 @@ public class ArtistController extends BaseController
         new DividerModel_()
                 .id("divider1")
                 .addTo(this);
+
+        new LoadingModel_()
+                .imageViewAnimator(imageViewAnimator)
+                .id("artist loading")
+                .addIf(loading, this);
+
+        new ErrorModel_()
+                .errorString("Unable to load Artist")
+                .onClick(v -> view.retry())
+                .id("error model")
+                .addIf(error, this);
 
         if (artistResult != null)
         {
@@ -116,6 +134,22 @@ public class ArtistController extends BaseController
         if (artistResult.getNamevariations() != null && artistResult.getNamevariations().size() > 0)
             title = artistResult.getNamevariations().get(0);
         subtitle = artistResult.getProfile();
+        this.loading = false;
+        this.error = false;
+        requestModelBuild();
+    }
+
+    public void setLoading(boolean isLoading)
+    {
+        this.loading = isLoading;
+        this.error = false;
+        requestModelBuild();
+    }
+
+    public void setError(boolean isError)
+    {
+        this.error = isError;
+        this.loading = false;
         requestModelBuild();
     }
 }

@@ -45,6 +45,7 @@ public class ArtistPresenter implements ArtistContract.Presenter
     public void getData(String id)
     {
         discogsInteractor.fetchArtistDetails(id)
+                .doOnSubscribe(onSubscribe -> artistController.setLoading(true))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(removeUnwantedLinksFunction)
@@ -57,6 +58,7 @@ public class ArtistPresenter implements ArtistContract.Presenter
                 {
                     log.e(TAG, "onFetchArtistDetailsError");
                     error.printStackTrace();
+                    artistController.setError(true);
                 });
     }
 

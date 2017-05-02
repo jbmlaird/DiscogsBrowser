@@ -7,6 +7,7 @@ public interface OrderContract
 {
     interface View
     {
+        void retry();
     }
 
     interface Presenter

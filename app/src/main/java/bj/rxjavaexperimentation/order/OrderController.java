@@ -24,11 +24,13 @@ public class OrderController extends EpoxyController
     private Order orderDetails;
     private boolean loadingOrder = true;
     private boolean error = false;
+    private OrderContract.View mView;
     private ImageViewAnimator imageViewAnimator;
 
     @Inject
-    public OrderController(ImageViewAnimator imageViewAnimator)
+    public OrderController(OrderContract.View mView, ImageViewAnimator imageViewAnimator)
     {
+        this.mView = mView;
         this.imageViewAnimator = imageViewAnimator;
     }
 
@@ -38,11 +40,12 @@ public class OrderController extends EpoxyController
         new LoadingModel_()
                 .id("order loadingOrder")
                 .imageViewAnimator(imageViewAnimator)
-                .addIf(loadingOrder, this);
+                .addIf(loadingOrder && !error, this);
 
         new ErrorModel_()
                 .errorString("Unable to load order")
                 .id("error model")
+                .onClick(v -> mView.retry())
                 .addIf(error, this);
 
         if (!error && orderDetails != null)
@@ -87,9 +90,18 @@ public class OrderController extends EpoxyController
         requestModelBuild();
     }
 
+    public void setLoadingOrder(boolean loadingOrder)
+    {
+        this.loadingOrder = loadingOrder;
+        if (loadingOrder)
+            error = false;
+        requestModelBuild();
+    }
+
     public void errorFetchingDetails()
     {
         error = true;
+        loadingOrder = false;
         requestModelBuild();
     }
 }

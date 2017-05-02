@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:id="@+id/lytError"
+              xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginEnd="@dimen/margin_normal"
@@ -12,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:drawableBottom="@android:drawable/stat_notify_error"
+        android:drawableBottom="@drawable/ic_refresh_black_24dp"
         android:drawablePadding="@dimen/padding_small"
         android:drawableTint="@color/colorAccent"
         android:text="test"

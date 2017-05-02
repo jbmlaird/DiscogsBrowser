@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.entity.SearchTerm;
 import bj.rxjavaexperimentation.epoxy.common.CenterTextModel_;
+import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
 import bj.rxjavaexperimentation.epoxy.search.PastSearchModel_;
 import bj.rxjavaexperimentation.epoxy.search.SearchResultModel_;
@@ -31,6 +32,7 @@ public class SearchController extends EpoxyController
     private List<SearchTerm> searchTerms;
     private boolean showPastSearches = true;
     private boolean showSearching = false;
+    private boolean error = false;
 
     @Inject
     public SearchController(Context context, SearchContract.View mView, ImageViewAnimator imageViewAnimator)
@@ -50,6 +52,12 @@ public class SearchController extends EpoxyController
                         .onClickListener(v -> mView.fillSearchBox(searchTerm.getSearchTerm()))
                         .searchTerm(searchTerm.getSearchTerm())
                         .addTo(this);
+        else if (error)
+            new ErrorModel_()
+                    .id("error model")
+                    .errorString("Unable to connect to server")
+                    .onClick(v -> mView.retry())
+                    .addTo(this);
         else if (showSearching)
             new LoadingModel_()
                     .id("searching model")
@@ -85,19 +93,36 @@ public class SearchController extends EpoxyController
         this.searchTerms = searchTerms;
         this.showPastSearches = true;
         this.showSearching = false;
+        this.error = false;
         requestModelBuild();
     }
 
     public void setShowPastSearches(boolean showPastSearches)
     {
         this.showPastSearches = showPastSearches;
+        this.error = false;
         requestModelBuild();
     }
 
     public void setSearching(boolean showSearching)
     {
         this.showSearching = showSearching;
-        this.showPastSearches = false;
+        if (showSearching)
+        {
+            this.showPastSearches = false;
+            this.error = false;
+        }
+        requestModelBuild();
+    }
+
+    public void setError(boolean error)
+    {
+        this.error = error;
+        if (error)
+        {
+            this.showPastSearches = false;
+            this.showSearching = false;
+        }
         requestModelBuild();
     }
 }

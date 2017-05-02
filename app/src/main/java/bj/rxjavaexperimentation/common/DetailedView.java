@@ -7,4 +7,6 @@ package bj.rxjavaexperimentation.common;
 public interface DetailedView
 {
     void openLink(String url);
+
+    void retry();
 }

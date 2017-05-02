@@ -10,6 +10,8 @@ public interface MasterContract
     interface View
     {
         void displayRelease(String title, String id);
+
+        void retry();
     }
 
     interface Presenter extends RecyclerViewPresenter {}

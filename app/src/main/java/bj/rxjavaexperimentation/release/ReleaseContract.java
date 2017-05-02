@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.release;
 
+import bj.rxjavaexperimentation.common.BaseView;
 import bj.rxjavaexperimentation.common.RecyclerViewPresenter;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 
@@ -9,14 +10,21 @@ import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 
 public interface ReleaseContract
 {
-    interface View
+    interface View extends BaseView
     {
         void displayListingInformation(String title, String subtitle, ScrapeListing scrapeListing);
 
         void launchYouTube(String uri);
 
         void displayLabel(String title, String id);
+
+        void retryCollectionWantlist();
+
+        void retryListings();
     }
 
-    interface Presenter extends RecyclerViewPresenter {}
+    interface Presenter extends RecyclerViewPresenter
+    {
+        void retryCollectionWantlist();
+    }
 }

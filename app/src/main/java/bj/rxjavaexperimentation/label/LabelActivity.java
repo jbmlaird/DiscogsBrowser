@@ -67,4 +67,10 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     {
         new FinestWebView.Builder(this).show(uri);
     }
+
+    @Override
+    public void retry()
+    {
+        presenter.getData(getIntent().getStringExtra("id"));
+    }
 }

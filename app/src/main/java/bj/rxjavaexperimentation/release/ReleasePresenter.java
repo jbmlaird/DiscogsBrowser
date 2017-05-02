@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -52,13 +53,16 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         discogsInteractor.fetchReleaseDetails(id)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
+                .doOnSubscribe(onSubscribe -> controller.setReleaseLoading(true))
                 .map(release ->
                 {
                     for (Label label : release.getLabels())
                     {
                         discogsInteractor.fetchLabelDetails(label.getId())
                                 .subscribe(labelDetails ->
-                                        label.setThumb(labelDetails.getImages().get(0).getUri()));
+                                                label.setThumb(labelDetails.getImages().get(0).getUri()),
+                                        error ->
+                                                Log.e(TAG, "Unable to get label details"));
                     }
                     return release;
                 })
@@ -67,13 +71,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                     controller.setRelease(release);
                     log.e(TAG, release.getTitle());
                     if (release.getNumForSale() != 0)
-                        discogsInteractor.getReleaseMarketListings(id, "release")
-                                .subscribeOn(mySchedulerProvider.io())
-                                .observeOn(mySchedulerProvider.ui())
-                                .subscribe(controller::setReleaseListings,
-                                        error ->
-                                                controller.setReleaseListingsError()
-                                );
+                        fetchReleaseListings(id);
                     else
                         controller.setReleaseListings(new ArrayList<>());
 
@@ -83,12 +81,27 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 {
                     log.e(TAG, "onReleaseDetailsError");
                     error.printStackTrace();
+                    controller.setReleaseError(true);
                 });
+    }
+
+    public void fetchReleaseListings(String id) throws IOException
+    {
+        discogsInteractor.getReleaseMarketListings(id, "release")
+                .doOnSubscribe(onSubscribe -> controller.setMarketplaceLoading(true))
+                .subscribeOn(mySchedulerProvider.io())
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(controller::setReleaseListings,
+                        error ->
+                                controller.setReleaseListingsError()
+                );
     }
 
     private void checkIfInWantlist(Release release)
     {
         discogsInteractor.fetchWantlist(sharedPrefsManager.getUsername())
+                .subscribeOn(mySchedulerProvider.ui())
+                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .flattenAsObservable(results -> results)
@@ -116,7 +129,8 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private void checkIfInCollection(Release release)
     {
         discogsInteractor.fetchCollection(sharedPrefsManager.getUsername())
-                .observeOn(mySchedulerProvider.io())
+                .subscribeOn(mySchedulerProvider.ui())
+                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
                 .subscribeOn(mySchedulerProvider.io())
                 .flattenAsObservable(results -> results)
                 .map(collectionRelease ->
@@ -150,5 +164,12 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         recyclerView.setAdapter(controller.getAdapter());
         controller.setTitle(title);
         controller.requestModelBuild();
+    }
+
+    @Override
+    public void retryCollectionWantlist()
+    {
+        checkIfInCollection(controller.getRelease());
+        checkIfInWantlist(controller.getRelease());
     }
 }

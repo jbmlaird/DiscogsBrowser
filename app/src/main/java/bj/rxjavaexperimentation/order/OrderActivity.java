@@ -52,4 +52,10 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
         presenter.setupRecyclerView(this, recyclerView);
         presenter.fetchOrderDetails(getIntent().getStringExtra("id"));
     }
+
+    @Override
+    public void retry()
+    {
+        presenter.fetchOrderDetails(getIntent().getStringExtra("id"));
+    }
 }

@@ -89,7 +89,6 @@ public class MainPresenterUnitTest
         mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
         testScheduler.triggerActions();
 
-        verify(mView, times(1)).showLoading(true);
         verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(discogsInteractor, times(1)).fetchOrders();
@@ -101,21 +100,22 @@ public class MainPresenterUnitTest
         verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, toolbar);
         verify(mView, times(1)).setupRecyclerView();
         verify(mainController, times(1)).setLoadingMorePurchases(true);
-        verify(mainController, times(1)).setLoadingMoreSales(true);
     }
 
     @Test
-    public void buildNavigationDrawerUserDetailsError_handles()
+    public void buildNavigationDrawerUserDetailsError_handles() throws UnknownHostException
     {
-        when(sharedPrefsManager.getUsername()).thenReturn(username);
         when(discogsInteractor.fetchUserDetails()).thenReturn(Single.error(new UnknownHostException()));
+        when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar)).thenReturn(drawer);
 
         mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
         testScheduler.triggerActions();
 
-        verify(mView, times(1)).showLoading(true);
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(mainController).setOrdersError(true);
+        verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, toolbar);
+        verify(mView).setDrawer(drawer);
+        verify(mView).setupRecyclerView();
         verify(logWrapper).e(any(String.class), any(String.class));
     }
 
@@ -126,5 +126,41 @@ public class MainPresenterUnitTest
 
         verify(mainController, times(1)).getAdapter();
         verify(mainController, times(1)).requestModelBuild();
+    }
+
+    @Test
+    public void retrySuccessful_displaysInfo()
+    {
+        List<Order> listOrders = new ArrayList();
+        List<Listing> listSelling = new ArrayList();
+        when(sharedPrefsManager.getUsername()).thenReturn(username);
+        when(discogsInteractor.fetchUserDetails()).thenReturn(Single.just(testUserDetails));
+        when(discogsInteractor.fetchOrders()).thenReturn(Single.just(listOrders));
+        when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(listSelling));
+
+        mainPresenter.retry();
+        testScheduler.triggerActions();
+
+        verify(discogsInteractor, times(1)).fetchUserDetails();
+        verify(discogsInteractor, times(1)).fetchOrders();
+        verify(sharedPrefsManager, times(1)).getUsername();
+        verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
+        verify(mainController, times(1)).setLoadingMorePurchases(true);
+        verify(mainController, times(1)).setOrders(listOrders);
+        verify(discogsInteractor, times(1)).fetchSelling(username);
+        verify(mainController, times(1)).setSelling(listSelling);
+    }
+
+    @Test
+    public void retryError_displaysError() throws Exception
+    {
+        when(sharedPrefsManager.getUsername()).thenReturn(username);
+        when(discogsInteractor.fetchUserDetails()).thenReturn(Single.error(new Exception()));
+
+        mainPresenter.retry();
+        testScheduler.triggerActions();
+
+        verify(discogsInteractor, times(1)).fetchUserDetails();
+        verify(mainController, times(1)).setOrdersError(true);
     }
 }

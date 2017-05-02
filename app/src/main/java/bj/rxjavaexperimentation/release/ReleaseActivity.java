@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import bj.rxjavaexperimentation.AppComponent;
@@ -75,5 +77,30 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     public void displayLabel(String title, String id)
     {
         startActivity(LabelActivity.createIntent(this, title, id));
+    }
+
+    @Override
+    public void retry()
+    {
+        presenter.getData(getIntent().getStringExtra("id"));
+    }
+
+    @Override
+    public void retryCollectionWantlist()
+    {
+        presenter.retryCollectionWantlist();
+    }
+
+    @Override
+    public void retryListings()
+    {
+        try
+        {
+            presenter.fetchReleaseListings(getIntent().getStringExtra("id"));
+        }
+        catch (IOException e)
+        {
+
+        }
     }
 }
