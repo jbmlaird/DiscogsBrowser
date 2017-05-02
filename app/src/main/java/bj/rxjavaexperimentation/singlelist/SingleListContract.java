@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.singlelist;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import bj.rxjavaexperimentation.common.BasePresenter;
@@ -26,6 +27,9 @@ public interface SingleListContract
         void displayOrder(String id);
 
         void launchDetailedActivity(String type, String title, String id);
+
+        // Activity context for pre-Android 5.1
+        Context getActivityContext();
     }
 
     interface Presenter extends BasePresenter

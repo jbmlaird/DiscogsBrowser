@@ -1,6 +1,7 @@
 package bj.rxjavaexperimentation.artistreleases;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
+import com.jakewharton.rxrelay2.Relay;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,5 +52,13 @@ class ArtistReleasesModule
         initialArtistMaster.setId("bj");
         initialArtistMaster.setType("master");
         return BehaviorRelay.createDefault(Arrays.asList(initialArtistRelease, initialArtistMaster));
+    }
+
+
+    @Provides
+    @Singleton
+    Relay<Throwable> provideThrowableRelay()
+    {
+        return BehaviorRelay.create();
     }
 }

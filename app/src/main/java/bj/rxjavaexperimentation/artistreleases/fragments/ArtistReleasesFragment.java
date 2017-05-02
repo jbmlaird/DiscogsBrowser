@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
@@ -35,6 +36,7 @@ public class ArtistReleasesFragment extends BaseFragment
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.ivLoading) ImageView ivLoading;
     @BindView(R.id.lytNoItems) LinearLayout lytNoItems;
+    @BindView(R.id.lytError) RelativeLayout lytError;
     @Inject BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     @Inject ArtistReleasesPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
@@ -49,19 +51,29 @@ public class ArtistReleasesFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_artist_releases, container, false);
         unbinder = ButterKnife.bind(this, view);
         imageViewAnimator.rotateImage(ivLoading);
-        presenter.connectToBehaviorRelay(getConsumer(), getArguments().getString("map"));
+        presenter.connectToBehaviorRelay(getConsumer(), getThrowableConsumer(), getArguments().getString("map"));
         rvReleasesAdapter = presenter.setupRecyclerView(recyclerView, getActivity());
         return view;
     }
 
+    private Consumer<Throwable> getThrowableConsumer()
+    {
+        return throwable ->
+        {
+            lytError.setVisibility(View.VISIBLE);
+            ivLoading.clearAnimation();
+            ivLoading.setVisibility(View.GONE);
+        };
+    }
+
     private Consumer<List<ArtistRelease>> getConsumer()
     {
-        return o ->
+        return artistReleases ->
         {
-            this.artistReleases = o;
-            if (o.size() == 0)
+            this.artistReleases = artistReleases;
+            if (artistReleases.size() == 0)
                 lytNoItems.setVisibility(View.VISIBLE);
-            else if (o.get(0).getId().equals("bj"))
+            else if (artistReleases.get(0).getId().equals("bj"))
                 return;
             else
                 lytNoItems.setVisibility(View.GONE);

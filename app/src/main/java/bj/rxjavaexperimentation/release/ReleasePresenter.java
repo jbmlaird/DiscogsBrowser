@@ -60,7 +60,10 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                     {
                         discogsInteractor.fetchLabelDetails(label.getId())
                                 .subscribe(labelDetails ->
-                                                label.setThumb(labelDetails.getImages().get(0).getUri()),
+                                        {
+                                            if (labelDetails.getImages() != null && labelDetails.getImages().size() > 0)
+                                                label.setThumb(labelDetails.getImages().get(0).getUri());
+                                        },
                                         error ->
                                                 Log.e(TAG, "Unable to get label details"));
                     }
@@ -100,10 +103,14 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private void checkIfInWantlist(Release release)
     {
         discogsInteractor.fetchWantlist(sharedPrefsManager.getUsername())
-                .subscribeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.io())
+                .subscribeOn(mySchedulerProvider.ui())
+                .doOnSuccess(onSuccess ->
+                {
+                    wantlistChecked = true;
+                    if (collectionChecked)
+                        controller.collectionWantlistChecked(true);
+                })
                 .flattenAsObservable(results -> results)
                 .map(want ->
                 {
@@ -114,9 +121,8 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(want ->
                         {
-                            wantlistChecked = true;
-                            if (collectionChecked)
-                                controller.collectionWantlistChecked(true);
+                            // Due to the filter, if the user has nothing in their Collection/Wantlist, this will not be reached.
+                            // Done in onSuccess() instead
                         },
                         error ->
                         {
@@ -129,9 +135,14 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private void checkIfInCollection(Release release)
     {
         discogsInteractor.fetchCollection(sharedPrefsManager.getUsername())
-                .subscribeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
-                .subscribeOn(mySchedulerProvider.io())
+                .doOnSuccess(onSuccess ->
+                {
+                    collectionChecked = true;
+                    if (wantlistChecked)
+                        controller.collectionWantlistChecked(true);
+                })
+                .subscribeOn(mySchedulerProvider.ui())
                 .flattenAsObservable(results -> results)
                 .map(collectionRelease ->
                 {
@@ -145,9 +156,8 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {
-                            collectionChecked = true;
-                            if (wantlistChecked)
-                                controller.collectionWantlistChecked(true);
+                            // Due to the filter, if the user has nothing in their Collection/Wantlist, this will not be reached.
+                            // Done in onSuccess() instead
                         },
                         error ->
                         {

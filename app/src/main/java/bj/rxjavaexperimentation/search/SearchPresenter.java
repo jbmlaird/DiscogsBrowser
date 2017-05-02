@@ -73,9 +73,12 @@ public class SearchPresenter implements SearchContract.Presenter
                 .map(this::storeSearchTerm)
                 .switchMap(searchModelFunc)
                 .doOnError(throwable ->
-                        searchController.setError(true))
-                .onErrorResumeNext(Observable.defer(() ->
-                        getSearchIntent()));
+                {
+                    if (throwable.getCause().getCause() != null && !throwable.getCause().getCause().getMessage().equals("thread interrupted"))
+                        searchController.setError(true);
+                    // Else ignore. The user has just searched again and interrupted the thread
+                })
+                .onErrorResumeNext(Observable.defer(this::getSearchIntent));
     }
 
     @Override
@@ -173,7 +176,6 @@ public class SearchPresenter implements SearchContract.Presenter
                 public void onError(Throwable e)
                 {
                     e.printStackTrace();
-//                    Toasty.error(mContext, "Unable to fetch search results", Toast.LENGTH_SHORT, true).show();
                     searchController.setError(true);
                 }
 

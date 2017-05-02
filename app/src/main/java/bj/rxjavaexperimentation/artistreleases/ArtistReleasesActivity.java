@@ -96,6 +96,16 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         return RxTextView.textChanges(etFilter);
     }
 
+    /**
+     * Required as CardView theme goes dark in Android 5.1. Will need to replace with Epoxy.
+     * @return
+     */
+    @Override
+    public Context getContext()
+    {
+        return this;
+    }
+
     @Override
     protected void onPause()
     {

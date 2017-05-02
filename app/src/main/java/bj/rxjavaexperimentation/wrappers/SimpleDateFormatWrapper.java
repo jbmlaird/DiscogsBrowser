@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 @Singleton
 public class SimpleDateFormatWrapper
 {
-    private static final String discogsDateFormat = "yyyy-MM-dd'T'HH:mm:ssXXX";
+    private static final String discogsDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
     private DateFormat simpleDateFormat = new SimpleDateFormat(discogsDateFormat, Locale.getDefault());
 
     @Inject

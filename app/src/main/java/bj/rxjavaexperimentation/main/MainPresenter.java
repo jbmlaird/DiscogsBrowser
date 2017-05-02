@@ -51,21 +51,26 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar)
     {
-        fetchMainPageInformation().subscribe(listing ->
-                {
-                    mainController.setSelling(listing);
-                    // As RecyclerView gets detached, these must be called after attaching NavDrawer
-                    mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
-                    mView.setupRecyclerView();
-                },
-                error ->
-                {
-                    mainController.setOrdersError(true);
-                    mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
-                    mView.setupRecyclerView();
-                    error.printStackTrace();
-                    log.e(TAG, "Wtf");
-                });
+        mView.showLoading(true);
+        fetchMainPageInformation()
+                .subscribe(listing ->
+                        {
+                            mainController.setSelling(listing);
+                            // As RecyclerView gets detached, these must be called after attaching NavDrawer
+                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
+                            mView.setupRecyclerView();
+                        },
+                        error ->
+                        {
+                            if (error.getCause().getCause().getMessage().equals("HTTP 403 FORBIDDEN"))
+                                mainController.setConfirmEmail(true);
+                            else
+                                mainController.setOrdersError(true);
+                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
+                            mView.setupRecyclerView();
+                            error.printStackTrace();
+                            log.e(TAG, "Wtf");
+                        });
     }
 
     private Single<List<Listing>> fetchMainPageInformation()

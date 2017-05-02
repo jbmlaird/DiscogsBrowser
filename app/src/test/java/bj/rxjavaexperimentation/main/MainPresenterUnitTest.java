@@ -154,7 +154,6 @@ public class MainPresenterUnitTest
     @Test
     public void retryError_displaysError() throws Exception
     {
-        when(sharedPrefsManager.getUsername()).thenReturn(username);
         when(discogsInteractor.fetchUserDetails()).thenReturn(Single.error(new Exception()));
 
         mainPresenter.retry();

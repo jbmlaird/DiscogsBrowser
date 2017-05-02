@@ -33,9 +33,9 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Si
     private SingleListContract.View view;
 
     @Inject
-    public SingleListAdapter(Context context, SingleListContract.View view)
+    public SingleListAdapter(SingleListContract.View view)
     {
-        this.context = context;
+        this.context = view.getActivityContext();
         this.view = view;
     }
 

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
+import com.jakewharton.rxrelay2.Relay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,19 +40,21 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private DiscogsInteractor discogsInteractor;
     private CompositeDisposable disposable;
     private BehaviorRelay<List<ArtistRelease>> behaviorRelay;
+    private Relay<Throwable> throwableRelay;
     private MySchedulerProvider mySchedulerProvider;
     private ArtistResultFunction artistResultFunction;
 
     @Inject
     public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, CompositeDisposable disposable,
-                                   BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider,
-                                   ArtistResultFunction artistResultFunction)
+                                   BehaviorRelay<List<ArtistRelease>> behaviorRelay, Relay<Throwable> throwableRelay,
+                                   MySchedulerProvider mySchedulerProvider, ArtistResultFunction artistResultFunction)
     {
         this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.disposable = disposable;
         this.behaviorRelay = behaviorRelay;
+        this.throwableRelay = throwableRelay;
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistResultFunction = artistResultFunction;
     }
@@ -60,7 +63,8 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     public void getArtistReleases(String id)
     {
         discogsInteractor.fetchArtistsReleases(id)
-                .subscribe(behaviorRelay);
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(behaviorRelay, throwableRelay);
     }
 
     @Override
@@ -91,19 +95,24 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     public ArtistReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity)
     {
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        ArtistReleasesAdapter rvReleasesAdapter = new ArtistReleasesAdapter(this, context);
+        ArtistReleasesAdapter rvReleasesAdapter = new ArtistReleasesAdapter(this, getViewContext());
         recyclerView.setAdapter(rvReleasesAdapter);
         return rvReleasesAdapter;
     }
 
     @Override
-    public void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, String searchFilter)
+    public void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, Consumer<Throwable> throwableConsumer, String searchFilter)
     {
         disposable.add(
                 behaviorRelay
                         .map(artistResultFunction.map(searchFilter))
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(consumer));
+
+        disposable.add(
+                throwableRelay
+                        .observeOn(mySchedulerProvider.ui())
+                        .subscribe(throwableConsumer));
     }
 
     @Override
@@ -116,6 +125,12 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     public void setupFilter(Consumer<CharSequence> filterConsumer)
     {
         view.filterIntent().subscribe(filterConsumer);
+    }
+
+    @Override
+    public Context getViewContext()
+    {
+        return view.getContext();
     }
 
     @Override

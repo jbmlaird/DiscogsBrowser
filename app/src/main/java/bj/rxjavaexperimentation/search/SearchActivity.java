@@ -118,7 +118,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     {
         return RxSearchView.queryTextChangeEvents(searchView)
                 .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
-                .skip(1)
                 .subscribeOn(mySchedulerProvider.ui())
                 .map(searchViewQueryTextEvent ->
                 {

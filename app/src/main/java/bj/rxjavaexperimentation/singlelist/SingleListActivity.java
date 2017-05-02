@@ -89,8 +89,6 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     {
         ivLoading.setVisibility(View.GONE);
         ivLoading.clearAnimation();
-        showNoItems(false, "");
-        showError(false, "");
     }
 
     @Override
@@ -100,6 +98,8 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         {
             tvNoItems.setVisibility(View.VISIBLE);
             tvNoItems.setText(noItems);
+            tvError.setVisibility(View.GONE);
+            stopLoading();
         }
         else
             tvNoItems.setVisibility(View.GONE);
@@ -113,6 +113,8 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         {
             tvError.setVisibility(View.VISIBLE);
             tvError.setText(error);
+            tvNoItems.setVisibility(View.GONE);
+            stopLoading();
         }
         else
             tvError.setVisibility(View.GONE);
@@ -148,6 +150,12 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
                 startActivity(MasterActivity.createIntent(this, title, id));
                 break;
         }
+    }
+
+    @Override
+    public Context getActivityContext()
+    {
+        return this;
     }
 
     @Override

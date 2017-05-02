@@ -19,6 +19,7 @@ import bj.rxjavaexperimentation.epoxy.main.MainTitleModel_;
 import bj.rxjavaexperimentation.epoxy.main.MainUserModel_;
 import bj.rxjavaexperimentation.epoxy.main.NoOrderModel_;
 import bj.rxjavaexperimentation.epoxy.main.OrderModel_;
+import bj.rxjavaexperimentation.epoxy.main.VerifyEmailModel_;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.utils.DateFormatter;
@@ -43,6 +44,7 @@ public class MainController extends EpoxyController
     private List<Order> orders = new ArrayList<>();
     private List<Listing> listings = new ArrayList<>();
     private boolean ordersError;
+    private boolean confirmEmail;
 
     @Inject
     public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter)
@@ -80,10 +82,14 @@ public class MainController extends EpoxyController
                 .errorString("Unable to fetch orders")
                 .addIf(ordersError, this);
 
+        new VerifyEmailModel_()
+                .id("confirm email model")
+                .addIf(confirmEmail, this);
+
         new NoOrderModel_()
                 .id("no orders")
                 .text("No order history")
-                .addIf(!loadingMorePurchases && orders.size() == 0 && !ordersError, this);
+                .addIf(!loadingMorePurchases && orders.size() == 0 && !ordersError && !confirmEmail, this);
 
         for (Order order : orders)
         {
@@ -127,7 +133,11 @@ public class MainController extends EpoxyController
         new NoOrderModel_()
                 .id("not selling")
                 .text(context.getString(R.string.not_selling_anything))
-                .addIf(!loadingMoreSales && listings.size() == 0 && !ordersError, this);
+                .addIf(!loadingMoreSales && listings.size() == 0 && !ordersError && !confirmEmail, this);
+
+        new VerifyEmailModel_()
+                .id("confirm email model2")
+                .addIf(confirmEmail, this);
 
         for (Listing listing : listings)
         {
@@ -157,6 +167,7 @@ public class MainController extends EpoxyController
         this.orders = purchases;
         this.loadingMorePurchases = false;
         this.ordersError = false;
+        this.confirmEmail = false;
         requestModelBuild();
     }
 
@@ -165,6 +176,7 @@ public class MainController extends EpoxyController
         this.loadingMorePurchases = loadingMorePurchases;
         this.loadingMoreSales = loadingMorePurchases;
         this.ordersError = false;
+        this.confirmEmail = false;
         requestModelBuild();
     }
 
@@ -172,12 +184,23 @@ public class MainController extends EpoxyController
     {
         this.listings = listings;
         this.loadingMoreSales = false;
+        this.confirmEmail = false;
         requestModelBuild();
     }
 
     public void setOrdersError(boolean b)
     {
         this.ordersError = b;
+        this.loadingMorePurchases = false;
+        this.loadingMoreSales = false;
+        this.confirmEmail = false;
+        requestModelBuild();
+    }
+
+    public void setConfirmEmail(boolean confirmEmail)
+    {
+        this.confirmEmail = confirmEmail;
+        this.ordersError = false;
         this.loadingMorePurchases = false;
         this.loadingMoreSales = false;
         requestModelBuild();

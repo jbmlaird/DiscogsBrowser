@@ -171,7 +171,6 @@ public class DiscogsInteractor
         // Assuming that there will be no duplicate OAuth token
         return cacheProviders.fetchIdentity(discogsService.fetchIdentity(), new DynamicKey(sharedPrefsManager.getUserOAuthToken().getToken()))
                 .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.io())
                 .flatMap(user ->
                         discogsService.fetchUserDetails(user.getUsername()));
     }
@@ -179,6 +178,7 @@ public class DiscogsInteractor
     public Single<List<CollectionRelease>> fetchCollection(String username)
     {
         Single<List<CollectionRelease>> collectionSingle = cacheProviders.fetchCollection(discogsService.fetchCollection(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextCollection()))
+                .subscribeOn(mySchedulerProvider.io())
                 .map(RootCollectionRelease::getCollectionReleases);
         if (sharedPrefsManager.fetchNextCollection())
             sharedPrefsManager.setFetchNextCollection("no");
@@ -202,6 +202,8 @@ public class DiscogsInteractor
     public Single<List<Want>> fetchWantlist(String username)
     {
         Single<List<Want>> wantlistSingle = cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
+                .observeOn(mySchedulerProvider.io())
+                .subscribeOn(mySchedulerProvider.io())
                 .map(RootWantlistResponse::getWants);
         if (sharedPrefsManager.fetchNextWantlist())
             sharedPrefsManager.setFetchNextWantlist("no");

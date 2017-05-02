@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.artistreleases;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,8 @@ public interface ArtistReleasesContract
         void launchDetailedActivity(String type, String title, String id);
 
         Observable<CharSequence> filterIntent();
+
+        Context getContext();
     }
 
     interface Presenter extends BasePresenter
@@ -35,10 +38,13 @@ public interface ArtistReleasesContract
 
         ArtistReleasesAdapter setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity);
 
-        void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, String searchFilter);
+        void connectToBehaviorRelay(Consumer<List<ArtistRelease>> consumer, Consumer<Throwable> throwableConsumer, String searchFilter);
 
         void launchDetailedActivity(String type, String title, String id);
 
         void setupFilter(Consumer<CharSequence> filterConsumer);
+
+        // This exists because CardView goes dark on 5.1 and have to use the Activity rather than Application Context
+        Context getViewContext();
     }
 }

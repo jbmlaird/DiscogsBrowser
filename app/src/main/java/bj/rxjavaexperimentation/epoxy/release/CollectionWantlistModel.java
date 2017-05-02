@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Josh Laird on 26/04/2017.
@@ -30,7 +29,6 @@ import io.reactivex.disposables.CompositeDisposable;
 @EpoxyModelClass(layout = R.layout.model_collection_wantlist)
 public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
 {
-    @EpoxyAttribute CompositeDisposable disposable;
     @EpoxyAttribute Context context;
     @EpoxyAttribute boolean inCollection;
     @EpoxyAttribute boolean inWantlist;
@@ -47,7 +45,6 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     public void unbind(LinearLayout view)
     {
         super.unbind(view);
-        disposable.dispose();
         unbinder.unbind();
         Log.e("CollectionWantlistModel", "unbind");
     }
@@ -67,7 +64,7 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnCollection.startAnimation();
         if (!inCollection)
-            disposable.add(discogsInteractor.addToCollection(releaseId)
+            discogsInteractor.addToCollection(releaseId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -90,9 +87,9 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                                 Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
                                 error.printStackTrace();
                                 btnCollection.revertAnimation();
-                            }));
+                            });
         else
-            disposable.add(discogsInteractor.removeFromCollection(releaseId, instanceId)
+            discogsInteractor.removeFromCollection(releaseId, instanceId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -114,7 +111,7 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                                 Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
                                 error.printStackTrace();
                                 btnCollection.revertAnimation();
-                            }));
+                            });
     }
 
     @OnClick(R.id.btnWantlist)
@@ -122,7 +119,7 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnWantlist.startAnimation();
         if (!inWantlist)
-            disposable.add(discogsInteractor.addToWantlist(releaseId)
+            discogsInteractor.addToWantlist(releaseId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -136,9 +133,9 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                                 Toasty.error(context, "Unable to add to Wantlist", Toast.LENGTH_SHORT, true).show();
                                 error.printStackTrace();
                                 btnWantlist.revertAnimation();
-                            }));
+                            });
         else
-            disposable.add(discogsInteractor.removeFromWantlist(releaseId)
+            discogsInteractor.removeFromWantlist(releaseId)
                     .subscribeOn(mySchedulerProvider.io())
                     .observeOn(mySchedulerProvider.ui())
                     .subscribe(result ->
@@ -159,6 +156,6 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
                             {
                                 Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
                                 btnWantlist.revertAnimation();
-                            }));
+                            });
     }
 }
