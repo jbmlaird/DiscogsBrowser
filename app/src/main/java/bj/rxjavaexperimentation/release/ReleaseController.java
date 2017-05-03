@@ -159,13 +159,14 @@ public class ReleaseController extends BaseController
                     .id("Wantlist error")
                     .addIf(wantlistError, this);
 
-            new SubHeaderModel_()
-                    .id("youtube subheader")
-                    .subheader("YouTube videos")
-                    .addTo(this);
 
             if (release.getVideos() != null)
             {
+                new SubHeaderModel_()
+                        .id("youtube subheader")
+                        .subheader("YouTube videos")
+                        .addTo(this);
+
                 for (Video video : release.getVideos())
                 {
                     String youtubeId = video.getUri().split("=")[1];

@@ -125,4 +125,9 @@ public class SearchController extends EpoxyController
         }
         requestModelBuild();
     }
+
+    public boolean getShowPastSearches()
+    {
+        return showPastSearches;
+    }
 }

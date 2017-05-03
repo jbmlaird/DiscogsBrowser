@@ -42,7 +42,7 @@ public abstract class HeaderModel extends EpoxyModel<LinearLayout>
                 .placeholder(R.drawable.ic_vinyl)
                 .crossFade()
                 .into(ivImage);
-        if (!subtitle.equals(""))
+        if (subtitle != null && !subtitle.equals(""))
         {
             // Controller reuses the same model so visibility has to be restored
             tvSubtitle.setText(subtitle);
