@@ -1,7 +1,7 @@
 [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=58ff64f23f33870001d2e016&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/58ff64f23f33870001d2e016/build/latest?branch=master)
 
 # DiscogsBrowser
-Android app to interact with Discogs' API. See the basic Recommender System here: [](https://github.com/jbmlaird/Discogs-Browser-ML)
+Android app to interact with Discogs' API. See the basic Recommender System [here](https://github.com/jbmlaird/Discogs-Browser-ML).
 
 ![app_logo](app/src/main/res/drawable-xxxhdpi/ic_app.png)
 
