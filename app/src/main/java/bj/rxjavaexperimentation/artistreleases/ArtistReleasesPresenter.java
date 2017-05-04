@@ -19,12 +19,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesAdapter;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistReleasesFragment;
 import bj.rxjavaexperimentation.artistreleases.fragments.ArtistResultFunction;
 import bj.rxjavaexperimentation.artistreleases.fragments.ViewPagerAdapter;
 import bj.rxjavaexperimentation.model.artistrelease.ArtistRelease;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -43,11 +45,12 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private Relay<Throwable> throwableRelay;
     private MySchedulerProvider mySchedulerProvider;
     private ArtistResultFunction artistResultFunction;
+    private AnalyticsTracker tracker;
 
     @Inject
     public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, CompositeDisposable disposable,
                                    BehaviorRelay<List<ArtistRelease>> behaviorRelay, Relay<Throwable> throwableRelay,
-                                   MySchedulerProvider mySchedulerProvider, ArtistResultFunction artistResultFunction)
+                                   MySchedulerProvider mySchedulerProvider, ArtistResultFunction artistResultFunction, AnalyticsTracker tracker)
     {
         this.context = context;
         this.view = view;
@@ -57,6 +60,7 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
         this.throwableRelay = throwableRelay;
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistResultFunction = artistResultFunction;
+        this.tracker = tracker;
     }
 
     @Override
@@ -77,6 +81,15 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
         fragmentValues.add(Pair.create("release", "Releases"));
         addFragmentsToViewPager(viewPagerAdapter, fragmentValues);
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener()
+        {
+            @Override
+            public void onPageSelected(int position)
+            {
+                tracker.send(context.getString(R.string.artist_releases_activity), context.getString(R.string.artist_releases_activity), context.getString(R.string.clicked), "ViewPager", (long) position);
+                super.onPageSelected(position);
+            }
+        });
     }
 
     private void addFragmentsToViewPager(ViewPagerAdapter viewPagerAdapter, ArrayList<Pair> pairs)

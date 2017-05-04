@@ -15,6 +15,7 @@ import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 public class LabelActivity extends BaseActivity implements LabelContract.View
 {
     @Inject LabelPresenter presenter;
+    @Inject AnalyticsTracker tracker;
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -57,20 +59,30 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     }
 
     @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
+    }
+
+    @Override
     public void displayRelease(String id, String title)
     {
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "labelRelease", 1L);
         startActivity(ReleaseActivity.createIntent(this, title, id));
     }
 
     @Override
     public void openLink(String uri)
     {
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), uri, 1L);
         new FinestWebView.Builder(this).show(uri);
     }
 
     @Override
     public void retry()
     {
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "retry", 1L);
         presenter.getData(getIntent().getStringExtra("id"));
     }
 }

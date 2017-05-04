@@ -10,6 +10,7 @@ import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
 
 import javax.inject.Inject;
 
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 
 /**
@@ -21,13 +22,15 @@ public class LoginPresenter implements LoginContract.Presenter
     private LoginContract.View view;
     private SharedPrefsManager sharedPrefsManager;
     private OAuth10aService oAuth10aService;
+    private AnalyticsTracker tracker;
 
     @Inject
-    public LoginPresenter(@NonNull LoginContract.View view, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull OAuth10aService oAuth10aService)
+    public LoginPresenter(@NonNull LoginContract.View view, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull OAuth10aService oAuth10aService, @NonNull AnalyticsTracker tracker)
     {
         this.view = view;
         this.sharedPrefsManager = sharedPrefsManager;
         this.oAuth10aService = oAuth10aService;
+        this.tracker = tracker;
     }
 
     @Override

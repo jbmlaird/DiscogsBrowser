@@ -21,6 +21,7 @@ import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.master.MasterActivity;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +37,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @BindView(R.id.etFilter) EditText etFilter;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.viewpager) ViewPager viewPager;
+    @Inject AnalyticsTracker tracker;
     @Inject DiscogsInteractor discogsInteractor;
     @Inject ArtistReleasesPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
@@ -73,6 +75,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
+        tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.clicked), "retry", 1L);
         switch (type)
         {
             case "release":
@@ -98,6 +101,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
 
     /**
      * Required as CardView theme goes dark in Android 5.1. Will need to replace with Epoxy.
+     *
      * @return
      */
     @Override
@@ -118,5 +122,12 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     {
         super.onDestroy();
         presenter.dispose();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
     }
 }

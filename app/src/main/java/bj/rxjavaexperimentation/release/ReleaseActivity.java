@@ -18,6 +18,7 @@ import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +30,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
 {
     @Inject ArtistsBeautifier artistsBeautifier;
     @Inject ReleasePresenter presenter;
+    @Inject AnalyticsTracker tracker;
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -51,6 +53,13 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     }
 
     @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -64,30 +73,35 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Override
     public void displayListingInformation(String title, String artists, ScrapeListing scrapeListing)
     {
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "displayListing", 1L);
         startActivity(MarketplaceListingActivity.createIntent(this, scrapeListing.getMarketPlaceId(), title, artists, scrapeListing.getSellerName()));
     }
 
     @Override
     public void launchYouTube(String youtubeId)
     {
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "launchYoutube", 1L);
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + youtubeId)));
     }
 
     @Override
     public void displayLabel(String title, String id)
     {
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "displayLabel", 1L);
         startActivity(LabelActivity.createIntent(this, title, id));
     }
 
     @Override
     public void retry()
     {
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryRelease", 1L);
         presenter.getData(getIntent().getStringExtra("id"));
     }
 
     @Override
     public void retryCollectionWantlist()
     {
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryWantlistCollection", 1L);
         presenter.retryCollectionWantlist();
     }
 
@@ -96,6 +110,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     {
         try
         {
+            tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryListings", 1L);
             presenter.fetchReleaseListings(getIntent().getStringExtra("id"));
         }
         catch (IOException e)

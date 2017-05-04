@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.main;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
@@ -20,12 +21,12 @@ import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.utils.schedulerprovider.TestSchedulerProvider;
 import bj.rxjavaexperimentation.wrappers.LogWrapper;
 import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -47,6 +48,7 @@ public class MainPresenterUnitTest
 
     private TestScheduler testScheduler;
     private UserDetails testUserDetails;
+    @Mock Context context;
     @Mock MainContract.View mView;
     @Mock DiscogsInteractor discogsInteractor;
     @Mock NavigationDrawerBuilder navigationDrawerBuilder;
@@ -54,7 +56,7 @@ public class MainPresenterUnitTest
     @Mock RecyclerView recyclerView;
     @Mock SharedPrefsManager sharedPrefsManager;
     @Mock LogWrapper logWrapper;
-    @Mock CompositeDisposable compositeDisposable;
+    @Mock AnalyticsTracker tracker;
 
     @Mock MainActivity mainActivity;
     @Mock Toolbar toolbar;
@@ -66,7 +68,7 @@ public class MainPresenterUnitTest
         testUserDetails = new UserDetails();
         testUserDetails.setUsername(username);
         testScheduler = new TestScheduler();
-        mainPresenter = new MainPresenter(mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper);
+        mainPresenter = new MainPresenter(context, mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, tracker);
     }
 
     @After

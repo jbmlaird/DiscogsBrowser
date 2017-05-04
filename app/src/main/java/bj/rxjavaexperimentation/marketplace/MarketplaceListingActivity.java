@@ -21,6 +21,7 @@ import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.user.UserDetails;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,10 +30,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by Josh Laird on 13/04/2017.
  */
-
 public class MarketplaceListingActivity extends BaseActivity implements MarketplaceContract.View
 {
     @Inject MarketplacePresenter presenter;
+    @Inject AnalyticsTracker tracker;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tvItemName) TextView tvItemName;
     @BindView(R.id.ivImage) CircleImageView ivImage;
@@ -82,6 +83,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
         this.listing = listing;
         Glide.with(this)
                 .load(listing.getRelease().getThumbnail())
+                .dontAnimate()
                 .placeholder(R.drawable.ic_vinyl)
                 .into(ivImage);
         tvItemName.setText(listing.getRelease().getDescription());
@@ -100,15 +102,24 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
         tvSellerRating.setText("Seller rating: " + userDetails.getSellerRating() + "%");
     }
 
+    @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
+    }
+
     @OnClick(R.id.lytViewOnDiscogs)
     public void viewOnDiscogs()
     {
+        tracker.send(getString(R.string.marketplace_activity), getString(R.string.marketplace_activity), getString(R.string.loaded), "onResume", 1L);
         new FinestWebView.Builder(this).show(listing.getUri());
     }
 
     @OnClick(R.id.lytViewSellerShipping)
     public void viewSellerShipping()
     {
+        tracker.send(getString(R.string.marketplace_activity), getString(R.string.marketplace_activity), getString(R.string.clicked), "Seller Shipping Info", 1L);
         new MaterialDialog.Builder(this)
                 .content(listing.getSeller().getShipping())
                 .title(listing.getSeller().getUsername())

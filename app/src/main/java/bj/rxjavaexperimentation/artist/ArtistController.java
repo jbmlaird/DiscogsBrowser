@@ -5,17 +5,20 @@ import android.content.Context;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.artist.MemberModel_;
 import bj.rxjavaexperimentation.epoxy.artist.UrlModel_;
 import bj.rxjavaexperimentation.epoxy.artist.ViewReleasesModel_;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
+import bj.rxjavaexperimentation.epoxy.common.EmptySpaceModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
 import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.model.artist.ArtistResult;
 import bj.rxjavaexperimentation.model.artist.Member;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import bj.rxjavaexperimentation.utils.WantedUrl;
 
@@ -31,13 +34,15 @@ public class ArtistController extends BaseController
     private ArtistResult artistResult;
     private boolean loading = true;
     private boolean error;
+    private AnalyticsTracker tracker;
 
     @Inject
-    public ArtistController(ArtistContract.View view, Context context, ImageViewAnimator imageViewAnimator)
+    public ArtistController(ArtistContract.View view, Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.view = view;
         this.context = context;
         this.imageViewAnimator = imageViewAnimator;
+        this.tracker = tracker;
     }
 
     @Override
@@ -119,8 +124,8 @@ public class ArtistController extends BaseController
                             .addTo(this);
                 }
 
-                new DividerModel_()
-                        .id("divider3")
+                new EmptySpaceModel_()
+                        .id("empty space model")
                         .addTo(this);
             }
         }
@@ -150,6 +155,7 @@ public class ArtistController extends BaseController
     {
         this.error = isError;
         this.loading = false;
+        tracker.send(context.getString(R.string.artist_activity), context.getString(R.string.artist_activity), context.getString(R.string.error), "fetching artist", 1L);
         requestModelBuild();
     }
 }

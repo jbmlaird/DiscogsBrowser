@@ -24,6 +24,7 @@ import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.order.OrderActivity;
 import bj.rxjavaexperimentation.search.SearchActivity;
 import bj.rxjavaexperimentation.singlelist.SingleListActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import butterknife.BindView;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Inject ImageViewAnimator imageViewAnimator;
     @Inject MainPresenter presenter;
     @Inject SharedPrefsManager sharedPrefsManager;
+    @Inject AnalyticsTracker tracker;
     private Drawer drawer;
 
     @Override
@@ -124,6 +126,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     protected void onResume()
     {
         super.onResume();
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1L);
         if (drawer == null)
             presenter.connectAndBuildNavigationDrawer(this, toolbar);
     }
@@ -150,19 +153,29 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void displayOrder(String id)
     {
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "order", 1L);
         startActivity(OrderActivity.createIntent(this, id));
     }
 
     @Override
     public void displayOrdersActivity(String username)
     {
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All orders", 1L);
         startActivity(SingleListActivity.createIntent(this, "orders", username));
     }
 
     @Override
     public void displayListing(String listingId, String title, String username, String artist, String seller)
     {
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "listing", 1L);
         startActivity(MarketplaceListingActivity.createIntent(this, listingId, title, artist, seller));
+    }
+
+    @Override
+    public void displayListingsActivity(String username)
+    {
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All listings", 1L);
+        startActivity(SingleListActivity.createIntent(this, "selling", username));
     }
 
     @Override
@@ -180,13 +193,8 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void retry()
     {
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "Retry", 1L);
         presenter.retry();
-    }
-
-    @Override
-    public void displayListingsActivity(String username)
-    {
-        startActivity(SingleListActivity.createIntent(this, "selling", username));
     }
 
     @OnClick(R.id.btnError)

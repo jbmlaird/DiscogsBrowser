@@ -8,16 +8,19 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.HeaderModel_;
 import bj.rxjavaexperimentation.epoxy.common.ListItemModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
+import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.epoxy.label.ViewOnDiscogsModel_;
 import bj.rxjavaexperimentation.epoxy.main.ViewMoreModel_;
 import bj.rxjavaexperimentation.model.label.Label;
 import bj.rxjavaexperimentation.model.labelrelease.LabelRelease;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 
 /**
@@ -33,14 +36,17 @@ public class LabelController extends BaseController
     private List<LabelRelease> labelReleases = new ArrayList<>();
     private boolean viewMore = false;
     private boolean loading = true;
+    private boolean loadingLabelReleases = true;
     private boolean error = false;
+    private AnalyticsTracker tracker;
 
     @Inject
-    public LabelController(Context context, LabelContract.View view, ImageViewAnimator imageViewAnimator)
+    public LabelController(Context context, LabelContract.View view, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.context = context;
         this.view = view;
         this.imageViewAnimator = imageViewAnimator;
+        this.tracker = tracker;
     }
 
     @Override
@@ -70,6 +76,19 @@ public class LabelController extends BaseController
                     .onClick(v -> view.retry())
                     .id("label error")
                     .addTo(this);
+
+        if (loadingLabelReleases)
+        {
+            new SubHeaderModel_()
+                    .subheader("Label Releases")
+                    .id("label releases subheader")
+                    .addTo(this);
+
+            new LoadingModel_()
+                    .imageViewAnimator(imageViewAnimator)
+                    .id("releases loading")
+                    .addTo(this);
+        }
 
         if (label != null && !error)
         {
@@ -123,6 +142,7 @@ public class LabelController extends BaseController
     public void setLabelReleases(List<LabelRelease> labelReleases)
     {
         this.labelReleases = labelReleases;
+        this.loadingLabelReleases = false;
         requestModelBuild();
     }
 
@@ -136,13 +156,18 @@ public class LabelController extends BaseController
     {
         this.error = isError;
         if (isError)
+        {
             loading = false;
+            loadingLabelReleases = false;
+            tracker.send(context.getString(R.string.label_activity), context.getString(R.string.label_activity), context.getString(R.string.error), "fetching label", 1L);
+        }
         requestModelBuild();
     }
 
     public void setLoading(boolean isLoading)
     {
         this.loading = isLoading;
+        this.loadingLabelReleases = isLoading;
         this.error = false;
         requestModelBuild();
     }

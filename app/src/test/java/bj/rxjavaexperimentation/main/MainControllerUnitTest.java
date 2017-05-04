@@ -19,6 +19,7 @@ import java.util.List;
 
 import bj.rxjavaexperimentation.model.order.TestListing;
 import bj.rxjavaexperimentation.model.order.TestOrder;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.DateFormatter;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
@@ -39,12 +40,13 @@ public class MainControllerUnitTest
     @Mock SharedPrefsManager sharedPrefsManager;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock DateFormatter dateFormatter;
+    @Mock AnalyticsTracker tracker;
 
     @Before
     public void setup()
     {
         MockitoAnnotations.initMocks(this);
-        controller = new MainController(context, view, sharedPrefsManager, imageViewAnimator, dateFormatter);
+        controller = new MainController(context, view, sharedPrefsManager, imageViewAnimator, dateFormatter, tracker);
         controller.requestModelBuild();
     }
 

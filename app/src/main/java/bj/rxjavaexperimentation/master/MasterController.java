@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
@@ -17,6 +18,7 @@ import bj.rxjavaexperimentation.epoxy.common.SubHeaderModel_;
 import bj.rxjavaexperimentation.epoxy.main.ViewMoreModel_;
 import bj.rxjavaexperimentation.model.master.Master;
 import bj.rxjavaexperimentation.model.version.Version;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 
@@ -30,6 +32,7 @@ public class MasterController extends BaseController
     private Context context;
     private ArtistsBeautifier artistsBeautifier;
     private ImageViewAnimator imageViewAnimator;
+    private AnalyticsTracker tracker;
     private boolean loading = true;
     private boolean error = false;
     private Master master;
@@ -37,12 +40,13 @@ public class MasterController extends BaseController
     private boolean viewAllVersions;
 
     @Inject
-    public MasterController(MasterContract.View view, Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator)
+    public MasterController(MasterContract.View view, Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         mView = view;
         this.context = context;
         this.artistsBeautifier = artistsBeautifier;
         this.imageViewAnimator = imageViewAnimator;
+        this.tracker = tracker;
     }
 
     @Override
@@ -106,6 +110,7 @@ public class MasterController extends BaseController
     private void setViewAllVersions(boolean b)
     {
         viewAllVersions = b;
+        tracker.send(context.getString(R.string.master_activity), context.getString(R.string.master_activity), context.getString(R.string.clicked), "view all versions", 1L);
         requestModelBuild();
     }
 
@@ -130,6 +135,7 @@ public class MasterController extends BaseController
     {
         error = b;
         loading = false;
+        tracker.send(context.getString(R.string.master_activity), context.getString(R.string.master_activity), context.getString(R.string.error), "fetching master", 1L);
         requestModelBuild();
     }
 

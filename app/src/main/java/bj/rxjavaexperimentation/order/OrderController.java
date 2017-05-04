@@ -1,10 +1,13 @@
 package bj.rxjavaexperimentation.order;
 
+import android.content.Context;
+
 import com.airbnb.epoxy.EpoxyController;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
@@ -13,6 +16,7 @@ import bj.rxjavaexperimentation.epoxy.order.OrderReleaseModel_;
 import bj.rxjavaexperimentation.epoxy.order.TotalModel_;
 import bj.rxjavaexperimentation.model.order.Item;
 import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 
 /**
@@ -24,14 +28,18 @@ public class OrderController extends EpoxyController
     private Order orderDetails;
     private boolean loadingOrder = true;
     private boolean error = false;
+    private Context context;
     private OrderContract.View mView;
     private ImageViewAnimator imageViewAnimator;
+    private AnalyticsTracker tracker;
 
     @Inject
-    public OrderController(OrderContract.View mView, ImageViewAnimator imageViewAnimator)
+    public OrderController(Context context, OrderContract.View mView, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
+        this.context = context;
         this.mView = mView;
         this.imageViewAnimator = imageViewAnimator;
+        this.tracker = tracker;
     }
 
     @Override
@@ -102,6 +110,7 @@ public class OrderController extends EpoxyController
     {
         error = true;
         loadingOrder = false;
+        tracker.send(context.getString(R.string.order_activity), context.getString(R.string.order_activity), context.getString(R.string.error), "fetching details", 1L);
         requestModelBuild();
     }
 }

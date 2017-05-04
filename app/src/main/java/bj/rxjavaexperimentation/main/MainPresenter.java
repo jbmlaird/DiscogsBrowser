@@ -1,5 +1,6 @@
 package bj.rxjavaexperimentation.main;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +11,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
@@ -26,6 +29,7 @@ import io.reactivex.Single;
 public class MainPresenter implements MainContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
+    private Context context;
     private MainContract.View mView;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
@@ -33,12 +37,15 @@ public class MainPresenter implements MainContract.Presenter
     private MainController mainController;
     private SharedPrefsManager sharedPrefsManager;
     private LogWrapper log;
+    private AnalyticsTracker tracker;
 
     @Inject
-    public MainPresenter(@NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
+    public MainPresenter(@NonNull Context context, @NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
-                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log)
+                         @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager,
+                         @NonNull LogWrapper log, @NonNull AnalyticsTracker tracker)
     {
+        this.context = context;
         mView = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
@@ -46,6 +53,7 @@ public class MainPresenter implements MainContract.Presenter
         this.mainController = mainController;
         this.sharedPrefsManager = sharedPrefsManager;
         this.log = log;
+        this.tracker = tracker;
     }
 
     @Override
@@ -79,6 +87,7 @@ public class MainPresenter implements MainContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .flatMap(userDetails ->
                 {
+                    tracker.send(context.getString(R.string.main_activity), context.getString(R.string.login_activity), context.getString(R.string.logged_in), userDetails.getUsername(), 1L);
                     sharedPrefsManager.storeUserDetails(userDetails);
                     return fetchOrders();
                 })

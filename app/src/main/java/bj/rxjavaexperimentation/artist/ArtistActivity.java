@@ -15,6 +15,7 @@ import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.artistreleases.ArtistReleasesActivity;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.common.MyRecyclerView;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,9 +24,9 @@ import butterknife.ButterKnife;
  */
 public class ArtistActivity extends BaseActivity implements ArtistContract.View
 {
-    private final String TAG = getClass().getSimpleName();
     @BindView(R.id.recyclerView) MyRecyclerView rvDetailed;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @Inject AnalyticsTracker tracker;
     @Inject ArtistPresenter presenter;
 
     @Override
@@ -60,24 +61,35 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @Override
     public void showMemberDetails(String name, String id)
     {
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "Show member details", 1L);
         startActivity(createIntent(this, name, id));
     }
 
     @Override
     public void showLink(String link)
     {
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), link, 1L);
         new FinestWebView.Builder(this).show(link);
     }
 
     @Override
     public void showArtistReleases(String title, String id)
     {
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "show artist releases", 1L);
         startActivity(ArtistReleasesActivity.createIntent(this, title, id));
+    }
+
+    @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
     }
 
     @Override
     public void retry()
     {
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "retry", 1L);
         presenter.getData(getIntent().getStringExtra("id"));
     }
 }

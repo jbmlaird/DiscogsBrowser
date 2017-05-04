@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,6 +24,7 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @Inject OrderPresenter presenter;
+    @Inject AnalyticsTracker tracker;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -42,6 +44,13 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     }
 
     @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -56,6 +65,7 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     @Override
     public void retry()
     {
+        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.clicked), "retry", 1L);
         presenter.fetchOrderDetails(getIntent().getStringExtra("id"));
     }
 }

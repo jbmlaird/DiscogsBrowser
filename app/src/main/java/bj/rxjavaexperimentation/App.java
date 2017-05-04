@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bugsnag.android.Bugsnag;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.analytics.Tracker;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -26,6 +27,7 @@ import io.victoralbertos.jolyglot.GsonSpeaker;
 public class App extends Application
 {
     public static AppComponent appComponent;
+    private Tracker mTracker;
 
     @Override
     public void onCreate()
@@ -42,7 +44,10 @@ public class App extends Application
         if (!BuildConfig.DEBUG)
             Bugsnag.init(this);
         else
+        {
+            // TODO: Enable Flurry/Google Analytics
             LeakCanary.install(this);
+        }
 
         // Empty string while RxSocialConnect's disk cache is not working
         RxSocialConnect.register(this, "")

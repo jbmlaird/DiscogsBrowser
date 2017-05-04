@@ -1,9 +1,12 @@
 package bj.rxjavaexperimentation;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.greenrobot.greendao.database.Database;
@@ -26,23 +29,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule
 {
-    private Context mContext;
+    private Application applicationContext;
 
-    public AppModule(Context context)
+    public AppModule(Application context)
     {
-        mContext = context;
+        applicationContext = context;
     }
 
     @Provides
     Context provideContext()
     {
-        return mContext;
+        return applicationContext;
+    }
+
+    @Provides
+    Tracker provideAnalyticsTracker()
+    {
+        return GoogleAnalytics.getInstance(applicationContext).newTracker(R.xml.global_tracker);
     }
 
     @Provides
     DaoSession providesDaoSession()
     {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(mContext, "search-db");
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(applicationContext, "search-db");
         // Unique wasn't being respected so had to upgrade the DB.
         // helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
         Database db = helper.getWritableDb();

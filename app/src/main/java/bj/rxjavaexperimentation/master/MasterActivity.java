@@ -13,6 +13,7 @@ import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,6 +25,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject MasterPresenter presenter;
+    @Inject AnalyticsTracker tracker;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -55,14 +57,23 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     }
 
     @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
+    }
+
+    @Override
     public void displayRelease(String title, String id)
     {
+        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "release", 1L);
         startActivity(ReleaseActivity.createIntent(this, title, id));
     }
 
     @Override
     public void retry()
     {
+        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "retry", 1L);
         presenter.getData(getIntent().getStringExtra("id"));
     }
 }

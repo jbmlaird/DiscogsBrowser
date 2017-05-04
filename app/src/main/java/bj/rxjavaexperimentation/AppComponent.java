@@ -5,6 +5,7 @@ import android.content.Context;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
 import bj.rxjavaexperimentation.entity.DaoSession;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import dagger.Component;
 import retrofit2.Retrofit;
 
@@ -23,4 +24,6 @@ public interface AppComponent
     Retrofit getRetrofit();
 
     OAuth10aService getOAuthService();
+
+    AnalyticsTracker getAnalyticsTracker();
 }

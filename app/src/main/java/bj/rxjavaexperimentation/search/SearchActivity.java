@@ -29,6 +29,7 @@ import bj.rxjavaexperimentation.label.LabelActivity;
 import bj.rxjavaexperimentation.master.MasterActivity;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     private final String TAG = getClass().getSimpleName();
     @Inject SearchPresenter presenter;
     @Inject MySchedulerProvider mySchedulerProvider;
+    @Inject AnalyticsTracker tracker;
     @BindView(R.id.lytTabs) LinearLayout lytTabs;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.searchView) SearchView searchView;
@@ -102,6 +104,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     protected void onResume()
     {
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.loaded), "onResume", 1L);
         super.onResume();
         presenter.setupSubscriptions();
     }
@@ -109,6 +112,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @OnClick(R.id.search_close_btn)
     public void onClose()
     {
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "searchClear", 1L);
         searchView.setQuery("", false);
         presenter.showPastSearches(true);
     }
@@ -140,6 +144,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     public void startDetailedActivity(SearchResult searchResult)
     {
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "detailedActivity", 1L);
         switch (searchResult.getType())
         {
             case "release":
@@ -160,12 +165,14 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     public void fillSearchBox(String searchTerm)
     {
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "searchTerm", 1L);
         searchView.setQuery(searchTerm, false);
     }
 
     @Override
     public void retry()
     {
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "retry", 1L);
         String query = searchView.getQuery().toString();
         searchView.setQuery("", false);
         searchView.setQuery(query, false);

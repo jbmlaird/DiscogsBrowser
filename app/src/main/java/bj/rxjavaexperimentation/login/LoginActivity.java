@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.UnderlineSpan;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -13,6 +17,8 @@ import bj.rxjavaexperimentation.AppComponent;
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.main.MainActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -21,7 +27,9 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends BaseActivity implements LoginContract.View
 {
+    @BindView(R.id.tvTnCs) TextView tvTnCs;
     @Inject LoginPresenter presenter;
+    @Inject AnalyticsTracker tracker;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -51,22 +59,35 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
         {
             finish();
         }
+
+        SpannableString content = new SpannableString(getString(R.string.by_signing_in_you_agree_to_the_privacy_policy));
+        content.setSpan(new UnderlineSpan(), content.length() - 14, content.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tvTnCs.setText(content);
     }
 
     @OnClick(R.id.btnLogin)
     public void loginTapped()
     {
+        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.clicked), "login", 1L);
         presenter.startOAuthService(this);
     }
 
     @OnClick(R.id.tvTnCs)
     public void onTsnCsClicked()
     {
+        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.clicked), "privacy policy", 1L);
         new MaterialDialog.Builder(this)
                 .title("Privacy Policy")
-                .negativeText("Back")
+                .negativeText("Dismiss")
                 .content(R.string.privacy_policy)
                 .show();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
     }
 
     @Override

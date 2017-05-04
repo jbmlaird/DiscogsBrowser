@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -24,12 +25,13 @@ public class SearchControllerUnitTest
     @Mock Context context;
     @Mock SearchContract.View view;
     @Mock ImageViewAnimator imageViewAnimator;
+    @Mock AnalyticsTracker tracker;
 
     @Before
     public void setup()
     {
         MockitoAnnotations.initMocks(this);
-        controller = new SearchController(context, view, imageViewAnimator);
+        controller = new SearchController(context, view, imageViewAnimator, tracker);
         controller.requestModelBuild();
     }
 

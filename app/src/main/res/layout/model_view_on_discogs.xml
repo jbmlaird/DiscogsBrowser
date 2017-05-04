@@ -6,7 +6,7 @@
               android:layout_marginEnd="@dimen/margin_normal"
               android:layout_marginStart="@dimen/margin_normal"
               android:orientation="horizontal"
-              android:paddingBottom="@dimen/margin_normal_half"
+              android:paddingBottom="@dimen/margin_normal"
               android:paddingTop="@dimen/margin_normal_half">
 
     <TextView

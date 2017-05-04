@@ -24,6 +24,7 @@ import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.master.MasterActivity;
 import bj.rxjavaexperimentation.order.OrderActivity;
 import bj.rxjavaexperimentation.release.ReleaseActivity;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +46,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @BindView(R.id.etFilter) EditText etFilter;
     @Inject SingleListPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
+    @Inject AnalyticsTracker tracker;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -115,6 +117,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
             tvError.setText(error);
             tvNoItems.setVisibility(View.GONE);
             stopLoading();
+            tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.error), getIntent().getStringExtra("type"), 1L);
         }
         else
             tvError.setVisibility(View.GONE);
@@ -123,18 +126,21 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @Override
     public void displayListing(String listingId, String title, String artist, String seller)
     {
+        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.clicked), "displayListing", 1L);
         startActivity(MarketplaceListingActivity.createIntent(this, listingId, title, artist, seller));
     }
 
     @Override
     public void displayOrder(String id)
     {
+        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.clicked), "displayOrder", 1L);
         startActivity(OrderActivity.createIntent(this, id));
     }
 
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
+        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.clicked), "detailedActivity" + type, 1L);
         switch (type)
         {
             case "release":
@@ -156,6 +162,13 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     public Context getActivityContext()
     {
         return this;
+    }
+
+    @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
     }
 
     @Override

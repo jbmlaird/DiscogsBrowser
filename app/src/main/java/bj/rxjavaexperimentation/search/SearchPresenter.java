@@ -103,7 +103,7 @@ public class SearchPresenter implements SearchContract.Presenter
                 if (!currentFilter.equals(currentTabText))
                 {
                     currentFilter = currentTabText;
-                    if (searchController.getShowPastSearches())
+                    if (!searchController.getShowPastSearches())
                         searchObserver.onNext(searchResults);
                 }
             }

@@ -131,3 +131,6 @@ public static java.lang.String TABLENAME;
 -dontwarn org.greenrobot.greendao.database.**
 # If you do not use RxJava (I use RxJava2):
 -dontwarn rx.**
+
+##---------------Begin: Google Analytics ----------
+-keep class com.google.analytics.** { *; }

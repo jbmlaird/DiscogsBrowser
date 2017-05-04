@@ -22,6 +22,7 @@ import bj.rxjavaexperimentation.epoxy.main.OrderModel_;
 import bj.rxjavaexperimentation.epoxy.main.VerifyEmailModel_;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.DateFormatter;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
@@ -39,6 +40,7 @@ public class MainController extends EpoxyController
     private SharedPrefsManager sharedPrefsManager;
     private ImageViewAnimator imageViewAnimator;
     private DateFormatter dateFormatter;
+    private AnalyticsTracker tracker;
     private boolean loadingMorePurchases = true;
     private boolean loadingMoreSales = true;
     private List<Order> orders = new ArrayList<>();
@@ -47,13 +49,14 @@ public class MainController extends EpoxyController
     private boolean confirmEmail;
 
     @Inject
-    public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter)
+    public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
     {
         this.context = context;
         this.mView = mView;
         this.sharedPrefsManager = sharedPrefsManager;
         this.imageViewAnimator = imageViewAnimator;
         this.dateFormatter = dateFormatter;
+        this.tracker = tracker;
     }
 
     @Override
@@ -194,6 +197,7 @@ public class MainController extends EpoxyController
         this.loadingMorePurchases = false;
         this.loadingMoreSales = false;
         this.confirmEmail = false;
+        tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.error), "fetching orders", 1L);
         requestModelBuild();
     }
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.epoxy.common.BaseController;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
@@ -26,6 +27,7 @@ import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.release.Track;
 import bj.rxjavaexperimentation.model.release.Video;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
+import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ArtistsBeautifier;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
@@ -54,10 +56,11 @@ public class ReleaseController extends BaseController
     private boolean wantlistError;
     private boolean listingsError;
     private boolean collectionLoading = true;
+    private AnalyticsTracker tracker;
 
     @Inject
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
-                             DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider)
+                             DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, AnalyticsTracker tracker)
     {
         this.context = context;
         this.view = view;
@@ -65,6 +68,7 @@ public class ReleaseController extends BaseController
         this.imageViewAnimator = imageViewAnimator;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
+        this.tracker = tracker;
     }
 
     @Override
@@ -262,6 +266,7 @@ public class ReleaseController extends BaseController
     {
         listingsError = true;
         marketplaceLoading = false;
+        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release listings", 1L);
         requestModelBuild();
     }
 
@@ -290,6 +295,7 @@ public class ReleaseController extends BaseController
     {
         this.collectionError = collectionError;
         this.collectionLoading = false;
+        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "collection", 1L);
         requestModelBuild();
     }
 
@@ -304,6 +310,7 @@ public class ReleaseController extends BaseController
     {
         this.wantlistError = wantlistError;
         this.collectionLoading = false;
+        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "wantlist", 1L);
         requestModelBuild();
     }
 
@@ -318,6 +325,7 @@ public class ReleaseController extends BaseController
     {
         this.releaseError = releaseError;
         releaseLoading = false;
+        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release", 1L);
         requestModelBuild();
     }
 
