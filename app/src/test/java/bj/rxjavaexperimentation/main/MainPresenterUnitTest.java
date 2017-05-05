@@ -17,8 +17,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.testmodels.Order;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
@@ -74,7 +75,7 @@ public class MainPresenterUnitTest
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(mView, discogsInteractor, navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper);
+        verifyNoMoreInteractions(mView, discogsInteractor, navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, tracker);
     }
 
     @Test
@@ -84,6 +85,8 @@ public class MainPresenterUnitTest
         List<Listing> listSelling = new ArrayList();
         when(sharedPrefsManager.getUsername()).thenReturn(username);
         when(discogsInteractor.fetchUserDetails()).thenReturn(Single.just(testUserDetails));
+        when(context.getString(R.string.main_activity)).thenReturn("MainActivity");
+        when(context.getString(R.string.logged_in)).thenReturn("logged in");
         when(discogsInteractor.fetchOrders()).thenReturn(Single.just(listOrders));
         when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(listSelling));
         when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar)).thenReturn(drawer);
@@ -91,8 +94,10 @@ public class MainPresenterUnitTest
         mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
         testScheduler.triggerActions();
 
+        verify(mView, times(1)).showLoading(true);
         verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
         verify(discogsInteractor, times(1)).fetchUserDetails();
+        verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.getUsername(), 1L);
         verify(discogsInteractor, times(1)).fetchOrders();
         verify(sharedPrefsManager, times(1)).getUsername();
         verify(mainController, times(1)).setOrders(listOrders);
@@ -113,6 +118,7 @@ public class MainPresenterUnitTest
         mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
         testScheduler.triggerActions();
 
+        verify(mView, times(1)).showLoading(true);
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(mainController).setOrdersError(true);
         verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, toolbar);
@@ -136,6 +142,8 @@ public class MainPresenterUnitTest
         List<Order> listOrders = new ArrayList();
         List<Listing> listSelling = new ArrayList();
         when(sharedPrefsManager.getUsername()).thenReturn(username);
+        when(context.getString(R.string.main_activity)).thenReturn("MainActivity");
+        when(context.getString(R.string.logged_in)).thenReturn("logged in");
         when(discogsInteractor.fetchUserDetails()).thenReturn(Single.just(testUserDetails));
         when(discogsInteractor.fetchOrders()).thenReturn(Single.just(listOrders));
         when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(listSelling));
@@ -146,6 +154,7 @@ public class MainPresenterUnitTest
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(discogsInteractor, times(1)).fetchOrders();
         verify(sharedPrefsManager, times(1)).getUsername();
+        verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.getUsername(), 1L);
         verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
         verify(mainController, times(1)).setLoadingMorePurchases(true);
         verify(mainController, times(1)).setOrders(listOrders);

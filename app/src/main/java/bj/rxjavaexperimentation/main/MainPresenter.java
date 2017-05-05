@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.testmodels.Order;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.NavigationDrawerBuilder;
@@ -70,7 +70,7 @@ public class MainPresenter implements MainContract.Presenter
                         },
                         error ->
                         {
-                            if (error.getCause().getCause().getMessage().equals("HTTP 403 FORBIDDEN"))
+                            if (error.getCause() != null && error.getCause().getCause() != null && error.getCause().getCause().getMessage().equals("HTTP 403 FORBIDDEN"))
                                 mainController.setConfirmEmail(true);
                             else
                                 mainController.setOrdersError(true);
@@ -87,7 +87,7 @@ public class MainPresenter implements MainContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .flatMap(userDetails ->
                 {
-                    tracker.send(context.getString(R.string.main_activity), context.getString(R.string.login_activity), context.getString(R.string.logged_in), userDetails.getUsername(), 1L);
+                    tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.logged_in), userDetails.getUsername(), 1L);
                     sharedPrefsManager.storeUserDetails(userDetails);
                     return fetchOrders();
                 })

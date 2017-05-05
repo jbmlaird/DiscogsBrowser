@@ -23,7 +23,7 @@ This build is login only.
 # Forthcoming
 
 * Browsing history
-* Recent releases
+* Recent releases/Explore
 * Browsing without being logged in
 * Recommendation system
 * Adding notes to items in collection

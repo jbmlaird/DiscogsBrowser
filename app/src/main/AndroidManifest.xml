@@ -105,6 +105,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".about.LicenseActivity"
+                  android:theme="@style/AppTheme.AboutActivity"/>
+
+        <activity android:name=".about.AboutActivity"
+                  android:theme="@style/AppTheme.AboutActivity"/>
+
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

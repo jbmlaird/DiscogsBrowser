@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.about.AboutActivity;
 import bj.rxjavaexperimentation.login.LoginActivity;
 import bj.rxjavaexperimentation.main.MainActivity;
 import bj.rxjavaexperimentation.search.SearchActivity;
@@ -109,7 +110,7 @@ public class NavigationDrawerBuilder
 //                                    // TODO: Implement Settings
 //                                    break;
                                 case 6:
-                                    // TODO: Implement About
+                                    activity.startActivity(AboutActivity.createIntent(activity));
                                     break;
                                 case 7:
                                     RxSocialConnect.closeConnections();

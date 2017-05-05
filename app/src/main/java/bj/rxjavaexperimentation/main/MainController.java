@@ -21,7 +21,7 @@ import bj.rxjavaexperimentation.epoxy.main.NoOrderModel_;
 import bj.rxjavaexperimentation.epoxy.main.OrderModel_;
 import bj.rxjavaexperimentation.epoxy.main.VerifyEmailModel_;
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.testmodels.Order;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.DateFormatter;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;

@@ -17,8 +17,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import bj.rxjavaexperimentation.model.order.TestListing;
-import bj.rxjavaexperimentation.model.order.TestOrder;
+import bj.rxjavaexperimentation.model.testmodels.TestListing;
+import bj.rxjavaexperimentation.model.testmodels.TestOrder;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.DateFormatter;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;

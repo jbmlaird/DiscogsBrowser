@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.model.order;
+package bj.rxjavaexperimentation.model.testmodels;
 
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.listing.Release;

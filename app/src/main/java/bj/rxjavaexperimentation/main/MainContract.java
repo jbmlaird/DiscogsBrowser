@@ -8,7 +8,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import java.util.List;
 
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.testmodels.Order;
 import io.reactivex.Single;
 
 /**

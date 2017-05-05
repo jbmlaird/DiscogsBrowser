@@ -44,10 +44,7 @@ public class App extends Application
         if (!BuildConfig.DEBUG)
             Bugsnag.init(this);
         else
-        {
-            // TODO: Enable Flurry/Google Analytics
             LeakCanary.install(this);
-        }
 
         // Empty string while RxSocialConnect's disk cache is not working
         RxSocialConnect.register(this, "")

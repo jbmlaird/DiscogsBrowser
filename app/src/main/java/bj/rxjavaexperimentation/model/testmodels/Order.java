@@ -1,5 +1,5 @@
 
-package bj.rxjavaexperimentation.model.order;
+package bj.rxjavaexperimentation.model.testmodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
