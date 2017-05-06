@@ -1,5 +1,5 @@
 
-package bj.rxjavaexperimentation.model.testmodels;
+package bj.rxjavaexperimentation.model.order;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,15 +8,15 @@ import java.util.List;
 
 import bj.rxjavaexperimentation.model.common.Pagination;
 
-public class RootOrderMessagesResponse
+public class RootOrderResponse
 {
 
     @SerializedName("pagination")
     @Expose
     private Pagination pagination;
-    @SerializedName("messages")
+    @SerializedName("orders")
     @Expose
-    private List<Message> messages = null;
+    private List<Order> orders = null;
 
     public Pagination getPagination()
     {
@@ -28,14 +28,14 @@ public class RootOrderMessagesResponse
         this.pagination = pagination;
     }
 
-    public List<Message> getMessages()
+    public List<Order> getOrders()
     {
-        return messages;
+        return orders;
     }
 
-    public void setMessages(List<Message> messages)
+    public void setOrders(List<Order> orders)
     {
-        this.messages = messages;
+        this.orders = orders;
     }
 
 }

@@ -2,6 +2,7 @@ package bj.rxjavaexperimentation.artistreleases.fragments;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,21 @@ public class ArtistReleasesAdapter extends RecyclerView.Adapter<ArtistReleasesAd
     {
         this.releases = releases;
         notifyDataSetChanged();
+    }
+
+    /**
+     * https://github.com/airbnb/epoxy/wiki/Avoiding-Memory-Leaks
+     *
+     * @param recyclerView ArtistReleases RecyclerView.
+     */
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView)
+    {
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager)
+        {
+            ((LinearLayoutManager) recyclerView.getLayoutManager()).setRecycleChildrenOnDetach(true);
+        }
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     @Override

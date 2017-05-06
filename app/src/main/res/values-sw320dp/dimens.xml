@@ -14,6 +14,9 @@
     <dimen name="image_view_loading_large">96dp</dimen>
     <dimen name="padding_final_item">15dp</dimen>
 
+    <dimen name="main_recycler_view_width">48dp</dimen>
+    <dimen name="main_recycler_view_height">140dp</dimen>
+
     <dimen name="text_small">12sp</dimen>
     <dimen name="text_normal">14sp</dimen>
     <dimen name="text_error">18sp</dimen>

@@ -14,9 +14,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import bj.rxjavaexperimentation.entity.DaoSession;
-import bj.rxjavaexperimentation.entity.SearchTerm;
-import bj.rxjavaexperimentation.entity.SearchTermDao;
+import bj.rxjavaexperimentation.greendao.DaoSession;
+import bj.rxjavaexperimentation.greendao.SearchTerm;
+import bj.rxjavaexperimentation.greendao.SearchTermDao;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Observable;

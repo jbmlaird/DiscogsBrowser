@@ -12,7 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
-import bj.rxjavaexperimentation.entity.DaoSession;
+import bj.rxjavaexperimentation.greendao.DaoSession;
 import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.ObservableSource;

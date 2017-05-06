@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
-import bj.rxjavaexperimentation.entity.SearchTerm;
+import bj.rxjavaexperimentation.greendao.SearchTerm;
 import bj.rxjavaexperimentation.epoxy.common.CenterTextModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;

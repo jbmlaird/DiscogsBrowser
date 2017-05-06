@@ -1,5 +1,5 @@
 
-package bj.rxjavaexperimentation.model.testmodels;
+package bj.rxjavaexperimentation.model.order;
 
 public class TestOrder extends Order
 {

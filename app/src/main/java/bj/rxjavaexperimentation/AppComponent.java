@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.github.scribejava.core.oauth.OAuth10aService;
 
-import bj.rxjavaexperimentation.entity.DaoSession;
+import bj.rxjavaexperimentation.greendao.DaoSession;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import dagger.Component;
 import retrofit2.Retrofit;

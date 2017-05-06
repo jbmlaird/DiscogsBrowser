@@ -42,20 +42,26 @@
     <string name="num_wantlist">num_wantlist</string>
     <string name="no_order_messages">No order messages</string>
     <string name="verify_email">Please verify your email address to view your marketplace information</string>
+    <string name="by_signing_in_you_agree_to_the_privacy_policy">By signing in you agree to the Privacy Policy</string>
+
     <string name="main_activity">MainActivity</string>
-    <string name="clicked">Clicked</string>
-    <string name="loaded">Loaded</string>
     <string name="artist_activity">ArtistActivity</string>
     <string name="artist_releases_activity">ArtistReleasesActivity</string>
     <string name="label_activity">LabelActivity</string>
     <string name="login_activity">LoginActivity</string>
-    <string name="by_signing_in_you_agree_to_the_privacy_policy">By signing in you agree to the Privacy Policy</string>
-    <string name="logged_in">logged_in</string>
     <string name="marketplace_activity">MarketplaceActivity</string>
     <string name="master_activity">MasterActivity</string>
     <string name="order_activity">OrderActivity</string>
-    <string name="error">error</string>
     <string name="release_activity">ReleaseActivity</string>
     <string name="search_activity">SearchActivity</string>
     <string name="single_list_activity">SingleListActivity</string>
+
+    <string name="recently_viewed_release">Recently Viewed Release</string>
+
+    <string name="clicked">Clicked</string>
+    <string name="loaded">Loaded</string>
+    <string name="logged_in">logged_in</string>
+    <string name="error">error</string>
+    <string name="learn_more">Learn more</string>
+    <string name="learn_more_content">Non-technical:\n\nThis will return a random list of releases in the same genre as releases you have looked at\n\nTechnical:\n\nI have created live GraphLab Recommender systems but have been unable to expose these via an API. If anyone has experience with that and wants to implement a system or point me in the right direction please get in touch via jbmlaird@gmail.com</string>
 </resources>

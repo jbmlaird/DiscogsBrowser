@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.epoxy.common.CarouselModel_;
 import bj.rxjavaexperimentation.epoxy.common.DividerModel_;
 import bj.rxjavaexperimentation.epoxy.common.ErrorModel_;
 import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
@@ -20,8 +21,11 @@ import bj.rxjavaexperimentation.epoxy.main.MainUserModel_;
 import bj.rxjavaexperimentation.epoxy.main.NoOrderModel_;
 import bj.rxjavaexperimentation.epoxy.main.OrderModel_;
 import bj.rxjavaexperimentation.epoxy.main.VerifyEmailModel_;
+import bj.rxjavaexperimentation.epoxy.main.ViewedReleaseModel_;
+import bj.rxjavaexperimentation.greendao.ViewedRelease;
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.testmodels.Order;
+import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.search.SearchResult;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.DateFormatter;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
@@ -45,11 +49,14 @@ public class MainController extends EpoxyController
     private boolean loadingMoreSales = true;
     private List<Order> orders = new ArrayList<>();
     private List<Listing> listings = new ArrayList<>();
+    private List<ViewedRelease> viewedReleases = new ArrayList<>();
+    private List<SearchResult> recommendations = new ArrayList<>();
     private boolean ordersError;
     private boolean confirmEmail;
 
     @Inject
-    public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager, ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
+    public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager,
+                          ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
     {
         this.context = context;
         this.mView = mView;
@@ -71,6 +78,56 @@ public class MainController extends EpoxyController
         new DividerModel_()
                 .id("divider3")
                 .addTo(this);
+
+        if (viewedReleases.size() > 0)
+        {
+            new MainTitleModel_()
+                    .id("Viewed releases model")
+                    .title("Recently viewed")
+                    .size(0) // Hide see all button
+                    .addTo(this);
+
+            List<ViewedReleaseModel_> viewedReleaseModels = new ArrayList<>();
+            for (ViewedRelease viewedRelease : viewedReleases)
+            {
+                viewedReleaseModels.add(new ViewedReleaseModel_()
+                        .id("viewedReleases" + viewedReleases.indexOf(viewedRelease))
+                        .context(context)
+                        .onClickListener(v -> mView.displayRelease(viewedRelease.getReleaseName(), viewedRelease.getReleaseId()))
+                        .thumbUrl(viewedRelease.getThumbUrl())
+                        .releaseName(viewedRelease.getReleaseName()));
+            }
+
+            add(new CarouselModel_()
+                    .id("viewed release carousel")
+                    .models(viewedReleaseModels));
+        }
+
+        if (recommendations.size() > 0)
+        {
+            new MainTitleModel_()
+                    .title("You might like")
+                    .id("Recommendations model")
+                    .tvButtonText("Learn more")
+                    .onClickListener(v -> mView.learnMore())
+                    .size(recommendations.size())
+                    .addTo(this);
+
+            List<ViewedReleaseModel_> viewedReleaseModels = new ArrayList<>();
+            for (SearchResult recommendation : recommendations)
+            {
+                viewedReleaseModels.add(new ViewedReleaseModel_()
+                        .id("recommendations" + recommendations.indexOf(recommendation))
+                        .context(context)
+                        .onClickListener(v -> mView.displayRelease(recommendation.getTitle(), recommendation.getId()))
+                        .thumbUrl(recommendation.getThumb())
+                        .releaseName(recommendation.getTitle()));
+
+            }
+            add(new CarouselModel_()
+                    .id("recommendations carousel")
+                    .models(viewedReleaseModels));
+        }
 
         new MainTitleModel_()
                 .id("orders header")
@@ -207,6 +264,18 @@ public class MainController extends EpoxyController
         this.ordersError = false;
         this.loadingMorePurchases = false;
         this.loadingMoreSales = false;
+        requestModelBuild();
+    }
+
+    public void setViewedReleases(List<ViewedRelease> viewedReleases)
+    {
+        this.viewedReleases = viewedReleases;
+        requestModelBuild();
+    }
+
+    public void setRecommendations(List<SearchResult> recommendations)
+    {
+        this.recommendations = recommendations;
         requestModelBuild();
     }
 }

@@ -8,7 +8,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import java.util.List;
 
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.testmodels.Order;
+import bj.rxjavaexperimentation.model.order.Order;
 import io.reactivex.Single;
 
 /**
@@ -37,11 +37,17 @@ public interface MainContract
         void displayError(boolean b);
 
         void retry();
+
+        void displayRelease(String releaseName, String id);
+
+        void learnMore();
     }
 
     interface Presenter
     {
         void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar);
+
+        void buildHistoryAndRecommendations();
 
         void retry();
 

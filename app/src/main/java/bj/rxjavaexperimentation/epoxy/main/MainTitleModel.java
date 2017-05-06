@@ -23,8 +23,9 @@ public abstract class MainTitleModel extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute(DoNotHash) View.OnClickListener onClickListener;
     @EpoxyAttribute String title;
+    @EpoxyAttribute String tvButtonText;
     @EpoxyAttribute Integer size;
-    @BindView(R.id.tvSeeAll) TextView tvSeeAll;
+    @BindView(R.id.tvSeeAll) TextView tvButton;
     @BindView(R.id.tvHeader) TextView tvHeader;
 
     @Override
@@ -32,12 +33,14 @@ public abstract class MainTitleModel extends EpoxyModel<LinearLayout>
     {
         ButterKnife.bind(this, view);
         tvHeader.setText(title);
+        if (tvButtonText != null)
+            tvButton.setText(tvButtonText);
         if (size == 0)
-            tvSeeAll.setVisibility(View.GONE);
+            tvButton.setVisibility(View.GONE);
         else
         {
-            tvSeeAll.setVisibility(View.VISIBLE);
-            tvSeeAll.setOnClickListener(onClickListener);
+            tvButton.setVisibility(View.VISIBLE);
+            tvButton.setOnClickListener(onClickListener);
         }
     }
 }

@@ -1,10 +1,10 @@
 
-package bj.rxjavaexperimentation.model.testmodels;
+package bj.rxjavaexperimentation.model.order;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Price {
+public class Total {
 
     @SerializedName("currency")
     @Expose

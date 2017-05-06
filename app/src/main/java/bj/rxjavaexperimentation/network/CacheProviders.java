@@ -12,8 +12,8 @@ import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.listing.RootListingResponse;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.master.Master;
-import bj.rxjavaexperimentation.model.testmodels.Order;
-import bj.rxjavaexperimentation.model.testmodels.RootOrderResponse;
+import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.order.RootOrderResponse;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.user.User;
@@ -35,6 +35,9 @@ public interface CacheProviders
 {
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Single<RootSearchResponse> searchDiscogs(Single<RootSearchResponse> searchDiscogsSingle, DynamicKey searchTerm);
+
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
+    Single<RootSearchResponse> searchByStyle(Single<RootSearchResponse> getRecommendationsSingle, DynamicKey styleAndPage, EvictDynamicKey evictDynamicKey);
 
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Single<ArtistResult> fetchArtistDetails(Single<ArtistResult> fetchArtistDetailsSingle, DynamicKey artistId);

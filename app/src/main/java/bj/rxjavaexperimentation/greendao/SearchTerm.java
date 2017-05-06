@@ -1,4 +1,4 @@
-package bj.rxjavaexperimentation.entity;
+package bj.rxjavaexperimentation.greendao;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;

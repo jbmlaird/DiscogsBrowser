@@ -11,8 +11,8 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.greenrobot.greendao.database.Database;
 
-import bj.rxjavaexperimentation.entity.DaoMaster;
-import bj.rxjavaexperimentation.entity.DaoSession;
+import bj.rxjavaexperimentation.greendao.DaoMaster;
+import bj.rxjavaexperimentation.greendao.DaoSession;
 import bj.rxjavaexperimentation.network.DiscogsOAuthApi;
 import bj.rxjavaexperimentation.utils.SharedPrefsManager;
 import dagger.Module;
@@ -53,7 +53,7 @@ public class AppModule
     {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(applicationContext, "search-db");
         // Unique wasn't being respected so had to upgrade the DB.
-        // helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
+//        helper.onUpgrade(helper.getWritableDatabase(), 5, 6);
         Database db = helper.getWritableDb();
         return new DaoMaster(db).newSession();
     }

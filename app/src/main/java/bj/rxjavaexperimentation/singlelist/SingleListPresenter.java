@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.rxjavaexperimentation.R;
+import bj.rxjavaexperimentation.greendao.DaoSession;
+import bj.rxjavaexperimentation.greendao.ViewedReleaseDao;
 import bj.rxjavaexperimentation.model.common.RecyclerViewModel;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.schedulerprovider.MySchedulerProvider;
@@ -30,10 +32,12 @@ public class SingleListPresenter implements SingleListContract.Presenter
     private MySchedulerProvider mySchedulerProvider;
     private SingleListAdapter singleListAdapter;
     private CompositeDisposable disposable;
+    private ViewedReleaseDao viewedReleaseDao;
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
 
     @Inject
-    public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable disposable)
+    public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor,
+                               MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable disposable, DaoSession daoSession)
     {
         this.context = context;
         this.view = view;
@@ -41,6 +45,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
         this.mySchedulerProvider = mySchedulerProvider;
         this.singleListAdapter = singleListAdapter;
         this.disposable = disposable;
+        viewedReleaseDao = daoSession.getViewedReleaseDao();
     }
 
     @Override

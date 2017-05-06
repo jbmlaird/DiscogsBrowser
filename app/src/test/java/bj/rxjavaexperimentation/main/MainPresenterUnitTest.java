@@ -19,7 +19,7 @@ import java.util.List;
 
 import bj.rxjavaexperimentation.R;
 import bj.rxjavaexperimentation.model.listing.Listing;
-import bj.rxjavaexperimentation.model.testmodels.Order;
+import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.model.user.UserDetails;
 import bj.rxjavaexperimentation.network.DiscogsInteractor;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;

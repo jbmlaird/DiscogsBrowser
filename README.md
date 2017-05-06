@@ -3,7 +3,7 @@
 ![app_logo](app/src/main/res/drawable-xxxhdpi/ic_app.png)
 
 # DiscogsBrowser
-Android app to interact with Discogs' API. See the basic Recommender System [here](https://github.com/jbmlaird/Discogs-Browser-ML).
+Android app to interact with Discogs' API
 
 ![app_gif](https://media.giphy.com/media/UHn06Zh8EBCGA/giphy.gif) ![another_app_gif](https://media.giphy.com/media/3IH00o747keju/giphy.gif)
 
@@ -22,17 +22,17 @@ This build is login only.
 
 # Forthcoming
 
-* Browsing history
+* Browsing history? (already have Search History)
 * Recent releases/Explore
 * Browsing without being logged in
-* Recommendation system
-* Adding notes to items in collection
 
 # Desirable but no plans to implement
 
-* Listen to releases in-app. This would require an architecture change. The whole app has to be one activity to keep a YouTube window displaying in the bottom-right.
-* Carousels for images. Images are different sizes so I think showing extra images is unnecessary.
-* Seeing/posting order comments/updates. The API restricts this to only being able to see notes for your own orders where you're the seller.
+* Listen to releases in-app. This would require an architecture change and have to work like the YouTube app (windowed videos).
+* Carousels for images.
+* Order comments/updates. The API restricts this to orders where you're the seller.
+* Adding notes to items in collection.
+* Recommender system. 
 
 # Limitations
 

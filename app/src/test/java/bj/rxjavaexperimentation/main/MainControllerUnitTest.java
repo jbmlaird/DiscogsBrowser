@@ -17,8 +17,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import bj.rxjavaexperimentation.model.testmodels.TestListing;
-import bj.rxjavaexperimentation.model.testmodels.TestOrder;
+import bj.rxjavaexperimentation.greendao.DaoSession;
+import bj.rxjavaexperimentation.model.order.TestListing;
+import bj.rxjavaexperimentation.model.order.TestOrder;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.DateFormatter;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
@@ -41,12 +42,13 @@ public class MainControllerUnitTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock DateFormatter dateFormatter;
     @Mock AnalyticsTracker tracker;
+    @Mock DaoSession daoSession;
 
     @Before
     public void setup()
     {
         MockitoAnnotations.initMocks(this);
-        controller = new MainController(context, view, sharedPrefsManager, imageViewAnimator, dateFormatter, tracker);
+        controller = new MainController(context, view, sharedPrefsManager, imageViewAnimator, dateFormatter, tracker, daoSession);
         controller.requestModelBuild();
     }
 

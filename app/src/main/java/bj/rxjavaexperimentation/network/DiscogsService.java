@@ -9,8 +9,8 @@ import bj.rxjavaexperimentation.model.labelrelease.RootLabelResponse;
 import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.listing.RootListingResponse;
 import bj.rxjavaexperimentation.model.master.Master;
-import bj.rxjavaexperimentation.model.testmodels.Order;
-import bj.rxjavaexperimentation.model.testmodels.RootOrderResponse;
+import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.order.RootOrderResponse;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.user.User;
@@ -35,7 +35,10 @@ import retrofit2.http.Query;
 public interface DiscogsService
 {
     @GET("database/search")
-    Single<RootSearchResponse> getSearchResults(@Query("q") String searchTerm);
+    Single<RootSearchResponse> getSearchResults(@Query("q") String searchTerm, @Query("per_page") String perPage);
+
+    @GET("database/search")
+    Single<RootSearchResponse> searchByStyle(@Query("style") String style, @Query("type") String type, @Query("per_page") String perPage, @Query("page") String page);
 
     @GET("releases/{release_id}")
     Single<Release> getRelease(@Path("release_id") String releaseId);

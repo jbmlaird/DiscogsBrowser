@@ -14,8 +14,8 @@ import bj.rxjavaexperimentation.epoxy.common.LoadingModel_;
 import bj.rxjavaexperimentation.epoxy.order.BuyerModel_;
 import bj.rxjavaexperimentation.epoxy.order.OrderReleaseModel_;
 import bj.rxjavaexperimentation.epoxy.order.TotalModel_;
-import bj.rxjavaexperimentation.model.testmodels.Item;
-import bj.rxjavaexperimentation.model.testmodels.Order;
+import bj.rxjavaexperimentation.model.order.Item;
+import bj.rxjavaexperimentation.model.order.Order;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
 import bj.rxjavaexperimentation.utils.ImageViewAnimator;
 

@@ -22,6 +22,7 @@ import bj.rxjavaexperimentation.common.BaseActivity;
 import bj.rxjavaexperimentation.common.MyRecyclerView;
 import bj.rxjavaexperimentation.marketplace.MarketplaceListingActivity;
 import bj.rxjavaexperimentation.order.OrderActivity;
+import bj.rxjavaexperimentation.release.ReleaseActivity;
 import bj.rxjavaexperimentation.search.SearchActivity;
 import bj.rxjavaexperimentation.singlelist.SingleListActivity;
 import bj.rxjavaexperimentation.utils.AnalyticsTracker;
@@ -129,6 +130,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
         tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1L);
         if (drawer == null)
             presenter.connectAndBuildNavigationDrawer(this, toolbar);
+        presenter.buildHistoryAndRecommendations();
     }
 
     @Override
@@ -195,6 +197,23 @@ public class MainActivity extends BaseActivity implements MainContract.View
     {
         tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "Retry", 1L);
         presenter.retry();
+    }
+
+    @Override
+    public void displayRelease(String releaseName, String id)
+    {
+        tracker.send(getString(R.string.main_activity), getString(R.string.recently_viewed_release), getString(R.string.clicked), releaseName, 1L);
+        startActivity(ReleaseActivity.createIntent(this, releaseName, id));
+    }
+
+    @Override
+    public void learnMore()
+    {
+        tracker.send(getString(R.string.main_activity), getString(R.string.learn_more), getString(R.string.clicked), "recommendations learn more", 1L);
+        new MaterialDialog.Builder(this)
+                .content(getString(R.string.learn_more_content))
+                .negativeText("Dismiss")
+                .show();
     }
 
     @OnClick(R.id.btnError)

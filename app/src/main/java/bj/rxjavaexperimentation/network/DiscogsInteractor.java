@@ -24,8 +24,8 @@ import bj.rxjavaexperimentation.model.listing.Listing;
 import bj.rxjavaexperimentation.model.listing.RootListingResponse;
 import bj.rxjavaexperimentation.model.listing.ScrapeListing;
 import bj.rxjavaexperimentation.model.master.Master;
-import bj.rxjavaexperimentation.model.testmodels.Order;
-import bj.rxjavaexperimentation.model.testmodels.RootOrderResponse;
+import bj.rxjavaexperimentation.model.order.Order;
+import bj.rxjavaexperimentation.model.order.RootOrderResponse;
 import bj.rxjavaexperimentation.model.release.Release;
 import bj.rxjavaexperimentation.model.search.RootSearchResponse;
 import bj.rxjavaexperimentation.model.search.SearchResult;
@@ -77,8 +77,14 @@ public class DiscogsInteractor
 
     public Single<List<SearchResult>> searchDiscogs(String searchTerm)
     {
-        return cacheProviders.searchDiscogs(discogsService.getSearchResults(searchTerm), new DynamicKey(searchTerm))
+        return cacheProviders.searchDiscogs(discogsService.getSearchResults(searchTerm, "100"), new DynamicKey(searchTerm))
                 .map(RootSearchResponse::getSearchResults);
+    }
+
+    // Another method for this as I want caching to be separate to the above
+    public Single<RootSearchResponse> searchByStyle(String style, String page, boolean update)
+    {
+        return cacheProviders.searchByStyle(discogsService.searchByStyle(style, "release", "100", page), new DynamicKey(style + page), new EvictDynamicKey(update));
     }
 
     public Single<ArtistResult> fetchArtistDetails(String artistId)

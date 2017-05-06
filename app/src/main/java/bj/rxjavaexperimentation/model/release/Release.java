@@ -22,7 +22,7 @@ public class Release
     private String dataQuality;
     @SerializedName("thumb")
     @Expose
-    private String thumb;
+    private String thumb = "";
     @SerializedName("community")
     @Expose
     private Community community;
