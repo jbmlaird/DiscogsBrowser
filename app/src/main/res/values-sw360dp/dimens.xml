@@ -12,6 +12,7 @@
     <dimen name="button_thin">44dp</dimen>
     <dimen name="image_view_list">50dp</dimen>
     <dimen name="circle_image_view">64dp</dimen>
+    <dimen name="carousel_width">114dp</dimen>
     <dimen name="image_view_loading_large">128dp</dimen>
 
     <dimen name="main_recycler_view_width">64dp</dimen>

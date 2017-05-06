@@ -22,17 +22,16 @@ This build is login only.
 
 # Forthcoming
 
-* Browsing history? (already have Search History)
 * Recent releases/Explore
 * Browsing without being logged in
+* Intelligent recommender system 
 
 # Desirable but no plans to implement
 
-* Listen to releases in-app. This would require an architecture change and have to work like the YouTube app (windowed videos).
-* Carousels for images.
-* Order comments/updates. The API restricts this to orders where you're the seller.
-* Adding notes to items in collection.
-* Recommender system. 
+* Listen to releases in-app. This would require an architecture change and have to work like the YouTube app (windowed videos)
+* Carousels for images
+* Order comments/updates. The API restricts this to orders where you're the seller
+* Adding notes to items in collection
 
 # Limitations
 

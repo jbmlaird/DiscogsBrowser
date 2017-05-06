@@ -6,7 +6,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "bj.rxjavaexperimentation"
+        applicationId "bj.discogsbrowser"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -84,6 +84,7 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.3.2"
     compile 'com.google.android.gms:play-services-analytics:10.2.1'
     compile 'com.github.daniel-stoneuk:material-about-library:1.9.0'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

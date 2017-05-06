@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/lytViewedRelease"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="@dimen/carousel_width"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_normal_half"
+              android:layout_marginEnd="@dimen/margin_normal_half"
+              android:layout_marginStart="@dimen/margin_normal"
+              android:layout_marginTop="@dimen/margin_normal_half"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lytImage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/carousel_width">
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Release thumbnail"
+            android:scaleType="centerCrop"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvReleaseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginTop="@dimen/margin_normal_half"
+        android:ellipsize="end"
+        android:gravity="bottom"
+        android:includeFontPadding="false"
+        android:maxLines="3"
+        android:text="Ye son ye son"
+        android:textSize="@dimen/text_small"/>
+
+</LinearLayout>

@@ -65,7 +65,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <bj.rxjavaexperimentation.common.MyRecyclerView
+    <bj.discogsbrowser.common.MyRecyclerView
         android:id="@+id/rvResults"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -76,6 +76,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lytTabs">
 
-    </bj.rxjavaexperimentation.common.MyRecyclerView>
+    </bj.discogsbrowser.common.MyRecyclerView>
 
 </android.support.constraint.ConstraintLayout>

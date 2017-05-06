@@ -19,7 +19,7 @@
             app:subtitleTextColor="@android:color/white"
             app:titleTextColor="@android:color/white"/>
 
-        <bj.rxjavaexperimentation.common.MyRecyclerView
+        <bj.discogsbrowser.common.MyRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

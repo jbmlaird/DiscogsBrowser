@@ -35,7 +35,7 @@
     <string name="error_orders">Unable to load selling</string>
     <string name="selling_none">Not selling anything</string>
     <string name="error_selling">Unable to load selling</string>
-    <string name="privacy_policy">The only information I store is your username, Collection and Wantlist so I can buid a recommendation system for you. This will not be shared with anyone except Discogs.</string>
+    <string name="privacy_policy">The only information I store is your username so I can buid a recommendation system for you. This will not be shared with anyone.</string>
     <string name="not_selling_anything">You\'re not selling anything</string>
     <string name="name">name</string>
     <string name="num_collection">num_collection</string>
@@ -63,5 +63,6 @@
     <string name="logged_in">logged_in</string>
     <string name="error">error</string>
     <string name="learn_more">Learn more</string>
-    <string name="learn_more_content">Non-technical:\n\nThis will return a random list of releases in the same genre as releases you have looked at\n\nTechnical:\n\nI have created live GraphLab Recommender systems but have been unable to expose these via an API. If anyone has experience with that and wants to implement a system or point me in the right direction please get in touch via jbmlaird@gmail.com</string>
+    <string name="learn_more_content">You are currently only recommended dependent on the last release you looked at\n\nI have created local recommender systems but have been unable to expose these via an API with live prediction. If anyone wants to implement a system or point me in the right direction please get in touch via jbmlaird@gmail.com</string>
+    <string name="onboarding_completed">onboarding_completed</string>
 </resources>
