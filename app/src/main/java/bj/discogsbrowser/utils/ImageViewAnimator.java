@@ -31,5 +31,4 @@ public class ImageViewAnimator
 
         imageView.startAnimation(rotateAnimation);
     }
-
 }

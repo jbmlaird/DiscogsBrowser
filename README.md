@@ -9,20 +9,16 @@ Android app to interact with Discogs' API
 
 # Usage
 
-This build is login only.
+Get it on the Play Store: [link to come]
 
 # Features
 
-* Reactive search
-* Search history
 * Displays artist, master, release and label information.
 * Displays marketplace information on release page NB: marketplace searches only return 12"
 * Collection/wantlist editing
-* Request caching
 
 # Forthcoming
 
-* Recent releases/Explore
 * Browsing without being logged in
 * Intelligent recommender system 
 
@@ -36,9 +32,10 @@ This build is login only.
 # Limitations
 
 Currently, in April 2017, the public API does not allow any of the following:
-* Order placing
+* Order placing/purchasing
 * Marketplace actions. This includes purchasing in app, viewing purchases or searching listings.
 * Seeing order comments/updates for purchases
+* Recent releases/explore
 * Notifications
 
 # License
