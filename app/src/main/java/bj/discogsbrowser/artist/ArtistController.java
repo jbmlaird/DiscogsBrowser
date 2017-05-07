@@ -51,6 +51,7 @@ public class ArtistController extends BaseController
         new HeaderModel_()
                 .id("header model")
                 .context(context)
+                .imageViewAnimator(imageViewAnimator)
                 .title(title)
                 .subtitle(subtitle)
                 .imageUrl(imageUrl)

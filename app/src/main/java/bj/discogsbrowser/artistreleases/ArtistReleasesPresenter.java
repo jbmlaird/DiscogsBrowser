@@ -28,6 +28,7 @@ import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.AnalyticsTracker;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
@@ -46,6 +47,8 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private MySchedulerProvider mySchedulerProvider;
     private ArtistResultFunction artistResultFunction;
     private AnalyticsTracker tracker;
+    private CharSequence filterText = "";
+    private List<ArtistRelease> artistReleases = new ArrayList<>();
 
     @Inject
     public ArtistReleasesPresenter(Context context, ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, CompositeDisposable disposable,
@@ -68,6 +71,8 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     {
         discogsInteractor.fetchArtistsReleases(id)
                 .observeOn(mySchedulerProvider.ui())
+                .doOnSuccess(artistReleases ->
+                        this.artistReleases = artistReleases)
                 .subscribe(behaviorRelay, throwableRelay);
     }
 
@@ -119,8 +124,19 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
         disposable.add(
                 behaviorRelay
                         .map(artistResultFunction.map(searchFilter))
+                        .flatMap(artistReleases1 ->
+                                Single.just(artistReleases1)
+                                        .flattenAsObservable(releases ->
+                                                releases)
+                                        .filter(artistRelease ->
+                                                (artistRelease.getTitle() != null && artistRelease.getTitle().toLowerCase().contains(filterText.toString().toLowerCase())) ||
+                                                        (artistRelease.getYear() != null && artistRelease.getYear().toLowerCase().contains(filterText.toString().toLowerCase())))
+                                        .toList()
+                                        .toObservable())
+                        .map(artistReleases1 ->
+                                artistReleases1)
                         .observeOn(mySchedulerProvider.ui())
-                        .subscribe(consumer));
+                        .subscribe(consumer, throwableRelay));
 
         disposable.add(
                 throwableRelay
@@ -156,5 +172,12 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     public void dispose()
     {
         disposable.dispose();
+    }
+
+    public void setFilterText(CharSequence filterText)
+    {
+        this.filterText = filterText;
+        if (artistReleases.size() != 0)
+            behaviorRelay.accept(artistReleases);
     }
 }

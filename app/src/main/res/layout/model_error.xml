@@ -17,6 +17,7 @@
         android:drawablePadding="@dimen/padding_small"
         android:drawableTint="@color/colorAccent"
         android:text="test"
+        android:textAlignment="center"
         android:textSize="@dimen/text_error"/>
 
 </LinearLayout>

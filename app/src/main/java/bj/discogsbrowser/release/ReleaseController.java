@@ -80,6 +80,7 @@ public class ReleaseController extends BaseController
                 .title(title)
                 .subtitle(subtitle)
                 .imageUrl(imageUrl)
+                .imageViewAnimator(imageViewAnimator)
                 .addTo(this);
 
         new DividerModel_()
@@ -101,21 +102,24 @@ public class ReleaseController extends BaseController
         {
             for (Track track : release.getTracklist())
             {
-                new TrackModel_()
-                        .id("track" + release.getTracklist().indexOf(track))
-                        .trackName(track.getTitle())
-                        .trackNumber(track.getPosition())
-                        .addTo(this);
-
-                if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewFullTracklist)
+                if (!track.getTitle().equals(""))
                 {
-                    new ViewMoreModel_()
-                            .id("view more")
-                            .title("View full tracklist")
-                            .textSize(16f)
-                            .onClickListener(v -> setViewFullTracklist(true))
+                    new TrackModel_()
+                            .id("track" + release.getTracklist().indexOf(track))
+                            .trackName(track.getTitle())
+                            .trackNumber(track.getPosition())
                             .addTo(this);
-                    break;
+
+                    if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewFullTracklist)
+                    {
+                        new ViewMoreModel_()
+                                .id("view more")
+                                .title("View full tracklist")
+                                .textSize(16f)
+                                .onClickListener(v -> setViewFullTracklist(true))
+                                .addTo(this);
+                        break;
+                    }
                 }
             }
 

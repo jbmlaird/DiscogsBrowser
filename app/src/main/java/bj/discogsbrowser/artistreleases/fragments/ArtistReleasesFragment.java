@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,7 +24,6 @@ import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -41,7 +39,6 @@ public class ArtistReleasesFragment extends BaseFragment
     @Inject ArtistReleasesPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
     private ArtistReleasesAdapter rvReleasesAdapter;
-    private List<ArtistRelease> artistReleases = new ArrayList<>();
 
     @Nullable
     @Override
@@ -51,8 +48,9 @@ public class ArtistReleasesFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_artist_releases, container, false);
         unbinder = ButterKnife.bind(this, view);
         imageViewAnimator.rotateImage(ivLoading);
-        presenter.connectToBehaviorRelay(getConsumer(), getThrowableConsumer(), getArguments().getString("map"));
         rvReleasesAdapter = presenter.setupRecyclerView(recyclerView, getActivity());
+        presenter.setupFilter(filterConsumer());
+        presenter.connectToBehaviorRelay(getConsumer(), getThrowableConsumer(), getArguments().getString("map"));
         return view;
     }
 
@@ -60,6 +58,7 @@ public class ArtistReleasesFragment extends BaseFragment
     {
         return throwable ->
         {
+            throwable.printStackTrace();
             lytError.setVisibility(View.VISIBLE);
             ivLoading.clearAnimation();
             ivLoading.setVisibility(View.GONE);
@@ -70,14 +69,10 @@ public class ArtistReleasesFragment extends BaseFragment
     {
         return artistReleases ->
         {
-            this.artistReleases = artistReleases;
             if (artistReleases.size() == 0)
                 lytNoItems.setVisibility(View.VISIBLE);
-            else if (artistReleases.get(0).getId().equals("bj"))
-                return;
             else
                 lytNoItems.setVisibility(View.GONE);
-            presenter.setupFilter(filterConsumer());
             ivLoading.clearAnimation();
             ivLoading.setVisibility(View.GONE);
             rvReleasesAdapter.setReleases(artistReleases);
@@ -94,19 +89,6 @@ public class ArtistReleasesFragment extends BaseFragment
     private Consumer<CharSequence> filterConsumer()
     {
         return filterText ->
-                Single.just(artistReleases)
-                        .flattenAsObservable(releases -> releases)
-                        .filter(artistRelease ->
-                                (artistRelease.getTitle() != null && artistRelease.getTitle().toLowerCase().contains(filterText.toString().toLowerCase())) ||
-                                        (artistRelease.getYear() != null && artistRelease.getYear().toLowerCase().contains(filterText.toString().toLowerCase())))
-                        .toList()
-                        .subscribe(filteredReleases ->
-                        {
-                            if (filteredReleases.size() == 0)
-                                lytNoItems.setVisibility(View.VISIBLE);
-                            else
-                                lytNoItems.setVisibility(View.GONE);
-                            rvReleasesAdapter.setReleases(filteredReleases);
-                        });
+                presenter.setFilterText(filterText);
     }
 }

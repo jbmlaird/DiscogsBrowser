@@ -87,6 +87,7 @@ public class MainController extends EpoxyController
         else if (viewedReleasesError)
             new ErrorModel_()
                     .onClick(v -> mView.buildHistory())
+                    .errorString("Unable to load recently viewed")
                     .id("viewed releases error")
                     .addTo(this);
         else
@@ -131,6 +132,7 @@ public class MainController extends EpoxyController
         else if (recommendationsError)
             new ErrorModel_()
                     .onClick(v -> mView.buildRecommendations())
+                    .errorString("Unable to build recommendations")
                     .id("recommendations error")
                     .addTo(this);
         else

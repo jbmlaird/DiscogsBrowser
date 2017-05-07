@@ -45,7 +45,6 @@ public class MainPresenter implements MainContract.Presenter
     private LogWrapper log;
     private ViewedReleaseDao viewedReleaseDao;
     private AnalyticsTracker tracker;
-    private boolean recommendationsFetched;
 
     @Inject
     public MainPresenter(@NonNull Context context, @NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
@@ -91,63 +90,11 @@ public class MainPresenter implements MainContract.Presenter
     }
 
     @Override
-    public void buildHistoryAndRecommendations()
+    public void buildViewedReleases()
     {
         mainController.setLoadingViewedReleases(true);
         List<ViewedRelease> viewedReleases = viewedReleaseDao.queryBuilder().orderDesc(ViewedReleaseDao.Properties.Date).limit(6).build().list();
         mainController.setViewedReleases(viewedReleases);
-        if (viewedReleases.size() > 0)
-        {
-            if (!recommendationsFetched)
-            {
-                String latestReleaseViewedStyle = viewedReleases.get(0).getStyle();
-                String latestReleaseViewedLabel = viewedReleases.get(0).getLabelName();
-                discogsInteractor.searchByStyle(latestReleaseViewedStyle, "1", false) // Get results for those genres
-                        .doOnSubscribe(onSubscribe ->
-                                mainController.setLoadingRecommendations(true))
-                        .subscribeOn(mySchedulerProvider.io())
-                        .flatMap(rootSearchResponse ->
-                        {
-                            // Get a random page from the search results
-                            int maxPageNumber = rootSearchResponse.getPagination().getPages();
-                            int randomPageNumber = ThreadLocalRandom.current().nextInt(1, maxPageNumber + 1);
-                            return discogsInteractor.searchByStyle(latestReleaseViewedStyle, String.valueOf(randomPageNumber), true);
-                        })
-                        .map(RootSearchResponse::getSearchResults)
-                        .flattenAsObservable(searchResults ->
-                                searchResults)
-                        .take(12)
-                        // Merge the list with releases from the label that their last viewed release was on
-                        .concatWith(discogsInteractor.searchByLabel(latestReleaseViewedLabel)
-                                .observeOn(mySchedulerProvider.io())
-                                .flattenAsObservable(searchResults ->
-                                        searchResults)
-                                .take(12))
-                        .toList()
-                        .map(searchResults ->
-                        {
-                            Collections.shuffle(searchResults);
-                            return searchResults;
-                        })
-                        .observeOn(mySchedulerProvider.ui())
-                        .subscribe(recommendationList ->
-                        {
-                            mainController.setRecommendations(recommendationList);
-                            recommendationsFetched = true;
-                        }, error ->
-                        {
-                            error.printStackTrace();
-                            mainController.setRecommendationsError(true);
-                        });
-
-
-            }
-        }
-        else
-        {
-            mainController.setRecommendations(Collections.emptyList());
-            mainController.setViewedReleases(Collections.emptyList());
-        }
     }
 
     private Single<List<Listing>> fetchMainPageInformation()
@@ -206,5 +153,54 @@ public class MainPresenter implements MainContract.Presenter
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         recyclerView.setAdapter(mainController.getAdapter());
         mainController.requestModelBuild();
+    }
+
+    @Override
+    public void buildRecommendations()
+    {
+        List<ViewedRelease> viewedReleases = viewedReleaseDao.queryBuilder().orderDesc(ViewedReleaseDao.Properties.Date).limit(6).build().list();
+        if (viewedReleases.size() > 0)
+        {
+            String latestReleaseViewedStyle = viewedReleases.get(0).getStyle();
+            String latestReleaseViewedLabel = viewedReleases.get(0).getLabelName();
+            discogsInteractor.searchByStyle(latestReleaseViewedStyle, "1", false) // Get results for those genres
+                    .doOnSubscribe(onSubscribe ->
+                            mainController.setLoadingRecommendations(true))
+                    .subscribeOn(mySchedulerProvider.io())
+                    .flatMap(rootSearchResponse ->
+                    {
+                        // Get a random page from the search results
+                        int maxPageNumber = rootSearchResponse.getPagination().getPages();
+                        int randomPageNumber = ThreadLocalRandom.current().nextInt(1, maxPageNumber + 1);
+                        return discogsInteractor.searchByStyle(latestReleaseViewedStyle, String.valueOf(randomPageNumber), true);
+                    })
+                    .map(RootSearchResponse::getSearchResults)
+                    .flattenAsObservable(searchResults ->
+                            searchResults)
+                    .take(12)
+                    // Merge the list with releases from the label that their last viewed release was on
+                    .concatWith(discogsInteractor.searchByLabel(latestReleaseViewedLabel)
+                            .observeOn(mySchedulerProvider.io())
+                            .flattenAsObservable(searchResults ->
+                                    searchResults)
+                            .take(12))
+                    .toList()
+                    .map(searchResults ->
+                    {
+                        Collections.shuffle(searchResults);
+                        return searchResults;
+                    })
+                    .observeOn(mySchedulerProvider.ui())
+                    .subscribe(recommendationList ->
+                            mainController.setRecommendations(recommendationList), error ->
+                    {
+                        error.printStackTrace();
+                        mainController.setRecommendationsError(true);
+                    });
+        }
+        else
+        {
+            mainController.setRecommendations(Collections.emptyList());
+        }
     }
 }

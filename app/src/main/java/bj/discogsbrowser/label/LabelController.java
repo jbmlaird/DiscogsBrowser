@@ -56,6 +56,7 @@ public class LabelController extends BaseController
                 .id("header model")
                 .context(context)
                 .title(title)
+                .imageViewAnimator(imageViewAnimator)
                 .subtitle(subtitle)
                 .imageUrl(imageUrl)
                 .addTo(this);

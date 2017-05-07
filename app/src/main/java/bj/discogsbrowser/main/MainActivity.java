@@ -129,14 +129,14 @@ public class MainActivity extends BaseActivity implements MainContract.View
     public void buildHistory()
     {
         tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryHistory", 1L);
-        presenter.buildHistoryAndRecommendations();
+        presenter.buildViewedReleases();
     }
 
     @Override
     public void buildRecommendations()
     {
         tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryRecommendations", 1L);
-        presenter.buildHistoryAndRecommendations();
+        presenter.buildRecommendations();
     }
 
     @Override

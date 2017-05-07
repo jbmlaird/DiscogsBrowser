@@ -93,7 +93,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     @Override
     public void finish()
     {
-        startActivity(MainActivity.createIntent(this));
-        super.finish();
+        Intent intent = MainActivity.createIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

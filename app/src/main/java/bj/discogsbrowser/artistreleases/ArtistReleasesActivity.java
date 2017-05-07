@@ -96,7 +96,8 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Override
     public Observable<CharSequence> filterIntent()
     {
-        return RxTextView.textChanges(etFilter);
+        return RxTextView.textChanges(etFilter)
+                .skipInitialValue();
     }
 
     /**

@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.thefinestartist.finestwebview.FinestWebView;
 
@@ -22,6 +25,7 @@ import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,6 +38,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
 {
     @Inject MarketplacePresenter presenter;
     @Inject AnalyticsTracker tracker;
+    @Inject ImageViewAnimator imageViewAnimator;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tvItemName) TextView tvItemName;
     @BindView(R.id.ivImage) CircleImageView ivImage;
@@ -70,6 +75,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace_listing);
+        imageViewAnimator.rotateImage(ivImage);
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.getListingDetails(getIntent().getStringExtra("id"));
@@ -85,6 +91,21 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
                 .load(listing.getRelease().getThumbnail())
                 .dontAnimate()
                 .placeholder(R.drawable.ic_vinyl)
+                .listener(new RequestListener<String, GlideDrawable>()
+                {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource)
+                    {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource)
+                    {
+                        ivImage.clearAnimation();
+                        return false;
+                    }
+                })
                 .into(ivImage);
         tvItemName.setText(listing.getRelease().getDescription());
         tvSleeve.setText("{fa-inbox} " + listing.getSleeveCondition());

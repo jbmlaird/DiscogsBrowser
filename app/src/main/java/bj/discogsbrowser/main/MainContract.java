@@ -51,7 +51,7 @@ public interface MainContract
     {
         void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar);
 
-        void buildHistoryAndRecommendations();
+        void buildViewedReleases();
 
         void retry();
 
@@ -60,5 +60,7 @@ public interface MainContract
         Single<List<Listing>> fetchSelling();
 
         void setupRecyclerView(MainActivity mainActivity, RecyclerView recyclerView);
+
+        void buildRecommendations();
     }
 }

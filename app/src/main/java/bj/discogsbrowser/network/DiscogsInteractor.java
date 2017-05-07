@@ -96,7 +96,18 @@ public class DiscogsInteractor
 
     public Single<ArtistResult> fetchArtistDetails(String artistId)
     {
-        return cacheProviders.fetchArtistDetails(discogsService.getArtist(artistId), new DynamicKey(artistId));
+        return cacheProviders.fetchArtistDetails(discogsService.getArtist(artistId), new DynamicKey(artistId))
+                .subscribeOn(mySchedulerProvider.io())
+                .map(artistResult ->
+                {
+                    artistResult.setProfile(artistResult.getProfile().replace("[a=", ""));
+                    artistResult.setProfile(artistResult.getProfile().replace("[i]", ""));
+                    artistResult.setProfile(artistResult.getProfile().replace("[/l]", ""));
+                    artistResult.setProfile(artistResult.getProfile().replace("[/I]", ""));
+                    artistResult.setProfile(artistResult.getProfile().replace("[/i]", ""));
+
+                    return artistResult;
+                });
     }
 
     public Single<Release> fetchReleaseDetails(String releaseId)
@@ -136,7 +147,16 @@ public class DiscogsInteractor
     public Single<Label> fetchLabelDetails(String labelId)
     {
         return cacheProviders.fetchLabelDetails(discogsService.getLabel(labelId), new DynamicKey(labelId))
-                .subscribeOn(mySchedulerProvider.io());
+                .subscribeOn(mySchedulerProvider.io())
+                .map(label ->
+                {
+                    label.setProfile(label.getProfile().replace("[a=", ""));
+                    label.setProfile(label.getProfile().replace("[i]", ""));
+                    label.setProfile(label.getProfile().replace("[/l]", ""));
+                    label.setProfile(label.getProfile().replace("[/I]", ""));
+                    label.setProfile(label.getProfile().replace("]", ""));
+                    return label;
+                });
     }
 
     public Single<List<LabelRelease>> fetchLabelReleases(String labelId)
@@ -256,7 +276,8 @@ public class DiscogsInteractor
 
     public Single<UserDetails> fetchUserDetails(String username)
     {
-        Single<UserDetails> userDetailsSingle = cacheProviders.fetchUserDetails(discogsService.fetchUserDetails(username), new DynamicKey(username), new EvictDynamicKey(sharedPrefsManager.fetchNextUserDetails()));
+        Single<UserDetails> userDetailsSingle = cacheProviders.fetchUserDetails(discogsService.fetchUserDetails(username), new DynamicKey(username), new EvictDynamicKey(sharedPrefsManager.fetchNextUserDetails()))
+                .subscribeOn(mySchedulerProvider.io());
         if (sharedPrefsManager.fetchNextUserDetails())
             sharedPrefsManager.setfetchNextUserDetails("no");
         return userDetailsSingle;

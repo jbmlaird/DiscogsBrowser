@@ -12,7 +12,7 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
  */
 public class MarketplacePresenter implements MarketplaceContract.Presenter
 {
-    private static final String TAG = "MarketplacePresenter";
+    private final String TAG = getClass().getSimpleName();
     private MarketplaceContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
@@ -34,7 +34,8 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
                 .flatMap(listing ->
                 {
                     view.displayListing(listing);
-                    return discogsInteractor.fetchUserDetails(listing.getSeller().getUsername());
+                    return discogsInteractor.fetchUserDetails(listing.getSeller().getUsername())
+                            .observeOn(mySchedulerProvider.ui());
                 })
                 .subscribe(userDetails ->
                         view.updateUserDetails(userDetails), Throwable::printStackTrace);

@@ -4,7 +4,7 @@
     <string name="oauth_access_token">oauth_access_token</string>
     <string name="oauth_access_token_secret">oauth_access_token_secret</string>
 
-    <string name="beta_login_screen">In this version, you must log in to your Discogs account to browse</string>
+    <string name="beta_login_screen">In this version, you must log in to or create a Discogs account to browse</string>
 
     <string name="action_settings">Settings</string>
     <string name="discogs_base">https://api.discogs.com</string>
@@ -35,7 +35,7 @@
     <string name="error_orders">Unable to load selling</string>
     <string name="selling_none">Not selling anything</string>
     <string name="error_selling">Unable to load selling</string>
-    <string name="privacy_policy">The only information I store is your username so I can buid a recommendation system for you. This will not be shared with anyone.</string>
+    <string name="privacy_policy">The only information I store is your username so I can buid a recommendation system for you. This is not shared with anyone.</string>
     <string name="not_selling_anything">You\'re not selling anything</string>
     <string name="name">name</string>
     <string name="num_collection">num_collection</string>
@@ -63,6 +63,6 @@
     <string name="logged_in">logged_in</string>
     <string name="error">error</string>
     <string name="learn_more">Learn more</string>
-    <string name="learn_more_content">You are currently only recommended dependent on the last release you looked at\n\nI have created local recommender systems but have been unable to expose these via an API with live prediction. If anyone wants to implement a system or point me in the right direction please get in touch via jbmlaird@gmail.com</string>
+    <string name="learn_more_content">I have created intelligent recommender systems but have been unable to expose these via an API with live prediction. If anyone wants to implement a system or point me in the right direction please get in touch via jbmlaird@gmail.com</string>
     <string name="onboarding_completed">onboarding_completed</string>
 </resources>
