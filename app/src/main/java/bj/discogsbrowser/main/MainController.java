@@ -342,6 +342,7 @@ public class MainController extends EpoxyController
         requestModelBuild();
     }
 
+    // This will only happen if the database gets corrupted
     public void setViewedReleasesError(boolean viewedReleasesError)
     {
         this.viewedReleasesError = viewedReleasesError;

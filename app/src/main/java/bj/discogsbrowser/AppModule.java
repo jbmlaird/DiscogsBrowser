@@ -14,6 +14,7 @@ import org.greenrobot.greendao.database.Database;
 import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
+import bj.discogsbrowser.utils.DaoInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import dagger.Module;
 import dagger.Provides;
@@ -52,10 +53,16 @@ public class AppModule
     DaoSession providesDaoSession()
     {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(applicationContext, "search-db");
-        // Unique wasn't being respected so had to upgrade the DB.
-//        helper.onUpgrade(helper.getWritableDatabase(), 7, 8);
+        // Use when changing schema
+        // helper.onUpgrade(helper.getWritableDatabase(), 7, 8);
         Database db = helper.getWritableDb();
         return new DaoMaster(db).newSession();
+    }
+
+    @Provides
+    DaoInteractor providesDaoInteractor(DaoSession daoSession)
+    {
+        return new DaoInteractor(daoSession);
     }
 
     @Provides

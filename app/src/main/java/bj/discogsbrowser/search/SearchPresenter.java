@@ -14,10 +14,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.greendao.SearchTerm;
-import bj.discogsbrowser.greendao.SearchTermDao;
 import bj.discogsbrowser.model.search.SearchResult;
+import bj.discogsbrowser.utils.DaoInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -33,26 +32,26 @@ public class SearchPresenter implements SearchContract.Presenter
 {
     private static final String TAG = "SearchPresenter";
     private MySchedulerProvider mySchedulerProvider;
-    private final SearchTermDao searchTermDao;
     private List<SearchResult> searchResults = new ArrayList<>();
     private String currentFilter = "all";
     private Context mContext;
     private SearchContract.View mView;
     private SearchController searchController;
     private Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchModelFunc;
+    private DaoInteractor daoInteractor;
     private CompositeDisposable disposable;
     private DisposableObserver<List<SearchResult>> searchObserver;
 
     @Inject
     public SearchPresenter(Context mContext, SearchContract.View mView, SearchController searchController, Function<SearchViewQueryTextEvent,
-            ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoSession daoSession, CompositeDisposable disposable)
+            ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoInteractor daoInteractor, CompositeDisposable disposable)
     {
         this.mContext = mContext;
         this.mView = mView;
         this.searchController = searchController;
         this.searchModelFunc = searchModelFunc;
         this.mySchedulerProvider = mySchedulerProvider;
-        this.searchTermDao = daoSession.getSearchTermDao();
+        this.daoInteractor = daoInteractor;
         this.disposable = disposable;
     }
 
@@ -61,7 +60,7 @@ public class SearchPresenter implements SearchContract.Presenter
     {
         rvResults.setLayoutManager(new LinearLayoutManager(mContext));
         rvResults.setAdapter(searchController.getAdapter());
-        searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
+        searchController.setSearchTerms(daoInteractor.getRecentSearchTerms());
     }
 
     private Observable<List<SearchResult>> getSearchIntent()
@@ -126,7 +125,7 @@ public class SearchPresenter implements SearchContract.Presenter
     public void showPastSearches(boolean showPastSearches)
     {
         if (showPastSearches)
-            searchController.setSearchTerms(searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list());
+            searchController.setSearchTerms(daoInteractor.getRecentSearchTerms());
         searchController.setShowPastSearches(showPastSearches);
     }
 
@@ -135,7 +134,7 @@ public class SearchPresenter implements SearchContract.Presenter
         SearchTerm searchTerm = new SearchTerm();
         searchTerm.setSearchTerm(queryTextEvent.queryText().toString());
         searchTerm.setDate(new Date());
-        searchTermDao.insertOrReplace(searchTerm);
+        daoInteractor.storeSearchTerm(searchTerm);
         Log.d(TAG, "Stored new search term: " + searchTerm.getSearchTerm());
         return queryTextEvent;
     }

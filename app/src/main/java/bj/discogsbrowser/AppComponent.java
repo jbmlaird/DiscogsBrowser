@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.github.scribejava.core.oauth.OAuth10aService;
 
-import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.DaoInteractor;
 import dagger.Component;
 import retrofit2.Retrofit;
 
@@ -19,9 +19,9 @@ public interface AppComponent
 
     Context getContext();
 
-    DaoSession getDaoSession();
-
     Retrofit getRetrofit();
+
+    DaoInteractor getDaoInteractor();
 
     OAuth10aService getOAuthService();
 

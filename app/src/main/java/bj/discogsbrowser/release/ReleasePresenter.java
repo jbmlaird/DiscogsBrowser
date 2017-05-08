@@ -14,13 +14,12 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.greendao.ViewedRelease;
-import bj.discogsbrowser.greendao.ViewedReleaseDao;
 import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
+import bj.discogsbrowser.utils.DaoInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
@@ -38,7 +37,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private final MySchedulerProvider mySchedulerProvider;
     private SharedPrefsManager sharedPrefsManager;
     private final LogWrapper log;
-    private ViewedReleaseDao viewedReleaseDao;
+    private DaoInteractor daoInteractor;
     private ArtistsBeautifier artistsBeautifier;
     private boolean collectionChecked;
     private boolean wantlistChecked;
@@ -46,7 +45,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     @Inject
     public ReleasePresenter(@NonNull ReleaseContract.View view, @NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor,
                             @NonNull MySchedulerProvider mySchedulerProvider, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log,
-                            @NonNull DaoSession daoSession, @NonNull ArtistsBeautifier artistsBeautifier)
+                            @NonNull DaoInteractor daoInteractor, @NonNull ArtistsBeautifier artistsBeautifier)
     {
         this.mView = view;
         this.controller = controller;
@@ -54,7 +53,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         this.mySchedulerProvider = mySchedulerProvider;
         this.sharedPrefsManager = sharedPrefsManager;
         this.log = log;
-        this.viewedReleaseDao = daoSession.getViewedReleaseDao();
+        this.daoInteractor = daoInteractor;
         this.artistsBeautifier = artistsBeautifier;
     }
 
@@ -116,7 +115,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
             viewedRelease.setLabelName(release.getLabels().get(0).getName());
         if (release.getArtists() != null && release.getArtists().size() > 0)
             viewedRelease.setArtists(artistsBeautifier.formatArtists(release.getArtists()));
-        viewedReleaseDao.insertOrReplace(viewedRelease);
+        daoInteractor.storeViewedRelease(viewedRelease);
     }
 
     public void fetchReleaseListings(String id) throws IOException

@@ -20,6 +20,8 @@ import java.util.List;
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.model.order.TestListing;
 import bj.discogsbrowser.model.order.TestOrder;
+import bj.discogsbrowser.testmodels.TestSearchResult;
+import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.AnalyticsTracker;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
@@ -63,39 +65,238 @@ public class MainControllerUnitTest
     public void initialLoadingState_correct()
     {
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
     }
+
+    @Test
+    public void viewedHistoryError_displaysErrorModel()
+    {
+        controller.setViewedReleasesError(true);
+
+        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+    }
+
+    @Test
+    public void viewedHistoryErrorThenLoad_displaysLoad()
+    {
+        controller.setViewedReleasesError(true);
+
+        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+
+        controller.setLoadingViewedReleases(true);
+
+        copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+    }
+
+    @Test
+    public void viewedHistoryErrorThenReload_displaysList()
+    {
+        controller.setViewedReleasesError(true);
+
+        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+
+        controller.setViewedReleases(Arrays.asList(new TestViewedRelease()));
+        copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "CarouselModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+    }
+
+    @Test
+    public void recommendationError_displaysErrorModel()
+    {
+        controller.setRecommendationsError(true);
+
+        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+    }
+
+    @Test
+    public void recommendationErrorThenReload_displaysList()
+    {
+        controller.setRecommendationsError(true);
+        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+
+        controller.setRecommendations(Arrays.asList(new TestSearchResult()));
+        copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "CarouselModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+    }
+
+    @Test
+    public void recommendationsErrorThenLoad_displaysLoad()
+    {
+        controller.setRecommendationsError(true);
+
+        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+
+        controller.setLoadingRecommendations(true);
+
+        copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+    }
+
 
     @Test
     public void emptyLists_displaysNoOrderModels()
     {
-        controller.setOrders(Collections.emptyList());
+        controller.setViewedReleases(Collections.emptyList());
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "InfoTextModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+
+        controller.setRecommendations(Collections.emptyList());
+
+        copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "InfoTextModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "InfoTextModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
+
+        controller.setOrders(Collections.emptyList());
+
+        copyOfModels = controller.getAdapter().getCopyOfModels();
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "InfoTextModel_");
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "InfoTextModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
 
         controller.setSelling(Collections.emptyList());
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "InfoTextModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "InfoTextModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "NoOrderModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
     }
 
     @Test
@@ -104,13 +305,16 @@ public class MainControllerUnitTest
         controller.setOrdersError(true);
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "ErrorModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
     }
 
     @Test
@@ -119,12 +323,16 @@ public class MainControllerUnitTest
         controller.setConfirmEmail(true);
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "VerifyEmailModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "VerifyEmailModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "InfoTextModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "InfoTextModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
     }
 
     @Test
@@ -133,24 +341,31 @@ public class MainControllerUnitTest
         controller.setOrdersError(true);
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "ErrorModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
 
         controller.setOrders(Collections.emptyList());
         controller.setSelling(Collections.emptyList());
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
     }
 
     @Test
@@ -159,30 +374,37 @@ public class MainControllerUnitTest
         controller.setOrders(Arrays.asList(new TestOrder(), new TestOrder()));
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "OrderModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "OrderModel_");
-        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 8);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "OrderModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 11);
 
         controller.setSelling(Arrays.asList(new TestListing(), new TestListing()));
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "OrderModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "OrderModel_");
-        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ListingModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "OrderModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "ListingModel_");
         assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "ListingModel_");
+        assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 14);
     }
 
     @Test
@@ -193,52 +415,58 @@ public class MainControllerUnitTest
                 new TestOrder(), new TestOrder(), new TestOrder()));
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "OrderModel_"); //1
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "OrderModel_"); //2
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "OrderModel_"); //1
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "OrderModel_"); //3
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "OrderModel_"); //2
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "OrderModel_"); //4
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "OrderModel_"); //3
         assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "OrderModel_"); // Only 5
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "OrderModel_"); //4
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 15);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "OrderModel_"); // Only 5
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(17).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 18);
 
         controller.setSelling(Arrays.asList(new TestListing(), new TestListing(),
                 new TestListing(), new TestListing(), new TestListing(), new TestListing()));
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "OrderModel_"); //1
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "OrderModel_"); //2
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "OrderModel_"); //1
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "OrderModel_"); //3
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "OrderModel_"); //2
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "OrderModel_"); //4
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "OrderModel_"); //3
         assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "OrderModel_"); // Only 5
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "OrderModel_"); //4
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "ListingModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "OrderModel_"); // Only 5
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "ListingModel_");
         assertEquals(copyOfModels.get(17).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(18).getClass().getSimpleName(), "ListingModel_");
         assertEquals(copyOfModels.get(19).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(20).getClass().getSimpleName(), "ListingModel_");
         assertEquals(copyOfModels.get(21).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(22).getClass().getSimpleName(), "ListingModel_"); //Only 5
+        assertEquals(copyOfModels.get(22).getClass().getSimpleName(), "ListingModel_");
         assertEquals(copyOfModels.get(23).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.size(), 24);
+        assertEquals(copyOfModels.get(24).getClass().getSimpleName(), "ListingModel_"); //Only 5
+        assertEquals(copyOfModels.get(25).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(26).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 27);
     }
 
     @Test
@@ -247,23 +475,29 @@ public class MainControllerUnitTest
         controller.setOrders(Collections.emptyList());
         controller.setSelling(Collections.emptyList());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "NoOrderModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "NoOrderModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
 
         controller.setLoadingMorePurchases(true);
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainUserModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 6);
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 9);
     }
 }

@@ -10,7 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.net.UnknownHostException;
@@ -18,19 +20,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.greendao.DaoSession;
+import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
+import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.testmodels.TestRootSearchResponse;
+import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.DaoInteractor;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
+import edu.emory.mathcs.backport.java.util.Collections;
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -58,7 +66,7 @@ public class MainPresenterUnitTest
     @Mock RecyclerView recyclerView;
     @Mock SharedPrefsManager sharedPrefsManager;
     @Mock LogWrapper logWrapper;
-    @Mock DaoSession daoSession;
+    @Mock DaoInteractor daoInteractor;
     @Mock AnalyticsTracker tracker;
 
     @Mock MainActivity mainActivity;
@@ -68,16 +76,17 @@ public class MainPresenterUnitTest
     @Before
     public void setUp()
     {
+        MockitoAnnotations.initMocks(this);
         testUserDetails = new UserDetails();
         testUserDetails.setUsername(username);
         testScheduler = new TestScheduler();
-        mainPresenter = new MainPresenter(context, mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, daoSession, tracker);
+        mainPresenter = new MainPresenter(context, mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, daoInteractor, tracker);
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(mView, discogsInteractor, navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, tracker);
+        verifyNoMoreInteractions(mView, discogsInteractor, navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, daoInteractor, tracker);
     }
 
     @Test
@@ -174,5 +183,62 @@ public class MainPresenterUnitTest
 
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(mainController, times(1)).setOrdersError(true);
+    }
+
+    @Test
+    public void buildRecommendationsEmptyList_ControllerEmptyList()
+    {
+        List list = Collections.emptyList();
+        when(daoInteractor.getViewedReleases()).thenReturn(list);
+
+        mainPresenter.buildRecommendations();
+
+        verify(daoInteractor, times(1)).getViewedReleases();
+        verify(mainController).setRecommendations(list);
+    }
+
+    @Test
+    public void buildRecommendationsError_ControllerError()
+    {
+        ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
+        viewedReleases.add(new TestViewedRelease());
+        when(daoInteractor.getViewedReleases()).thenReturn(viewedReleases);
+        when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.error(new Throwable()));
+        when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.error(new Throwable()));
+
+        mainPresenter.buildRecommendations();
+        testScheduler.triggerActions();
+
+        verify(daoInteractor, times(1)).getViewedReleases();
+//        assertEquals(daoInteractor.getViewedReleases(), viewedReleases);
+        verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", false);
+        verify(discogsInteractor, times(1)).searchByLabel(viewedReleases.get(0).getLabelName());
+        verify(mainController, times(1)).setLoadingRecommendations(true);
+        verify(mainController, times(1)).setRecommendationsError(true);
+    }
+
+    @Test
+    public void buildRecommendationsOver24_ControllerDisplaysTruncatedLists()
+    {
+        final ArgumentCaptor searchResultCaptor = ArgumentCaptor.forClass(List.class);
+        ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
+        viewedReleases.add(new TestViewedRelease());
+        when(daoInteractor.getViewedReleases()).thenReturn(viewedReleases);
+        // TestSearchResponse contains 20 entries each
+        when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.just(new TestRootSearchResponse()));
+        when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), String.valueOf(1), true)).thenReturn(Single.just(new TestRootSearchResponse()));
+        when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.just(new TestRootSearchResponse().getSearchResults()));
+
+        mainPresenter.buildRecommendations();
+        testScheduler.triggerActions();
+
+        verify(mainController, times(1)).setLoadingRecommendations(true);
+        verify(daoInteractor, times(1)).getViewedReleases();
+        verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", false);
+        verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", true);
+        verify(discogsInteractor, times(1)).searchByLabel(viewedReleases.get(0).getLabelName());
+        verify(mainController, times(1)).setRecommendations((List<SearchResult>) searchResultCaptor.capture());
+        // Truncated 40 to 24
+        assertEquals(((List<SearchResult>) searchResultCaptor.getAllValues().get(0)).size(), 24);
     }
 }

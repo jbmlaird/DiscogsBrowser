@@ -12,8 +12,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
-import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.model.search.SearchResult;
+import bj.discogsbrowser.utils.DaoInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
@@ -33,20 +33,20 @@ public class SearchPresenterUnitTest
     @Mock SearchController searchController;
     @Mock Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchModelFunc;
     @Mock MySchedulerProvider mySchedulerProvider;
-    @Mock DaoSession daoSession;
+    @Mock DaoInteractor daoInteractor;
     @Mock CompositeDisposable disposable;
 
     @Before
     public void setUp()
     {
-        presenter = new SearchPresenter(mContext, mView, searchController, searchModelFunc, mySchedulerProvider, daoSession, disposable);
+        presenter = new SearchPresenter(mContext, mView, searchController, searchModelFunc, mySchedulerProvider, daoInteractor, disposable);
         presenter.setupSubscriptions();
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(mContext, mView, searchController, searchModelFunc, mySchedulerProvider, daoSession, disposable);
+        verifyNoMoreInteractions(mContext, mView, searchController, searchModelFunc, mySchedulerProvider, daoInteractor, disposable);
     }
 
     // SearchPresenter is very UI-based with the double RxBindings

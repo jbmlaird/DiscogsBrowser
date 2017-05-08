@@ -14,14 +14,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.greendao.ViewedRelease;
-import bj.discogsbrowser.greendao.ViewedReleaseDao;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.DaoInteractor;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -43,14 +42,14 @@ public class MainPresenter implements MainContract.Presenter
     private MainController mainController;
     private SharedPrefsManager sharedPrefsManager;
     private LogWrapper log;
-    private ViewedReleaseDao viewedReleaseDao;
+    private DaoInteractor daoInteractor;
     private AnalyticsTracker tracker;
 
     @Inject
     public MainPresenter(@NonNull Context context, @NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
                          @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager,
-                         @NonNull LogWrapper log, @NonNull DaoSession daoSession, @NonNull AnalyticsTracker tracker)
+                         @NonNull LogWrapper log, @NonNull DaoInteractor daoInteractor, @NonNull AnalyticsTracker tracker)
     {
         this.context = context;
         mView = view;
@@ -60,7 +59,7 @@ public class MainPresenter implements MainContract.Presenter
         this.mainController = mainController;
         this.sharedPrefsManager = sharedPrefsManager;
         this.log = log;
-        viewedReleaseDao = daoSession.getViewedReleaseDao();
+        this.daoInteractor = daoInteractor;
         this.tracker = tracker;
     }
 
@@ -93,7 +92,7 @@ public class MainPresenter implements MainContract.Presenter
     public void buildViewedReleases()
     {
         mainController.setLoadingViewedReleases(true);
-        List<ViewedRelease> viewedReleases = viewedReleaseDao.queryBuilder().orderDesc(ViewedReleaseDao.Properties.Date).limit(6).build().list();
+        List<ViewedRelease> viewedReleases = daoInteractor.getViewedReleases();
         mainController.setViewedReleases(viewedReleases);
     }
 
@@ -158,7 +157,7 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void buildRecommendations()
     {
-        List<ViewedRelease> viewedReleases = viewedReleaseDao.queryBuilder().orderDesc(ViewedReleaseDao.Properties.Date).limit(6).build().list();
+        List<ViewedRelease> viewedReleases = daoInteractor.getViewedReleases();
         if (viewedReleases.size() > 0)
         {
             String latestReleaseViewedStyle = viewedReleases.get(0).getStyle();
