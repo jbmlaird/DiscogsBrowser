@@ -6,9 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
@@ -18,10 +15,10 @@ import javax.inject.Inject;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
+import bj.discogsbrowser.artistreleases.ArtistReleasesController;
 import bj.discogsbrowser.artistreleases.ArtistReleasesPresenter;
 import bj.discogsbrowser.common.BaseFragment;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
-import bj.discogsbrowser.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
@@ -32,13 +29,9 @@ import io.reactivex.functions.Consumer;
 public class ArtistReleasesFragment extends BaseFragment
 {
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
-    @BindView(R.id.ivLoading) ImageView ivLoading;
-    @BindView(R.id.lytNoItems) LinearLayout lytNoItems;
-    @BindView(R.id.lytError) RelativeLayout lytError;
     @Inject BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     @Inject ArtistReleasesPresenter presenter;
-    @Inject ImageViewAnimator imageViewAnimator;
-    private ArtistReleasesAdapter rvReleasesAdapter;
+    @Inject ArtistReleasesController controller;
 
     @Nullable
     @Override
@@ -47,36 +40,10 @@ public class ArtistReleasesFragment extends BaseFragment
         ArtistReleasesActivity.component.inject(this);
         View view = inflater.inflate(R.layout.fragment_artist_releases, container, false);
         unbinder = ButterKnife.bind(this, view);
-        imageViewAnimator.rotateImage(ivLoading);
-        rvReleasesAdapter = presenter.setupRecyclerView(recyclerView, getActivity());
+        presenter.setupRecyclerView(recyclerView, getActivity());
         presenter.setupFilter(filterConsumer());
-        presenter.connectToBehaviorRelay(getConsumer(), getThrowableConsumer(), getArguments().getString("map"));
+        presenter.connectToBehaviorRelay(getArguments().getString("map"));
         return view;
-    }
-
-    private Consumer<Throwable> getThrowableConsumer()
-    {
-        return throwable ->
-        {
-            throwable.printStackTrace();
-            lytError.setVisibility(View.VISIBLE);
-            ivLoading.clearAnimation();
-            ivLoading.setVisibility(View.GONE);
-        };
-    }
-
-    private Consumer<List<ArtistRelease>> getConsumer()
-    {
-        return artistReleases ->
-        {
-            if (artistReleases.size() == 0)
-                lytNoItems.setVisibility(View.VISIBLE);
-            else
-                lytNoItems.setVisibility(View.GONE);
-            ivLoading.clearAnimation();
-            ivLoading.setVisibility(View.GONE);
-            rvReleasesAdapter.setReleases(artistReleases);
-        };
     }
 
     /**
@@ -90,5 +57,19 @@ public class ArtistReleasesFragment extends BaseFragment
     {
         return filterText ->
                 presenter.setFilterText(filterText);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        presenter.dispose();
     }
 }

@@ -1,7 +1,6 @@
 package bj.discogsbrowser.artistreleases;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
-import com.jakewharton.rxrelay2.Relay;
 
 import java.util.List;
 
@@ -43,14 +42,6 @@ class ArtistReleasesModule
     @Provides
     @Singleton
     BehaviorRelay<List<ArtistRelease>> provideBehaviorRelay()
-    {
-        return BehaviorRelay.create();
-    }
-
-
-    @Provides
-    @Singleton
-    Relay<Throwable> provideThrowableRelay()
     {
         return BehaviorRelay.create();
     }
