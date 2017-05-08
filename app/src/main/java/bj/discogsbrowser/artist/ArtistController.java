@@ -12,7 +12,7 @@ import bj.discogsbrowser.epoxy.artist.ViewReleasesModel_;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.EmptySpaceModel_;
-import bj.discogsbrowser.epoxy.common.ErrorModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
@@ -66,7 +66,7 @@ public class ArtistController extends BaseController
                 .id("artist loading")
                 .addIf(loading, this);
 
-        new ErrorModel_()
+        new RetryModel_()
                 .errorString("Unable to load Artist")
                 .onClick(v -> view.retry())
                 .id("error model")

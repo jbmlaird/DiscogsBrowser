@@ -19,7 +19,7 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
  * Created by Josh Laird on 27/04/2017.
  */
 @EpoxyModelClass(layout = R.layout.model_error)
-public abstract class ErrorModel extends EpoxyModel<LinearLayout>
+public abstract class RetryModel extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute(DoNotHash) View.OnClickListener onClick;
     @EpoxyAttribute String errorString;

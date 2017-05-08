@@ -16,6 +16,12 @@ public class TestListing extends Listing
     public Seller seller = new Seller();
     public Release release = new Release();
 
+    @Override
+    public String getStatus()
+    {
+        return "For Sale";
+    }
+
     public TestListing()
     {
         seller.setUsername("bj");

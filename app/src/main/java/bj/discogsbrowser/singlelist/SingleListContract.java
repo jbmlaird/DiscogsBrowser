@@ -16,25 +16,16 @@ public interface SingleListContract
     {
         Observable<CharSequence> filterIntent();
 
-        void stopLoading();
-
-        void showNoItems(boolean showNoItems, String s);
-
-        void showError(boolean showError, String s);
-
-        void displayListing(String listingId, String title, String subtitle, String seller);
-
-        void displayOrder(String id);
-
         void launchDetailedActivity(String type, String title, String id);
 
+        // TODO: Change since Epoxy migration?
         // Activity context for pre-Android 5.1
         Context getActivityContext();
     }
 
     interface Presenter extends BasePresenter
     {
-        void getData(String type, String username);
+        void getData(Integer stringId, String username);
 
         void setupRecyclerView(SingleListActivity singleListActivity, RecyclerView recyclerView);
 

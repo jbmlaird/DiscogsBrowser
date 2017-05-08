@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.ErrorModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.order.BuyerModel_;
 import bj.discogsbrowser.epoxy.order.OrderReleaseModel_;
@@ -50,7 +50,7 @@ public class OrderController extends EpoxyController
                 .imageViewAnimator(imageViewAnimator)
                 .addIf(loadingOrder && !error, this);
 
-        new ErrorModel_()
+        new RetryModel_()
                 .errorString("Unable to load order")
                 .id("error model")
                 .onClick(v -> mView.retry())

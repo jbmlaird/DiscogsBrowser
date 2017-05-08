@@ -92,16 +92,16 @@ public class NavigationDrawerBuilder
                             switch ((int) drawerItem.getIdentifier())
                             {
                                 case 1:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, "collection", sharedPrefsManager.getUsername()));
+                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.drawer_item_collection, sharedPrefsManager.getUsername()));
                                     break;
                                 case 2:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, "wantlist", sharedPrefsManager.getUsername()));
+                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.drawer_item_wantlist, sharedPrefsManager.getUsername()));
                                     break;
                                 case 3001:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, "selling", sharedPrefsManager.getUsername()));
+                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.selling, sharedPrefsManager.getUsername()));
                                     break;
                                 case 3002:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, "orders", sharedPrefsManager.getUsername()));
+                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.orders, sharedPrefsManager.getUsername()));
                                     break;
                                 case 4:
                                     activity.startActivity(SearchActivity.createIntent(activity));

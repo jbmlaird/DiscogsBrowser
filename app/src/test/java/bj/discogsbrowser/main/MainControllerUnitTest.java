@@ -19,7 +19,7 @@ import java.util.List;
 
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.model.order.TestListing;
-import bj.discogsbrowser.model.order.TestOrder;
+import bj.discogsbrowser.testmodels.TestOrder;
 import bj.discogsbrowser.testmodels.TestSearchResult;
 import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.AnalyticsTracker;
@@ -78,13 +78,13 @@ public class MainControllerUnitTest
     }
 
     @Test
-    public void viewedHistoryError_displaysErrorModel()
+    public void viewedHistoryError_displaysRetryModel()
     {
         controller.setViewedReleasesError(true);
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
@@ -102,7 +102,7 @@ public class MainControllerUnitTest
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
@@ -134,7 +134,7 @@ public class MainControllerUnitTest
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
@@ -159,7 +159,7 @@ public class MainControllerUnitTest
     }
 
     @Test
-    public void recommendationError_displaysErrorModel()
+    public void recommendationError_displaysRetryModel()
     {
         controller.setRecommendationsError(true);
 
@@ -167,7 +167,7 @@ public class MainControllerUnitTest
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
@@ -184,7 +184,7 @@ public class MainControllerUnitTest
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
@@ -215,7 +215,7 @@ public class MainControllerUnitTest
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
@@ -300,7 +300,7 @@ public class MainControllerUnitTest
     }
 
     @Test
-    public void error_displaysErrorModels()
+    public void error_displaysRetryModels()
     {
         controller.setOrdersError(true);
 
@@ -310,9 +310,9 @@ public class MainControllerUnitTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
         assertEquals(copyOfModels.size(), 9);
     }
@@ -346,9 +346,9 @@ public class MainControllerUnitTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "MainTitleModel_");
-        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ErrorModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
         assertEquals(copyOfModels.size(), 9);
 

@@ -8,10 +8,9 @@ import com.airbnb.epoxy.EpoxyModelClass;
 import bj.discogsbrowser.R;
 
 /**
- * Created by Josh Laird on 04/05/2017.
+ * Created by Josh Laird on 08/05/2017.
  */
-@EpoxyModelClass(layout = R.layout.model_empty_space)
-public abstract class EmptySpaceModel extends EpoxyModel<LinearLayout>
+@EpoxyModelClass(layout = R.layout.model_empty_space_half)
+public abstract class SmallEmptySpaceModel extends EpoxyModel<LinearLayout>
 {
-
 }

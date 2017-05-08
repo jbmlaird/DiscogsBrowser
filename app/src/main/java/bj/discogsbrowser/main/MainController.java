@@ -14,7 +14,7 @@ import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.CarouselModel_;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.EmptySpaceModel_;
-import bj.discogsbrowser.epoxy.common.ErrorModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.main.InfoTextModel_;
 import bj.discogsbrowser.epoxy.main.ListingModel_;
@@ -85,7 +85,7 @@ public class MainController extends EpoxyController
                     .id("viewed releases loading")
                     .addTo(this);
         else if (viewedReleasesError)
-            new ErrorModel_()
+            new RetryModel_()
                     .onClick(v -> mView.buildHistory())
                     .errorString("Unable to load recently viewed")
                     .id("viewed releases error")
@@ -130,7 +130,7 @@ public class MainController extends EpoxyController
                     .id("recommendations loading")
                     .addTo(this);
         else if (recommendationsError)
-            new ErrorModel_()
+            new RetryModel_()
                     .onClick(v -> mView.buildRecommendations())
                     .errorString("Unable to build recommendations")
                     .id("recommendations error")
@@ -168,7 +168,7 @@ public class MainController extends EpoxyController
                 .onClickListener(v -> mView.displayOrdersActivity(sharedPrefsManager.getUsername()))
                 .addTo(this);
 
-        new ErrorModel_()
+        new RetryModel_()
                 .id("orders error")
                 .onClick(v -> mView.retry())
                 .errorString("Unable to fetch orders")
@@ -217,7 +217,7 @@ public class MainController extends EpoxyController
                 .onClickListener(v -> mView.displayListingsActivity(sharedPrefsManager.getUsername()))
                 .addTo(this);
 
-        new ErrorModel_()
+        new RetryModel_()
                 .id("selling error")
                 .errorString("Unable to fetch selling")
                 .onClick(v -> mView.retry())
@@ -225,7 +225,7 @@ public class MainController extends EpoxyController
 
         new NoOrderModel_()
                 .id("not selling")
-                .text(context.getString(R.string.not_selling_anything))
+                .text(context.getString(R.string.selling_none))
                 .addIf(!loadingMoreSales && listings.size() == 0 && !ordersError && !confirmEmail, this);
 
         new InfoTextModel_()

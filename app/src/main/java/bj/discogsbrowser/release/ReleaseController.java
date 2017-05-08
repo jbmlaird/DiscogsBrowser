@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.ErrorModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
@@ -92,7 +92,7 @@ public class ReleaseController extends BaseController
                 .id("release loading")
                 .addIf(releaseLoading, this);
 
-        new ErrorModel_()
+        new RetryModel_()
                 .errorString("Unable to load release")
                 .onClick(v -> view.retry())
                 .id("release loading")
@@ -155,13 +155,13 @@ public class ReleaseController extends BaseController
                     .discogsInteractor(discogsInteractor)
                     .addIf(collectionWantlistChecked, this);
 
-            new ErrorModel_()
+            new RetryModel_()
                     .errorString("Unable to check Collection")
                     .id("Collection error")
                     .onClick(v -> view.retryCollectionWantlist())
                     .addIf(collectionError, this);
 
-            new ErrorModel_()
+            new RetryModel_()
                     .errorString("Unable to check Wantlist")
                     .onClick(v -> view.retryCollectionWantlist())
                     .id("Wantlist error")
@@ -204,7 +204,7 @@ public class ReleaseController extends BaseController
                     .imageViewAnimator(imageViewAnimator)
                     .addIf(marketplaceLoading, this);
 
-            new ErrorModel_()
+            new RetryModel_()
                     .id("listings error")
                     .errorString("Unable to fetch listings")
                     .onClick(v -> view.retryListings())

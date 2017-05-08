@@ -11,9 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.discogsbrowser.R;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.greendao.SearchTerm;
 import bj.discogsbrowser.epoxy.common.CenterTextModel_;
-import bj.discogsbrowser.epoxy.common.ErrorModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.search.PastSearchModel_;
 import bj.discogsbrowser.epoxy.search.SearchResultModel_;
@@ -57,7 +57,7 @@ public class SearchController extends EpoxyController
                         .searchTerm(searchTerm.getSearchTerm())
                         .addTo(this);
         else if (error)
-            new ErrorModel_()
+            new RetryModel_()
                     .id("error model")
                     .errorString("Unable to connect to server")
                     .onClick(v -> mView.retry())

@@ -1,6 +1,7 @@
 package bj.discogsbrowser.singlelist;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.utils.FilterHelper;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
@@ -22,6 +24,10 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 /**
  * Created by Josh Laird on 16/04/2017.
+ * <p>
+ * Decouple this and have a separate activity for each type?
+ * <p>
+ * //TODO: Move to Epoxy
  */
 @Singleton
 public class SingleListPresenter implements SingleListContract.Presenter
@@ -30,69 +36,74 @@ public class SingleListPresenter implements SingleListContract.Presenter
     private SingleListContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
-    private SingleListAdapter singleListAdapter;
+    private SingleListController controller;
     private CompositeDisposable disposable;
+    private FilterHelper filterHelper;
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
-    private String filterText = "";
 
     @Inject
     public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor,
-                               MySchedulerProvider mySchedulerProvider, SingleListAdapter singleListAdapter, CompositeDisposable disposable)
+                               MySchedulerProvider mySchedulerProvider, SingleListController controller, CompositeDisposable disposable,
+                               FilterHelper filterHelper)
     {
         this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
-        this.singleListAdapter = singleListAdapter;
+        this.controller = controller;
         this.disposable = disposable;
+        this.filterHelper = filterHelper;
     }
 
     @Override
-    public void getData(String type, String username)
+    public void setupRecyclerView(SingleListActivity singleListActivity, RecyclerView recyclerView)
     {
-        switch (type)
+        recyclerView.setLayoutManager(new LinearLayoutManager(singleListActivity));
+        recyclerView.setAdapter(controller.getAdapter());
+        controller.requestModelBuild();
+    }
+
+    @Override
+    public void setupFilterSubscription()
+    {
+        disposable.add(view.filterIntent()
+                .observeOn(mySchedulerProvider.io())
+                .subscribeWith(getFilterObserver()));
+    }
+
+    @Override
+    public void getData(Integer stringId, String username)
+    {
+        switch (stringId)
         {
-            case "wantlist":
+            case R.string.drawer_item_wantlist:
                 discogsInteractor.fetchWantlist(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .flattenAsObservable(wants -> wants)
-                        .filter(wants ->
-                                wants.getSubtitle().toLowerCase().contains(filterText) || wants.getTitle().toLowerCase().contains(filterText))
-                        .toList()
                         .subscribeWith(getNetworkObserver(context.getString(R.string.wantlist_none), context.getString(R.string.error_wantlist)));
                 break;
-            case "collection":
+            case R.string.drawer_item_collection:
                 discogsInteractor.fetchCollection(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .flattenAsObservable(collection -> collection)
-                        .filter(collection ->
-                                collection.getSubtitle().toLowerCase().contains(filterText) || collection.getTitle().toLowerCase().contains(filterText))
-                        .toList()
                         .subscribeWith(getNetworkObserver(context.getString(R.string.collection_none), context.getString(R.string.error_collection)));
                 break;
-            case "orders":
+            case R.string.orders:
                 discogsInteractor.fetchOrders()
                         .subscribeOn(mySchedulerProvider.io())
-                        .flattenAsObservable(listings -> listings)
-                        .filter(listing -> listing.getStatus().equals("For Sale"))
-                        .filter(order ->
-                                order.getSubtitle().toLowerCase().contains(filterText) || order.getTitle().toLowerCase().contains(filterText))
-                        .toList()
                         .observeOn(mySchedulerProvider.ui())
                         .subscribeWith(getNetworkObserver(context.getString(R.string.orders_none), context.getString(R.string.error_orders)));
                 break;
-            case "selling":
+            case R.string.selling:
                 discogsInteractor.fetchSelling(username)
                         .observeOn(mySchedulerProvider.io())
                         .flattenAsObservable(listings -> listings)
                         .filter(listing ->
-                                listing.getSubtitle().toLowerCase().contains(filterText) || listing.getTitle().toLowerCase().contains(filterText))
+                                listing.getStatus().equals("For Sale"))
                         .toList()
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .subscribeWith(getNetworkObserver(context.getString(R.string.not_selling_anything), context.getString(R.string.error_selling)));
+                        .subscribeWith(getNetworkObserver(context.getString(R.string.selling_none), context.getString(R.string.error_selling)));
                 break;
         }
     }
@@ -104,40 +115,17 @@ public class SingleListPresenter implements SingleListContract.Presenter
             @Override
             public void onSuccess(@NonNull List<? extends RecyclerViewModel> recyclerViewModels)
             {
-                view.stopLoading();
                 items = recyclerViewModels;
-                if (items.size() == 0)
-                    view.showNoItems(true, noItemsMessage);
-                else
-                    view.showNoItems(false, "");
-                singleListAdapter.setItems(recyclerViewModels);
-                singleListAdapter.notifyDataSetChanged();
+                displayItems();
             }
 
             @Override
             public void onError(Throwable e)
             {
-                view.stopLoading();
-                view.showError(true, errorMessage);
+                controller.setError(errorMessage);
             }
         };
     }
-
-    @Override
-    public void setupRecyclerView(SingleListActivity singleListActivity, RecyclerView recyclerView)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(singleListActivity));
-        recyclerView.setAdapter(singleListAdapter);
-    }
-
-    @Override
-    public void setupFilterSubscription()
-    {
-        disposable.add(view.filterIntent()
-                .observeOn(mySchedulerProvider.io())
-                .subscribeWith(getFilterObserver()));
-    }
-
     @Override
     public void unsubscribe()
     {
@@ -157,23 +145,9 @@ public class SingleListPresenter implements SingleListContract.Presenter
             @Override
             public void onNext(CharSequence o)
             {
-                filterText = o.toString().toLowerCase();
+                filterHelper.setFilterText(o.toString().toLowerCase());
                 if (items.size() > 0)
-                    Single.just(items)
-                            .flattenAsObservable(items -> items)
-                            .filter(item ->
-                                    (item.getSubtitle().toLowerCase().contains(o.toString().toLowerCase())) || item.getTitle().toLowerCase().contains(o.toString().toLowerCase()))
-                            .toList()
-                            .observeOn(mySchedulerProvider.ui())
-                            .subscribe(filteredItems ->
-                            {
-                                if (filteredItems.size() == 0 && o.length() > 0)
-                                    view.showNoItems(true, "No items");
-                                else
-                                    view.showNoItems(false, "");
-                                singleListAdapter.setItems(filteredItems);
-                                singleListAdapter.notifyDataSetChanged();
-                            });
+                    displayItems();
             }
 
             @Override
@@ -188,5 +162,25 @@ public class SingleListPresenter implements SingleListContract.Presenter
 
             }
         };
+    }
+
+
+    private void displayItems()
+    {
+        Single.just(items)
+                .subscribeOn(mySchedulerProvider.io())
+                .flattenAsObservable(items -> items)
+                .filter(filterHelper.filterRecyclerViewModel())
+                .toList()
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(filteredItems ->
+                        controller.setItems(filteredItems));
+    }
+
+
+    @VisibleForTesting(otherwise = 5)
+    public void setItems(List<RecyclerViewModel> recyclerViewModels)
+    {
+        this.items = recyclerViewModels;
     }
 }

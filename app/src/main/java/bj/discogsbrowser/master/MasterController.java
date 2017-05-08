@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.ErrorModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
@@ -75,7 +75,7 @@ public class MasterController extends BaseController
                 .id("loading model")
                 .addIf(loading, this);
 
-        new ErrorModel_()
+        new RetryModel_()
                 .id("error model")
                 .onClick(v -> mView.retry())
                 .errorString("Unable to load Master")

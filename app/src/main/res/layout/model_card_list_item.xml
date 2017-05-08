@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:id="@+id/lytLabelReleaseContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/padding_small"
+    android:layout_marginEnd="@dimen/padding_small"
+    android:layout_marginStart="@dimen/padding_small"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_small">
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="@dimen/image_view_list"
+            android:layout_height="@dimen/image_view_list"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/margin_normal_half"
+            android:scaleType="fitCenter"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/padding_small"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:ellipsize="marquee"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:paddingBottom="@dimen/margin_very_small"
+                    android:text="Test"
+                    android:textSize="@dimen/text_small"/>
+
+                <TextView
+                    android:id="@+id/tvArtists"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/margin_very_small"
+                    android:text="Test"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

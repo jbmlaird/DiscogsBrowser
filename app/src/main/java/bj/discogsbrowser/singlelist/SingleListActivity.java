@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -37,10 +35,6 @@ import io.reactivex.Observable;
  */
 public class SingleListActivity extends BaseActivity implements SingleListContract.View
 {
-    @BindView(R.id.tvNoItems) TextView tvNoItems;
-    @BindView(R.id.tvError) TextView tvError;
-
-    @BindView(R.id.ivLoading) ImageView ivLoading;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.etFilter) EditText etFilter;
@@ -59,10 +53,10 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         component.inject(this);
     }
 
-    public static Intent createIntent(Context context, String type, String username)
+    public static Intent createIntent(Context context, Integer stringId, String username)
     {
         Intent intent = new Intent(context, SingleListActivity.class);
-        intent.putExtra("type", type);
+        intent.putExtra("type", stringId);
         intent.putExtra("username", username);
         return intent;
     }
@@ -73,68 +67,16 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_list);
         unbinder = ButterKnife.bind(this);
-        imageViewAnimator.rotateImage(ivLoading);
         setupToolbar(toolbar);
         presenter.setupFilterSubscription();
         presenter.setupRecyclerView(this, recyclerView);
-        presenter.getData(getIntent().getStringExtra("type"), getIntent().getStringExtra("username"));
+        presenter.getData(getIntent().getIntExtra("type", -1), getIntent().getStringExtra("username"));
     }
 
     @Override
     public Observable<CharSequence> filterIntent()
     {
         return RxTextView.textChanges(etFilter);
-    }
-
-    @Override
-    public void stopLoading()
-    {
-        ivLoading.setVisibility(View.GONE);
-        ivLoading.clearAnimation();
-    }
-
-    @Override
-    public void showNoItems(boolean showNoItems, String noItems)
-    {
-        if (showNoItems)
-        {
-            tvNoItems.setVisibility(View.VISIBLE);
-            tvNoItems.setText(noItems);
-            tvError.setVisibility(View.GONE);
-            stopLoading();
-        }
-        else
-            tvNoItems.setVisibility(View.GONE);
-    }
-
-
-    @Override
-    public void showError(boolean showError, String error)
-    {
-        if (showError)
-        {
-            tvError.setVisibility(View.VISIBLE);
-            tvError.setText(error);
-            tvNoItems.setVisibility(View.GONE);
-            stopLoading();
-            tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.error), getIntent().getStringExtra("type"), 1L);
-        }
-        else
-            tvError.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void displayListing(String listingId, String title, String artist, String seller)
-    {
-        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.clicked), "displayListing", 1L);
-        startActivity(MarketplaceListingActivity.createIntent(this, listingId, title, artist, seller));
-    }
-
-    @Override
-    public void displayOrder(String id)
-    {
-        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.clicked), "displayOrder", 1L);
-        startActivity(OrderActivity.createIntent(this, id));
     }
 
     @Override
@@ -154,6 +96,12 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
                 break;
             case "master":
                 startActivity(MasterActivity.createIntent(this, title, id));
+                break;
+            case "listing":
+                startActivity(MarketplaceListingActivity.createIntent(this, title, id, "", ""));
+                break;
+            case "order":
+                startActivity(OrderActivity.createIntent(this, id));
                 break;
         }
     }

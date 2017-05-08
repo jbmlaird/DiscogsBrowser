@@ -128,14 +128,14 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void buildHistory()
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryHistory", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "buildHistory", 1L);
         presenter.buildViewedReleases();
     }
 
     @Override
     public void buildRecommendations()
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryRecommendations", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "buildRecommendations", 1L);
         presenter.buildRecommendations();
     }
 
@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     public void displayOrdersActivity(String username)
     {
         tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All orders", 1L);
-        startActivity(SingleListActivity.createIntent(this, "orders", username));
+        startActivity(SingleListActivity.createIntent(this, R.string.orders, username));
     }
 
     @Override
@@ -211,7 +211,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     public void displayListingsActivity(String username)
     {
         tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All listings", 1L);
-        startActivity(SingleListActivity.createIntent(this, "selling", username));
+        startActivity(SingleListActivity.createIntent(this, R.string.selling, username));
     }
 
     @Override

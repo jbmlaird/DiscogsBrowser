@@ -209,8 +209,8 @@ public class MainPresenterUnitTest
         mainPresenter.buildRecommendations();
         testScheduler.triggerActions();
 
-        verify(daoInteractor, times(1)).getViewedReleases();
-//        assertEquals(daoInteractor.getViewedReleases(), viewedReleases);
+        assertEquals(daoInteractor.getViewedReleases(), viewedReleases);
+        verify(daoInteractor, times(2)).getViewedReleases();
         verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", false);
         verify(discogsInteractor, times(1)).searchByLabel(viewedReleases.get(0).getLabelName());
         verify(mainController, times(1)).setLoadingRecommendations(true);

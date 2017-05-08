@@ -15,15 +15,17 @@
     <string name="drawer_item_about">About</string>
     <string name="drawer_item_logout">Logout</string>
 
+    <string name="orders">Orders</string>
+    <string name="selling">Selling</string>
+
     <string name="consumer_key">YkTWFsitqurUQSvyQwaG</string>
     <string name="consumer_secret">PJHslKRSRmZURHXdPWBSKNZPbdsGpASW</string>
 
     <string name="username">username</string>
     <string name="avatar_url">avatar_url</string>
-    <string name="selling">Selling</string>
     <string name="no_12_for_sale">No 12\" for sale</string>
-    <string name="add_to_collection">Add to collection</string>
-    <string name="add_to_wantlist">Add to wantlist</string>
+    <string name="add_to_collection">Add to Collection</string>
+    <string name="add_to_wantlist">Add to Wantlist</string>
     <string name="fetch_next_collection">fetch_next_collection</string>
     <string name="fetch_next_wantlist">fetch_next_wantlist</string>
     <string name="fetch_next_user_details">fetch_next_user_details</string>
@@ -32,11 +34,10 @@
     <string name="collection_none">Nothing in your Collection yet</string>
     <string name="error_collection">Unable to load Collection</string>
     <string name="orders_none">Not sold anything</string>
-    <string name="error_orders">Unable to load selling</string>
+    <string name="error_orders">Unable to load orders</string>
     <string name="selling_none">Not selling anything</string>
     <string name="error_selling">Unable to load selling</string>
     <string name="privacy_policy">The only information I store is your username so I can buid a recommendation system for you. This is not shared with anyone.\n\nYou are logged in securely via OAuth.</string>
-    <string name="not_selling_anything">You\'re not selling anything</string>
     <string name="name">name</string>
     <string name="num_collection">num_collection</string>
     <string name="num_wantlist">num_wantlist</string>

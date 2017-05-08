@@ -42,7 +42,7 @@ public abstract class HeaderModel extends EpoxyModel<LinearLayout>
     {
         ButterKnife.bind(this, view);
         tvTitle.setText(title);
-        if (imageViewAnimator != null)
+        if (imageViewAnimator != null && imageUrl != null && !imageUrl.equals(""))
             imageViewAnimator.rotateImage(ivImage);
         Glide.with(context)
                 .load(imageUrl)
@@ -53,6 +53,7 @@ public abstract class HeaderModel extends EpoxyModel<LinearLayout>
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource)
                     {
+                        ivImage.clearAnimation();
                         return false;
                     }
 
@@ -66,7 +67,6 @@ public abstract class HeaderModel extends EpoxyModel<LinearLayout>
                 .into(ivImage);
         if (subtitle != null && !subtitle.equals(""))
         {
-            // Controller reuses the same model so visibility has to be restored
             tvSubtitle.setText(subtitle);
             tvSubtitle.setVisibility(View.VISIBLE);
         }

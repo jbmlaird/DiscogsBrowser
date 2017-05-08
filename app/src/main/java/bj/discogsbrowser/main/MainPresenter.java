@@ -163,6 +163,7 @@ public class MainPresenter implements MainContract.Presenter
             String latestReleaseViewedStyle = viewedReleases.get(0).getStyle();
             String latestReleaseViewedLabel = viewedReleases.get(0).getLabelName();
             discogsInteractor.searchByStyle(latestReleaseViewedStyle, "1", false) // Get results for those genres
+                    //TODO: IllegalEpoxyUsage fix
                     .doOnSubscribe(onSubscribe ->
                             mainController.setLoadingRecommendations(true))
                     .subscribeOn(mySchedulerProvider.io())
