@@ -1,6 +1,5 @@
 package bj.discogsbrowser.singlelist;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import bj.discogsbrowser.common.BasePresenter;
@@ -17,10 +16,6 @@ public interface SingleListContract
         Observable<CharSequence> filterIntent();
 
         void launchDetailedActivity(String type, String title, String id);
-
-        // TODO: Change since Epoxy migration?
-        // Activity context for pre-Android 5.1
-        Context getActivityContext();
     }
 
     interface Presenter extends BasePresenter
