@@ -11,7 +11,7 @@ import org.mockito.Mock;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.testmodels.TestArtistResult;
+import bj.discogsbrowser.testmodels.TestArtistResultFactory;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
 import io.reactivex.Single;
@@ -29,11 +29,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 public class ArtistPresenterTest
 {
-    private String release = "release";
-    private String artist = "artist";
-    private String master = "master";
-    private String label = "label";
-
+    private TestArtistResultFactory testArtistResultFactory = new TestArtistResultFactory();
     @Mock Context context;
     @Mock ArtistContract.View view;
     @Mock DiscogsInteractor discogsInteractor;
@@ -65,7 +61,7 @@ public class ArtistPresenterTest
     @Test
     public void getsDataValid_controllerSetsArtist() throws Exception
     {
-        TestArtistResult testArtistResult = new TestArtistResult();
+        ArtistResult testArtistResult = testArtistResultFactory.getTestArtistResultNoMembers();
         when(discogsInteractor.fetchArtistDetails(myId)).thenReturn(Single.just(testArtistResult));
         when(artistResultFunction.apply(testArtistResult)).thenReturn(testArtistResult);
 

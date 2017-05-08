@@ -12,9 +12,9 @@ import bj.discogsbrowser.epoxy.artist.ViewReleasesModel_;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.EmptySpaceModel_;
-import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artist.Member;
@@ -74,7 +74,7 @@ public class ArtistController extends BaseController
 
         if (artistResult != null)
         {
-            if (artistResult.getMembers() != null)
+            if (artistResult.getMembers() != null && artistResult.getMembers().size() > 0)
             {
                 new SubHeaderModel_()
                         .id("members subheader")
@@ -125,11 +125,11 @@ public class ArtistController extends BaseController
                             .addTo(this);
                 }
 
-                new EmptySpaceModel_()
-                        .id("empty space model")
-                        .addTo(this);
             }
         }
+        new EmptySpaceModel_()
+                .id("empty space model")
+                .addTo(this);
     }
 
     public void setArtist(ArtistResult artistResult)
