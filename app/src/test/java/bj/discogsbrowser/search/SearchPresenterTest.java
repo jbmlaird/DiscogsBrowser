@@ -13,7 +13,7 @@
 //import java.util.List;
 //
 //import bj.discogsbrowser.model.search.SearchResult;
-//import bj.discogsbrowser.utils.DaoInteractor;
+//import bj.discogsbrowser.greendao.DaoInteractor;
 //import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 //import io.reactivex.ObservableSource;
 //import io.reactivex.disposables.CompositeDisposable;

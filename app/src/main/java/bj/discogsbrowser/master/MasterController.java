@@ -10,10 +10,10 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.model.master.Master;
@@ -35,7 +35,6 @@ public class MasterController extends BaseController
     private AnalyticsTracker tracker;
     private boolean loading = true;
     private boolean error = false;
-    private Master master;
     private List<Version> masterVersions;
     private boolean viewAllVersions;
 
@@ -108,20 +107,20 @@ public class MasterController extends BaseController
         }
     }
 
-    private void setViewAllVersions(boolean b)
-    {
-        viewAllVersions = b;
-        tracker.send(context.getString(R.string.master_activity), context.getString(R.string.master_activity), context.getString(R.string.clicked), "view all versions", 1L);
-        requestModelBuild();
-    }
-
     public void setMaster(Master master)
     {
-        this.master = master;
         this.subtitle = artistsBeautifier.formatArtists(master.getArtists());
         this.title = master.getTitle();
         if (master.getImages() != null && master.getImages().size() > 0)
             this.imageUrl = master.getImages().get(0).getUri();
+        requestModelBuild();
+    }
+
+    public void setMasterVersions(List<Version> masterVersions)
+    {
+        this.masterVersions = masterVersions;
+        this.error = false;
+        this.loading = false;
         requestModelBuild();
     }
 
@@ -140,11 +139,10 @@ public class MasterController extends BaseController
         requestModelBuild();
     }
 
-    public void setMasterVersions(List<Version> masterVersions)
+    private void setViewAllVersions(boolean b)
     {
-        this.masterVersions = masterVersions;
-        this.error = false;
-        this.loading = false;
+        viewAllVersions = b;
+        tracker.send(context.getString(R.string.master_activity), context.getString(R.string.master_activity), context.getString(R.string.clicked), "view all versions", 1L);
         requestModelBuild();
     }
 }

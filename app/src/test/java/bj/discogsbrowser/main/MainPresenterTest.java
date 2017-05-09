@@ -29,7 +29,7 @@ import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.testmodels.TestRootSearchResponse;
 import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.AnalyticsTracker;
-import bj.discogsbrowser.utils.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;

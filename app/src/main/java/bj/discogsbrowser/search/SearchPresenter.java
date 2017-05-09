@@ -14,7 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bj.discogsbrowser.model.search.SearchResult;
-import bj.discogsbrowser.utils.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;

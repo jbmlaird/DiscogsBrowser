@@ -58,6 +58,5 @@ public class MasterPresenter implements MasterContract.Presenter
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(controller.getAdapter());
         controller.setTitle(title);
-        controller.requestModelBuild();
     }
 }

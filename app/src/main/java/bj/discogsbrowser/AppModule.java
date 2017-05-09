@@ -14,7 +14,7 @@ import org.greenrobot.greendao.database.Database;
 import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
-import bj.discogsbrowser.utils.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import dagger.Module;
 import dagger.Provides;

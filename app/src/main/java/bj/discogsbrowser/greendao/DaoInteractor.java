@@ -1,4 +1,4 @@
-package bj.discogsbrowser.utils;
+package bj.discogsbrowser.greendao;
 
 import android.text.TextUtils;
 
@@ -13,6 +13,7 @@ import bj.discogsbrowser.greendao.SearchTermDao;
 import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.greendao.ViewedReleaseDao;
 import bj.discogsbrowser.model.release.Release;
+import bj.discogsbrowser.utils.ArtistsBeautifier;
 
 /**
  * Created by Josh Laird on 07/05/2017.

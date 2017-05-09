@@ -16,7 +16,7 @@ import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
-import bj.discogsbrowser.utils.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;

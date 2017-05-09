@@ -20,7 +20,7 @@ import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.AnalyticsTracker;
-import bj.discogsbrowser.utils.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
