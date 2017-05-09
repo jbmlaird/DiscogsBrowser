@@ -73,7 +73,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Override
     public void displayListingInformation(String title, String artists, ScrapeListing scrapeListing)
     {
-        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "displayListing", 1L);
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "setListing", 1L);
         startActivity(MarketplaceListingActivity.createIntent(this, scrapeListing.getMarketPlaceId(), title, artists, scrapeListing.getSellerName()));
     }
 

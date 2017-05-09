@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Josh Laird on 24/04/2017.
  */
-@EpoxyModelClass(layout = R.layout.model_marketplace_header)
+@EpoxyModelClass(layout = R.layout.model_release_marketplace_header)
 public abstract class MarketplaceListingsHeader extends EpoxyModel<LinearLayout>
 {
     @EpoxyAttribute String lowestPrice;

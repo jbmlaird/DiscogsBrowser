@@ -4,17 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.network.DiscogsInteractor;
@@ -35,10 +32,10 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private final ReleaseController controller;
     private final DiscogsInteractor discogsInteractor;
     private final MySchedulerProvider mySchedulerProvider;
+    private final ArtistsBeautifier artistsBeautifier;
     private SharedPrefsManager sharedPrefsManager;
     private final LogWrapper log;
     private DaoInteractor daoInteractor;
-    private ArtistsBeautifier artistsBeautifier;
     private boolean collectionChecked;
     private boolean wantlistChecked;
 
@@ -77,7 +74,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                                         error ->
                                                 Log.e(TAG, "Unable to get label details"));
                     }
-                    saveReleaseToDao(release);
+                    daoInteractor.storeViewedRelease(release, artistsBeautifier);
                     return release;
                 })
                 .subscribe(release ->
@@ -97,25 +94,6 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                     error.printStackTrace();
                     controller.setReleaseError(true);
                 });
-    }
-
-    private void saveReleaseToDao(Release release)
-    {
-        ViewedRelease viewedRelease = new ViewedRelease();
-        if (release.getStyles() != null && release.getGenres().size() > 0)
-            viewedRelease.setStyle(TextUtils.join(",", release.getStyles()));
-        viewedRelease.setReleaseId(release.getId());
-        if (release.getImages() != null && release.getImages().size() > 0)
-            viewedRelease.setThumbUrl(release.getImages().get(0).getResourceUrl());
-        else
-            viewedRelease.setThumbUrl(release.getThumb());
-        viewedRelease.setDate(new Date());
-        viewedRelease.setReleaseName(release.getTitle());
-        if (release.getLabels() != null && release.getLabels().size() > 0)
-            viewedRelease.setLabelName(release.getLabels().get(0).getName());
-        if (release.getArtists() != null && release.getArtists().size() > 0)
-            viewedRelease.setArtists(artistsBeautifier.formatArtists(release.getArtists()));
-        daoInteractor.storeViewedRelease(viewedRelease);
     }
 
     public void fetchReleaseListings(String id) throws IOException

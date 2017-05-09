@@ -33,13 +33,18 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public abstract void setupComponent(AppComponent appComponent);
 
-    public void setupToolbar(Toolbar toolbar)
+    protected void setupToolbar(Toolbar toolbar, String title)
     {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    protected void setupToolbar(Toolbar toolbar)
+    {
+        setupToolbar(toolbar, "");
     }
 
     @Override

@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginBottom="@dimen/margin_normal_half"
+              android:layout_marginBottom="@dimen/margin_normal"
               android:layout_marginEnd="@dimen/margin_normal"
               android:layout_marginStart="@dimen/margin_normal"
-              android:layout_marginTop="@dimen/margin_very_small"
+              android:layout_marginTop="@dimen/margin_release_listings_header"
               android:orientation="horizontal">
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
         android:text="Listings - "
-        android:textSize="@dimen/text_normal"
+        android:textSize="@dimen/text_error"
         android:textStyle="bold"/>
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="7 from £7.00"
-        android:textSize="@dimen/text_normal"
+        android:textSize="@dimen/text_error"
         android:textStyle="italic"/>
 
 </LinearLayout>

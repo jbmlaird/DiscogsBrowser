@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="@dimen/margin_normal"
+              android:layout_marginStart="@dimen/margin_normal"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvSeller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_release_listings_header"
+        android:includeFontPadding="false"
+        android:text="Seller: "
+        android:textSize="@dimen/text_normal"/>
+
+    <TextView
+        android:id="@+id/tvSellerRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_final_item"
+        android:includeFontPadding="false"
+        android:text="Seller rating: "
+        android:textSize="@dimen/text_normal"/>
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/tvSleeve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_final_item"
+        android:text="Sleeve"
+        android:textSize="@dimen/text_normal"/>
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/tvMedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_final_item"
+        android:text="Media"
+        android:textSize="@dimen/text_normal"/>
+
+    <TextView
+        android:id="@+id/tvComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_release_listings_header"
+        android:layout_marginTop="@dimen/padding_final_item"
+        android:includeFontPadding="false"
+        android:text="No comments for this listing"
+        android:textSize="@dimen/text_normal"
+        android:textStyle="italic"/>
+
+</LinearLayout>

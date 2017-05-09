@@ -1,7 +1,7 @@
 package bj.discogsbrowser.marketplace;
 
-import bj.discogsbrowser.model.listing.Listing;
-import bj.discogsbrowser.model.user.UserDetails;
+import bj.discogsbrowser.common.BaseView;
+import bj.discogsbrowser.common.MyRecyclerView;
 
 /**
  * Created by Josh Laird on 13/04/2017.
@@ -9,15 +9,17 @@ import bj.discogsbrowser.model.user.UserDetails;
 
 public interface MarketplaceContract
 {
-    interface View
+    interface View extends BaseView
     {
-        void displayListing(Listing listing);
+        void viewOnDiscogs(String listingUri);
 
-        void updateUserDetails(UserDetails userDetails);
+        void viewSellerShipping(String shippingDetails, String username);
     }
 
     interface Presenter
     {
         void getListingDetails(String listingId);
+
+        void setupRecyclerView(MyRecyclerView recyclerView);
     }
 }

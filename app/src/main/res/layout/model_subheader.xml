@@ -12,8 +12,10 @@
         android:id="@+id/tvSubheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_very_small"
+        android:paddingTop="@dimen/margin_very_small"
         android:text=""
-        android:textSize="@dimen/text_normal"
+        android:textSize="@dimen/text_error"
         android:textStyle="bold"/>
 
 </LinearLayout>

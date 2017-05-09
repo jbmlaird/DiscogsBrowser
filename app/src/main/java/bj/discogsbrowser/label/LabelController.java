@@ -17,7 +17,7 @@ import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
-import bj.discogsbrowser.epoxy.label.ViewOnDiscogsModel_;
+import bj.discogsbrowser.epoxy.common.WholeLineModel_;
 import bj.discogsbrowser.epoxy.main.InfoTextModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.model.label.Label;
@@ -128,8 +128,9 @@ public class LabelController extends BaseController
                         .id("releases divider")
                         .addTo(this);
 
-                new ViewOnDiscogsModel_()
+                new WholeLineModel_()
                         .id("View on discogs")
+                        .text("View on Discogs")
                         .onClickListener(v -> view.openLink(label.getUri()))
                         .addTo(this);
             }

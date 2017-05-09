@@ -9,12 +9,10 @@ import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import bj.discogsbrowser.greendao.SearchTerm;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.utils.DaoInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -68,8 +66,10 @@ public class SearchPresenter implements SearchContract.Presenter
         return mView.searchIntent()
                 .subscribeOn(mySchedulerProvider.io())
                 .doOnNext(onNext ->
-                        searchController.setSearching(true))
-                .map(this::storeSearchTerm)
+                {
+                    searchController.setSearching(true);
+                    daoInteractor.storeSearchTerm(onNext);
+                })
                 .switchMap(searchModelFunc)
                 .doOnError(throwable ->
                 {
@@ -127,16 +127,6 @@ public class SearchPresenter implements SearchContract.Presenter
         if (showPastSearches)
             searchController.setSearchTerms(daoInteractor.getRecentSearchTerms());
         searchController.setShowPastSearches(showPastSearches);
-    }
-
-    private SearchViewQueryTextEvent storeSearchTerm(SearchViewQueryTextEvent queryTextEvent)
-    {
-        SearchTerm searchTerm = new SearchTerm();
-        searchTerm.setSearchTerm(queryTextEvent.queryText().toString());
-        searchTerm.setDate(new Date());
-        daoInteractor.storeSearchTerm(searchTerm);
-        Log.d(TAG, "Stored new search term: " + searchTerm.getSearchTerm());
-        return queryTextEvent;
     }
 
     private DisposableObserver<List<SearchResult>> getSearchObserver()

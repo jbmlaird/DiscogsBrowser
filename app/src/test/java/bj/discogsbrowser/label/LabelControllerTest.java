@@ -111,7 +111,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "InfoTextModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "ViewOnDiscogsModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "WholeLineModel_");
         assertEquals(copyOfModels.size(), 5);
     }
 
@@ -134,7 +134,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "ListItemModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "ListItemModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "ViewOnDiscogsModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "WholeLineModel_");
         assertEquals(copyOfModels.size(), 7);
     }
 
@@ -160,7 +160,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "ListItemModel_");
         assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ViewMoreModel_");
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "ViewOnDiscogsModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "WholeLineModel_");
         assertEquals(copyOfModels.size(), 10);
 
         controller.setViewMore(true);
@@ -174,7 +174,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "ListItemModel_");
         assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ListItemModel_");
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "ViewOnDiscogsModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "WholeLineModel_");
         assertEquals(copyOfModels.size(), 10);
     }
 }

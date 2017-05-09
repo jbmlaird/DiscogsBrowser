@@ -1,9 +1,12 @@
 package bj.discogsbrowser.marketplace;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 
 import javax.inject.Inject;
 
+import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
@@ -13,31 +16,46 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 public class MarketplacePresenter implements MarketplaceContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
+    private Context context;
     private MarketplaceContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
+    private MarketplaceController controller;
 
     @Inject
-    public MarketplacePresenter(@NonNull MarketplaceContract.View view, @NonNull DiscogsInteractor discogsInteractor, @NonNull MySchedulerProvider mySchedulerProvider)
+    public MarketplacePresenter(@NonNull Context context, @NonNull MarketplaceContract.View view, @NonNull DiscogsInteractor discogsInteractor, @NonNull MySchedulerProvider mySchedulerProvider,
+                                @NonNull MarketplaceController controller)
     {
+        this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
+        this.controller = controller;
+    }
+
+    @Override
+    public void setupRecyclerView(MyRecyclerView recyclerView)
+    {
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(controller.getAdapter());
     }
 
     @Override
     public void getListingDetails(String listingId)
     {
         discogsInteractor.fetchListingDetails(listingId)
+                .doOnSubscribe(onSubscribe -> controller.setLoading(true))
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .flatMap(listing ->
                 {
-                    view.displayListing(listing);
+                    controller.setListing(listing);
                     return discogsInteractor.fetchUserDetails(listing.getSeller().getUsername())
                             .observeOn(mySchedulerProvider.ui());
                 })
                 .subscribe(userDetails ->
-                        view.updateUserDetails(userDetails), Throwable::printStackTrace);
+                                controller.setSellerDetails(userDetails),
+                        error ->
+                                controller.setError(true));
     }
 }

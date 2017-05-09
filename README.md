@@ -19,6 +19,7 @@ Get it on the Play Store: [link to come]
 
 # Forthcoming
 
+* Currency localisation
 * Browsing without being logged in
 * Intelligent recommender system 
 

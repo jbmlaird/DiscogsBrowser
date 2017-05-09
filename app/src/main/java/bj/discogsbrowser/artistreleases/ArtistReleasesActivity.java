@@ -73,8 +73,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         unbinder = ButterKnife.bind(this);
         setupViewPager();
         presenter.getArtistReleases(getIntent().getStringExtra("id"));
-        setupToolbar(toolbar);
-        getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
+        setupToolbar(toolbar, getIntent().getStringExtra("title"));
     }
 
     @Override

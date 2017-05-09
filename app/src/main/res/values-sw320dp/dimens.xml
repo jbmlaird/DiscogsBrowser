@@ -3,6 +3,7 @@
     <dimen name="margin_very_small">2dp</dimen>
     <dimen name="padding_small">3dp</dimen>
     <dimen name="margin_normal_half">6dp</dimen>
+    <dimen name="margin_release_listings_header">8dp</dimen>
     <dimen name="margin_normal">12dp</dimen>
     <dimen name="padding_final_item">15dp</dimen>
     <dimen name="margin_large">18dp</dimen>

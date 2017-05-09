@@ -6,10 +6,11 @@
               android:layout_marginEnd="@dimen/margin_normal"
               android:layout_marginStart="@dimen/margin_normal"
               android:orientation="horizontal"
-              android:paddingBottom="@dimen/margin_normal"
+              android:paddingBottom="@dimen/margin_normal_half"
               android:paddingTop="@dimen/margin_normal_half">
 
     <TextView
+        android:id="@+id/tvText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
