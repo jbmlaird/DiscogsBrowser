@@ -65,12 +65,6 @@ public class LabelController extends BaseController
                 .id("divider1")
                 .addTo(this);
 
-        if (loading)
-            new LoadingModel_()
-                    .imageViewAnimator(imageViewAnimator)
-                    .id("label loading")
-                    .addTo(this);
-
         if (error)
             new RetryModel_()
                     .errorString("Unable to load Label")
@@ -78,6 +72,11 @@ public class LabelController extends BaseController
                     .id("label error")
                     .addTo(this);
 
+        if (loading)
+            new LoadingModel_()
+                    .imageViewAnimator(imageViewAnimator)
+                    .id("label loading")
+                    .addTo(this);
         if (loadingLabelReleases)
         {
             new SubHeaderModel_()
