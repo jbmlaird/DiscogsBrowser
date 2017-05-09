@@ -9,6 +9,8 @@ public interface LoginContract
     interface View
     {
         void finish();
+
+        void displayErrorDialog();
     }
 
     interface Presenter
