@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
  * Created by Josh Laird on 08/05/2017.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ArtistReleasesPresenterUnitTest
+public class ArtistReleasesPresenterTest
 {
     private String id = "123";
     private ArtistReleasesPresenter presenter;

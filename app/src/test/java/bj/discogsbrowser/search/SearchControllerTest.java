@@ -19,7 +19,7 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = LOLLIPOP, manifest = Config.NONE)
-public class SearchControllerUnitTest
+public class SearchControllerTest
 {
     private SearchController controller;
     @Mock Context context;

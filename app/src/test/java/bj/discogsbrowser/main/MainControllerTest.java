@@ -35,7 +35,7 @@ import static junit.framework.Assert.assertEquals;
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = LOLLIPOP, manifest = Config.NONE)
-public class MainControllerUnitTest
+public class MainControllerTest
 {
     private MainController controller;
     @Mock Context context;

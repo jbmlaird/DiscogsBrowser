@@ -27,7 +27,7 @@ import static junit.framework.Assert.assertEquals;
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = LOLLIPOP, manifest = Config.NONE)
-public class ArtistControllerUnitTest
+public class ArtistControllerTest
 {
     private ArtistController controller;
     @Mock Context context;

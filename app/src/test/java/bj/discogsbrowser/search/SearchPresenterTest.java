@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * Created by Josh Laird on 02/05/2017.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SearchPresenterUnitTest
+public class SearchPresenterTest
 {
     private SearchPresenter presenter;
     @Mock Context mContext;

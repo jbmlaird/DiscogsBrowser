@@ -30,7 +30,7 @@ import static junit.framework.Assert.assertEquals;
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = LOLLIPOP, manifest = Config.NONE)
-public class ArtistReleasesControllerUnitTest
+public class ArtistReleasesControllerTest
 {
     private ArtistReleasesController controller;
     @Mock Context context;
