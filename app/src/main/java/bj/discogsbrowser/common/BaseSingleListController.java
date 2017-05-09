@@ -1,4 +1,4 @@
-package bj.discogsbrowser.artistreleases;
+package bj.discogsbrowser.common;
 
 import android.content.Context;
 
@@ -7,35 +7,26 @@ import com.airbnb.epoxy.EpoxyController;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.epoxy.common.CardListItemModel_;
 import bj.discogsbrowser.epoxy.common.CenterTextModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.SmallEmptySpaceModel_;
-import bj.discogsbrowser.model.artistrelease.ArtistRelease;
+import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 /**
- * Created by Josh Laird on 08/05/2017.
+ * Created by Josh Laird on 09/05/2017.
  */
-public class ArtistReleasesController extends EpoxyController
-{
-    private final Context context;
-    private final ArtistReleasesContract.View view;
-    private final ImageViewAnimator imageViewAnimator;
-    private List<ArtistRelease> items = new ArrayList<>();
-    private boolean error;
-    private boolean loading = true;
-    private String errorMessage = "";
 
-    @Inject
-    public ArtistReleasesController(Context context, ArtistReleasesContract.View view, ImageViewAnimator imageViewAnimator)
-    {
-        this.context = context;
-        this.view = view;
-        this.imageViewAnimator = imageViewAnimator;
-    }
+public abstract class BaseSingleListController extends EpoxyController
+{
+    protected Context context;
+    protected SingleListView view;
+    protected ImageViewAnimator imageViewAnimator;
+    protected List<? extends RecyclerViewModel> items = new ArrayList<>();
+    protected boolean loading = true;
+    protected boolean error;
+    protected String errorMessage = "";
 
     @Override
     protected void buildModels()
@@ -52,7 +43,7 @@ public class ArtistReleasesController extends EpoxyController
         if (error)
             new CenterTextModel_()
                     .id("error model")
-                    .text("error")
+                    .text(errorMessage)
                     .addTo(this);
         else if (items.size() == 0 && !loading)
             new CenterTextModel_()
@@ -60,14 +51,14 @@ public class ArtistReleasesController extends EpoxyController
                     .id("no items model")
                     .addTo(this);
         else
-            for (ArtistRelease artistRelease : items)
+            for (RecyclerViewModel recyclerViewModel : items)
                 new CardListItemModel_()
-                        .id("item" + items.indexOf(artistRelease))
-                        .imageUrl(artistRelease.getThumb())
+                        .id("item" + items.indexOf(recyclerViewModel))
+                        .imageUrl(recyclerViewModel.getThumb())
                         .context(context)
-                        .title(artistRelease.getTitle())
-                        .onClick(v -> view.launchDetailedActivity(artistRelease.getType(), artistRelease.getTitle(), artistRelease.getId()))
-                        .subtitle(artistRelease.getArtist())
+                        .title(recyclerViewModel.getTitle())
+                        .onClick(v -> view.launchDetailedActivity(recyclerViewModel.getType(), recyclerViewModel.getTitle(), recyclerViewModel.getId()))
+                        .subtitle(recyclerViewModel.getSubtitle())
                         .addTo(this);
 
         new SmallEmptySpaceModel_()
@@ -75,7 +66,7 @@ public class ArtistReleasesController extends EpoxyController
                 .addTo(this);
     }
 
-    public void setItems(List<ArtistRelease> items)
+    public void setItems(List<? extends RecyclerViewModel> items)
     {
         this.items = items;
         this.loading = false;

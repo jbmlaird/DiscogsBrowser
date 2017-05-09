@@ -35,7 +35,7 @@ public class SingleListControllerTest
     @Mock Context context;
     @Mock SingleListContract.View view;
     @Mock ImageViewAnimator imageViewAnimator;
-    private ArrayList<RecyclerViewModel> recyclerViewModels;
+    private List<RecyclerViewModel> recyclerViewModels = new ArrayList<>();
 
     @Before
     public void setUp()
@@ -44,7 +44,6 @@ public class SingleListControllerTest
         controller = new SingleListController(context, view, imageViewAnimator);
         controller.requestModelBuild();
 
-        recyclerViewModels = new ArrayList<>();
         recyclerViewModels.addAll(Arrays.asList(new TestOrder(), new TestOrder(), new TestOrder()));
     }
 

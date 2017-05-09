@@ -36,5 +36,4 @@ public class RootArtistReleaseResponse
     {
         this.artistReleases = artistReleases;
     }
-
 }

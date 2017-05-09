@@ -1,11 +1,10 @@
-package bj.discogsbrowser;
+package bj.discogsbrowser.artistreleases;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
-import com.jakewharton.rxrelay2.Relay;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,22 +15,16 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import bj.discogsbrowser.artistreleases.ArtistReleasesContract;
-import bj.discogsbrowser.artistreleases.ArtistReleasesController;
-import bj.discogsbrowser.artistreleases.ArtistReleasesPresenter;
-import bj.discogsbrowser.artistreleases.ArtistReleasesTransformer;
-import bj.discogsbrowser.artistreleases.ArtistResultFunction;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
+import edu.emory.mathcs.backport.java.util.Collections;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
@@ -55,7 +48,6 @@ public class ArtistReleasesPresenterUnitTest
     @Mock DiscogsInteractor discogsInteractor;
     @Mock CompositeDisposable disposable;
     @Mock BehaviorRelay<List<ArtistRelease>> behaviorRelay; // = BehaviorRelay.create();
-    @Mock Relay<Throwable> throwableRelay;
     private TestScheduler testScheduler;
     @Mock ArtistResultFunction artistResultFunction;
     @Mock ArtistReleasesTransformer artistReleasesTransformer;
@@ -72,7 +64,7 @@ public class ArtistReleasesPresenterUnitTest
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(view, discogsInteractor, disposable, throwableRelay, artistResultFunction);
+        verifyNoMoreInteractions(view, discogsInteractor, disposable, behaviorRelay, artistResultFunction, artistReleasesTransformer);
     }
 
     @Test
@@ -125,7 +117,7 @@ public class ArtistReleasesPresenterUnitTest
         verify(artistResultFunction, times(1)).setParameterToMapTo("filter");
         verify(artistResultFunction, times(1)).apply(artistReleases);
         verify(artistReleasesTransformer, times(1)).apply(any(Single.class));
-        verify(controller, times(1)).setReleases(artistReleases);
+        verify(controller, times(1)).setItems(artistReleases);
     }
 
     @Test
@@ -156,41 +148,38 @@ public class ArtistReleasesPresenterUnitTest
     }
 
     @Test
-    public void setFilterTextRelayEmpty_setsText()
+    public void setupFilterRelayEmpty_setsFilterText()
     {
-        String filterText = "filter";
-        when(behaviorRelay.getValue()).thenReturn(null);
-
-        presenter.setFilterText(filterText);
-
-        verify(artistReleasesTransformer, times(1)).setFilterText(filterText);
-    }
-
-    @Test
-    public void setFilterTextRelayItem_setsTextAndEmits()
-    {
-        String filterText = "filter";
-        List<ArtistRelease> artistReleases = Collections.singletonList(new ArtistRelease());
-        when(behaviorRelay.getValue()).thenReturn(artistReleases);
-
-        presenter.setFilterText(filterText);
-
-        verify(artistReleasesTransformer, times(1)).setFilterText(filterText);
-        verify(behaviorRelay, times(3)).getValue();
-        verify(behaviorRelay, times(1)).accept(artistReleases);
-    }
-
-    @Test
-    public void setupFilter_setsUpFilter()
-    {
-        Observable<CharSequence> just = Observable.just("");
+        String filterText = "filterText";
+        Observable<CharSequence> just = Observable.just(filterText);
         when(view.filterIntent()).thenReturn(just);
+        when(behaviorRelay.getValue()).thenReturn(Collections.emptyList());
 
-        Consumer<CharSequence> mockConsumer = mock(Consumer.class);
-        presenter.setupFilter(mockConsumer);
+        presenter.setupFilter();
 
         assertEquals(view.filterIntent(), just);
         verify(view, times(2)).filterIntent();
+        verify(artistReleasesTransformer, times(1)).setFilterText(filterText);
+        verify(behaviorRelay, times(2)).getValue();
+    }
+
+    @Test
+    public void setupFilterRelayItem_setsFilterTextEmits()
+    {
+        String filterText = "filterText";
+        ArtistRelease artistRelease = new ArtistRelease();
+        List list = Collections.singletonList(artistRelease);
+        Observable<CharSequence> just = Observable.just(filterText);
+        when(view.filterIntent()).thenReturn(just);
+        when(behaviorRelay.getValue()).thenReturn(list);
+
+        presenter.setupFilter();
+
+        assertEquals(view.filterIntent(), just);
+        verify(view, times(2)).filterIntent();
+        verify(artistReleasesTransformer, times(1)).setFilterText(filterText);
+        verify(behaviorRelay, times(3)).getValue();
+        verify(behaviorRelay, times(1)).accept(list);
     }
 
     @Test

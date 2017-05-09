@@ -21,7 +21,6 @@ import bj.discogsbrowser.common.BaseFragment;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by Josh Laird on 11/04/2017.
@@ -41,22 +40,9 @@ public class ArtistReleasesFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_artist_releases, container, false);
         unbinder = ButterKnife.bind(this, view);
         presenter.setupRecyclerView(recyclerView, getActivity());
-        presenter.setupFilter(filterConsumer());
+        presenter.setupFilter();
         presenter.connectToBehaviorRelay(getArguments().getString("map"));
         return view;
-    }
-
-    /**
-     * Consumer to filter results.
-     * <p>
-     * In View because each view will have to filter differently.
-     *
-     * @return Filter results Consumer.
-     */
-    private Consumer<CharSequence> filterConsumer()
-    {
-        return filterText ->
-                presenter.setFilterText(filterText);
     }
 
     @Override

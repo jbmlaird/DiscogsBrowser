@@ -80,35 +80,32 @@ public class SingleListPresenter implements SingleListContract.Presenter
                 discogsInteractor.fetchWantlist(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .subscribeWith(getNetworkObserver(context.getString(R.string.wantlist_none), context.getString(R.string.error_wantlist)));
+                        .subscribeWith(getNetworkObserver(context.getString(R.string.error_wantlist)));
                 break;
             case R.string.drawer_item_collection:
                 discogsInteractor.fetchCollection(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .subscribeWith(getNetworkObserver(context.getString(R.string.collection_none), context.getString(R.string.error_collection)));
+                        .subscribeWith(getNetworkObserver(context.getString(R.string.error_collection)));
                 break;
             case R.string.orders:
                 discogsInteractor.fetchOrders()
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .subscribeWith(getNetworkObserver(context.getString(R.string.orders_none), context.getString(R.string.error_orders)));
+                        .subscribeWith(getNetworkObserver(context.getString(R.string.error_orders)));
                 break;
             case R.string.selling:
                 discogsInteractor.fetchSelling(username)
                         .observeOn(mySchedulerProvider.io())
-                        .flattenAsObservable(listings -> listings)
-                        .filter(listing ->
-                                listing.getStatus().equals("For Sale"))
-                        .toList()
+                        .compose(filterHelper.filterForSale())
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
-                        .subscribeWith(getNetworkObserver(context.getString(R.string.selling_none), context.getString(R.string.error_selling)));
+                        .subscribeWith(getNetworkObserver(context.getString(R.string.error_selling)));
                 break;
         }
     }
 
-    private DisposableSingleObserver<List<? extends RecyclerViewModel>> getNetworkObserver(String noItemsMessage, String errorMessage)
+    private DisposableSingleObserver<List<? extends RecyclerViewModel>> getNetworkObserver(String errorMessage)
     {
         return new DisposableSingleObserver<List<? extends RecyclerViewModel>>()
         {
@@ -126,6 +123,7 @@ public class SingleListPresenter implements SingleListContract.Presenter
             }
         };
     }
+
     @Override
     public void unsubscribe()
     {
@@ -164,14 +162,11 @@ public class SingleListPresenter implements SingleListContract.Presenter
         };
     }
 
-
     private void displayItems()
     {
         Single.just(items)
                 .subscribeOn(mySchedulerProvider.io())
-                .flattenAsObservable(items -> items)
-                .filter(filterHelper.filterRecyclerViewModel())
-                .toList()
+                .compose(filterHelper.filterByFilterText())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(filteredItems ->
                         controller.setItems(filteredItems));

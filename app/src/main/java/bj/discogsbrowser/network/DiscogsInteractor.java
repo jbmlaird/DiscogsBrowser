@@ -1,7 +1,6 @@
 package bj.discogsbrowser.network;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -171,11 +170,9 @@ public class DiscogsInteractor
         return cacheProviders.fetchArtistsReleases(discogsService.getArtistReleases(artistId, "desc", "500"), new DynamicKey(artistId))
                 .subscribeOn(mySchedulerProvider.io())
                 .flattenAsObservable(RootArtistReleaseResponse::getArtistReleases)
-                .filter(release -> (!release.getRole().equals("TrackAppearance") && !release.getRole().equals("Appearance")))
-                .toList()
-                .doOnError(throwable ->
-                        Log.e("SearchDiscogsInteractor", "fetchArtistsReleases error")
-                );
+                .filter(release ->
+                        (!release.getRole().equals("TrackAppearance") && !release.getRole().equals("Appearance")))
+                .toList();
     }
 
     /**

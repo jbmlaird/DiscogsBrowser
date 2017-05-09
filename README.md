@@ -24,7 +24,7 @@ Get it on the Play Store: [link to come]
 
 # Desirable but no plans to implement
 
-* Listen to releases in-app. This would require an architecture change and have to work like the YouTube app (windowed videos)
+* Listen to items in-app. This would require an architecture change and have to work like the YouTube app (windowed videos)
 * Carousels for images
 * Order comments/updates. The API restricts this to orders where you're the seller
 * Adding notes to items in collection
@@ -35,7 +35,7 @@ Currently, in April 2017, the public API does not allow any of the following:
 * Order placing/purchasing
 * Marketplace actions. This includes purchasing in app, viewing purchases or searching listings.
 * Seeing order comments/updates for purchases
-* Recent releases/explore
+* Recent items/explore
 * Notifications
 
 # License

@@ -15,7 +15,6 @@ import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by Josh Laird on 10/04/2017.
@@ -60,7 +59,10 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
         discogsInteractor.fetchArtistsReleases(id)
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(behaviorRelay, error ->
-                        controller.setError("Unable to fetch Artist Releases"));
+                {
+                    error.printStackTrace();
+                    controller.setError("Unable to fetch Artist Releases");
+                });
     }
 
     @Override
@@ -78,15 +80,20 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
                                 artistReleases1)
                         .observeOn(mySchedulerProvider.ui())
                         .subscribe(artistReleases1 ->
-                                        controller.setReleases(artistReleases1),
+                                        controller.setItems(artistReleases1),
                                 error ->
                                         controller.setError("Unable to fetch Artist Releases")));
     }
 
     @Override
-    public void setupFilter(Consumer<CharSequence> filterConsumer)
+    public void setupFilter()
     {
-        view.filterIntent().subscribe(filterConsumer);
+        view.filterIntent().subscribe(filterText ->
+        {
+            artistReleasesTransformer.setFilterText(filterText);
+            if (behaviorRelay.getValue() != null && behaviorRelay.getValue().size() != 0)
+                behaviorRelay.accept(behaviorRelay.getValue());
+        });
     }
 
     @Override
@@ -99,12 +106,5 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     public void dispose()
     {
         disposable.dispose();
-    }
-
-    public void setFilterText(CharSequence filterText)
-    {
-        artistReleasesTransformer.setFilterText(filterText);
-        if (behaviorRelay.getValue() != null && behaviorRelay.getValue().size() != 0)
-            behaviorRelay.accept(behaviorRelay.getValue());
     }
 }

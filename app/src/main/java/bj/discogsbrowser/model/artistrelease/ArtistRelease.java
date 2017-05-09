@@ -4,7 +4,9 @@ package bj.discogsbrowser.model.artistrelease;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ArtistRelease
+import bj.discogsbrowser.model.common.RecyclerViewModel;
+
+public class ArtistRelease implements RecyclerViewModel
 {
     @SerializedName("status")
     @Expose
@@ -69,6 +71,12 @@ public class ArtistRelease
     public String getTitle()
     {
         return title;
+    }
+
+    @Override
+    public String getSubtitle()
+    {
+        return artist;
     }
 
     public void setTitle(String title)

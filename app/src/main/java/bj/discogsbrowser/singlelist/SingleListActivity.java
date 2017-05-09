@@ -108,7 +108,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.single_list_activity), getString(getIntent().getIntExtra("type", 0)), getString(R.string.loaded), "onResume", 1L);
         super.onResume();
     }
 

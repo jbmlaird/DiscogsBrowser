@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.List;
 
 import bj.discogsbrowser.common.BasePresenter;
+import bj.discogsbrowser.common.SingleListView;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -16,10 +17,8 @@ import io.reactivex.functions.Consumer;
 
 public interface ArtistReleasesContract
 {
-    interface View
+    interface View extends SingleListView
     {
-        void launchDetailedActivity(String type, String title, String id);
-
         Observable<CharSequence> filterIntent();
     }
 
@@ -31,6 +30,6 @@ public interface ArtistReleasesContract
 
         void connectToBehaviorRelay(String searchFilter);
 
-        void setupFilter(Consumer<CharSequence> filterConsumer);
+        void setupFilter();
     }
 }

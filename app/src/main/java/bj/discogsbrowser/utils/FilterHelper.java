@@ -1,9 +1,13 @@
 package bj.discogsbrowser.utils;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import bj.discogsbrowser.model.common.RecyclerViewModel;
-import io.reactivex.functions.Predicate;
+import bj.discogsbrowser.model.listing.Listing;
+import io.reactivex.Single;
+import io.reactivex.SingleTransformer;
 
 /**
  * Created by Josh Laird on 08/05/2017.
@@ -24,9 +28,21 @@ public class FilterHelper
         this.filterText = filterText;
     }
 
-    public Predicate<? super RecyclerViewModel> filterRecyclerViewModel()
+    public SingleTransformer<List<? extends RecyclerViewModel>, List<? extends RecyclerViewModel>> filterByFilterText()
     {
-        return listingPredicate ->
-                listingPredicate.getSubtitle().toLowerCase().contains(filterText) || listingPredicate.getTitle().toLowerCase().contains(filterText);
+        return untransformed ->
+                (Single) untransformed.flattenAsObservable(items -> items)
+                        .filter(item ->
+                                item.getSubtitle().toLowerCase().contains(filterText) || item.getTitle().toLowerCase().contains(filterText))
+                        .toList();
+    }
+
+    public SingleTransformer<List<Listing>, List<Listing>> filterForSale()
+    {
+        return listingsSingle ->
+                listingsSingle.flattenAsObservable(listings -> listings)
+                        .filter(listing ->
+                                listing.getStatus().equals("For Sale"))
+                        .toList();
     }
 }

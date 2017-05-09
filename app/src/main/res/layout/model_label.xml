@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
-                android:text="View all label releases"
+                android:text="View all label items"
                 android:textAlignment="center"
                 android:textSize="@dimen/text_normal"/>
 
@@ -69,7 +69,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:includeFontPadding="false"
-            android:text="Search releases"
+            android:text="Search items"
             android:textAlignment="center"
             android:textSize="@dimen/text_normal"/>
 

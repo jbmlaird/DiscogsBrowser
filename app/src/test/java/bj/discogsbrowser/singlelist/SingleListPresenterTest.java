@@ -14,13 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.model.listing.Listing;
-import bj.discogsbrowser.model.order.TestListing;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.testmodels.TestOrder;
 import bj.discogsbrowser.utils.FilterHelper;
@@ -119,14 +117,14 @@ public class SingleListPresenterTest
         when(compositeDisposable.add(any(Disposable.class))).thenReturn(true);
         when(view.filterIntent()).thenReturn(Observable.just(filterText));
         // Don't filter
-        when(filterHelper.filterRecyclerViewModel()).thenReturn(o -> o.equals(o));
+        when(filterHelper.filterByFilterText()).thenReturn(o -> o);
 
         singleListPresenter.setupFilterSubscription();
         testScheduler.triggerActions();
 
         verify(compositeDisposable, times(1)).add(any(Disposable.class));
         verify(view, times(1)).filterIntent();
-        verify(filterHelper).filterRecyclerViewModel();
+        verify(filterHelper).filterByFilterText();
         verify(filterHelper, times(1)).setFilterText(filterText);
         verify(controller).setItems(recyclerViewModels);
     }
@@ -139,29 +137,6 @@ public class SingleListPresenterTest
 
         verify(compositeDisposable, times(1)).clear();
         verify(compositeDisposable, times(1)).dispose();
-    }
-
-    @Test
-    public void setupFilterSubscriptionItemsFilter_showsNoItems()
-    {
-        List<RecyclerViewModel> recyclerViewModels = new ArrayList<>();
-        recyclerViewModels.add(new TestOrder());
-
-        singleListPresenter.setItems(recyclerViewModels);
-        String filterText = "yeson";
-        when(compositeDisposable.add(any(Disposable.class))).thenReturn(true);
-        when(view.filterIntent()).thenReturn(Observable.just(filterText));
-        // Do filter
-        when(filterHelper.filterRecyclerViewModel()).thenReturn(o -> o.equals("asdsjadjasd"));
-
-        singleListPresenter.setupFilterSubscription();
-        testScheduler.triggerActions();
-
-        verify(compositeDisposable, times(1)).add(any(Disposable.class));
-        verify(view, times(1)).filterIntent();
-        verify(filterHelper, times(1)).filterRecyclerViewModel();
-        verify(filterHelper, times(1)).setFilterText(filterText);
-        verify(controller, times(1)).setItems(Collections.emptyList());
     }
 
     @Test
@@ -180,7 +155,7 @@ public class SingleListPresenterTest
         assertEquals(context.getString(R.string.error_wantlist), errorWantlistString);
         verify(context, times(2)).getString(R.string.error_wantlist);
         assertEquals(context.getString(R.string.wantlist_none), wantlistNoneString);
-        verify(context, times(2)).getString(R.string.wantlist_none);
+        verify(context, times(1)).getString(R.string.wantlist_none);
         verify(controller, times(1)).setError(errorWantlistString);
     }
 
@@ -199,7 +174,7 @@ public class SingleListPresenterTest
         assertEquals(context.getString(R.string.error_collection), errorCollectionString);
         verify(context, times(2)).getString(R.string.error_collection);
         assertEquals(context.getString(R.string.collection_none), collectionNoneString);
-        verify(context, times(2)).getString(R.string.collection_none);
+        verify(context, times(1)).getString(R.string.collection_none);
         verify(controller, times(1)).setError(errorCollectionString);
     }
 
@@ -218,7 +193,7 @@ public class SingleListPresenterTest
         assertEquals(context.getString(R.string.error_orders), errorOrdersString);
         verify(context, times(2)).getString(R.string.error_orders);
         assertEquals(context.getString(R.string.orders_none), ordersNoneString);
-        verify(context, times(2)).getString(R.string.orders_none);
+        verify(context, times(1)).getString(R.string.orders_none);
         verify(controller, times(1)).setError(errorOrdersString);
     }
 
@@ -229,6 +204,7 @@ public class SingleListPresenterTest
         when(discogsInteractor.fetchSelling(username)).thenReturn(error);
         when(context.getString(R.string.error_selling)).thenReturn(errorSellingString);
         when(context.getString(R.string.selling_none)).thenReturn(sellingNoneString);
+        when(filterHelper.filterForSale()).thenReturn(o -> o);
 
         singleListPresenter.getData(R.string.selling, username);
         testScheduler.triggerActions();
@@ -237,20 +213,19 @@ public class SingleListPresenterTest
         assertEquals(context.getString(R.string.error_selling), errorSellingString);
         verify(context, times(2)).getString(R.string.error_selling);
         assertEquals(context.getString(R.string.selling_none), sellingNoneString);
-        verify(context, times(2)).getString(R.string.selling_none);
+        verify(context, times(1)).getString(R.string.selling_none);
         verify(controller, times(1)).setError(errorSellingString);
     }
 
     @Test
-    public void getDataNoItems_displaysData()
+    public void getDataNoItems_displaysEmptyList()
     {
-        ArrayList<Listing> listings = new ArrayList<>();
-        listings.add(new TestListing());
-        when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(listings));
+        ArrayList<Listing> emptyList = new ArrayList<>();
+        when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(emptyList));
         when(context.getString(R.string.error_selling)).thenReturn(errorSellingString);
         when(context.getString(R.string.selling_none)).thenReturn(sellingNoneString);
-        // Test filter in filter class - don't filter here
-        when(filterHelper.filterRecyclerViewModel()).thenReturn(o -> o.equals(""));
+        when(filterHelper.filterForSale()).thenReturn(o -> o);
+        when(filterHelper.filterByFilterText()).thenReturn(o -> o);
 
         singleListPresenter.getData(R.string.selling, username);
         testScheduler.triggerActions();
@@ -259,31 +234,8 @@ public class SingleListPresenterTest
         assertEquals(context.getString(R.string.error_selling), errorSellingString);
         verify(context, times(2)).getString(R.string.error_selling);
         assertEquals(context.getString(R.string.selling_none), sellingNoneString);
-        verify(filterHelper, times(1)).filterRecyclerViewModel();
-        verify(context, times(2)).getString(R.string.selling_none);
-        verify(controller).setItems(Collections.emptyList());
-    }
-
-    @Test
-    public void getDataItems_displaysData()
-    {
-        ArrayList<Listing> listings = new ArrayList<>();
-        listings.add(new TestListing());
-        when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(listings));
-        when(context.getString(R.string.error_selling)).thenReturn(errorSellingString);
-        when(context.getString(R.string.selling_none)).thenReturn(sellingNoneString);
-        // Don't filter
-        when(filterHelper.filterRecyclerViewModel()).thenReturn(o -> o.equals(o));
-
-        singleListPresenter.getData(R.string.selling, username);
-        testScheduler.triggerActions();
-
-        verify(discogsInteractor, times(1)).fetchSelling(username);
-        assertEquals(context.getString(R.string.error_selling), errorSellingString);
-        verify(context, times(2)).getString(R.string.error_selling);
-        assertEquals(context.getString(R.string.selling_none), sellingNoneString);
-        verify(filterHelper, times(1)).filterRecyclerViewModel();
-        verify(context, times(2)).getString(R.string.selling_none);
-        verify(controller).setItems(listings);
+        verify(filterHelper, times(1)).filterByFilterText();
+        verify(context, times(1)).getString(R.string.selling_none);
+        verify(controller).setItems(emptyList);
     }
 }

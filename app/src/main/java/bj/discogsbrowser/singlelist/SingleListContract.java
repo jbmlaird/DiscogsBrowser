@@ -3,6 +3,7 @@ package bj.discogsbrowser.singlelist;
 import android.support.v7.widget.RecyclerView;
 
 import bj.discogsbrowser.common.BasePresenter;
+import bj.discogsbrowser.common.SingleListView;
 import io.reactivex.Observable;
 
 /**
@@ -11,11 +12,9 @@ import io.reactivex.Observable;
 
 public interface SingleListContract
 {
-    interface View
+    interface View extends SingleListView
     {
         Observable<CharSequence> filterIntent();
-
-        void launchDetailedActivity(String type, String title, String id);
     }
 
     interface Presenter extends BasePresenter
