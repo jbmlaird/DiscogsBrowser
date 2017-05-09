@@ -1,6 +1,7 @@
 package bj.discogsbrowser.label;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,13 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.label.ViewOnDiscogsModel_;
+import bj.discogsbrowser.epoxy.main.InfoTextModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.model.label.Label;
 import bj.discogsbrowser.model.labelrelease.LabelRelease;
@@ -71,60 +73,66 @@ public class LabelController extends BaseController
                     .onClick(v -> view.retry())
                     .id("label error")
                     .addTo(this);
-
-        if (loading)
-            new LoadingModel_()
-                    .imageViewAnimator(imageViewAnimator)
-                    .id("label loading")
-                    .addTo(this);
-        if (loadingLabelReleases)
+        else
         {
-            new SubHeaderModel_()
-                    .subheader("Label Releases")
-                    .id("label releases subheader")
-                    .addTo(this);
-
-            new LoadingModel_()
-                    .imageViewAnimator(imageViewAnimator)
-                    .id("releases loading")
-                    .addTo(this);
-        }
-
-        if (label != null && !error)
-        {
-            if (labelReleases.size() > 0)
+            if (loading)
+                new LoadingModel_()
+                        .imageViewAnimator(imageViewAnimator)
+                        .id("label loading")
+                        .addTo(this);
+            if (loadingLabelReleases)
             {
-                for (LabelRelease labelRelease : labelReleases)
-                {
-                    new ListItemModel_()
-                            .id("labelrelease" + labelReleases.indexOf(labelRelease))
-                            .subtitle(labelRelease.getArtist())
-                            .imageUrl(labelRelease.getThumb())
-                            .title(labelRelease.getTitle() + " (" + labelRelease.getCatno() + ")")
-                            .context(context)
-                            .onClick(v -> view.displayRelease(labelRelease.getId(), labelRelease.getTitle()))
-                            .addTo(this);
+                new SubHeaderModel_()
+                        .subheader("Label Releases")
+                        .id("label releases subheader")
+                        .addTo(this);
 
-                    if (labelReleases.indexOf(labelRelease) == 4 && !viewMore && labelReleases.size() > 5)
-                    {
-                        new ViewMoreModel_()
-                                .id("view all")
-                                .title("View all label releases")
-                                .textSize(18f)
-                                .onClickListener(v -> setViewMore(true))
-                                .addTo(this);
-                        break;
-                    }
-                }
-                new DividerModel_()
-                        .id("releases divider")
+                new LoadingModel_()
+                        .imageViewAnimator(imageViewAnimator)
+                        .id("releases loading")
                         .addTo(this);
             }
 
-            new ViewOnDiscogsModel_()
-                    .id("View on discogs")
-                    .onClickListener(v -> view.openLink(label.getUri()))
-                    .addTo(this);
+            if (label != null && !loadingLabelReleases)
+            {
+                if (labelReleases.size() > 0)
+                    for (LabelRelease labelRelease : labelReleases)
+                    {
+                        new ListItemModel_()
+                                .id("labelrelease" + labelReleases.indexOf(labelRelease))
+                                .subtitle(labelRelease.getArtist())
+                                .imageUrl(labelRelease.getThumb())
+                                .title(labelRelease.getTitle() + " (" + labelRelease.getCatno() + ")")
+                                .context(context)
+                                .onClick(v -> view.displayRelease(labelRelease.getId(), labelRelease.getTitle()))
+                                .addTo(this);
+
+                        if (labelReleases.indexOf(labelRelease) == 4 && !viewMore && labelReleases.size() > 5)
+                        {
+                            new ViewMoreModel_()
+                                    .id("view all")
+                                    .title("View all label releases")
+                                    .textSize(18f)
+                                    .onClickListener(v -> setViewMore(true))
+                                    .addTo(this);
+                            break;
+                        }
+                    }
+                else if (labelReleases.size() == 0)
+                    new InfoTextModel_()
+                            .id("no label releases")
+                            .infoText("No label releases")
+                            .addTo(this);
+
+                new DividerModel_()
+                        .id("releases divider")
+                        .addTo(this);
+
+                new ViewOnDiscogsModel_()
+                        .id("View on discogs")
+                        .onClickListener(v -> view.openLink(label.getUri()))
+                        .addTo(this);
+            }
         }
     }
 
@@ -136,6 +144,7 @@ public class LabelController extends BaseController
         this.title = label.getName();
         this.subtitle = label.getProfile();
         this.loading = false;
+        this.error = false;
         requestModelBuild();
     }
 
@@ -143,10 +152,12 @@ public class LabelController extends BaseController
     {
         this.labelReleases = labelReleases;
         this.loadingLabelReleases = false;
+        this.error = false;
         requestModelBuild();
     }
 
-    private void setViewMore(boolean viewMore)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public void setViewMore(boolean viewMore)
     {
         this.viewMore = viewMore;
         requestModelBuild();
