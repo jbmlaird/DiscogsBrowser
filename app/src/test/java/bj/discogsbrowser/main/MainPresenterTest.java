@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.R;
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
@@ -29,7 +30,6 @@ import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.testmodels.TestRootSearchResponse;
 import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.AnalyticsTracker;
-import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
@@ -210,7 +210,6 @@ public class MainPresenterTest
         verify(daoInteractor, times(2)).getViewedReleases();
         verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", false);
         verify(discogsInteractor, times(1)).searchByLabel(viewedReleases.get(0).getLabelName());
-        verify(mainController, times(1)).setLoadingRecommendations(true);
         verify(mainController, times(1)).setRecommendationsError(true);
     }
 
@@ -229,7 +228,6 @@ public class MainPresenterTest
         mainPresenter.buildRecommendations();
         testScheduler.triggerActions();
 
-        verify(mainController, times(1)).setLoadingRecommendations(true);
         verify(daoInteractor, times(1)).getViewedReleases();
         verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", false);
         verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", true);
