@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
  */
 public interface RecyclerViewPresenter
 {
-    void getData(String id);
+    void getReleaseAndLabelDetails(String id);
 
     void setupRecyclerView(Context context, RecyclerView recyclerView, String title);
 }

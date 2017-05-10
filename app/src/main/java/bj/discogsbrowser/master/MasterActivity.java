@@ -53,7 +53,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -74,6 +74,6 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     public void retry()
     {
         tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "retry", 1L);
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 }

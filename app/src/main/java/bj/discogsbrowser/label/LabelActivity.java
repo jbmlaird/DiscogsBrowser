@@ -55,7 +55,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -83,6 +83,6 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     public void retry()
     {
         tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "retry", 1L);
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 }

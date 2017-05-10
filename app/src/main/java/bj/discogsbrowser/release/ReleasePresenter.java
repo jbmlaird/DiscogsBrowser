@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
-import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
@@ -28,7 +28,6 @@ import bj.discogsbrowser.wrappers.LogWrapper;
 public class ReleasePresenter implements ReleaseContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
-    private final ReleaseContract.View mView;
     private final ReleaseController controller;
     private final DiscogsInteractor discogsInteractor;
     private final MySchedulerProvider mySchedulerProvider;
@@ -40,11 +39,10 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private boolean wantlistChecked;
 
     @Inject
-    public ReleasePresenter(@NonNull ReleaseContract.View view, @NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor,
+    public ReleasePresenter(@NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor,
                             @NonNull MySchedulerProvider mySchedulerProvider, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log,
                             @NonNull DaoInteractor daoInteractor, @NonNull ArtistsBeautifier artistsBeautifier)
     {
-        this.mView = view;
         this.controller = controller;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
@@ -55,7 +53,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     }
 
     @Override
-    public void getData(String id)
+    public void getReleaseAndLabelDetails(String id)
     {
         discogsInteractor.fetchReleaseDetails(id)
                 .subscribeOn(mySchedulerProvider.io())

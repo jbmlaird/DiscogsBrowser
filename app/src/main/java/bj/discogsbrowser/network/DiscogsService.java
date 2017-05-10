@@ -77,19 +77,6 @@ public interface DiscogsService
     @GET("/users/{username}/collection/folders/1/releases")
     Single<RootCollectionRelease> fetchCollection(@Path("username") String username, @Query("sort") String sortBy, @Query("sort_order") String sortOrder, @Query("per_page") String perPage);
 
-    // 0 means it will always look in the user's "Uncategorized" folder (must be authenticated)
-    @POST("/users/{username}/collection/folders/1/releases/{release_id}")
-    Single<AddToCollectionResponse> addToCollection(@Path("username") String username, @Path("release_id") String releaseId);
-
-    @DELETE("/users/{username}/collection/folders/1/releases/{release_id}/instances/{instance_id}")
-    Single<Response<Void>> removeFromCollection(@Path("username") String username, @Path("release_id") String releaseId, @Path("instance_id") String instanceId);
-
-    @PUT("/users/{username}/wants/{release_id}")
-    Single<AddToWantlistResponse> addToWantlist(@Path("username") String username, @Path("release_id") String releaseId);
-
-    @DELETE("/users/{username}/wants/{release_id}")
-    Single<Response<Void>> removeFromWantlist(@Path("username") String username, @Path("release_id") String releaseId);
-
     @GET("/users/{username}/wants")
     Single<RootWantlistResponse> fetchWantlist(@Path("username") String username, @Query("sort") String sortBy, @Query("sort_order") String sortOrder, @Query("per_page") String perPage);
 

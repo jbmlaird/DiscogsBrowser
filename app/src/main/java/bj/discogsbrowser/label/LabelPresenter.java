@@ -41,7 +41,7 @@ public class LabelPresenter implements LabelContract.Presenter
     }
 
     @Override
-    public void getData(String id)
+    public void getReleaseAndLabelDetails(String id)
     {
         discogsInteractor.fetchLabelDetails(id)
                 .doOnSubscribe(onSubscribe -> controller.setLoading(true))

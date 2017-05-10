@@ -83,7 +83,7 @@ public class MasterPresenterTest
         when(discogsInteractor.fetchMasterDetails(id)).thenReturn(justMaster);
         when(discogsInteractor.fetchMasterVersions(id)).thenReturn(justVersions);
 
-        presenter.getData(id);
+        presenter.getReleaseAndLabelDetails(id);
         testScheduler.triggerActions();
 
         verify(controller).setLoading(true);
@@ -98,7 +98,7 @@ public class MasterPresenterTest
     {
         when(discogsInteractor.fetchMasterDetails(id)).thenReturn(Single.error(new Throwable()));
 
-        presenter.getData(id);
+        presenter.getReleaseAndLabelDetails(id);
         testScheduler.triggerActions();
 
         verify(controller).setLoading(true);

@@ -13,7 +13,6 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
-import bj.discogsbrowser.model.collection.AddToCollectionResponse;
 import bj.discogsbrowser.model.collection.CollectionRelease;
 import bj.discogsbrowser.model.collection.RootCollectionRelease;
 import bj.discogsbrowser.model.label.Label;
@@ -31,7 +30,6 @@ import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.model.version.RootVersionsResponse;
 import bj.discogsbrowser.model.version.Version;
-import bj.discogsbrowser.model.wantlist.AddToWantlistResponse;
 import bj.discogsbrowser.model.wantlist.RootWantlistResponse;
 import bj.discogsbrowser.model.wantlist.Want;
 import bj.discogsbrowser.utils.DiscogsScraper;
@@ -42,7 +40,6 @@ import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
 import io.rx_cache2.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -99,12 +96,14 @@ public class DiscogsInteractor
                 .subscribeOn(mySchedulerProvider.io())
                 .map(artistResult ->
                 {
-                    artistResult.setProfile(artistResult.getProfile().replace("[a=", ""));
-                    artistResult.setProfile(artistResult.getProfile().replace("[i]", ""));
-                    artistResult.setProfile(artistResult.getProfile().replace("[/l]", ""));
-                    artistResult.setProfile(artistResult.getProfile().replace("[/I]", ""));
-                    artistResult.setProfile(artistResult.getProfile().replace("[/i]", ""));
-
+                    if (artistResult.getProfile() != null)
+                    {
+                        artistResult.setProfile(artistResult.getProfile().replace("[a=", ""));
+                        artistResult.setProfile(artistResult.getProfile().replace("[i]", ""));
+                        artistResult.setProfile(artistResult.getProfile().replace("[/l]", ""));
+                        artistResult.setProfile(artistResult.getProfile().replace("[/I]", ""));
+                        artistResult.setProfile(artistResult.getProfile().replace("[/i]", ""));
+                    }
                     return artistResult;
                 });
     }
@@ -149,11 +148,14 @@ public class DiscogsInteractor
                 .subscribeOn(mySchedulerProvider.io())
                 .map(label ->
                 {
-                    label.setProfile(label.getProfile().replace("[a=", ""));
-                    label.setProfile(label.getProfile().replace("[i]", ""));
-                    label.setProfile(label.getProfile().replace("[/l]", ""));
-                    label.setProfile(label.getProfile().replace("[/I]", ""));
-                    label.setProfile(label.getProfile().replace("]", ""));
+                    if (label.getProfile() != null)
+                    {
+                        label.setProfile(label.getProfile().replace("[a=", ""));
+                        label.setProfile(label.getProfile().replace("[i]", ""));
+                        label.setProfile(label.getProfile().replace("[/l]", ""));
+                        label.setProfile(label.getProfile().replace("[/I]", ""));
+                        label.setProfile(label.getProfile().replace("]", ""));
+                    }
                     return label;
                 });
     }
@@ -215,20 +217,6 @@ public class DiscogsInteractor
         return collectionSingle;
     }
 
-    public Single<AddToCollectionResponse> addToCollection(String releaseId)
-    {
-        sharedPrefsManager.setFetchNextCollection("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        return discogsService.addToCollection(sharedPrefsManager.getUsername(), releaseId);
-    }
-
-    public Single<Response<Void>> removeFromCollection(String releaseId, String instanceId)
-    {
-        sharedPrefsManager.setFetchNextCollection("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        return discogsService.removeFromCollection(sharedPrefsManager.getUsername(), releaseId, instanceId);
-    }
-
     public Single<List<Want>> fetchWantlist(String username)
     {
         Single<List<Want>> wantlistSingle = cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
@@ -238,20 +226,6 @@ public class DiscogsInteractor
         if (sharedPrefsManager.fetchNextWantlist())
             sharedPrefsManager.setFetchNextWantlist("no");
         return wantlistSingle;
-    }
-
-    public Single<AddToWantlistResponse> addToWantlist(String releaseId)
-    {
-        sharedPrefsManager.setFetchNextWantlist("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        return discogsService.addToWantlist(sharedPrefsManager.getUsername(), releaseId);
-    }
-
-    public Single<Response<Void>> removeFromWantlist(String releaseId)
-    {
-        sharedPrefsManager.setFetchNextWantlist("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        return discogsService.removeFromWantlist(sharedPrefsManager.getUsername(), releaseId);
     }
 
     public Single<List<Order>> fetchOrders()

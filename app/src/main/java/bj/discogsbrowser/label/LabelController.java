@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
+import bj.discogsbrowser.epoxy.common.EmptySpaceModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
@@ -135,6 +136,9 @@ public class LabelController extends BaseController
                         .addTo(this);
             }
         }
+        new EmptySpaceModel_()
+                .id("end of controller model")
+                .addTo(this);
     }
 
     public void setLabel(Label label)

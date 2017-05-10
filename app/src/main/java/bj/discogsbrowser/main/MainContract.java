@@ -21,9 +21,9 @@ public interface MainContract
     {
         void showLoading(boolean b);
 
-        void buildHistory();
+        void retryHistory();
 
-        void buildRecommendations();
+        void retryRecommendations();
 
         void setDrawer(Drawer drawer);
 
@@ -62,5 +62,7 @@ public interface MainContract
         void setupRecyclerView(MainActivity mainActivity, RecyclerView recyclerView);
 
         void buildRecommendations();
+
+        void showLoadingRecommendations(boolean isLoading);
     }
 }

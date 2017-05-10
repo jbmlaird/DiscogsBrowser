@@ -6,30 +6,36 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import bj.discogsbrowser.epoxy.release.CollectionWantlistModel;
+import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import es.dmoral.toasty.Toasty;
+import retrofit2.Retrofit;
 
 /**
  * Created by Josh Laird on 10/05/2017.
  */
-
 public class CollectionWantlistInteractor
 {
     private Context context;
-    private DiscogsInteractor discogsInteractor;
+    private CollectionWantlistService discogsService;
+    private SharedPrefsManager sharedPrefsManager;
     private MySchedulerProvider mySchedulerProvider;
 
     @Inject
-    public CollectionWantlistInteractor(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider)
+    public CollectionWantlistInteractor(Context context, Retrofit retrofit, SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
     {
         this.context = context;
-        this.discogsInteractor = discogsInteractor;
+        this.discogsService = retrofit.create(CollectionWantlistService.class);
+        this.sharedPrefsManager = sharedPrefsManager;
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
-    public void addToCollection(CollectionWantlistModel model, String releaseId)
+    public void addToCollection(CollectionWantlistModel model, String releaseId, CircularProgressButton btnCollection)
     {
-        discogsInteractor.addToCollection(releaseId)
+        sharedPrefsManager.setFetchNextCollection("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        discogsService.addToCollection(sharedPrefsManager.getUsername(), releaseId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
@@ -38,26 +44,27 @@ public class CollectionWantlistInteractor
                             {
                                 model.instanceId = result.getInstanceId();
                                 model.inCollection = true;
-                                model.btnCollection.revertAnimation(() ->
-                                        model.btnCollection.setText("Remove from Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
                             }
                             else
                             {
                                 Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
-                                model.btnCollection.revertAnimation();
+                                btnCollection.revertAnimation();
                             }
                         },
                         error ->
                         {
                             Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
                             error.printStackTrace();
-                            model.btnCollection.revertAnimation();
+                            btnCollection.revertAnimation();
                         });
     }
 
-    public void removeFromCollection(CollectionWantlistModel model, String releaseId, String instanceId)
+    public void removeFromCollection(CollectionWantlistModel model, String releaseId, String instanceId, CircularProgressButton btnCollection)
     {
-        discogsInteractor.removeFromCollection(releaseId, instanceId)
+        sharedPrefsManager.setFetchNextCollection("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        discogsService.removeFromCollection(sharedPrefsManager.getUsername(), releaseId, instanceId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
@@ -65,43 +72,45 @@ public class CollectionWantlistInteractor
                             if (result.isSuccessful())
                             {
                                 model.inCollection = false;
-                                model.btnCollection.revertAnimation(() ->
-                                        model.btnCollection.setText("Add to Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
                             }
                             else
                             {
                                 Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
-                                model.btnCollection.revertAnimation();
+                                btnCollection.revertAnimation();
                             }
                         },
                         error ->
                         {
                             Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
-                            model.btnCollection.revertAnimation();
+                            btnCollection.revertAnimation();
                         });
     }
 
-    public void addToWantlist(CollectionWantlistModel model, String releaseId)
+    public void addToWantlist(CollectionWantlistModel model, String releaseId, CircularProgressButton btnWantlist)
     {
-        discogsInteractor.addToWantlist(releaseId)
+        sharedPrefsManager.setFetchNextWantlist("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        discogsService.addToWantlist(sharedPrefsManager.getUsername(), releaseId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {
                             model.inWantlist = true;
-                            model.btnWantlist.revertAnimation(() ->
-                                    model.btnWantlist.setText("Remove from Wantlist"));
+                            btnWantlist.revertAnimation(() -> btnWantlist.setText("Remove from Wantlist"));
                         },
                         error ->
                         {
                             Toasty.error(context, "Unable to add to Wantlist", Toast.LENGTH_SHORT, true).show();
-                            model.btnWantlist.revertAnimation();
+                            btnWantlist.revertAnimation();
                         });
     }
 
-    public void removeFromWantlist(CollectionWantlistModel model, String releaseId)
+    public void removeFromWantlist(CollectionWantlistModel model, String releaseId, CircularProgressButton btnWantlist)
     {
-        discogsInteractor.removeFromWantlist(releaseId)
+        sharedPrefsManager.setFetchNextWantlist("yes");
+        sharedPrefsManager.setfetchNextUserDetails("yes");
+        discogsService.removeFromWantlist(sharedPrefsManager.getUsername(), releaseId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
@@ -109,19 +118,18 @@ public class CollectionWantlistInteractor
                             if (result.isSuccessful())
                             {
                                 model.inWantlist = false;
-                                model.btnWantlist.revertAnimation(() ->
-                                        model.btnWantlist.setText("Add to Wantlist"));
+                                btnWantlist.revertAnimation(() -> btnWantlist.setText("Add to Wantlist"));
                             }
                             else
                             {
                                 Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
-                                model.btnWantlist.revertAnimation();
+                                btnWantlist.revertAnimation();
                             }
                         },
                         error ->
                         {
                             Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
-                            model.btnWantlist.revertAnimation();
+                            btnWantlist.revertAnimation();
                         });
     }
 }

@@ -18,29 +18,27 @@ import butterknife.Unbinder;
 
 /**
  * Created by Josh Laird on 26/04/2017.
- * <p>
- * TODO: Refactor
- * This goes strongly against the MVP pattern by jamming network calls in here.
- * I'm unable to pass in Presenter due to the Controller being DI'd into the Presenter and circular dependencies arising.
  */
 @EpoxyModelClass(layout = R.layout.model_collection_wantlist)
 public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
 {
-    @EpoxyAttribute Context context;
-    @EpoxyAttribute public boolean inCollection;
-    @EpoxyAttribute public boolean inWantlist;
-    @EpoxyAttribute String releaseId;
-    @EpoxyAttribute String folderId;
+    @BindView(R.id.btnCollection) CircularProgressButton btnCollection;
+    @BindView(R.id.btnWantlist) CircularProgressButton btnWantlist;
+    public @EpoxyAttribute boolean inCollection;
+    public @EpoxyAttribute boolean inWantlist;
     public @EpoxyAttribute String instanceId;
     @EpoxyAttribute CollectionWantlistInteractor collectionWantlistInteractor;
-    public @BindView(R.id.btnCollection) CircularProgressButton btnCollection;
-    public @BindView(R.id.btnWantlist) CircularProgressButton btnWantlist;
+    @EpoxyAttribute Context context;
+    @EpoxyAttribute String releaseId;
+    @EpoxyAttribute String folderId;
     private Unbinder unbinder;
 
     @Override
     public void unbind(LinearLayout view)
     {
         super.unbind(view);
+        btnCollection.dispose();
+        btnWantlist.dispose();
         unbinder.unbind();
         Log.e("CollectionWantlistModel", "unbind");
     }
@@ -60,9 +58,9 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnCollection.startAnimation();
         if (!inCollection)
-            collectionWantlistInteractor.addToCollection(this, releaseId);
+            collectionWantlistInteractor.addToCollection(this, releaseId, btnCollection);
         else
-            collectionWantlistInteractor.removeFromCollection(this, releaseId, instanceId);
+            collectionWantlistInteractor.removeFromCollection(this, releaseId, instanceId, btnCollection);
     }
 
     @OnClick(R.id.btnWantlist)
@@ -70,8 +68,8 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnWantlist.startAnimation();
         if (!inWantlist)
-            collectionWantlistInteractor.addToWantlist(this, releaseId);
+            collectionWantlistInteractor.addToWantlist(this, releaseId, btnWantlist);
         else
-            collectionWantlistInteractor.removeFromWantlist(this, releaseId);
+            collectionWantlistInteractor.removeFromWantlist(this, releaseId, btnWantlist);
     }
 }

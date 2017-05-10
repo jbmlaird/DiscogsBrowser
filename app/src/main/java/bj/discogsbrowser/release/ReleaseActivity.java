@@ -67,7 +67,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     public void retry()
     {
         tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryRelease", 1L);
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
     @Override

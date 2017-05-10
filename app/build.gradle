@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'org.greenrobot.greendao'
 
@@ -79,12 +80,15 @@ dependencies {
     compile 'com.github.VictorAlbertos.RxSocialConnect-Android:core:1.0.1-2.x'
     compile 'com.bugsnag:bugsnag-android:3.+'
     compile 'org.greenrobot:greendao:3.2.2'
-    compile 'br.com.simplepass:loading-button-android:1.6.5'
     compile 'com.github.GrenderG:Toasty:1.1.5'
     testCompile "org.robolectric:robolectric:3.3.2"
     compile 'com.google.android.gms:play-services-analytics:10.2.1'
     compile 'com.github.daniel-stoneuk:material-about-library:1.9.0'
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+}

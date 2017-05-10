@@ -55,7 +55,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.setupRecyclerView(this, rvDetailed, getIntent().getStringExtra("title"));
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -90,6 +90,6 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     public void retry()
     {
         tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "retry", 1L);
-        presenter.getData(getIntent().getStringExtra("id"));
+        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 }

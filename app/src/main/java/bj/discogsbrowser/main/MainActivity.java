@@ -121,21 +121,22 @@ public class MainActivity extends BaseActivity implements MainContract.View
         tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1L);
         if (drawer == null)
             presenter.connectAndBuildNavigationDrawer(this, toolbar);
-        buildHistory();
-        buildRecommendations();
-    }
-
-    @Override
-    public void buildHistory()
-    {
-        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "buildHistory", 1L);
+        presenter.buildRecommendations();
         presenter.buildViewedReleases();
     }
 
     @Override
-    public void buildRecommendations()
+    public void retryHistory()
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "buildRecommendations", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryHistory", 1L);
+        presenter.buildViewedReleases();
+    }
+
+    @Override
+    public void retryRecommendations()
+    {
+        presenter.showLoadingRecommendations(true);
+        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryRecommendations", 1L);
         presenter.buildRecommendations();
     }
 
