@@ -9,7 +9,7 @@ import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
+import bj.discogsbrowser.release.CollectionWantlistPresenter;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +24,10 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
 {
     @BindView(R.id.btnCollection) CircularProgressButton btnCollection;
     @BindView(R.id.btnWantlist) CircularProgressButton btnWantlist;
-    public @EpoxyAttribute boolean inCollection;
-    public @EpoxyAttribute boolean inWantlist;
-    public @EpoxyAttribute String instanceId;
-    @EpoxyAttribute CollectionWantlistInteractor collectionWantlistInteractor;
+    @EpoxyAttribute boolean inCollection;
+    @EpoxyAttribute boolean inWantlist;
+    @EpoxyAttribute String instanceId;
+    @EpoxyAttribute CollectionWantlistPresenter presenter;
     @EpoxyAttribute Context context;
     @EpoxyAttribute String releaseId;
     @EpoxyAttribute String folderId;
@@ -47,9 +47,10 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     public void bind(LinearLayout view)
     {
         unbinder = ButterKnife.bind(this, view);
-        if (inCollection)
+        presenter.bind(inCollection, inWantlist, instanceId);
+        if (presenter.isInCollection())
             btnCollection.setText("Remove from Collection");
-        if (inWantlist)
+        if (presenter.isInWantlist())
             btnWantlist.setText("Remove from Wantlist");
     }
 
@@ -57,19 +58,19 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     public void onCollectionClicked()
     {
         btnCollection.startAnimation();
-        if (!inCollection)
-            collectionWantlistInteractor.addToCollection(this, releaseId, btnCollection);
+        if (!presenter.isInCollection())
+            presenter.addToCollection(releaseId, btnCollection);
         else
-            collectionWantlistInteractor.removeFromCollection(this, releaseId, instanceId, btnCollection);
+            presenter.removeFromCollection(releaseId, btnCollection);
     }
 
     @OnClick(R.id.btnWantlist)
     public void onWantlistClicked()
     {
         btnWantlist.startAnimation();
-        if (!inWantlist)
-            collectionWantlistInteractor.addToWantlist(this, releaseId, btnWantlist);
+        if (!presenter.isInWantlist())
+            presenter.addToWantlist(releaseId, btnWantlist);
         else
-            collectionWantlistInteractor.removeFromWantlist(this, releaseId, btnWantlist);
+            presenter.removeFromWantlist(releaseId, btnWantlist);
     }
 }

@@ -1,15 +1,23 @@
 package bj.discogsbrowser.network;
 
 import android.content.Context;
-import android.widget.Toast;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-import bj.discogsbrowser.epoxy.release.CollectionWantlistModel;
+import bj.discogsbrowser.model.collection.AddToCollectionResponse;
+import bj.discogsbrowser.model.collection.CollectionRelease;
+import bj.discogsbrowser.model.collection.RootCollectionRelease;
+import bj.discogsbrowser.model.release.Release;
+import bj.discogsbrowser.model.wantlist.AddToWantlistResponse;
+import bj.discogsbrowser.model.wantlist.RootWantlistResponse;
+import bj.discogsbrowser.model.wantlist.Want;
+import bj.discogsbrowser.release.ReleaseController;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
-import es.dmoral.toasty.Toasty;
+import io.reactivex.Single;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -18,7 +26,7 @@ import retrofit2.Retrofit;
 public class CollectionWantlistInteractor
 {
     private Context context;
-    private CollectionWantlistService discogsService;
+    private CollectionWantlistService service;
     private SharedPrefsManager sharedPrefsManager;
     private MySchedulerProvider mySchedulerProvider;
 
@@ -26,110 +34,79 @@ public class CollectionWantlistInteractor
     public CollectionWantlistInteractor(Context context, Retrofit retrofit, SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
     {
         this.context = context;
-        this.discogsService = retrofit.create(CollectionWantlistService.class);
+        this.service = retrofit.create(CollectionWantlistService.class);
         this.sharedPrefsManager = sharedPrefsManager;
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
-    public void addToCollection(CollectionWantlistModel model, String releaseId, CircularProgressButton btnCollection)
+    public Single<List<Want>> fetchWantlist(String username)
     {
-        sharedPrefsManager.setFetchNextCollection("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        discogsService.addToCollection(sharedPrefsManager.getUsername(), releaseId)
+        return service.fetchWantlist(username, "year", "desc", "500")
                 .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(result ->
-                        {
-                            if (result.getInstanceId() != null)
-                            {
-                                model.instanceId = result.getInstanceId();
-                                model.inCollection = true;
-                                btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
-                            }
-                            else
-                            {
-                                Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
-                                btnCollection.revertAnimation();
-                            }
-                        },
-                        error ->
-                        {
-                            Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
-                            error.printStackTrace();
-                            btnCollection.revertAnimation();
-                        });
+                .map(RootWantlistResponse::getWants);
     }
 
-    public void removeFromCollection(CollectionWantlistModel model, String releaseId, String instanceId, CircularProgressButton btnCollection)
+    public Single<List<CollectionRelease>> fetchCollection(String username)
     {
-        sharedPrefsManager.setFetchNextCollection("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        discogsService.removeFromCollection(sharedPrefsManager.getUsername(), releaseId, instanceId)
+        return service.fetchCollection(username, "year", "desc", "500")
                 .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(result ->
-                        {
-                            if (result.isSuccessful())
-                            {
-                                model.inCollection = false;
-                                btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
-                            }
-                            else
-                            {
-                                Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
-                                btnCollection.revertAnimation();
-                            }
-                        },
-                        error ->
-                        {
-                            Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
-                            btnCollection.revertAnimation();
-                        });
+                .map(RootCollectionRelease::getCollectionReleases);
     }
 
-    public void addToWantlist(CollectionWantlistModel model, String releaseId, CircularProgressButton btnWantlist)
+    public Single<List<Want>> checkIfInWantlist(ReleaseController controller, Release release)
     {
-        sharedPrefsManager.setFetchNextWantlist("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        discogsService.addToWantlist(sharedPrefsManager.getUsername(), releaseId)
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(result ->
-                        {
-                            model.inWantlist = true;
-                            btnWantlist.revertAnimation(() -> btnWantlist.setText("Remove from Wantlist"));
-                        },
-                        error ->
-                        {
-                            Toasty.error(context, "Unable to add to Wantlist", Toast.LENGTH_SHORT, true).show();
-                            btnWantlist.revertAnimation();
-                        });
+        return fetchWantlist(sharedPrefsManager.getUsername())
+                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
+                .subscribeOn(mySchedulerProvider.ui())
+                .flattenAsObservable(results -> results)
+                .map(want ->
+                {
+                    if (want.getId().equals(release.getId()))
+                        release.setIsInWantlist(true);
+                    return want;
+                })
+                .toList();
     }
 
-    public void removeFromWantlist(CollectionWantlistModel model, String releaseId, CircularProgressButton btnWantlist)
+    public Single<List<CollectionRelease>> checkIfInCollection(ReleaseController controller, Release release)
     {
-        sharedPrefsManager.setFetchNextWantlist("yes");
-        sharedPrefsManager.setfetchNextUserDetails("yes");
-        discogsService.removeFromWantlist(sharedPrefsManager.getUsername(), releaseId)
-                .subscribeOn(mySchedulerProvider.io())
+        return fetchCollection(sharedPrefsManager.getUsername())
+                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
+                .flattenAsObservable(results -> results)
+                .map(collectionRelease ->
+                {
+                    if (collectionRelease.getId().equals(release.getId()))
+                    {
+                        release.setIsInCollection(true);
+                        release.setInstanceId(collectionRelease.getInstanceId());
+                    }
+                    return collectionRelease;
+                })
                 .observeOn(mySchedulerProvider.ui())
-                .subscribe(result ->
-                        {
-                            if (result.isSuccessful())
-                            {
-                                model.inWantlist = false;
-                                btnWantlist.revertAnimation(() -> btnWantlist.setText("Add to Wantlist"));
-                            }
-                            else
-                            {
-                                Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
-                                btnWantlist.revertAnimation();
-                            }
-                        },
-                        error ->
-                        {
-                            Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
-                            btnWantlist.revertAnimation();
-                        });
+                .toList();
+    }
+
+    public Single<AddToCollectionResponse> addToCollection(String releaseId)
+    {
+        return service.addToCollection(sharedPrefsManager.getUsername(), releaseId)
+                .subscribeOn(mySchedulerProvider.io());
+    }
+
+    public Single<Response<Void>> removeFromCollection(String releaseId, String instanceId)
+    {
+        return service.removeFromCollection(sharedPrefsManager.getUsername(), releaseId, instanceId)
+                .subscribeOn(mySchedulerProvider.io());
+    }
+
+    public Single<AddToWantlistResponse> addToWantlist(String releaseId)
+    {
+        return service.addToWantlist(sharedPrefsManager.getUsername(), releaseId)
+                .subscribeOn(mySchedulerProvider.io());
+    }
+
+    public Single<Response<Void>> removeFromWantlist(String releaseId)
+    {
+        return service.removeFromWantlist(sharedPrefsManager.getUsername(), releaseId)
+                .subscribeOn(mySchedulerProvider.io());
     }
 }

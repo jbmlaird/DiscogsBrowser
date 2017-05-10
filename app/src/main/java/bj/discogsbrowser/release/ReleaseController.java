@@ -26,7 +26,6 @@ import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.model.release.Track;
 import bj.discogsbrowser.model.release.Video;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.utils.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
@@ -41,7 +40,7 @@ public class ReleaseController extends BaseController
     private final ReleaseContract.View view;
     private ArtistsBeautifier artistsBeautifier;
     private ImageViewAnimator imageViewAnimator;
-    private CollectionWantlistInteractor collectionWantlistInteractor;
+    private CollectionWantlistPresenter presenter;
     private Release release;
     private ArrayList<ScrapeListing> releaseListings;
     private boolean viewFullTracklist = false;
@@ -58,13 +57,13 @@ public class ReleaseController extends BaseController
 
     @Inject
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
-                             CollectionWantlistInteractor collectionWantlistInteractor, AnalyticsTracker tracker)
+                             CollectionWantlistPresenter presenter, AnalyticsTracker tracker)
     {
         this.context = context;
         this.view = view;
         this.artistsBeautifier = artistsBeautifier;
         this.imageViewAnimator = imageViewAnimator;
-        this.collectionWantlistInteractor = collectionWantlistInteractor;
+        this.presenter = presenter;
         this.tracker = tracker;
     }
 
@@ -148,7 +147,7 @@ public class ReleaseController extends BaseController
                     .instanceId(release.getInstanceId())
                     .inCollection(release.isInCollection())
                     .inWantlist(release.isInWantlist())
-                    .collectionWantlistInteractor(collectionWantlistInteractor)
+                    .presenter(presenter)
                     .addIf(collectionWantlistChecked, this);
 
             new RetryModel_()

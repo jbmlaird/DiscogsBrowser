@@ -11,13 +11,16 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.greenrobot.greendao.database.Database;
 
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
+import bj.discogsbrowser.network.CacheProviders;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
-import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import dagger.Module;
 import dagger.Provides;
+import io.rx_cache2.internal.RxCache;
+import io.victoralbertos.jolyglot.GsonSpeaker;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,10 +34,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AppModule
 {
     private Application applicationContext;
+    private CacheProviders cacheProviders;
 
     public AppModule(Application context)
     {
         applicationContext = context;
+        cacheProviders = new RxCache.Builder()
+                .setMaxMBPersistenceCache(5)
+                .persistence(context.getFilesDir(), new GsonSpeaker())
+                .using(CacheProviders.class);
     }
 
     @Provides
@@ -103,5 +111,11 @@ public class AppModule
                 .baseUrl(context.getString(R.string.discogs_base))
                 .client(client)
                 .build();
+    }
+
+    @Provides
+    CacheProviders provideCacheProviders()
+    {
+        return cacheProviders;
     }
 }

@@ -13,8 +13,6 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
-import bj.discogsbrowser.model.collection.CollectionRelease;
-import bj.discogsbrowser.model.collection.RootCollectionRelease;
 import bj.discogsbrowser.model.label.Label;
 import bj.discogsbrowser.model.labelrelease.LabelRelease;
 import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
@@ -30,8 +28,6 @@ import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.model.version.RootVersionsResponse;
 import bj.discogsbrowser.model.version.Version;
-import bj.discogsbrowser.model.wantlist.RootWantlistResponse;
-import bj.discogsbrowser.model.wantlist.Want;
 import bj.discogsbrowser.utils.DiscogsScraper;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -188,7 +184,8 @@ public class DiscogsInteractor
     {
         return cacheProviders.getReleaseMarketListings(
                 Single.defer(() -> Single.just(discogsScraper.scrapeListings(id, type))),
-                new DynamicKey(id + type));
+                new DynamicKey(id + type))
+                .subscribeOn(mySchedulerProvider.io());
     }
 
     public Single<Listing> fetchListingDetails(String listingId)
@@ -205,27 +202,6 @@ public class DiscogsInteractor
                 .subscribeOn(mySchedulerProvider.io())
                 .flatMap(user ->
                         discogsService.fetchUserDetails(user.getUsername()));
-    }
-
-    public Single<List<CollectionRelease>> fetchCollection(String username)
-    {
-        Single<List<CollectionRelease>> collectionSingle = cacheProviders.fetchCollection(discogsService.fetchCollection(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextCollection()))
-                .subscribeOn(mySchedulerProvider.io())
-                .map(RootCollectionRelease::getCollectionReleases);
-        if (sharedPrefsManager.fetchNextCollection())
-            sharedPrefsManager.setFetchNextCollection("no");
-        return collectionSingle;
-    }
-
-    public Single<List<Want>> fetchWantlist(String username)
-    {
-        Single<List<Want>> wantlistSingle = cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
-                .observeOn(mySchedulerProvider.io())
-                .subscribeOn(mySchedulerProvider.io())
-                .map(RootWantlistResponse::getWants);
-        if (sharedPrefsManager.fetchNextWantlist())
-            sharedPrefsManager.setFetchNextWantlist("no");
-        return wantlistSingle;
     }
 
     public Single<List<Order>> fetchOrders()

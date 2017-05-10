@@ -102,7 +102,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     public void retryCollectionWantlist()
     {
         tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryWantlistCollection", 1L);
-        presenter.retryCollectionWantlist();
+        presenter.checkCollectionAndWantlist();
     }
 
     @Override

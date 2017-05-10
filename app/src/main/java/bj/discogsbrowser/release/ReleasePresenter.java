@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.discogsbrowser.greendao.DaoInteractor;
-import bj.discogsbrowser.model.release.Label;
-import bj.discogsbrowser.model.release.Release;
+import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -30,6 +29,8 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private final String TAG = getClass().getSimpleName();
     private final ReleaseController controller;
     private final DiscogsInteractor discogsInteractor;
+    private LabelInteractor labelInteractor;
+    private CollectionWantlistInteractor collectionWantlistInteractor;
     private final MySchedulerProvider mySchedulerProvider;
     private final ArtistsBeautifier artistsBeautifier;
     private SharedPrefsManager sharedPrefsManager;
@@ -39,138 +40,20 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private boolean wantlistChecked;
 
     @Inject
-    public ReleasePresenter(@NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor,
+    public ReleasePresenter(@NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor, @NonNull LabelInteractor labelInteractor,
+                            @NonNull CollectionWantlistInteractor collectionWantlistInteractor,
                             @NonNull MySchedulerProvider mySchedulerProvider, @NonNull SharedPrefsManager sharedPrefsManager, @NonNull LogWrapper log,
                             @NonNull DaoInteractor daoInteractor, @NonNull ArtistsBeautifier artistsBeautifier)
     {
         this.controller = controller;
         this.discogsInteractor = discogsInteractor;
+        this.labelInteractor = labelInteractor;
+        this.collectionWantlistInteractor = collectionWantlistInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.sharedPrefsManager = sharedPrefsManager;
         this.log = log;
         this.daoInteractor = daoInteractor;
         this.artistsBeautifier = artistsBeautifier;
-    }
-
-    @Override
-    public void getReleaseAndLabelDetails(String id)
-    {
-        discogsInteractor.fetchReleaseDetails(id)
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .doOnSubscribe(onSubscribe -> controller.setReleaseLoading(true))
-                .map(release ->
-                {
-                    for (Label label : release.getLabels())
-                    {
-                        discogsInteractor.fetchLabelDetails(label.getId())
-                                .subscribe(labelDetails ->
-                                        {
-                                            if (labelDetails.getImages() != null && labelDetails.getImages().size() > 0)
-                                                label.setThumb(labelDetails.getImages().get(0).getUri());
-                                        },
-                                        error ->
-                                                Log.e(TAG, "Unable to get label details"));
-                    }
-                    daoInteractor.storeViewedRelease(release, artistsBeautifier);
-                    return release;
-                })
-                .subscribe(release ->
-                {
-                    controller.setRelease(release);
-                    log.e(TAG, release.getTitle());
-                    if (release.getNumForSale() != 0)
-                        fetchReleaseListings(id);
-                    else
-                        controller.setReleaseListings(new ArrayList<>());
-
-                    checkIfInCollection(release);
-                    checkIfInWantlist(release);
-                }, error ->
-                {
-                    log.e(TAG, "onReleaseDetailsError");
-                    error.printStackTrace();
-                    controller.setReleaseError(true);
-                });
-    }
-
-    public void fetchReleaseListings(String id) throws IOException
-    {
-        discogsInteractor.getReleaseMarketListings(id, "release")
-                .doOnSubscribe(onSubscribe -> controller.setMarketplaceLoading(true))
-                .subscribeOn(mySchedulerProvider.io())
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(controller::setReleaseListings,
-                        error ->
-                                controller.setReleaseListingsError()
-                );
-    }
-
-    private void checkIfInWantlist(Release release)
-    {
-        discogsInteractor.fetchWantlist(sharedPrefsManager.getUsername())
-                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
-                .subscribeOn(mySchedulerProvider.ui())
-                .doOnSuccess(onSuccess ->
-                {
-                    wantlistChecked = true;
-                    if (collectionChecked)
-                        controller.collectionWantlistChecked(true);
-                })
-                .flattenAsObservable(results -> results)
-                .map(want ->
-                {
-                    if (want.getId().equals(release.getId()))
-                        release.setIsInWantlist(true);
-                    return want;
-                })
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(want ->
-                        {
-                            // Due to the filter, if the user has nothing in their Collection/Wantlist, this will not be reached.
-                            // Done in onSuccess() instead
-                        },
-                        error ->
-                        {
-                            controller.setWantlistError(true);
-                            error.printStackTrace();
-                            Log.e(TAG, "checkInWantlistFail");
-                        });
-    }
-
-    private void checkIfInCollection(Release release)
-    {
-        discogsInteractor.fetchCollection(sharedPrefsManager.getUsername())
-                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
-                .doOnSuccess(onSuccess ->
-                {
-                    collectionChecked = true;
-                    if (wantlistChecked)
-                        controller.collectionWantlistChecked(true);
-                })
-                .subscribeOn(mySchedulerProvider.ui())
-                .flattenAsObservable(results -> results)
-                .map(collectionRelease ->
-                {
-                    if (collectionRelease.getId().equals(release.getId()))
-                    {
-                        release.setIsInCollection(true);
-                        release.setInstanceId(collectionRelease.getInstanceId());
-                    }
-                    return collectionRelease;
-                })
-                .observeOn(mySchedulerProvider.ui())
-                .subscribe(result ->
-                        {
-                            // Due to the filter, if the user has nothing in their Collection/Wantlist, this will not be reached.
-                            // Done in onSuccess() instead
-                        },
-                        error ->
-                        {
-                            error.printStackTrace();
-                            controller.setCollectionError(true);
-                            Log.e(TAG, "checkInCollection");
-                        });
     }
 
     @Override
@@ -183,9 +66,72 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     }
 
     @Override
-    public void retryCollectionWantlist()
+    public void getReleaseAndLabelDetails(String id)
     {
-        checkIfInCollection(controller.getRelease());
-        checkIfInWantlist(controller.getRelease());
+        discogsInteractor.fetchReleaseDetails(id)
+                .subscribeOn(mySchedulerProvider.io())
+                .observeOn(mySchedulerProvider.ui())
+                .doOnSubscribe(onSubscribe -> controller.setReleaseLoading(true))
+                .map(release ->
+                {
+                    labelInteractor.getReleaseLabelDetails(release.getLabels(), id);
+                    daoInteractor.storeViewedRelease(release, artistsBeautifier);
+                    return release;
+                })
+                .subscribe(release ->
+                {
+                    controller.setRelease(release);
+                    log.e(TAG, release.getTitle());
+                    if (release.getNumForSale() != 0)
+                        fetchReleaseListings(id);
+                    else
+                        controller.setReleaseListings(new ArrayList<>());
+                    checkCollectionAndWantlist();
+                }, error ->
+                {
+                    log.e(TAG, "onReleaseDetailsError");
+                    error.printStackTrace();
+                    controller.setReleaseError(true);
+                });
+    }
+
+    public void fetchReleaseListings(String id) throws IOException
+    {
+        discogsInteractor.getReleaseMarketListings(id, "release")
+                .doOnSubscribe(onSubscribe -> controller.setMarketplaceLoading(true))
+                .observeOn(mySchedulerProvider.ui())
+                .subscribe(controller::setReleaseListings,
+                        error ->
+                                controller.setReleaseListingsError()
+                );
+    }
+
+    @Override
+    public void checkCollectionAndWantlist()
+    {
+        collectionWantlistInteractor.checkIfInCollection(controller, controller.getRelease())
+                .subscribe(result ->
+                        {
+                            collectionChecked = true;
+                            if (wantlistChecked)
+                                controller.collectionWantlistChecked(true);
+                        },
+                        error ->
+                        {
+                            error.printStackTrace();
+                            controller.setCollectionError(true);
+                        });
+        collectionWantlistInteractor.checkIfInWantlist(controller, controller.getRelease())
+                .subscribe(want ->
+                        {
+                            wantlistChecked = true;
+                            if (collectionChecked)
+                                controller.collectionWantlistChecked(true);
+                        },
+                        error ->
+                        {
+                            controller.setWantlistError(true);
+                            error.printStackTrace();
+                        });
     }
 }

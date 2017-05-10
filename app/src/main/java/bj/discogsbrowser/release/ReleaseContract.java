@@ -25,6 +25,6 @@ public interface ReleaseContract
 
     interface Presenter extends RecyclerViewPresenter
     {
-        void retryCollectionWantlist();
+        void checkCollectionAndWantlist();
     }
 }

@@ -2,8 +2,6 @@ package bj.discogsbrowser.network;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
-import bj.discogsbrowser.model.collection.AddToCollectionResponse;
-import bj.discogsbrowser.model.collection.RootCollectionRelease;
 import bj.discogsbrowser.model.label.Label;
 import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
 import bj.discogsbrowser.model.listing.Listing;
@@ -16,14 +14,8 @@ import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.model.user.User;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.model.version.RootVersionsResponse;
-import bj.discogsbrowser.model.wantlist.AddToWantlistResponse;
-import bj.discogsbrowser.model.wantlist.RootWantlistResponse;
 import io.reactivex.Single;
-import retrofit2.Response;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -72,13 +64,6 @@ public interface DiscogsService
 
     @GET("/users/{username}")
     Single<UserDetails> fetchUserDetails(@Path("username") String username);
-
-    // 0 means it will always look in the user's "Uncategorized" folder (must be authenticated)
-    @GET("/users/{username}/collection/folders/1/releases")
-    Single<RootCollectionRelease> fetchCollection(@Path("username") String username, @Query("sort") String sortBy, @Query("sort_order") String sortOrder, @Query("per_page") String perPage);
-
-    @GET("/users/{username}/wants")
-    Single<RootWantlistResponse> fetchWantlist(@Path("username") String username, @Query("sort") String sortBy, @Query("sort_order") String sortOrder, @Query("per_page") String perPage);
 
     @GET("/marketplace/orders")
     Single<RootOrderResponse> fetchOrders(@Query("sort_order") String sortOrder, @Query("per_page") String perPage, @Query("sort") String sortBy);

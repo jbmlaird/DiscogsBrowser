@@ -134,3 +134,6 @@ public static java.lang.String TABLENAME;
 
 ##---------------Begin: Google Analytics ----------
 -keep class com.google.analytics.** { *; }
+
+##----Begin LoadingButton---
+-keep class br.com.simplepass.loading_button_lib.**
