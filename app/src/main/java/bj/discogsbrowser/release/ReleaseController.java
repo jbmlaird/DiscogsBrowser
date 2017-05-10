@@ -10,15 +10,15 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.PaddedCenterTextModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.epoxy.release.CollectionWantlistModel_;
 import bj.discogsbrowser.epoxy.release.MarketplaceListingsHeader_;
 import bj.discogsbrowser.epoxy.release.MarketplaceModel_;
-import bj.discogsbrowser.epoxy.release.NoListingsModel_;
 import bj.discogsbrowser.epoxy.release.TrackModel_;
 import bj.discogsbrowser.epoxy.release.YouTubeModel_;
 import bj.discogsbrowser.model.listing.ScrapeListing;
@@ -213,8 +213,9 @@ public class ReleaseController extends BaseController
             if (releaseListings != null)
             {
                 if (releaseListings.size() == 0)
-                    new NoListingsModel_()
+                    new PaddedCenterTextModel_()
                             .id("no listings")
+                            .text("No 12\" for sale")
                             .addTo(this);
                 else
                     for (ScrapeListing scrapeListing : releaseListings)

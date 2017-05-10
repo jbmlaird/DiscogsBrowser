@@ -68,7 +68,7 @@ public class MasterPresenterTest
     {
         Master master = masterFactory.getMaster();
         Single<Master> justMaster = Single.just(master);
-        List<Version> versions = masterFactory.getMasterVersions();
+        List<Version> versions = masterFactory.getTwoMasterVersions();
         Single<List<Version>> justVersions = Single.just(versions);
 
         when(discogsInteractor.fetchMasterDetails(id)).thenReturn(justMaster);

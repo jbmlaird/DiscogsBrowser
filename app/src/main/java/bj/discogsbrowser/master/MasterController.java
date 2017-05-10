@@ -1,6 +1,7 @@
 package bj.discogsbrowser.master;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.PaddedCenterTextModel_;
 import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
@@ -82,28 +84,34 @@ public class MasterController extends BaseController
 
         if (masterVersions != null)
         {
-            for (Version version : masterVersions)
-            {
-                new ListItemModel_()
-                        .context(context)
-                        .imageUrl(version.getThumb())
-                        .title(version.getTitle())
-                        .subtitle(version.getFormat())
-                        .id("version model" + masterVersions.indexOf(version))
-                        .onClick(v -> mView.displayRelease(title, version.getId()))
+            if (masterVersions.size() == 0)
+                new PaddedCenterTextModel_()
+                        .text("No releases for this Master")
+                        .id("no master versions")
                         .addTo(this);
-
-                if (masterVersions.indexOf(version) == 2 && !viewAllVersions && masterVersions.size() > 3)
+            else
+                for (Version version : masterVersions)
                 {
-                    new ViewMoreModel_()
-                            .id("view all")
-                            .title("View all versions")
-                            .textSize(18f)
-                            .onClickListener(v -> setViewAllVersions(true))
+                    new ListItemModel_()
+                            .context(context)
+                            .imageUrl(version.getThumb())
+                            .title(version.getTitle())
+                            .subtitle(version.getFormat())
+                            .id("version model" + masterVersions.indexOf(version))
+                            .onClick(v -> mView.displayRelease(title, version.getId()))
                             .addTo(this);
-                    break;
+
+                    if (masterVersions.indexOf(version) == 2 && !viewAllVersions && masterVersions.size() > 3)
+                    {
+                        new ViewMoreModel_()
+                                .id("view all")
+                                .title("View all versions")
+                                .textSize(18f)
+                                .onClickListener(v -> setViewAllVersions(true))
+                                .addTo(this);
+                        break;
+                    }
                 }
-            }
         }
     }
 
@@ -113,6 +121,7 @@ public class MasterController extends BaseController
         this.title = master.getTitle();
         if (master.getImages() != null && master.getImages().size() > 0)
             this.imageUrl = master.getImages().get(0).getUri();
+        this.error = false;
         requestModelBuild();
     }
 
@@ -139,7 +148,8 @@ public class MasterController extends BaseController
         requestModelBuild();
     }
 
-    private void setViewAllVersions(boolean b)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public void setViewAllVersions(boolean b)
     {
         viewAllVersions = b;
         tracker.send(context.getString(R.string.master_activity), context.getString(R.string.master_activity), context.getString(R.string.clicked), "view all versions", 1L);
