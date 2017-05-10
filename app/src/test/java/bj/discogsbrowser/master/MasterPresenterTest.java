@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.airbnb.epoxy.EpoxyControllerAdapter;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -45,6 +47,12 @@ public class MasterPresenterTest
     public void setUp()
     {
         presenter = new MasterPresenter(view, discogsInteractor, controller, new TestSchedulerProvider(testScheduler));
+    }
+
+    @After
+    public void tearDown()
+    {
+        verifyNoMoreInteractions(view, discogsInteractor, controller);
     }
 
     @Test

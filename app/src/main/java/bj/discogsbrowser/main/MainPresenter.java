@@ -14,13 +14,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.discogsbrowser.R;
+import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.AnalyticsTracker;
-import bj.discogsbrowser.greendao.DaoInteractor;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -91,7 +91,7 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void buildViewedReleases()
     {
-        mainController.setLoadingViewedReleases(true);
+//        mainController.setLoadingViewedReleases(true);
         List<ViewedRelease> viewedReleases = daoInteractor.getViewedReleases();
         mainController.setViewedReleases(viewedReleases);
     }

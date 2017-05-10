@@ -44,13 +44,6 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     }
 
     @Override
-    protected void onResume()
-    {
-        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.loaded), "onResume", 1L);
-        super.onResume();
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -60,6 +53,13 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
         toolbar.setTitle(getIntent().getStringExtra("id"));
         presenter.setupRecyclerView(this, recyclerView);
         presenter.fetchOrderDetails(getIntent().getStringExtra("id"));
+    }
+
+    @Override
+    protected void onResume()
+    {
+        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.loaded), "onResume", 1L);
+        super.onResume();
     }
 
     @Override

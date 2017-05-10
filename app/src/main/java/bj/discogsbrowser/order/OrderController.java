@@ -9,8 +9,8 @@ import javax.inject.Singleton;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.order.BuyerModel_;
 import bj.discogsbrowser.epoxy.order.OrderReleaseModel_;
 import bj.discogsbrowser.epoxy.order.TotalModel_;
@@ -73,7 +73,7 @@ public class OrderController extends EpoxyController
             for (Item item : orderDetails.getItems())
             {
                 new OrderReleaseModel_()
-                        .id("item " + item.getId().toString())
+                        .id("item " + orderDetails.getItems().indexOf(item))
                         .releaseName(item.getRelease().getDescription())
                         .price(item.getPrice().getValue())
                         .addTo(this);
@@ -106,11 +106,14 @@ public class OrderController extends EpoxyController
         requestModelBuild();
     }
 
-    public void errorFetchingDetails()
+    public void setError(boolean isError)
     {
-        error = true;
-        loadingOrder = false;
-        tracker.send(context.getString(R.string.order_activity), context.getString(R.string.order_activity), context.getString(R.string.error), "fetching details", 1L);
+        error = isError;
+        if (isError)
+        {
+            loadingOrder = false;
+            tracker.send(context.getString(R.string.order_activity), context.getString(R.string.order_activity), context.getString(R.string.error), "fetching details", 1L);
+        }
         requestModelBuild();
     }
 }
