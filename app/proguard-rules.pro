@@ -136,4 +136,5 @@ public static java.lang.String TABLENAME;
 -keep class com.google.analytics.** { *; }
 
 ##----Begin LoadingButton---
--keep class br.com.simplepass.loading_button_lib.**
+-dontwarn br.com.simplepass.loading_button_lib.customViews.**
+#-keep class br.com.simplepass.loading_button_lib.**

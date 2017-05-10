@@ -17,6 +17,7 @@ import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.RetryModel_;
+import bj.discogsbrowser.epoxy.common.SmallEmptySpaceModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.common.WholeLineModel_;
 import bj.discogsbrowser.epoxy.main.InfoTextModel_;
@@ -136,7 +137,7 @@ public class LabelController extends BaseController
                         .addTo(this);
             }
         }
-        new EmptySpaceModel_()
+        new SmallEmptySpaceModel_()
                 .id("end of controller model")
                 .addTo(this);
     }

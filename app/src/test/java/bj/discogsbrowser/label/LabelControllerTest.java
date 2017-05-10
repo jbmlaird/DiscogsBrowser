@@ -52,7 +52,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "SubHeaderModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 6);
     }
 
@@ -64,7 +64,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "RetryModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 4);
     }
 
@@ -76,7 +76,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "RetryModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 4);
 
         controller.setLoading(true);
@@ -86,7 +86,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "SubHeaderModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 6);
 
         controller.setLabel(labelFactory.getLabel());
@@ -95,7 +95,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "SubHeaderModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 5);
     }
 
@@ -108,7 +108,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "SubHeaderModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 5);
 
         controller.setLabelReleases(Collections.emptyList());
@@ -118,7 +118,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "InfoTextModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "WholeLineModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 6);
     }
 
@@ -131,7 +131,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "SubHeaderModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 5);
 
         controller.setLabelReleases(labelFactory.getThreeLabelReleases());
@@ -143,7 +143,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "ListItemModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "WholeLineModel_");
-        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 8);
     }
 
@@ -156,7 +156,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "SubHeaderModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 5);
 
         controller.setLabelReleases(labelFactory.getSixLabelReleases());
@@ -171,7 +171,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ViewMoreModel_");
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "WholeLineModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 11);
 
         controller.setViewMore(true);
@@ -186,7 +186,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "ListItemModel_");
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "WholeLineModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 11);
     }
 }
