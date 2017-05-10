@@ -26,11 +26,10 @@ import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.model.release.Track;
 import bj.discogsbrowser.model.release.Video;
-import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.utils.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
-import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
 /**
  * Created by Josh Laird on 24/04/2017.
@@ -42,8 +41,7 @@ public class ReleaseController extends BaseController
     private final ReleaseContract.View view;
     private ArtistsBeautifier artistsBeautifier;
     private ImageViewAnimator imageViewAnimator;
-    private DiscogsInteractor discogsInteractor;
-    private MySchedulerProvider mySchedulerProvider;
+    private CollectionWantlistInteractor collectionWantlistInteractor;
     private Release release;
     private ArrayList<ScrapeListing> releaseListings;
     private boolean viewFullTracklist = false;
@@ -60,14 +58,13 @@ public class ReleaseController extends BaseController
 
     @Inject
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
-                             DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, AnalyticsTracker tracker)
+                             CollectionWantlistInteractor collectionWantlistInteractor, AnalyticsTracker tracker)
     {
         this.context = context;
         this.view = view;
         this.artistsBeautifier = artistsBeautifier;
         this.imageViewAnimator = imageViewAnimator;
-        this.discogsInteractor = discogsInteractor;
-        this.mySchedulerProvider = mySchedulerProvider;
+        this.collectionWantlistInteractor = collectionWantlistInteractor;
         this.tracker = tracker;
     }
 
@@ -151,8 +148,7 @@ public class ReleaseController extends BaseController
                     .instanceId(release.getInstanceId())
                     .inCollection(release.isInCollection())
                     .inWantlist(release.isInWantlist())
-                    .mySchedulerProvider(mySchedulerProvider)
-                    .discogsInteractor(discogsInteractor)
+                    .collectionWantlistInteractor(collectionWantlistInteractor)
                     .addIf(collectionWantlistChecked, this);
 
             new RetryModel_()

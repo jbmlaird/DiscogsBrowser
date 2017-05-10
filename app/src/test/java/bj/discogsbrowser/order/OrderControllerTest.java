@@ -15,7 +15,6 @@ import org.robolectric.annotation.Config;
 import java.util.List;
 
 import bj.discogsbrowser.utils.AnalyticsTracker;
-import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -31,7 +30,6 @@ public class OrderControllerTest
     private OrderController controller;
     @Mock Context context;
     @Mock OrderContract.View view;
-    @Mock ArtistsBeautifier artistsBeautifer;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock AnalyticsTracker tracker;
     private OrderFactory orderFactory = new OrderFactory();

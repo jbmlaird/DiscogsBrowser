@@ -91,7 +91,6 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void buildViewedReleases()
     {
-//        mainController.setLoadingViewedReleases(true);
         List<ViewedRelease> viewedReleases = daoInteractor.getViewedReleases();
         mainController.setViewedReleases(viewedReleases);
     }

@@ -68,6 +68,7 @@ public class MasterPresenterTest
 
         verify(mockRv, times(1)).setLayoutManager(any(LinearLayoutManager.class));
         verify(mockRv, times(1)).setAdapter(controller.getAdapter());
+        verify(controller, times(2)).getAdapter();
         verify(controller, times(1)).setTitle(title);
     }
 
