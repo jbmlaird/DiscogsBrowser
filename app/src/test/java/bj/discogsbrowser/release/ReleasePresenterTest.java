@@ -221,7 +221,7 @@ public class ReleasePresenterTest
         verify(daoManager).storeViewedRelease(releaseWithLabelSomeForSale, artistsBeautifier);
         verify(controller).setRelease(releaseWithLabelSomeForSale);
         verify(controller).setReleaseListings(listArgumentCaptor.capture());
-        assertEquals(listArgumentCaptor.getValue().size(), 3);
+        assertEquals(listArgumentCaptor.getValue().size(), 4);
         verify(collectionWantlistInteractor, times(1)).checkIfInCollection(controller, releaseWithLabelSomeForSale);
         verify(collectionWantlistInteractor, times(1)).checkIfInWantlist(controller, releaseWithLabelSomeForSale);
         verify(discogsInteractor).getReleaseMarketListings(id);
