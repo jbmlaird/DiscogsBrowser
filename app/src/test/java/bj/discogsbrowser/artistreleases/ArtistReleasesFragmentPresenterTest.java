@@ -13,13 +13,18 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.artistreleases.fragments.ArtistReleasesFragmentContract;
 import bj.discogsbrowser.artistreleases.fragments.ArtistReleasesFragmentPresenter;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
+import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
+import bj.discogsbrowser.rxmodifiers.ArtistResultFunction;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -27,6 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Josh Laird on 11/05/2017.
@@ -42,6 +48,7 @@ public class ArtistReleasesFragmentPresenterTest
     private TestScheduler testScheduler = new TestScheduler();
     @Mock ArtistReleasesTransformer artistReleasesTransformer;
     @Mock ArtistReleasesController controller;
+    private String searchFilter = "searchFilter";
 
     @Before
     public void setup()
@@ -80,13 +87,55 @@ public class ArtistReleasesFragmentPresenterTest
         verify(disposable, times(1)).dispose();
     }
 
-//    @Test
-//    public void getArtistReleasesSuccessful_controllerDisplays()
-//    {
-//        // Will need to use a real behaviorRelay for this test
-//        BehaviorRelay<List<ArtistRelease>> behaviorRelay = BehaviorRelay.create();
-//        presenter = new ArtistReleasesFragmentPresenter(view, disposable, artistResultFunction, behaviorRelay,
-//                new TestSchedulerProvider(testScheduler), artistReleasesTransformer, controller);
-//    }
+    @Test
+    public void behaviorRelayValid_controllerDisplays() throws Exception
+    {
+        // Will need to use a real behaviorRelay for this test
+        BehaviorRelay<List<ArtistRelease>> behaviorRelay = BehaviorRelay.create();
+        presenter = new ArtistReleasesFragmentPresenter(view, disposable, artistResultFunction, behaviorRelay,
+                new TestSchedulerProvider(testScheduler), artistReleasesTransformer, controller);
+        ArrayList<ArtistRelease> artistReleases = new ArrayList<>();
+        artistReleases.add(new ArtistRelease());
+        Single<List<ArtistRelease>> just = Single.just(artistReleases);
 
+        when(disposable.add(any(Disposable.class))).thenReturn(true);
+        when(artistResultFunction.apply(artistReleases)).thenReturn(artistReleases);
+        when(artistReleasesTransformer.apply(any(Single.class))).thenReturn(just);
+
+        presenter.connectToBehaviorRelay("filter");
+        behaviorRelay.accept(artistReleases);
+        testScheduler.triggerActions();
+
+        verify(disposable, times(1)).add(any(Disposable.class));
+        verify(artistResultFunction, times(1)).setParameterToMapTo("filter");
+        verify(artistResultFunction, times(1)).apply(artistReleases);
+        verify(artistReleasesTransformer, times(1)).apply(any(Single.class));
+        verify(controller, times(1)).setItems(artistReleases);
+    }
+
+    @Test
+    public void behaviorRelayError_controllerSetsError() throws Exception
+    {
+        // Will need to use a real behaviorRelay for this test
+        BehaviorRelay<List<ArtistRelease>> behaviorRelay = BehaviorRelay.create();
+        presenter = new ArtistReleasesFragmentPresenter(view, disposable, artistResultFunction, behaviorRelay,
+                new TestSchedulerProvider(testScheduler), artistReleasesTransformer, controller);
+        when(disposable.add(any())).thenReturn(true);
+        ArrayList<ArtistRelease> artistReleases = new ArrayList<>();
+        artistReleases.add(new ArtistRelease());
+        Single<Object> error = Single.error(new Throwable());
+        when(disposable.add(any(Disposable.class))).thenReturn(true);
+        when(artistResultFunction.apply(artistReleases)).thenReturn(artistReleases);
+        when(artistReleasesTransformer.apply(any(Single.class))).thenReturn(error);
+
+        presenter.connectToBehaviorRelay("filter");
+        behaviorRelay.accept(artistReleases);
+        testScheduler.triggerActions();
+
+        verify(disposable, times(1)).add(any(Disposable.class));
+        verify(artistResultFunction, times(1)).setParameterToMapTo("filter");
+        verify(artistResultFunction, times(1)).apply(artistReleases);
+        verify(artistReleasesTransformer, times(1)).apply(any(Single.class));
+        verify(controller, times(1)).setError(any(String.class));
+    }
 }

@@ -11,8 +11,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bj.discogsbrowser.artistreleases.ArtistReleasesController;
-import bj.discogsbrowser.artistreleases.ArtistReleasesTransformer;
-import bj.discogsbrowser.artistreleases.ArtistResultFunction;
+import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
+import bj.discogsbrowser.rxmodifiers.ArtistResultFunction;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Single;

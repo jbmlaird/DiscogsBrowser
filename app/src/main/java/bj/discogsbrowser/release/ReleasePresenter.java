@@ -86,21 +86,30 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                     daoManager.storeViewedRelease(release, artistsBeautifier);
                     return release;
                 })
-                .subscribe(release ->
+                .subscribeOn(mySchedulerProvider.ui())
+                .map(release ->
                 {
                     controller.setRelease(release);
                     if (release.getNumForSale() != 0)
                         fetchReleaseListings(id);
                     else
                         controller.setReleaseListings(new ArrayList<>());
-                    checkCollectionAndWantlist();
-                }, error ->
-                        controller.setReleaseError(true));
+                    return release;
+                })
+                .subscribeOn(mySchedulerProvider.io())
+                .flatMap(release ->
+                        collectionWantlistInteractor.checkIfInCollection(controller, controller.getRelease()))
+                .flatMap(collectionReleases ->
+                        collectionWantlistInteractor.checkIfInWantlist(controller, controller.getRelease()))
+                .subscribe(release ->
+                                controller.setCollectionWantlistChecked(true),
+                        error ->
+                                controller.setReleaseError(true));
     }
 
     public void fetchReleaseListings(String id) throws IOException
     {
-        discogsInteractor.getReleaseMarketListings(id, "release")
+        discogsInteractor.getReleaseMarketListings(id)
                 .doOnSubscribe(onSubscribe -> controller.setMarketplaceLoading(true))
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(controller::setReleaseListings,
@@ -110,31 +119,14 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     }
 
     @Override
-    public void checkCollectionAndWantlist()
+    public void checkCollectionWantlist()
     {
         collectionWantlistInteractor.checkIfInCollection(controller, controller.getRelease())
-                .subscribe(result ->
-                        {
-                            collectionChecked = true;
-                            if (wantlistChecked)
-                                controller.collectionWantlistChecked(true);
-                        },
+                .flatMap(collectionReleases ->
+                        collectionWantlistInteractor.checkIfInWantlist(controller, controller.getRelease()))
+                .subscribe(wants ->
+                                controller.setCollectionWantlistChecked(true),
                         error ->
-                        {
-                            error.printStackTrace();
-                            controller.setCollectionError(true);
-                        });
-        collectionWantlistInteractor.checkIfInWantlist(controller, controller.getRelease())
-                .subscribe(want ->
-                        {
-                            wantlistChecked = true;
-                            if (collectionChecked)
-                                controller.collectionWantlistChecked(true);
-                        },
-                        error ->
-                        {
-                            controller.setWantlistError(true);
-                            error.printStackTrace();
-                        });
+                                controller.setCollectionWantlistError(true));
     }
 }

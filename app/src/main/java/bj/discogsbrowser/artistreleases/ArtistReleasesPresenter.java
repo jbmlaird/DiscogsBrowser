@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
 /**

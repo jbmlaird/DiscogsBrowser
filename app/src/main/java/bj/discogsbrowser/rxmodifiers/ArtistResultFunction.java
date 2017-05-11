@@ -1,4 +1,4 @@
-package bj.discogsbrowser.artistreleases;
+package bj.discogsbrowser.rxmodifiers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import io.reactivex.functions.Function;
 /**
  * Created by Josh Laird on 11/04/2017.
  */
-
 public class ArtistResultFunction implements Function<List<ArtistRelease>, List<ArtistRelease>>
 {
     private String parameterToMapTo = "";

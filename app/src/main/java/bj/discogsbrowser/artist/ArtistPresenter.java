@@ -8,11 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
-import io.reactivex.functions.Function;
 
 /**
  * Created by Josh Laird on 07/04/2017.
@@ -26,12 +25,12 @@ public class ArtistPresenter implements ArtistContract.Presenter
     private MySchedulerProvider mySchedulerProvider;
     private LogWrapper log;
     private ArtistController artistController;
-    private Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction;
+    private RemoveUnwantedLinksFunction removeUnwantedLinksFunction;
 
     @Inject
     public ArtistPresenter(@NonNull ArtistContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                            @NonNull MySchedulerProvider mySchedulerProvider, @NonNull LogWrapper log, @NonNull ArtistController artistController,
-                           @NonNull Function<ArtistResult, ArtistResult> removeUnwantedLinksFunction)
+                           @NonNull RemoveUnwantedLinksFunction removeUnwantedLinksFunction)
     {
         this.view = view;
         this.discogsInteractor = discogsInteractor;

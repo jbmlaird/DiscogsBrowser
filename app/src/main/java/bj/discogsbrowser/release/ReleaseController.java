@@ -2,7 +2,7 @@ package bj.discogsbrowser.release;
 
 import android.content.Context;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,15 +42,14 @@ public class ReleaseController extends BaseController
     private ImageViewAnimator imageViewAnimator;
     private CollectionWantlistPresenter presenter;
     private Release release;
-    private ArrayList<ScrapeListing> releaseListings;
+    private List<ScrapeListing> releaseListings;
     private boolean viewFullTracklist = false;
     private boolean releaseLoading = true;
     private boolean releaseError = false;
     private boolean marketplaceLoading = true;
     private boolean viewAllListings = false;
     private boolean collectionWantlistChecked;
-    private boolean collectionError;
-    private boolean wantlistError;
+    private boolean collectionWantlistError;
     private boolean listingsError;
     private boolean collectionLoading = true;
     private AnalyticsTracker tracker;
@@ -138,7 +137,7 @@ public class ReleaseController extends BaseController
             new LoadingModel_()
                     .id("collectionwantlistloader")
                     .imageViewAnimator(imageViewAnimator)
-                    .addIf(collectionLoading, this);
+                    .addIf(collectionLoading && !collectionWantlistError, this);
 
             new CollectionWantlistModel_()
                     .id("collectionwantlist")
@@ -151,17 +150,10 @@ public class ReleaseController extends BaseController
                     .addIf(collectionWantlistChecked, this);
 
             new RetryModel_()
-                    .errorString("Unable to check Collection")
+                    .errorString("Unable to check Collection/Wantlist")
                     .id("Collection error")
                     .onClick(v -> view.retryCollectionWantlist())
-                    .addIf(collectionError, this);
-
-            new RetryModel_()
-                    .errorString("Unable to check Wantlist")
-                    .onClick(v -> view.retryCollectionWantlist())
-                    .id("Wantlist error")
-                    .addIf(wantlistError, this);
-
+                    .addIf(collectionWantlistError, this);
 
             if (release.getVideos() != null)
             {
@@ -207,7 +199,7 @@ public class ReleaseController extends BaseController
 
             if (releaseListings != null)
             {
-                if (releaseListings.size() == 0)
+                if (releaseListings.size() == 0 && !listingsError)
                     new PaddedCenterTextModel_()
                             .id("no listings")
                             .text("No 12\" for sale")
@@ -254,7 +246,7 @@ public class ReleaseController extends BaseController
         requestModelBuild();
     }
 
-    public void setReleaseListings(ArrayList<ScrapeListing> releaseListings)
+    public void setReleaseListings(List<ScrapeListing> releaseListings)
     {
         this.releaseListings = releaseListings;
         marketplaceLoading = false;
@@ -282,18 +274,17 @@ public class ReleaseController extends BaseController
         requestModelBuild();
     }
 
-    public void collectionWantlistChecked(boolean b)
+    public void setCollectionWantlistChecked(boolean b)
     {
         collectionWantlistChecked = b;
-        this.collectionError = false;
-        this.wantlistError = false;
+        this.collectionWantlistError = false;
         this.collectionLoading = false;
         requestModelBuild();
     }
 
-    public void setCollectionError(boolean collectionError)
+    public void setCollectionWantlistError(boolean collectionWantlistError)
     {
-        this.collectionError = collectionError;
+        this.collectionWantlistError = collectionWantlistError;
         this.collectionLoading = false;
         tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "collection", 1L);
         requestModelBuild();
@@ -302,15 +293,7 @@ public class ReleaseController extends BaseController
     public void setCollectionLoading(boolean collectionLoading)
     {
         this.collectionLoading = collectionLoading;
-        this.collectionError = false;
-        requestModelBuild();
-    }
-
-    public void setWantlistError(boolean wantlistError)
-    {
-        this.wantlistError = wantlistError;
-        this.collectionLoading = false;
-        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "wantlist", 1L);
+        this.collectionWantlistError = false;
         requestModelBuild();
     }
 
@@ -324,7 +307,11 @@ public class ReleaseController extends BaseController
     public void setReleaseError(boolean releaseError)
     {
         this.releaseError = releaseError;
+        this.collectionWantlistError = true;
+        this.listingsError = true;
+        collectionLoading = false;
         releaseLoading = false;
+        marketplaceLoading = false;
         tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release", 1L);
         requestModelBuild();
     }

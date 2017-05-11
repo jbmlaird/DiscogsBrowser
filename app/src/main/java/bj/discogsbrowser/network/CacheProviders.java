@@ -1,6 +1,6 @@
 package bj.discogsbrowser.network;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
@@ -61,7 +61,7 @@ public interface CacheProviders
     Single<RootArtistReleaseResponse> fetchArtistsReleases(Single<RootArtistReleaseResponse> fetchArtistsReleasesSingle, DynamicKey artistId);
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
-    Single<ArrayList<ScrapeListing>> getReleaseMarketListings(Single<ArrayList<ScrapeListing>> releaseMarketListings, DynamicKey listingIdAndType);
+    Single<List<ScrapeListing>> getReleaseMarketListings(Single<List<ScrapeListing>> releaseMarketListings, DynamicKey listingIdAndType);
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Single<Listing> fetchListingDetails(Single<Listing> fetchListingDetailsSingle, DynamicKey listingId);

@@ -1,4 +1,4 @@
-package bj.discogsbrowser.artistreleases;
+package bj.discogsbrowser.rxmodifiers;
 
 import java.util.List;
 

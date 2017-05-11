@@ -11,11 +11,11 @@ import org.mockito.Mock;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
 import bj.discogsbrowser.testmodels.TestArtistResultFactory;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -38,7 +38,7 @@ public class ArtistPresenterTest
     @Mock ArtistController artistController;
     @Mock RecyclerView recyclerView;
     @Mock Toolbar toolbar;
-    @Mock Function<ArtistResult, ArtistResult> artistResultFunction;
+    @Mock RemoveUnwantedLinksFunction unwantedLinksFunction;
 
     private ArtistPresenter artistPresenter;
     private String myId = "12345";
@@ -49,13 +49,13 @@ public class ArtistPresenterTest
         initMocks(this);
         testScheduler = new TestScheduler();
         TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(testScheduler);
-        artistPresenter = new ArtistPresenter(view, discogsInteractor, testSchedulerProvider, logWrapper, artistController, artistResultFunction);
+        artistPresenter = new ArtistPresenter(view, discogsInteractor, testSchedulerProvider, logWrapper, artistController, unwantedLinksFunction);
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(view, discogsInteractor, logWrapper, artistController, artistResultFunction);
+        verifyNoMoreInteractions(view, discogsInteractor, logWrapper, artistController, unwantedLinksFunction);
     }
 
     @Test
@@ -63,12 +63,12 @@ public class ArtistPresenterTest
     {
         ArtistResult testArtistResult = testArtistResultFactory.getTestArtistResultNoMembers();
         when(discogsInteractor.fetchArtistDetails(myId)).thenReturn(Single.just(testArtistResult));
-        when(artistResultFunction.apply(testArtistResult)).thenReturn(testArtistResult);
+        when(unwantedLinksFunction.apply(testArtistResult)).thenReturn(testArtistResult);
 
         artistPresenter.getReleaseAndLabelDetails(myId);
         testScheduler.triggerActions();
 
-        verify(artistResultFunction).apply(testArtistResult);
+        verify(unwantedLinksFunction).apply(testArtistResult);
         verify(discogsInteractor).fetchArtistDetails(myId);
         verify(artistController).setLoading(true);
         verify(artistController).setArtist(testArtistResult);

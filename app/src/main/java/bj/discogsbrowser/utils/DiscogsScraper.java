@@ -25,22 +25,12 @@ public class DiscogsScraper
 
     }
 
-    public ArrayList<ScrapeListing> scrapeListings(String id, String type) throws IOException
+    public ArrayList<ScrapeListing> scrapeListings(String id) throws IOException
     {
         // Only searches for 12"
-        StringBuilder stringBuilder = new StringBuilder("http://www.discogs.com/sell/list?sort=price%2Casc&limit=50&ev=mbformat_desc=12\"");
         ArrayList<ScrapeListing> scrapeListings = new ArrayList<>();
-        switch (type)
-        {
-            case "master":
-                stringBuilder.append("&master_id=").append(id);
-                break;
-            case "release":
-                stringBuilder.append("&release_id=").append(id);
-                break;
-        }
         Document doc = Jsoup
-                .connect(stringBuilder.toString())
+                .connect("http://www.discogs.com/sell/list?sort=price%2Casc&limit=50&ev=mbformat_desc=12\"&release_id=" + id)
                 .get();
         Elements marketplaceListings = doc.getElementsByClass("shortcut_navigable ");
         for (Element element : marketplaceListings)

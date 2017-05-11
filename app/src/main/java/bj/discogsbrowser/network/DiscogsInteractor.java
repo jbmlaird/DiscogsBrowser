@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -148,15 +147,14 @@ public class DiscogsInteractor
     /**
      * Scrape the market listings as the API endpoint is now private :/
      *
-     * @param id   ID of item.
-     * @param type Release or master.
+     * @param id ID of item.
      * @return Parsed HTML.
      */
-    public Single<ArrayList<ScrapeListing>> getReleaseMarketListings(String id, String type) throws IOException
+    public Single<List<ScrapeListing>> getReleaseMarketListings(String id) throws IOException
     {
         return cacheProviders.getReleaseMarketListings(
-                Single.defer(() -> Single.just(discogsScraper.scrapeListings(id, type))),
-                new DynamicKey(id + type))
+                Single.defer(() -> Single.just(discogsScraper.scrapeListings(id))),
+                new DynamicKey(id))
                 .subscribeOn(mySchedulerProvider.io());
     }
 
