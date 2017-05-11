@@ -4,6 +4,7 @@ package bj.discogsbrowser.model.release;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Release
@@ -97,7 +98,7 @@ public class Release
     private List<String> styles = null;
     @SerializedName("tracklist")
     @Expose
-    private List<Track> track = null;
+    private List<Track> track = new ArrayList<>();
     @SerializedName("uri")
     @Expose
     private String uri;

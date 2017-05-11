@@ -7,6 +7,8 @@ import bj.discogsbrowser.model.listing.ScrapeListing;
 import bj.discogsbrowser.model.release.Image;
 import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
+import bj.discogsbrowser.model.release.Track;
+import bj.discogsbrowser.model.release.Video;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
@@ -15,7 +17,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 public class ReleaseFactory
 {
-    public Release getReleaseNoLabelNoneForSale()
+    public Release getReleaseNoLabelNoneForSaleNoTracklistNoVideos()
     {
         Release release = new Release();
         release.setNumForSale(0);
@@ -44,7 +46,9 @@ public class ReleaseFactory
     {
         Label label = new Label();
         label.setId("123");
-
+        label.setName("yeson");
+        label.setThumb("yeson");
+        label.setCatno("yeson");
         return label;
     }
 
@@ -56,9 +60,48 @@ public class ReleaseFactory
         return release;
     }
 
-    public List<ScrapeListing> getScrapeListings()
+    public Release getReleaseWithLabelSevenTracksNoVideos()
     {
-        ScrapeListing[] scrapeListings = {new ScrapeListing("", "", "", "", "", "", "", "", ""), new ScrapeListing("", "", "", "", "", "", "", "", ""), new ScrapeListing("", "", "", "", "", "", "", "", "")};
+        Release release = new Release();
+        release.setLabels(Arrays.asList(getLabel()));
+        release.setTracklist(Arrays.asList(getTrack(), getTrack(), getTrack(), getTrack(), getTrack(), getTrack(), getTrack()));
+        return release;
+    }
+
+    public Release getReleaseWithLabelFiveTracksTwoVideos()
+    {
+        Release release = new Release();
+        release.setLabels(Arrays.asList(getLabel()));
+        release.setVideos(Arrays.asList(getVideo(), getVideo()));
+        release.setTracklist(Arrays.asList(getTrack(), getTrack(), getTrack(), getTrack(), getTrack(), getTrack()));
+        return release;
+    }
+
+    private Video getVideo()
+    {
+        Video video = new Video();
+        video.setUri("ye=ye");
+        return video;
+    }
+
+    public Track getTrack()
+    {
+        Track track = new Track();
+        track.setTitle("ye son");
+        track.setPosition("errr");
+        return track;
+    }
+
+    public List<ScrapeListing> getOneScrapeListing()
+    {
+        ScrapeListing[] scrapeListings = {new ScrapeListing("", "", "", "", "", "", "", "", "")};
+        return Arrays.asList(scrapeListings);
+    }
+
+    public List<ScrapeListing> getFourScrapeListings()
+    {
+        ScrapeListing[] scrapeListings = {new ScrapeListing("", "", "", "", "", "", "", "", ""),
+                new ScrapeListing("", "", "", "", "", "", "", "", ""), new ScrapeListing("", "", "", "", "", "", "", "", ""), new ScrapeListing("", "", "", "", "", "", "", "", "")};
         return Arrays.asList(scrapeListings);
     }
 }

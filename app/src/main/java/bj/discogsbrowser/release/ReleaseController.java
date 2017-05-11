@@ -1,6 +1,7 @@
 package bj.discogsbrowser.release;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ReleaseController extends BaseController
     private boolean viewFullTracklist = false;
     private boolean releaseLoading = true;
     private boolean releaseError = false;
-    private boolean marketplaceLoading = true;
+    private boolean listingsLoading = true;
     private boolean viewAllListings = false;
     private boolean collectionWantlistChecked;
     private boolean collectionWantlistError;
@@ -95,32 +96,35 @@ public class ReleaseController extends BaseController
 
         if (release != null)
         {
-            for (Track track : release.getTracklist())
+            if (release.getTracklist() != null && release.getTracklist().size() > 0)
             {
-                if (!track.getTitle().equals(""))
+                for (Track track : release.getTracklist())
                 {
-                    new TrackModel_()
-                            .id("track" + release.getTracklist().indexOf(track))
-                            .trackName(track.getTitle())
-                            .trackNumber(track.getPosition())
-                            .addTo(this);
-
-                    if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewFullTracklist)
+                    if (track.getTitle() != null && !track.getTitle().equals(""))
                     {
-                        new ViewMoreModel_()
-                                .id("view more")
-                                .title("View full tracklist")
-                                .textSize(16f)
-                                .onClickListener(v -> setViewFullTracklist(true))
+                        new TrackModel_()
+                                .id("track" + release.getTracklist().indexOf(track))
+                                .trackName(track.getTitle())
+                                .trackNumber(track.getPosition())
                                 .addTo(this);
-                        break;
+
+                        if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewFullTracklist)
+                        {
+                            new ViewMoreModel_()
+                                    .id("view more")
+                                    .title("View full tracklist")
+                                    .textSize(16f)
+                                    .onClickListener(v -> setViewFullTracklist(true))
+                                    .addTo(this);
+                            break;
+                        }
                     }
                 }
-            }
 
-            new DividerModel_()
-                    .id("tracklist_divider")
-                    .addTo(this);
+                new DividerModel_()
+                        .id("tracklist_divider")
+                        .addTo(this);
+            }
 
             for (Label label : release.getLabels())
             {
@@ -155,7 +159,7 @@ public class ReleaseController extends BaseController
                     .onClick(v -> view.retryCollectionWantlist())
                     .addIf(collectionWantlistError, this);
 
-            if (release.getVideos() != null)
+            if (release.getVideos() != null && release.getVideos().size() > 0)
             {
                 new SubHeaderModel_()
                         .id("youtube subheader")
@@ -164,15 +168,18 @@ public class ReleaseController extends BaseController
 
                 for (Video video : release.getVideos())
                 {
-                    String youtubeId = video.getUri().split("=")[1];
-                    new YouTubeModel_()
-                            .onClick(v -> view.launchYouTube(youtubeId))
-                            .imageUrl("https://img.youtube.com/vi/" + youtubeId + "/default.jpg")
-                            .context(context)
-                            .id("youtube" + release.getVideos().indexOf(video))
-                            .title(video.getTitle())
-                            .description(video.getDescription())
-                            .addTo(this);
+                    if (video.getUri() != null && !video.getUri().equals(""))
+                    {
+                        String youtubeId = video.getUri().split("=")[1];
+                        new YouTubeModel_()
+                                .onClick(v -> view.launchYouTube(youtubeId))
+                                .imageUrl("https://img.youtube.com/vi/" + youtubeId + "/default.jpg")
+                                .context(context)
+                                .id("youtube" + release.getVideos().indexOf(video))
+                                .title(video.getTitle())
+                                .description(video.getDescription())
+                                .addTo(this);
+                    }
                 }
 
                 new DividerModel_()
@@ -189,7 +196,7 @@ public class ReleaseController extends BaseController
             new LoadingModel_()
                     .id("marketplace loader")
                     .imageViewAnimator(imageViewAnimator)
-                    .addIf(marketplaceLoading, this);
+                    .addIf(listingsLoading, this);
 
             new RetryModel_()
                     .id("listings error")
@@ -197,7 +204,7 @@ public class ReleaseController extends BaseController
                     .onClick(v -> view.retryListings())
                     .addIf(listingsError, this);
 
-            if (releaseListings != null)
+            if (releaseListings != null && !listingsLoading)
             {
                 if (releaseListings.size() == 0 && !listingsError)
                     new PaddedCenterTextModel_()
@@ -225,7 +232,7 @@ public class ReleaseController extends BaseController
                                     .id("view all listings")
                                     .title("View all listings")
                                     .textSize(18f)
-                                    .onClickListener(v -> setViewListings(true))
+                                    .onClickListener(v -> setViewAllListings(true))
                                     .addTo(this);
                             break;
                         }
@@ -249,7 +256,7 @@ public class ReleaseController extends BaseController
     public void setReleaseListings(List<ScrapeListing> releaseListings)
     {
         this.releaseListings = releaseListings;
-        marketplaceLoading = false;
+        listingsLoading = false;
         listingsError = false;
         requestModelBuild();
     }
@@ -257,18 +264,20 @@ public class ReleaseController extends BaseController
     public void setReleaseListingsError()
     {
         listingsError = true;
-        marketplaceLoading = false;
+        listingsLoading = false;
         tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release listings", 1L);
         requestModelBuild();
     }
 
-    private void setViewFullTracklist(boolean viewFullTracklist)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public void setViewFullTracklist(boolean viewFullTracklist)
     {
         this.viewFullTracklist = viewFullTracklist;
         requestModelBuild();
     }
 
-    private void setViewListings(boolean viewFullListings)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public void setViewAllListings(boolean viewFullListings)
     {
         this.viewAllListings = viewFullListings;
         requestModelBuild();
@@ -300,6 +309,10 @@ public class ReleaseController extends BaseController
     public void setReleaseLoading(boolean releaseLoading)
     {
         this.releaseLoading = releaseLoading;
+        this.collectionLoading = true;
+        this.listingsLoading = true;
+        this.collectionWantlistError = false;
+        this.listingsError = false;
         releaseError = false;
         requestModelBuild();
     }
@@ -311,14 +324,14 @@ public class ReleaseController extends BaseController
         this.listingsError = true;
         collectionLoading = false;
         releaseLoading = false;
-        marketplaceLoading = false;
+        listingsLoading = false;
         tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release", 1L);
         requestModelBuild();
     }
 
-    public void setMarketplaceLoading(boolean marketplaceLoading)
+    public void setListingsLoading(boolean listingsLoading)
     {
-        this.marketplaceLoading = marketplaceLoading;
+        this.listingsLoading = listingsLoading;
         listingsError = false;
         requestModelBuild();
     }

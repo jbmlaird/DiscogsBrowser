@@ -108,14 +108,14 @@ public class ReleasePresenterTest
         testScheduler.triggerActions();
 
         verify(discogsInteractor).getReleaseMarketListings(id);
-        verify(controller).setMarketplaceLoading(true);
+        verify(controller).setListingsLoading(true);
         verify(controller).setReleaseListingsError();
     }
 
     @Test
     public void checkCollectionError_displaysError() throws IOException
     {
-        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSale();
+        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
         when(collectionWantlistInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.error(new Throwable()));
 
@@ -130,7 +130,7 @@ public class ReleasePresenterTest
     @Test
     public void checkCollectionValid_displaysValid() throws IOException
     {
-        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSale();
+        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
         when(collectionWantlistInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
         when(collectionWantlistInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
@@ -147,7 +147,7 @@ public class ReleasePresenterTest
     @Test
     public void getReleaseNoLabelNoneForSale_displaysRelease()
     {
-        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSale();
+        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         Single<Release> releaseSingle = Single.just(releaseNoLabelNoneForSale);
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
         ArgumentCaptor<ArrayList> arrayListArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
@@ -206,7 +206,7 @@ public class ReleasePresenterTest
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
         when(labelInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
         ArgumentCaptor<List> listArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
-        when(discogsInteractor.getReleaseMarketListings(id)).thenReturn(Single.just(releaseFactory.getScrapeListings()));
+        when(discogsInteractor.getReleaseMarketListings(id)).thenReturn(Single.just(releaseFactory.getFourScrapeListings()));
 
         when(collectionWantlistInteractor.checkIfInCollection(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(collectionWantlistInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
@@ -227,6 +227,6 @@ public class ReleasePresenterTest
         verify(discogsInteractor).getReleaseMarketListings(id);
         verify(controller, times(2)).getRelease();
         verify(controller).setCollectionWantlistChecked(true);
-        verify(controller).setMarketplaceLoading(true);
+        verify(controller).setListingsLoading(true);
     }
 }

@@ -110,7 +110,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     public void fetchReleaseListings(String id) throws IOException
     {
         discogsInteractor.getReleaseMarketListings(id)
-                .doOnSubscribe(onSubscribe -> controller.setMarketplaceLoading(true))
+                .doOnSubscribe(onSubscribe -> controller.setListingsLoading(true))
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(controller::setReleaseListings,
                         error ->
