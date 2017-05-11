@@ -1,15 +1,14 @@
 package bj.discogsbrowser.release;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
+import bj.discogsbrowser.wrappers.ToastyWrapper;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
-import es.dmoral.toasty.Toasty;
 
 /**
  * Created by Josh Laird on 10/05/2017.
@@ -20,17 +19,21 @@ public class CollectionWantlistPresenter
     private CollectionWantlistInteractor collectionWantlistInteractor;
     private SharedPrefsManager sharedPrefsManager;
     private MySchedulerProvider mySchedulerProvider;
+    private ToastyWrapper toasty;
     private String instanceId;
     private boolean inCollection;
     private boolean inWantlist;
 
     @Inject
-    public CollectionWantlistPresenter(Context context, CollectionWantlistInteractor collectionWantlistInteractor, SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
+    public CollectionWantlistPresenter(Context context, CollectionWantlistInteractor collectionWantlistInteractor,
+                                       SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider,
+                                       ToastyWrapper toasty)
     {
         this.context = context;
         this.collectionWantlistInteractor = collectionWantlistInteractor;
         this.sharedPrefsManager = sharedPrefsManager;
         this.mySchedulerProvider = mySchedulerProvider;
+        this.toasty = toasty;
     }
 
     public void bind(boolean inCollection, boolean inWantlist, String instanceId)
@@ -52,19 +55,18 @@ public class CollectionWantlistPresenter
                             {
                                 instanceId = result.getInstanceId();
                                 inCollection = true;
-                                btnCollection.revertAnimation(() ->
-                                        btnCollection.setText("Remove from Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
                             }
                             else
                             {
-                                Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
-                                btnCollection.revertAnimation();
+                                toasty.error("Unable to add to Collection");
+                                btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
                             }
                         },
                         error ->
                         {
-                            Toasty.error(context, "Unable to add to Collection", Toast.LENGTH_SHORT, true).show();
-                            btnCollection.revertAnimation();
+                            toasty.error("Unable to add to Collection");
+                            btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
                         });
     }
 
@@ -79,19 +81,18 @@ public class CollectionWantlistPresenter
                             if (result.isSuccessful())
                             {
                                 inCollection = false;
-                                btnCollection.revertAnimation(() ->
-                                        btnCollection.setText("Add to Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
                             }
                             else
                             {
-                                Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
-                                btnCollection.revertAnimation();
+                                toasty.error("Unable to remove from Collection");
+                                btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
                             }
                         },
                         error ->
                         {
-                            Toasty.error(context, "Unable to remove from Collection", Toast.LENGTH_SHORT, true).show();
-                            btnCollection.revertAnimation();
+                            toasty.error("Unable to remove from Collection");
+                            btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
                         });
     }
 
@@ -108,8 +109,8 @@ public class CollectionWantlistPresenter
                         },
                         error ->
                         {
-                            Toasty.error(context, "Unable to add to Wantlist", Toast.LENGTH_SHORT, true).show();
-                            btnWantlist.revertAnimation();
+                            toasty.error("Unable to add to Wantlist");
+                            btnWantlist.revertAnimation(() -> btnWantlist.setText("Add to Wantlist"));
                         });
     }
 
@@ -128,14 +129,14 @@ public class CollectionWantlistPresenter
                             }
                             else
                             {
-                                Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
-                                btnWantlist.revertAnimation();
+                                toasty.error("Unable to remove from Wantlist");
+                                btnWantlist.revertAnimation(() -> btnWantlist.setText("Remove from Wantlist"));
                             }
                         },
                         error ->
                         {
-                            Toasty.error(context, "Unable to remove from Wantlist", Toast.LENGTH_SHORT, true).show();
-                            btnWantlist.revertAnimation();
+                            toasty.error("Unable to remove from Wantlist");
+                            btnWantlist.revertAnimation(() -> btnWantlist.setText("Remove from Wantlist"));
                         });
 
     }

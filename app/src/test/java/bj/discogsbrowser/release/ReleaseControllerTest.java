@@ -49,7 +49,8 @@ public class ReleaseControllerTest
     public void initialLoadingState_correct()
     {
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 1);
+        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
+        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 2);
     }
 }
