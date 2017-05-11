@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.github.scribejava.core.oauth.OAuth10aService;
 
-import bj.discogsbrowser.greendao.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.network.CacheProviders;
 import bj.discogsbrowser.utils.AnalyticsTracker;
 import dagger.Component;
@@ -24,7 +24,7 @@ public interface AppComponent
 
     CacheProviders getCacheProviders();
 
-    DaoInteractor getDaoInteractor();
+    DaoManager getDaoInteractor();
 
     OAuth10aService getOAuthService();
 

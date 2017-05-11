@@ -24,10 +24,10 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
 {
     @BindView(R.id.btnCollection) CircularProgressButton btnCollection;
     @BindView(R.id.btnWantlist) CircularProgressButton btnWantlist;
+    @EpoxyAttribute CollectionWantlistPresenter presenter;
     @EpoxyAttribute boolean inCollection;
     @EpoxyAttribute boolean inWantlist;
     @EpoxyAttribute String instanceId;
-    @EpoxyAttribute CollectionWantlistPresenter presenter;
     @EpoxyAttribute Context context;
     @EpoxyAttribute String releaseId;
     @EpoxyAttribute String folderId;

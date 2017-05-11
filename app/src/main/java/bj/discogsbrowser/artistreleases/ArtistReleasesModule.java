@@ -14,9 +14,8 @@ import io.reactivex.disposables.CompositeDisposable;
 /**
  * Created by Josh Laird on 10/04/2017.
  */
-
 @Module
-class ArtistReleasesModule
+public class ArtistReleasesModule
 {
     private ArtistReleasesContract.View view;
 

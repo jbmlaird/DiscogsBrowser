@@ -1,13 +1,14 @@
 package bj.discogsbrowser.network;
 
-import android.util.Log;
-
 import java.util.List;
 
 import javax.inject.Inject;
 
-import bj.discogsbrowser.model.release.Label;
+import bj.discogsbrowser.model.label.Label;
+import bj.discogsbrowser.model.labelrelease.LabelRelease;
+import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
+import io.reactivex.Single;
 import io.rx_cache2.DynamicKey;
 import retrofit2.Retrofit;
 
@@ -17,7 +18,7 @@ import retrofit2.Retrofit;
 
 public class LabelInteractor
 {
-    LabelService labelService;
+    private LabelService labelService;
     private CacheProviders cacheProviders;
     private MySchedulerProvider mySchedulerProvider;
 
@@ -29,32 +30,28 @@ public class LabelInteractor
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
-    public void getReleaseLabelDetails(List<Label> labels, String labelId)
+    public Single<Label> fetchLabelDetails(String labelId)
     {
-        for (Label releaseLabel : labels)
-        {
-            cacheProviders.fetchLabelDetails(labelService.getLabel(labelId), new DynamicKey(labelId))
-                    .subscribeOn(mySchedulerProvider.io())
-                    .map(label ->
+        return cacheProviders.fetchLabelDetails(labelService.getLabel(labelId), new DynamicKey(labelId))
+                .subscribeOn(mySchedulerProvider.io())
+                .map(label ->
+                {
+                    if (label.getProfile() != null)
                     {
-                        if (label.getProfile() != null)
-                        {
-                            label.setProfile(label.getProfile().replace("[a=", ""));
-                            label.setProfile(label.getProfile().replace("[i]", ""));
-                            label.setProfile(label.getProfile().replace("[/l]", ""));
-                            label.setProfile(label.getProfile().replace("[/I]", ""));
-                            label.setProfile(label.getProfile().replace("]", ""));
-                        }
-                        return label;
-                    })
-                    .subscribe(labelDetails ->
-                            {
-                                if (labelDetails.getImages() != null && labelDetails.getImages().size() > 0)
-                                    releaseLabel.setThumb(labelDetails.getImages().get(0).getUri());
-                            },
-                            error ->
-                                    Log.e("LabelInteractor", "Unable to get label details"));
-        }
+                        label.setProfile(label.getProfile().replace("[a=", ""));
+                        label.setProfile(label.getProfile().replace("[i]", ""));
+                        label.setProfile(label.getProfile().replace("[/l]", ""));
+                        label.setProfile(label.getProfile().replace("[/I]", ""));
+                        label.setProfile(label.getProfile().replace("]", ""));
+                    }
+                    return label;
+                });
+    }
 
+    public Single<List<LabelRelease>> fetchLabelReleases(String labelId)
+    {
+        return cacheProviders.fetchLabelReleases(labelService.getLabelReleases(labelId, "desc", "500"), new DynamicKey(labelId))
+                .subscribeOn(mySchedulerProvider.io())
+                .map(RootLabelResponse::getLabelReleases);
     }
 }

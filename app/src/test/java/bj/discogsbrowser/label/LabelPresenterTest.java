@@ -19,7 +19,7 @@ import java.util.List;
 
 import bj.discogsbrowser.model.label.Label;
 import bj.discogsbrowser.model.labelrelease.LabelRelease;
-import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
 public class LabelPresenterTest
 {
     @Mock LabelController controller;
-    @Mock DiscogsInteractor discogsInteractor;
+    @Mock LabelInteractor labelInteractor;
     private TestScheduler testScheduler = new TestScheduler();
     private LabelPresenter presenter;
     private String id = "123";
@@ -46,13 +46,13 @@ public class LabelPresenterTest
     @Before
     public void setUp() throws Exception
     {
-        presenter = new LabelPresenter(controller, discogsInteractor, new TestSchedulerProvider(testScheduler));
+        presenter = new LabelPresenter(controller, labelInteractor, new TestSchedulerProvider(testScheduler));
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(controller, discogsInteractor);
+        verifyNoMoreInteractions(controller, labelInteractor);
     }
 
     @Test
@@ -78,16 +78,16 @@ public class LabelPresenterTest
     {
         Label label = new Label();
         List<LabelRelease> emptyList = Collections.emptyList();
-        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label));
-        when(discogsInteractor.fetchLabelReleases(id)).thenReturn(Single.just(emptyList));
+        when(labelInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label));
+        when(labelInteractor.fetchLabelReleases(id)).thenReturn(Single.just(emptyList));
 
         presenter.getReleaseAndLabelDetails(id);
         testScheduler.triggerActions();
 
-        verify(discogsInteractor, times(1)).fetchLabelDetails(id);
+        verify(labelInteractor, times(1)).fetchLabelDetails(id);
         verify(controller, times(1)).setLoading(true);
         verify(controller).setLabel(label);
-        verify(discogsInteractor, times(1)).fetchLabelReleases(id);
+        verify(labelInteractor, times(1)).fetchLabelReleases(id);
         verify(controller, times(1)).setLabelReleases(emptyList);
     }
 
@@ -98,28 +98,28 @@ public class LabelPresenterTest
         List<LabelRelease> labelReleases = new ArrayList<>();
         labelReleases.add(new LabelRelease());
         labelReleases.add(new LabelRelease());
-        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label));
-        when(discogsInteractor.fetchLabelReleases(id)).thenReturn(Single.just(labelReleases));
+        when(labelInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label));
+        when(labelInteractor.fetchLabelReleases(id)).thenReturn(Single.just(labelReleases));
 
         presenter.getReleaseAndLabelDetails(id);
         testScheduler.triggerActions();
 
-        verify(discogsInteractor, times(1)).fetchLabelDetails(id);
+        verify(labelInteractor, times(1)).fetchLabelDetails(id);
         verify(controller, times(1)).setLoading(true);
         verify(controller).setLabel(label);
-        verify(discogsInteractor, times(1)).fetchLabelReleases(id);
+        verify(labelInteractor, times(1)).fetchLabelReleases(id);
         verify(controller, times(1)).setLabelReleases(labelReleases);
     }
 
     @Test
     public void fetchLabelDetailsError_controllerError()
     {
-        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.error(new Throwable()));
+        when(labelInteractor.fetchLabelDetails(id)).thenReturn(Single.error(new Throwable()));
 
         presenter.getReleaseAndLabelDetails(id);
         testScheduler.triggerActions();
 
-        verify(discogsInteractor, times(1)).fetchLabelDetails(id);
+        verify(labelInteractor, times(1)).fetchLabelDetails(id);
         verify(controller, times(1)).setLoading(true);
         verify(controller).setError(true);
     }

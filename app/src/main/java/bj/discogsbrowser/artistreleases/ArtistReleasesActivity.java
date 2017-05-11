@@ -37,7 +37,7 @@ import io.reactivex.Observable;
  */
 public class ArtistReleasesActivity extends BaseActivity implements ArtistReleasesContract.View
 {
-    public static ArtistReleasesComponent component;
+    private static ArtistReleasesComponent component;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.etFilter) EditText etFilter;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
@@ -46,6 +46,11 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Inject DiscogsInteractor discogsInteractor;
     @Inject ArtistReleasesPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
+
+    public static ArtistReleasesComponent getComponent()
+    {
+        return component;
+    }
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -72,8 +77,17 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         setContentView(R.layout.activity_artist_releases);
         unbinder = ButterKnife.bind(this);
         setupViewPager();
+        presenter.setupFilter();
         presenter.getArtistReleases(getIntent().getStringExtra("id"));
         setupToolbar(toolbar, getIntent().getStringExtra("title"));
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        // Component is only required for instantiation. Leaks otherwise.
+        component = null;
     }
 
     @Override
@@ -102,20 +116,6 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     {
         return RxTextView.textChanges(etFilter)
                 .skipInitialValue();
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        presenter.unsubscribe();
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        presenter.dispose();
     }
 
     @Override

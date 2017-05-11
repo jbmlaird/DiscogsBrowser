@@ -11,7 +11,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.greenrobot.greendao.database.Database;
 
-import bj.discogsbrowser.greendao.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.network.CacheProviders;
@@ -68,9 +68,9 @@ public class AppModule
     }
 
     @Provides
-    DaoInteractor providesDaoInteractor(DaoSession daoSession)
+    DaoManager providesDaoInteractor(DaoSession daoSession)
     {
-        return new DaoInteractor(daoSession);
+        return new DaoManager(daoSession);
     }
 
     @Provides

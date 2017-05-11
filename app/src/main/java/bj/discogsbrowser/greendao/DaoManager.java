@@ -18,12 +18,12 @@ import bj.discogsbrowser.utils.ArtistsBeautifier;
 /**
  * Created by Josh Laird on 07/05/2017.
  */
-public class DaoInteractor
+public class DaoManager
 {
     private ViewedReleaseDao viewedReleaseDao;
     private SearchTermDao searchTermDao;
 
-    public DaoInteractor(DaoSession daoSession)
+    public DaoManager(DaoSession daoSession)
     {
         viewedReleaseDao = daoSession.getViewedReleaseDao();
         searchTermDao = daoSession.getSearchTermDao();

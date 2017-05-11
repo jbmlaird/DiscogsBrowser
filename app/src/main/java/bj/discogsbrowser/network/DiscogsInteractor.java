@@ -13,9 +13,6 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
-import bj.discogsbrowser.model.label.Label;
-import bj.discogsbrowser.model.labelrelease.LabelRelease;
-import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.listing.RootListingResponse;
 import bj.discogsbrowser.model.listing.ScrapeListing;
@@ -136,31 +133,6 @@ public class DiscogsInteractor
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
                 .map(RootVersionsResponse::getVersions);
-    }
-
-    public Single<Label> fetchLabelDetails(String labelId)
-    {
-        return cacheProviders.fetchLabelDetails(discogsService.getLabel(labelId), new DynamicKey(labelId))
-                .subscribeOn(mySchedulerProvider.io())
-                .map(label ->
-                {
-                    if (label.getProfile() != null)
-                    {
-                        label.setProfile(label.getProfile().replace("[a=", ""));
-                        label.setProfile(label.getProfile().replace("[i]", ""));
-                        label.setProfile(label.getProfile().replace("[/l]", ""));
-                        label.setProfile(label.getProfile().replace("[/I]", ""));
-                        label.setProfile(label.getProfile().replace("]", ""));
-                    }
-                    return label;
-                });
-    }
-
-    public Single<List<LabelRelease>> fetchLabelReleases(String labelId)
-    {
-        return cacheProviders.fetchLabelReleases(discogsService.getLabelReleases(labelId, "desc", "500"), new DynamicKey(labelId))
-                .subscribeOn(mySchedulerProvider.io())
-                .map(RootLabelResponse::getLabelReleases);
     }
 
     public Single<List<ArtistRelease>> fetchArtistsReleases(String artistId)

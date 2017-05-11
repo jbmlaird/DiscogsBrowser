@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
 /**
@@ -17,17 +17,16 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 @Singleton
 public class LabelPresenter implements LabelContract.Presenter
 {
-    private final String TAG = getClass().getSimpleName();
     private LabelController controller;
-    private DiscogsInteractor discogsInteractor;
+    private LabelInteractor labelInteractor;
     private MySchedulerProvider mySchedulerProvider;
 
     @Inject
-    public LabelPresenter(@NonNull LabelController controller, @NonNull DiscogsInteractor discogsInteractor,
+    public LabelPresenter(@NonNull LabelController controller, @NonNull LabelInteractor labelInteractor,
                           @NonNull MySchedulerProvider mySchedulerProvider)
     {
         this.controller = controller;
-        this.discogsInteractor = discogsInteractor;
+        this.labelInteractor = labelInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
@@ -43,13 +42,13 @@ public class LabelPresenter implements LabelContract.Presenter
     @Override
     public void getReleaseAndLabelDetails(String id)
     {
-        discogsInteractor.fetchLabelDetails(id)
+        labelInteractor.fetchLabelDetails(id)
                 .doOnSubscribe(onSubscribe -> controller.setLoading(true))
                 .subscribeOn(mySchedulerProvider.ui())
                 .flatMap(label ->
                 {
                     controller.setLabel(label);
-                    return discogsInteractor.fetchLabelReleases(id)
+                    return labelInteractor.fetchLabelReleases(id)
                             .subscribeOn(mySchedulerProvider.io());
                 })
                 .observeOn(mySchedulerProvider.ui())

@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.greendao.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
@@ -42,14 +42,14 @@ public class MainPresenter implements MainContract.Presenter
     private MainController mainController;
     private SharedPrefsManager sharedPrefsManager;
     private LogWrapper log;
-    private DaoInteractor daoInteractor;
+    private DaoManager daoManager;
     private AnalyticsTracker tracker;
 
     @Inject
     public MainPresenter(@NonNull Context context, @NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
                          @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager,
-                         @NonNull LogWrapper log, @NonNull DaoInteractor daoInteractor, @NonNull AnalyticsTracker tracker)
+                         @NonNull LogWrapper log, @NonNull DaoManager daoManager, @NonNull AnalyticsTracker tracker)
     {
         this.context = context;
         mView = view;
@@ -59,7 +59,7 @@ public class MainPresenter implements MainContract.Presenter
         this.mainController = mainController;
         this.sharedPrefsManager = sharedPrefsManager;
         this.log = log;
-        this.daoInteractor = daoInteractor;
+        this.daoManager = daoManager;
         this.tracker = tracker;
     }
 
@@ -91,7 +91,7 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void buildViewedReleases()
     {
-        List<ViewedRelease> viewedReleases = daoInteractor.getViewedReleases();
+        List<ViewedRelease> viewedReleases = daoManager.getViewedReleases();
         mainController.setViewedReleases(viewedReleases);
     }
 
@@ -156,7 +156,7 @@ public class MainPresenter implements MainContract.Presenter
     @Override
     public void buildRecommendations()
     {
-        List<ViewedRelease> viewedReleases = daoInteractor.getViewedReleases();
+        List<ViewedRelease> viewedReleases = daoManager.getViewedReleases();
         if (viewedReleases.size() > 0)
         {
             String latestReleaseViewedStyle = viewedReleases.get(0).getStyle();

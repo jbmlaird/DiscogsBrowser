@@ -2,8 +2,6 @@ package bj.discogsbrowser.network;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
-import bj.discogsbrowser.model.label.Label;
-import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.listing.RootListingResponse;
 import bj.discogsbrowser.model.master.Master;
@@ -46,12 +44,6 @@ public interface DiscogsService
 
     @GET("masters/{master_id}/versions")
     Single<RootVersionsResponse> getMasterVersions(@Path("master_id") String masterId);
-
-    @GET("labels/{label_id}")
-    Single<Label> getLabel(@Path("label_id") String labelId);
-
-    @GET("labels/{label_id}/releases")
-    Single<RootLabelResponse> getLabelReleases(@Path("label_id") String labelId, @Query("sort_order") String sort, @Query("per_page") String perPage);
 
     @GET("artists/{artist_id}/releases")
     Single<RootArtistReleaseResponse> getArtistReleases(@Path("artist_id") String artistId, @Query("sort_order") String sort, @Query("per_page") String perPage);

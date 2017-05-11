@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.greendao.DaoInteractor;
+import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
@@ -63,7 +63,7 @@ public class MainPresenterTest
     @Mock RecyclerView recyclerView;
     @Mock SharedPrefsManager sharedPrefsManager;
     @Mock LogWrapper logWrapper;
-    @Mock DaoInteractor daoInteractor;
+    @Mock DaoManager daoManager;
     @Mock AnalyticsTracker tracker;
 
     @Mock MainActivity mainActivity;
@@ -77,13 +77,13 @@ public class MainPresenterTest
         testUserDetails = new UserDetails();
         testUserDetails.setUsername(username);
         testScheduler = new TestScheduler();
-        mainPresenter = new MainPresenter(context, mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, daoInteractor, tracker);
+        mainPresenter = new MainPresenter(context, mView, discogsInteractor, new TestSchedulerProvider(testScheduler), navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, daoManager, tracker);
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(mView, discogsInteractor, navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, daoInteractor, tracker);
+        verifyNoMoreInteractions(mView, discogsInteractor, navigationDrawerBuilder, mainController, sharedPrefsManager, logWrapper, daoManager, tracker);
     }
 
     @Test
@@ -186,11 +186,11 @@ public class MainPresenterTest
     public void buildRecommendationsEmptyList_ControllerEmptyList()
     {
         List list = Collections.emptyList();
-        when(daoInteractor.getViewedReleases()).thenReturn(list);
+        when(daoManager.getViewedReleases()).thenReturn(list);
 
         mainPresenter.buildRecommendations();
 
-        verify(daoInteractor, times(1)).getViewedReleases();
+        verify(daoManager, times(1)).getViewedReleases();
         verify(mainController).setRecommendations(list);
     }
 
@@ -199,15 +199,15 @@ public class MainPresenterTest
     {
         ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
         viewedReleases.add(new TestViewedRelease());
-        when(daoInteractor.getViewedReleases()).thenReturn(viewedReleases);
+        when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.error(new Throwable()));
         when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.error(new Throwable()));
 
         mainPresenter.buildRecommendations();
         testScheduler.triggerActions();
 
-        assertEquals(daoInteractor.getViewedReleases(), viewedReleases);
-        verify(daoInteractor, times(2)).getViewedReleases();
+        assertEquals(daoManager.getViewedReleases(), viewedReleases);
+        verify(daoManager, times(2)).getViewedReleases();
         verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", false);
         verify(discogsInteractor, times(1)).searchByLabel(viewedReleases.get(0).getLabelName());
         verify(mainController, times(1)).setRecommendationsError(true);
@@ -219,7 +219,7 @@ public class MainPresenterTest
         final ArgumentCaptor searchResultCaptor = ArgumentCaptor.forClass(List.class);
         ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
         viewedReleases.add(new TestViewedRelease());
-        when(daoInteractor.getViewedReleases()).thenReturn(viewedReleases);
+        when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         // TestSearchResponse contains 20 entries each
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.just(new TestRootSearchResponse()));
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), String.valueOf(1), true)).thenReturn(Single.just(new TestRootSearchResponse()));
@@ -228,7 +228,7 @@ public class MainPresenterTest
         mainPresenter.buildRecommendations();
         testScheduler.triggerActions();
 
-        verify(daoInteractor, times(1)).getViewedReleases();
+        verify(daoManager, times(1)).getViewedReleases();
         verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", false);
         verify(discogsInteractor, times(1)).searchByStyle(viewedReleases.get(0).getStyle(), "1", true);
         verify(discogsInteractor, times(1)).searchByLabel(viewedReleases.get(0).getLabelName());

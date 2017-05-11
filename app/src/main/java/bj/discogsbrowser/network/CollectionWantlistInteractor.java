@@ -1,7 +1,5 @@
 package bj.discogsbrowser.network;
 
-import android.content.Context;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,6 +15,8 @@ import bj.discogsbrowser.release.ReleaseController;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Single;
+import io.rx_cache2.DynamicKey;
+import io.rx_cache2.EvictDynamicKey;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -25,32 +25,39 @@ import retrofit2.Retrofit;
  */
 public class CollectionWantlistInteractor
 {
-    private Context context;
     private CollectionWantlistService service;
+    private final CacheProviders cacheProviders;
     private SharedPrefsManager sharedPrefsManager;
     private MySchedulerProvider mySchedulerProvider;
 
     @Inject
-    public CollectionWantlistInteractor(Context context, Retrofit retrofit, SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
+    public CollectionWantlistInteractor(Retrofit retrofit, CacheProviders cacheProviders, SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
     {
-        this.context = context;
         this.service = retrofit.create(CollectionWantlistService.class);
+        this.cacheProviders = cacheProviders;
         this.sharedPrefsManager = sharedPrefsManager;
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
-    public Single<List<Want>> fetchWantlist(String username)
-    {
-        return service.fetchWantlist(username, "year", "desc", "500")
-                .subscribeOn(mySchedulerProvider.io())
-                .map(RootWantlistResponse::getWants);
-    }
-
     public Single<List<CollectionRelease>> fetchCollection(String username)
     {
-        return service.fetchCollection(username, "year", "desc", "500")
+        Single<List<CollectionRelease>> collectionSingle = cacheProviders.fetchCollection(service.fetchCollection(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextCollection()))
                 .subscribeOn(mySchedulerProvider.io())
                 .map(RootCollectionRelease::getCollectionReleases);
+        if (sharedPrefsManager.fetchNextCollection())
+            sharedPrefsManager.setFetchNextCollection("no");
+        return collectionSingle;
+    }
+
+    public Single<List<Want>> fetchWantlist(String username)
+    {
+        Single<List<Want>> wantlistSingle = cacheProviders.fetchWantlist(service.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
+                .observeOn(mySchedulerProvider.io())
+                .subscribeOn(mySchedulerProvider.io())
+                .map(RootWantlistResponse::getWants);
+        if (sharedPrefsManager.fetchNextWantlist())
+            sharedPrefsManager.setFetchNextWantlist("no");
+        return wantlistSingle;
     }
 
     public Single<List<Want>> checkIfInWantlist(ReleaseController controller, Release release)
@@ -83,7 +90,7 @@ public class CollectionWantlistInteractor
                     return collectionRelease;
                 })
                 .observeOn(mySchedulerProvider.ui())
-                .toList();
+                .toList(); //toList so it doesn't call subscribe until it's complete
     }
 
     public Single<AddToCollectionResponse> addToCollection(String releaseId)
