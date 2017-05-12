@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 
 import javax.inject.Inject;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
 /**
  * Created by Josh Laird on 18/04/2017.
  */
+@ActivityScope
 public class OrderPresenter implements OrderContract.Presenter
 {
     private DiscogsInteractor discogsInteractor;

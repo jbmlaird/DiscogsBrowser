@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.EmptySpaceModel_;
 import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
@@ -30,7 +29,7 @@ import bj.discogsbrowser.utils.ImageViewAnimator;
 /**
  * Created by Josh Laird on 23/04/2017.
  */
-@Singleton
+@ActivityScope
 public class LabelController extends BaseController
 {
     private Context context;

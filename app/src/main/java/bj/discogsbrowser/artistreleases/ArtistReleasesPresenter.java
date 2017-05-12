@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
@@ -14,6 +15,7 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 /**
  * Created by Josh Laird on 10/04/2017.
  */
+@ActivityScope
 public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
 {
     private ArtistReleasesContract.View view;

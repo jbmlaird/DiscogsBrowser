@@ -1,5 +1,6 @@
 package bj.discogsbrowser.artistreleases.fragments;
 
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -17,6 +18,7 @@ public class ArtistReleasesFragmentModule
     }
 
     @Provides
+    @ActivityScope
     ArtistReleasesFragmentContract.View providesView()
     {
         return view;

@@ -1,7 +1,12 @@
 package bj.discogsbrowser.label;
 
-import javax.inject.Singleton;
+import android.content.Context;
 
+import bj.discogsbrowser.ActivityScope;
+import bj.discogsbrowser.network.LabelInteractor;
+import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,9 +24,10 @@ public class LabelModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     LabelContract.View provideLabelView()
     {
         return mView;
     }
+
 }

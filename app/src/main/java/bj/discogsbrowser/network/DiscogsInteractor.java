@@ -7,7 +7,6 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
@@ -39,7 +38,6 @@ import retrofit2.Retrofit;
  * <p>
  * Interactor to interact with the Discogs API.
  */
-@Singleton
 public class DiscogsInteractor
 {
     private final CacheProviders cacheProviders;

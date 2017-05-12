@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.CarouselModel_;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.EmptySpaceModel_;
-import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.main.InfoTextModel_;
 import bj.discogsbrowser.epoxy.main.ListingModel_;
 import bj.discogsbrowser.epoxy.main.MainTitleModel_;
@@ -36,7 +36,7 @@ import bj.discogsbrowser.utils.SharedPrefsManager;
  * <p>
  * Epoxy v2 Adapter controller.
  */
-@Singleton
+@ActivityScope
 public class MainController extends EpoxyController
 {
     private List<Order> orders = new ArrayList<>();

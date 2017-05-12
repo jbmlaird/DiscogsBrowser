@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import javax.inject.Inject;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -13,6 +14,7 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 /**
  * Created by Josh Laird on 13/04/2017.
  */
+@ActivityScope
 public class MarketplacePresenter implements MarketplaceContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();

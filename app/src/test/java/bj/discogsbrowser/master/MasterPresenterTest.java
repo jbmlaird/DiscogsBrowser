@@ -46,7 +46,7 @@ public class MasterPresenterTest
     @Before
     public void setUp()
     {
-        presenter = new MasterPresenter(view, discogsInteractor, controller, new TestSchedulerProvider(testScheduler));
+        presenter = new MasterPresenter(discogsInteractor, controller, new TestSchedulerProvider(testScheduler));
     }
 
     @After

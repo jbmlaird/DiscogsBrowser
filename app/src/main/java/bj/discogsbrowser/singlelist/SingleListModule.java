@@ -1,7 +1,6 @@
 package bj.discogsbrowser.singlelist;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
@@ -20,14 +19,14 @@ public class SingleListModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     public SingleListContract.View provideSingleListView()
     {
         return view;
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     public CompositeDisposable compositeDisposable()
     {
         return new CompositeDisposable();

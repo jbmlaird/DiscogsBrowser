@@ -1,7 +1,6 @@
 package bj.discogsbrowser.login;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,7 +18,7 @@ public class LoginModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     LoginContract.View provideView()
     {
         return view;

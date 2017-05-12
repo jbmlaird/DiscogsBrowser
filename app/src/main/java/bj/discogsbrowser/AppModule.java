@@ -11,6 +11,8 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.greenrobot.greendao.database.Database;
 
+import javax.inject.Singleton;
+
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
@@ -29,6 +31,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by j on 18/02/2017.
+ * <p>
+ * Protected @Provides for DaggerMock library.
  */
 @Module
 public class AppModule
@@ -46,19 +50,22 @@ public class AppModule
     }
 
     @Provides
-    Context provideContext()
+    @Singleton
+    protected Context provideContext()
     {
         return applicationContext;
     }
 
     @Provides
-    Tracker provideAnalyticsTracker()
+    @Singleton
+    protected Tracker provideTracker()
     {
         return GoogleAnalytics.getInstance(applicationContext).newTracker(R.xml.global_tracker);
     }
 
     @Provides
-    DaoSession providesDaoSession()
+    @Singleton
+    protected DaoSession providesDaoSession()
     {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(applicationContext, "search-db");
         // Use when changing schema
@@ -68,13 +75,15 @@ public class AppModule
     }
 
     @Provides
-    DaoManager providesDaoInteractor(DaoSession daoSession)
+    @Singleton
+    protected DaoManager providesDaoInteractor(DaoSession daoSession)
     {
         return new DaoManager(daoSession);
     }
 
     @Provides
-    OAuth10aService providesOAuth1Service(Context context)
+    @Singleton
+    protected OAuth10aService providesOAuth1Service(Context context)
     {
         return new ServiceBuilder()
                 .apiKey(context.getString(R.string.consumer_key))
@@ -84,7 +93,8 @@ public class AppModule
     }
 
     @Provides
-    Retrofit providesRetrofit(Context context, SharedPrefsManager sharedPrefsManager)
+    @Singleton
+    protected Retrofit providesRetrofit(Context context, SharedPrefsManager sharedPrefsManager)
     {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(chain ->
@@ -114,7 +124,8 @@ public class AppModule
     }
 
     @Provides
-    CacheProviders provideCacheProviders()
+    @Singleton
+    protected CacheProviders provideCacheProviders()
     {
         return cacheProviders;
     }

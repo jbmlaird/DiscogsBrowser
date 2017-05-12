@@ -11,9 +11,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bj.discogsbrowser.artistreleases.ArtistReleasesController;
+import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
 import bj.discogsbrowser.rxmodifiers.ArtistResultFunction;
-import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,10 +21,8 @@ import io.reactivex.disposables.CompositeDisposable;
 /**
  * Created by Josh Laird on 11/05/2017.
  */
-
 public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentContract.Presenter
 {
-    private ArtistReleasesFragmentContract.View view;
     private final CompositeDisposable disposable;
     private final ArtistResultFunction artistResultFunction;
     private BehaviorRelay<List<ArtistRelease>> behaviorRelay;
@@ -33,11 +31,10 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
     private ArtistReleasesController controller;
 
     @Inject
-    public ArtistReleasesFragmentPresenter(ArtistReleasesFragmentContract.View view, CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
+    public ArtistReleasesFragmentPresenter(CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
                                            BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer,
                                            ArtistReleasesController controller)
     {
-        this.view = view;
         this.disposable = disposable;
         this.artistResultFunction = artistResultFunction;
         this.behaviorRelay = behaviorRelay;

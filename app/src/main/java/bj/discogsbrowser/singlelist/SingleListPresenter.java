@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
@@ -27,10 +27,8 @@ import io.reactivex.observers.DisposableSingleObserver;
  * Created by Josh Laird on 16/04/2017.
  * <p>
  * Decouple this and have a separate activity for each type?
- * <p>
- * //TODO: Move to Epoxy
  */
-@Singleton
+@ActivityScope
 public class SingleListPresenter implements SingleListContract.Presenter
 {
     private Context context;

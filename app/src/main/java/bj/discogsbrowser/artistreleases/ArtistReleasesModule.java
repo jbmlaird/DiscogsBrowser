@@ -4,8 +4,7 @@ import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.util.List;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import dagger.Module;
 import dagger.Provides;
@@ -25,21 +24,21 @@ public class ArtistReleasesModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     ArtistReleasesContract.View providesView()
     {
         return view;
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     CompositeDisposable providesCompositeDisposable()
     {
         return new CompositeDisposable();
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     BehaviorRelay<List<ArtistRelease>> provideBehaviorRelay()
     {
         return BehaviorRelay.create();

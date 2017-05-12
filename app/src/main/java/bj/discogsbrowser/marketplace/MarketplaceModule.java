@@ -1,7 +1,6 @@
 package bj.discogsbrowser.marketplace;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,7 +18,7 @@ public class MarketplaceModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     MarketplaceContract.View provideMarketplaceView()
     {
         return view;

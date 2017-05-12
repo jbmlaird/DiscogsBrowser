@@ -15,7 +15,6 @@ import retrofit2.Retrofit;
 /**
  * Created by Josh Laird on 10/05/2017.
  */
-
 public class LabelInteractor
 {
     private LabelService labelService;

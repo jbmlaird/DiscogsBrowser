@@ -64,6 +64,6 @@
     <string name="logged_in">logged_in</string>
     <string name="error">error</string>
     <string name="learn_more">Learn more</string>
-    <string name="learn_more_content">I have created intelligent recommender systems but have been unable to expose these via an API with live prediction. If anyone wants to implement a system or point me in the right direction please get in touch via jbmlaird@gmail.com</string>
+    <string name="learn_more_content">Non-intelligent recommender system that suggests tracks in the same genre or label as releases you have looked at</string>
     <string name="onboarding_completed">onboarding_completed</string>
 </resources>

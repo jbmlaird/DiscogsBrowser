@@ -5,6 +5,7 @@ import android.content.Context;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.artist.MemberModel_;
 import bj.discogsbrowser.epoxy.artist.UrlModel_;
@@ -25,7 +26,7 @@ import bj.discogsbrowser.utils.WantedUrl;
 /**
  * Created by Josh Laird on 21/04/2017.
  */
-@Singleton
+@ActivityScope
 public class ArtistController extends BaseController
 {
     private final ArtistContract.View view;

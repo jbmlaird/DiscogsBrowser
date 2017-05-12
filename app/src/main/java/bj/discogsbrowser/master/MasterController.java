@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
@@ -27,7 +28,7 @@ import bj.discogsbrowser.utils.ImageViewAnimator;
 /**
  * Created by Josh Laird on 25/04/2017.
  */
-@Singleton
+@ActivityScope
 public class MasterController extends BaseController
 {
     private final MasterContract.View mView;

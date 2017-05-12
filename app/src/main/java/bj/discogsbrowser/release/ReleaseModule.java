@@ -2,6 +2,7 @@ package bj.discogsbrowser.release;
 
 import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,7 +20,7 @@ public class ReleaseModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     ReleaseContract.View provideReleaseView()
     {
         return mView;

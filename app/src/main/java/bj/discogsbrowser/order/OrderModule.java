@@ -1,7 +1,6 @@
 package bj.discogsbrowser.order;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,7 +18,7 @@ public class OrderModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     OrderContract.View providesView()
     {
         return view;

@@ -7,12 +7,14 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 
 import javax.inject.Inject;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.wrappers.RxSocialConnectWrapper;
 
 /**
  * Created by Josh Laird on 15/04/2017.
  */
+@ActivityScope
 public class LoginPresenter implements LoginContract.Presenter
 {
     private static final String TAG = "LoginPresenter";

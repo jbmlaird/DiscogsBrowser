@@ -7,6 +7,7 @@ import com.airbnb.epoxy.EpoxyController;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
@@ -22,7 +23,7 @@ import bj.discogsbrowser.utils.ImageViewAnimator;
 /**
  * Created by Josh Laird on 18/04/2017.
  */
-@Singleton
+@ActivityScope
 public class OrderController extends EpoxyController
 {
     private Order orderDetails;

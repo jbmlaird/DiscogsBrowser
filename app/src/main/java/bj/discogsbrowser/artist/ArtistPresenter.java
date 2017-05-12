@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -16,7 +17,7 @@ import bj.discogsbrowser.wrappers.LogWrapper;
 /**
  * Created by Josh Laird on 07/04/2017.
  */
-@Singleton
+@ActivityScope
 public class ArtistPresenter implements ArtistContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();

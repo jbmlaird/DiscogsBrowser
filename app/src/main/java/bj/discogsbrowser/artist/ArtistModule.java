@@ -1,7 +1,6 @@
 package bj.discogsbrowser.artist;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,7 +18,7 @@ public class ArtistModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     ArtistContract.View providesDetailedView()
     {
         return view;

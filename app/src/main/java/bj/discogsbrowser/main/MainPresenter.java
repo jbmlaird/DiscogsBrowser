@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.ViewedRelease;
@@ -30,7 +31,7 @@ import io.reactivex.Single;
 /**
  * Created by j on 18/02/2017.
  */
-@Singleton
+@ActivityScope
 public class MainPresenter implements MainContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();

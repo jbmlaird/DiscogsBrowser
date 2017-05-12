@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -26,6 +27,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Created by Josh Laird on 20/02/2017.
  */
+@ActivityScope
 public class SearchPresenter implements SearchContract.Presenter
 {
     private static final String TAG = "SearchPresenter";

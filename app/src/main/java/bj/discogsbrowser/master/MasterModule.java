@@ -1,7 +1,6 @@
 package bj.discogsbrowser.master;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,7 +18,7 @@ public class MasterModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     MasterContract.View provideMasterView()
     {
         return view;

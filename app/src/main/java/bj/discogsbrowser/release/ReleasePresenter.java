@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
@@ -25,7 +25,7 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
  * <p>
  * TODO: Refactor? There's a chain of requests here and it seems tightly coupled.
  */
-@Singleton
+@ActivityScope
 public class ReleasePresenter implements ReleaseContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
@@ -36,8 +36,6 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private final MySchedulerProvider mySchedulerProvider;
     private final ArtistsBeautifier artistsBeautifier;
     private DaoManager daoManager;
-    private boolean collectionChecked;
-    private boolean wantlistChecked;
 
     @Inject
     public ReleasePresenter(@NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor, @NonNull LabelInteractor labelInteractor,

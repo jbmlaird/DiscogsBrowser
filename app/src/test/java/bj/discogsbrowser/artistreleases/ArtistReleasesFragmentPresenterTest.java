@@ -48,12 +48,11 @@ public class ArtistReleasesFragmentPresenterTest
     private TestScheduler testScheduler = new TestScheduler();
     @Mock ArtistReleasesTransformer artistReleasesTransformer;
     @Mock ArtistReleasesController controller;
-    private String searchFilter = "searchFilter";
 
     @Before
     public void setup()
     {
-        presenter = new ArtistReleasesFragmentPresenter(view, disposable, artistResultFunction, behaviorRelay,
+        presenter = new ArtistReleasesFragmentPresenter(disposable, artistResultFunction, behaviorRelay,
                 new TestSchedulerProvider(testScheduler), artistReleasesTransformer, controller);
     }
 
@@ -92,7 +91,7 @@ public class ArtistReleasesFragmentPresenterTest
     {
         // Will need to use a real behaviorRelay for this test
         BehaviorRelay<List<ArtistRelease>> behaviorRelay = BehaviorRelay.create();
-        presenter = new ArtistReleasesFragmentPresenter(view, disposable, artistResultFunction, behaviorRelay,
+        presenter = new ArtistReleasesFragmentPresenter(disposable, artistResultFunction, behaviorRelay,
                 new TestSchedulerProvider(testScheduler), artistReleasesTransformer, controller);
         ArrayList<ArtistRelease> artistReleases = new ArrayList<>();
         artistReleases.add(new ArtistRelease());
@@ -118,7 +117,7 @@ public class ArtistReleasesFragmentPresenterTest
     {
         // Will need to use a real behaviorRelay for this test
         BehaviorRelay<List<ArtistRelease>> behaviorRelay = BehaviorRelay.create();
-        presenter = new ArtistReleasesFragmentPresenter(view, disposable, artistResultFunction, behaviorRelay,
+        presenter = new ArtistReleasesFragmentPresenter(disposable, artistResultFunction, behaviorRelay,
                 new TestSchedulerProvider(testScheduler), artistReleasesTransformer, controller);
         when(disposable.add(any())).thenReturn(true);
         ArrayList<ArtistRelease> artistReleases = new ArrayList<>();

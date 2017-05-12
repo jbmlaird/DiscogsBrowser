@@ -6,27 +6,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
 /**
  * Created by Josh Laird on 23/04/2017.
  */
-@Singleton
+@ActivityScope
 public class MasterPresenter implements MasterContract.Presenter
 {
-    private MasterContract.View mView;
     private DiscogsInteractor discogsInteractor;
     private MasterController controller;
     private MySchedulerProvider mySchedulerProvider;
 
     @Inject
-    public MasterPresenter(@NonNull MasterContract.View mView, @NonNull DiscogsInteractor discogsInteractor, @NonNull MasterController masterController,
-                           @NonNull MySchedulerProvider mySchedulerProvider)
+    public MasterPresenter(@NonNull DiscogsInteractor discogsInteractor, @NonNull MasterController masterController, @NonNull MySchedulerProvider mySchedulerProvider)
     {
-        this.mView = mView;
         this.discogsInteractor = discogsInteractor;
         this.controller = masterController;
         this.mySchedulerProvider = mySchedulerProvider;

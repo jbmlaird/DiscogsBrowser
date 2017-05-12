@@ -4,8 +4,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
 import java.util.List;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import dagger.Module;
@@ -30,20 +29,21 @@ public class SearchModule
     }
 
     @Provides
+    @ActivityScope
     SearchContract.View providesSearchView()
     {
         return mView;
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     CompositeDisposable providesCompositeDisposable()
     {
         return new CompositeDisposable();
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(DiscogsInteractor discogsInteractor)
     {
         return searchViewQueryTextEvent ->

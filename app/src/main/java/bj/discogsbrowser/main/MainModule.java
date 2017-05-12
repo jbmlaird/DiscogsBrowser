@@ -1,7 +1,6 @@
 package bj.discogsbrowser.main;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,14 +20,14 @@ public class MainModule
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     MainContract.View provideMainView()
     {
         return mView;
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     CompositeDisposable compositeDisposable()
     {
         return new CompositeDisposable();

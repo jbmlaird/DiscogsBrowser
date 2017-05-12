@@ -83,10 +83,10 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     }
 
     @Override
-    protected void onPause()
+    protected void onDestroy()
     {
-        super.onPause();
-        // Component is only required for instantiation. Leaks otherwise.
+        super.onDestroy();
+        // Component is only required for fragment instantiation. Leaks otherwise.
         component = null;
     }
 

@@ -1,14 +1,13 @@
 package bj.discogsbrowser.singlelist;
 
-import javax.inject.Singleton;
-
+import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.AppComponent;
 import dagger.Component;
 
 /**
  * Created by Josh Laird on 16/04/2017.
  */
-@Singleton
+@ActivityScope
 @Component(dependencies = {AppComponent.class}, modules = {SingleListModule.class})
 public interface SingleListComponent
 {

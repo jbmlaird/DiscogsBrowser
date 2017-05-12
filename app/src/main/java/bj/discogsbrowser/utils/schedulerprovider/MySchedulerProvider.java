@@ -14,7 +14,6 @@ public class MySchedulerProvider implements SchedulerProvider
     @Inject
     public MySchedulerProvider()
     {
-
     }
 
     @Override
