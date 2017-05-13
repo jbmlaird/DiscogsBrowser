@@ -32,7 +32,9 @@ public interface SearchContract
     {
         void setupRecyclerView(RecyclerView rvResults);
 
-        void setupSubscriptions();
+        void setupSearchViewObserver();
+
+        void setupTabObserver();
 
         void showPastSearches(boolean b);
     }

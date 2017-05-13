@@ -3,7 +3,6 @@ package bj.discogsbrowser.search;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
@@ -55,10 +54,30 @@ public class SearchPresenter implements SearchContract.Presenter
     {
         rvResults.setLayoutManager(new LinearLayoutManager(mContext));
         rvResults.setAdapter(searchController.getAdapter());
-        searchController.setSearchTerms(daoManager.getRecentSearchTerms());
+        searchController.setPastSearches(daoManager.getRecentSearchTerms());
     }
 
-    private Observable<List<SearchResult>> getSearchIntent()
+    @Override
+    public void setupSearchViewObserver()
+    {
+        disposable.add(getSearchIntent()
+                .subscribeWith(getSearchObserver()));
+    }
+
+    @Override
+    public void setupTabObserver()
+    {
+        disposable.add(mView.tabIntent()
+                .subscribeOn(mySchedulerProvider.ui())
+                .subscribeWith(getTabObserver()));
+    }
+
+    /**
+     * Sets up an Observer on the SearchView.
+     *
+     * @return Observable to be subscribed to.
+     */
+    public Observable<List<SearchResult>> getSearchIntent()
     {
         return mView.searchIntent()
                 .subscribeOn(mySchedulerProvider.io())
@@ -77,18 +96,60 @@ public class SearchPresenter implements SearchContract.Presenter
                 .onErrorResumeNext(Observable.defer(this::getSearchIntent));
     }
 
-    @Override
-    public void setupSubscriptions()
+    private DisposableObserver<List<SearchResult>> getSearchObserver()
     {
-        disposable.add(getSearchIntent()
-                .subscribeWith(getSearchObserver()));
+        if (searchObserver == null || searchObserver.isDisposed())
+            searchObserver = new DisposableObserver<List<SearchResult>>()
+            {
+                @Override
+                public void onNext(List<SearchResult> o)
+                {
+                    searchResults = o;
+                    if (o.size() == 0)
+                    {
+                        // Show no results
+                        searchController.setSearchResults(o);
+                    }
+                    else
+                    {
+                        if (!currentFilter.equals("all"))
+                            Single.just(o)
+                                    .subscribeOn(mySchedulerProvider.computation())
+                                    .flattenAsObservable(results -> results)
+                                    .filter(searchResult ->
+                                            searchResult.getType().equals(currentFilter))
+                                    .toList()
+                                    .observeOn(mySchedulerProvider.ui())
+                                    .subscribe(filteredResults ->
+                                                    searchController.setSearchResults(filteredResults),
+                                            Throwable::printStackTrace);
+                        else
+                            searchController.setSearchResults(o);
+                    }
+                }
 
-        disposable.add(mView.tabIntent()
-                .subscribeOn(mySchedulerProvider.ui())
-                .subscribeWith(getTabObserver()));
+                @Override
+                public void onError(Throwable e)
+                {
+                    // Will never be reached as I have a onErrorResumeNext()
+                    e.printStackTrace();
+                    searchController.setError(true);
+                }
+
+                @Override
+                public void onComplete()
+                {
+                }
+            };
+        return searchObserver;
     }
 
-    private DisposableObserver<TabLayoutSelectionEvent> getTabObserver()
+    /**
+     * Sets up an Observer on the TabLayout.
+     *
+     * @return Observer subscribed to the TabLayout.
+     */
+    public DisposableObserver<TabLayoutSelectionEvent> getTabObserver()
     {
         return new DisposableObserver<TabLayoutSelectionEvent>()
         {
@@ -113,7 +174,6 @@ public class SearchPresenter implements SearchContract.Presenter
             @Override
             public void onComplete()
             {
-                Log.e("SearchPresenter", "tabLayout onComplete()");
             }
         };
     }
@@ -122,57 +182,8 @@ public class SearchPresenter implements SearchContract.Presenter
     public void showPastSearches(boolean showPastSearches)
     {
         if (showPastSearches)
-            searchController.setSearchTerms(daoManager.getRecentSearchTerms());
+            searchController.setPastSearches(daoManager.getRecentSearchTerms());
         searchController.setShowPastSearches(showPastSearches);
-    }
-
-    private DisposableObserver<List<SearchResult>> getSearchObserver()
-    {
-        if (searchObserver == null || searchObserver.isDisposed())
-            searchObserver = new DisposableObserver<List<SearchResult>>()
-            {
-                @Override
-                public void onNext(List<SearchResult> o)
-                {
-                    searchResults = o;
-                    if (o.size() == 0)
-                    {
-                        // Show no results
-                        searchController.setResults(o);
-                    }
-                    else
-                    {
-                        if (!currentFilter.equals("all"))
-                            Single.just(o)
-                                    .subscribeOn(mySchedulerProvider.io())
-                                    .observeOn(mySchedulerProvider.io())
-                                    .flattenAsObservable(results -> results)
-                                    .filter(searchResult ->
-                                            searchResult.getType().equals(currentFilter))
-                                    .toList()
-                                    .observeOn(mySchedulerProvider.ui())
-                                    .subscribe(filteredResults ->
-                                                    searchController.setResults(filteredResults),
-                                            Throwable::printStackTrace);
-                        else
-                            searchController.setResults(o);
-                    }
-                }
-
-                @Override
-                public void onError(Throwable e)
-                {
-                    e.printStackTrace();
-                    searchController.setError(true);
-                }
-
-                @Override
-                public void onComplete()
-                {
-                    Log.e(TAG, "complete");
-                }
-            };
-        return searchObserver;
     }
 
     @Override

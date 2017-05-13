@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.epoxy.common.RetryModel_;
-import bj.discogsbrowser.greendao.SearchTerm;
 import bj.discogsbrowser.epoxy.common.CenterTextModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
+import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.search.PastSearchModel_;
 import bj.discogsbrowser.epoxy.search.SearchResultModel_;
+import bj.discogsbrowser.greendao.SearchTerm;
 import bj.discogsbrowser.model.search.SearchResult;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 /**
  * Created by Josh Laird on 25/04/2017.
@@ -27,7 +27,7 @@ public class SearchController extends EpoxyController
     private SearchContract.View mView;
     private ImageViewAnimator imageViewAnimator;
     private List<SearchResult> searchResults = new ArrayList<>();
-    private List<SearchTerm> searchTerms;
+    private List<SearchTerm> searchTerms = new ArrayList<>();
     private boolean showPastSearches = true;
     private boolean showSearching = false;
     private boolean error = false;
@@ -79,7 +79,7 @@ public class SearchController extends EpoxyController
                         .addTo(this);
     }
 
-    public void setResults(List<SearchResult> searchResults)
+    public void setSearchResults(List<SearchResult> searchResults)
     {
         this.searchResults = searchResults;
         this.showPastSearches = false;
@@ -87,7 +87,7 @@ public class SearchController extends EpoxyController
         requestModelBuild();
     }
 
-    public void setSearchTerms(List<SearchTerm> searchTerms)
+    public void setPastSearches(List<SearchTerm> searchTerms)
     {
         this.searchTerms = searchTerms;
         this.showPastSearches = true;

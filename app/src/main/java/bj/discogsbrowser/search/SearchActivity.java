@@ -52,7 +52,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.pbRecyclerView) ProgressBar pbRecyclerView;
     @BindView(R.id.rvResults) MyRecyclerView rvResults;
-    private SearchComponent component;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -106,7 +105,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     {
         tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.loaded), "onResume", 1L);
         super.onResume();
-        presenter.setupSubscriptions();
+        presenter.setupSearchViewObserver();
+        presenter.setupTabObserver();
     }
 
     @OnClick(R.id.search_close_btn)
