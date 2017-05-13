@@ -1,15 +1,22 @@
 package bj.discogsbrowser.search;
 
-import bj.discogsbrowser.ActivityScope;
-import bj.discogsbrowser.AppComponent;
-import dagger.Component;
+import bj.discogsbrowser.scopes.ActivityScope;
+import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 20/02/2017.
  */
 @ActivityScope
-@Component(modules = {SearchModule.class}, dependencies = {AppComponent.class})
+@Subcomponent(modules = {SearchModule.class})
 public interface SearchComponent
 {
     void inject(SearchActivity searchActivity);
+
+    @Subcomponent.Builder
+    interface Builder
+    {
+        Builder searchModule(SearchModule searchModule);
+
+        SearchComponent build();
+    }
 }

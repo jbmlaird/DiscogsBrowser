@@ -2,10 +2,6 @@ package bj.discogsbrowser.artist;
 
 import android.content.Context;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.artist.MemberModel_;
 import bj.discogsbrowser.epoxy.artist.UrlModel_;
@@ -19,14 +15,13 @@ import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artist.Member;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.WantedUrl;
 
 /**
  * Created by Josh Laird on 21/04/2017.
  */
-@ActivityScope
 public class ArtistController extends BaseController
 {
     private final ArtistContract.View view;
@@ -37,7 +32,6 @@ public class ArtistController extends BaseController
     private boolean error;
     private AnalyticsTracker tracker;
 
-    @Inject
     public ArtistController(ArtistContract.View view, Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.view = view;

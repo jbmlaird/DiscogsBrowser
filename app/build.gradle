@@ -89,7 +89,7 @@ dependencies {
     compile 'com.github.daniel-stoneuk:material-about-library:1.9.0'
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
+    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.5'
 }
 
 apply plugin: 'com.google.gms.google-services'

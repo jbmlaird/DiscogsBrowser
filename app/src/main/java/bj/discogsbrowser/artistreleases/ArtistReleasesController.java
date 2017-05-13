@@ -2,8 +2,6 @@ package bj.discogsbrowser.artistreleases;
 
 import android.content.Context;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.common.BaseSingleListController;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
@@ -12,7 +10,6 @@ import bj.discogsbrowser.utils.ImageViewAnimator;
  */
 public class ArtistReleasesController extends BaseSingleListController
 {
-    @Inject
     public ArtistReleasesController(Context context, ArtistReleasesContract.View view, ImageViewAnimator imageViewAnimator)
     {
         this.context = context;

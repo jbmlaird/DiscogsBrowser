@@ -1,9 +1,7 @@
-package bj.discogsbrowser.utils;
+package bj.discogsbrowser.utils.analytics;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
-import javax.inject.Inject;
 
 import bj.discogsbrowser.BuildConfig;
 
@@ -16,7 +14,6 @@ public class AnalyticsTracker
 {
     private Tracker tracker;
 
-    @Inject
     public AnalyticsTracker(Tracker tracker)
     {
         this.tracker = tracker;

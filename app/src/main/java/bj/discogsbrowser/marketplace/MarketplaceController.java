@@ -4,9 +4,6 @@ import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyController;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.RetryModel_;
@@ -21,7 +18,6 @@ import bj.discogsbrowser.wrappers.NumberFormatWrapper;
 /**
  * Created by Josh Laird on 09/05/2017.
  */
-@ActivityScope
 public class MarketplaceController extends EpoxyController
 {
     private Context context;
@@ -36,7 +32,6 @@ public class MarketplaceController extends EpoxyController
     private UserDetails sellerDetails = new UserDetails();
     private NumberFormatWrapper numberFormatWrapper;
 
-    @Inject
     public MarketplaceController(Context context, MarketplaceContract.View view, ImageViewAnimator imageViewAnimator, NumberFormatWrapper numberFormatWrapper)
     {
         this.context = context;

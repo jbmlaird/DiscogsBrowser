@@ -14,7 +14,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 

@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import java.text.ParseException;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.wrappers.DateUtilsWrapper;
 import bj.discogsbrowser.wrappers.SimpleDateFormatWrapper;
 
@@ -21,7 +19,6 @@ public class DateFormatter
     private DateUtilsWrapper dateUtilsWrapper;
     private SimpleDateFormatWrapper simpleDateFormatWrapper;
 
-    @Inject
     public DateFormatter(@NonNull DateUtilsWrapper dateUtilsWrapper, @NonNull SimpleDateFormatWrapper simpleDateFormatWrapper)
     {
         this.dateUtilsWrapper = dateUtilsWrapper;

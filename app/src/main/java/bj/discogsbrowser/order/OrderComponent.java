@@ -1,15 +1,22 @@
 package bj.discogsbrowser.order;
 
-import bj.discogsbrowser.ActivityScope;
-import bj.discogsbrowser.AppComponent;
-import dagger.Component;
+import bj.discogsbrowser.scopes.ActivityScope;
+import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 18/04/2017.
  */
 @ActivityScope
-@Component(modules = {OrderModule.class}, dependencies = {AppComponent.class})
+@Subcomponent(modules = {OrderModule.class})
 public interface OrderComponent
 {
     void inject(OrderActivity orderActivity);
+
+    @Subcomponent.Builder
+    interface Builder
+    {
+        Builder orderModule(OrderModule module);
+
+        OrderComponent build();
+    }
 }

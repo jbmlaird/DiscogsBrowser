@@ -15,9 +15,7 @@ import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.common.MyRecyclerView;
-import bj.discogsbrowser.model.listing.Listing;
-import bj.discogsbrowser.model.user.UserDetails;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +34,8 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        DaggerMarketplaceComponent.builder()
-                .appComponent(appComponent)
+        appComponent
+                .marketplaceComponentBuilder()
                 .marketplaceModule(new MarketplaceModule(this))
                 .build()
                 .inject(this);

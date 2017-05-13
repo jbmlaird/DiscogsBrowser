@@ -2,8 +2,6 @@ package bj.discogsbrowser.release;
 
 import android.content.Context;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -24,7 +22,6 @@ public class CollectionWantlistPresenter
     private boolean inCollection;
     private boolean inWantlist;
 
-    @Inject
     public CollectionWantlistPresenter(Context context, CollectionWantlistInteractor collectionWantlistInteractor,
                                        SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider,
                                        ToastyWrapper toasty)

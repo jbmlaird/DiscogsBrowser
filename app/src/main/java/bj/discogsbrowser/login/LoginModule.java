@@ -1,6 +1,6 @@
 package bj.discogsbrowser.login;
 
-import bj.discogsbrowser.ActivityScope;
+import bj.discogsbrowser.scopes.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 

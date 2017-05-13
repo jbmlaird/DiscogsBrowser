@@ -15,7 +15,7 @@ import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.common.MyRecyclerView;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,8 +32,8 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        DaggerArtistComponent.builder()
-                .appComponent(appComponent)
+        appComponent
+                .artistComponentBuilder()
                 .artistModule(new ArtistModule(this))
                 .build()
                 .inject(this);

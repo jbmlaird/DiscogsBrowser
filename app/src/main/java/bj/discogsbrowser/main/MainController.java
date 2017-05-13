@@ -7,9 +7,6 @@ import com.airbnb.epoxy.EpoxyController;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.CarouselModel_;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
@@ -26,7 +23,7 @@ import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.search.SearchResult;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;
@@ -36,7 +33,6 @@ import bj.discogsbrowser.utils.SharedPrefsManager;
  * <p>
  * Epoxy v2 Adapter controller.
  */
-@ActivityScope
 public class MainController extends EpoxyController
 {
     private List<Order> orders = new ArrayList<>();
@@ -58,7 +54,6 @@ public class MainController extends EpoxyController
     private boolean recommendationsError;
     private boolean viewedReleasesError;
 
-    @Inject
     public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager,
                           ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
     {

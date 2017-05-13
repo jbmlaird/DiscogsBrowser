@@ -9,7 +9,7 @@
 //import org.robolectric.RobolectricTestRunner;
 //import org.robolectric.annotation.Config;
 //
-//import bj.discogsbrowser.utils.AnalyticsTracker;
+//import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 //import bj.discogsbrowser.utils.ImageViewAnimator;
 //
 //import static android.os.Build.VERSION_CODES.LOLLIPOP;

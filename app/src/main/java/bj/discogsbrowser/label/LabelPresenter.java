@@ -5,23 +5,18 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
 /**
  * Created by Josh Laird on 23/04/2017.
  */
-@ActivityScope
 public class LabelPresenter implements LabelContract.Presenter
 {
     private LabelController controller;
     private LabelInteractor labelInteractor;
     private MySchedulerProvider mySchedulerProvider;
 
-    @Inject
     public LabelPresenter(@NonNull LabelController controller, @NonNull LabelInteractor labelInteractor,
                           @NonNull MySchedulerProvider mySchedulerProvider)
     {

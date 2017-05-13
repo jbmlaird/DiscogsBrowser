@@ -15,7 +15,7 @@ import org.robolectric.annotation.Config;
 import java.util.Collections;
 import java.util.List;
 
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;

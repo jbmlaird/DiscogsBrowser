@@ -1,6 +1,13 @@
 package bj.discogsbrowser.master;
 
-import bj.discogsbrowser.ActivityScope;
+import android.content.Context;
+
+import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
+import bj.discogsbrowser.utils.ArtistsBeautifier;
+import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -22,5 +29,19 @@ public class MasterModule
     MasterContract.View provideMasterView()
     {
         return view;
+    }
+
+    @Provides
+    @ActivityScope
+    MasterController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    {
+        return new MasterController(view, context, artistsBeautifier, imageViewAnimator, tracker);
+    }
+
+    @Provides
+    @ActivityScope
+    MasterPresenter providePresenter(DiscogsInteractor interactor, MasterController controller, MySchedulerProvider mySchedulerProvider)
+    {
+        return new MasterPresenter(interactor, controller, mySchedulerProvider);
     }
 }

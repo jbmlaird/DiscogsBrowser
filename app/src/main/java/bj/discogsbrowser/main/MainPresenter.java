@@ -10,10 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.ViewedRelease;
@@ -21,7 +17,7 @@ import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -31,7 +27,6 @@ import io.reactivex.Single;
 /**
  * Created by j on 18/02/2017.
  */
-@ActivityScope
 public class MainPresenter implements MainContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
@@ -46,7 +41,6 @@ public class MainPresenter implements MainContract.Presenter
     private DaoManager daoManager;
     private AnalyticsTracker tracker;
 
-    @Inject
     public MainPresenter(@NonNull Context context, @NonNull MainContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                          @NonNull MySchedulerProvider mySchedulerProvider, @NonNull NavigationDrawerBuilder navigationDrawerBuilder,
                          @NonNull MainController mainController, @NonNull SharedPrefsManager sharedPrefsManager,

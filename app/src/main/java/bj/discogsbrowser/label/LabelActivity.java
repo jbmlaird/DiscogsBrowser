@@ -15,7 +15,7 @@ import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.release.ReleaseActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,9 +32,9 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        DaggerLabelComponent.builder()
-                .appComponent(appComponent)
-                .labelModule(new LabelModule(this))
+        appComponent
+                .labelComponentBuilder()
+                .labelActivityModule(new LabelModule(this))
                 .build()
                 .inject(this);
     }

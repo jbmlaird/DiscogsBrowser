@@ -1,6 +1,13 @@
 package bj.discogsbrowser.singlelist;
 
-import bj.discogsbrowser.ActivityScope;
+import android.content.Context;
+
+import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.network.CollectionWantlistInteractor;
+import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.utils.FilterHelper;
+import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
@@ -27,8 +34,24 @@ public class SingleListModule
 
     @Provides
     @ActivityScope
-    public CompositeDisposable compositeDisposable()
+    protected FilterHelper provideFilterHelper()
     {
-        return new CompositeDisposable();
+        return new FilterHelper();
+    }
+
+    @Provides
+    @ActivityScope
+    protected SingleListController provideController(Context context, ImageViewAnimator imageViewAnimator)
+    {
+        return new SingleListController(context, view, imageViewAnimator);
+    }
+
+    @Provides
+    @ActivityScope
+    protected SingleListPresenter providePresenter(Context context, DiscogsInteractor interactor, CollectionWantlistInteractor collectionWantlistInteractor,
+                                                   MySchedulerProvider mySchedulerProvider, SingleListController controller, FilterHelper filterHelper)
+    {
+        return new SingleListPresenter(context, view, interactor, collectionWantlistInteractor, mySchedulerProvider, controller,
+                new CompositeDisposable(), filterHelper);
     }
 }

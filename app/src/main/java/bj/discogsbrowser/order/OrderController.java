@@ -4,10 +4,6 @@ import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyController;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
@@ -17,13 +13,12 @@ import bj.discogsbrowser.epoxy.order.OrderReleaseModel_;
 import bj.discogsbrowser.epoxy.order.TotalModel_;
 import bj.discogsbrowser.model.order.Item;
 import bj.discogsbrowser.model.order.Order;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 /**
  * Created by Josh Laird on 18/04/2017.
  */
-@ActivityScope
 public class OrderController extends EpoxyController
 {
     private Order orderDetails;
@@ -34,7 +29,6 @@ public class OrderController extends EpoxyController
     private ImageViewAnimator imageViewAnimator;
     private AnalyticsTracker tracker;
 
-    @Inject
     public OrderController(Context context, OrderContract.View mView, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.context = context;

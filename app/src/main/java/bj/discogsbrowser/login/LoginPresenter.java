@@ -7,7 +7,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 
 import javax.inject.Inject;
 
-import bj.discogsbrowser.ActivityScope;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.wrappers.RxSocialConnectWrapper;
 

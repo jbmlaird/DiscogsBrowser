@@ -54,7 +54,9 @@ public class ArtistReleasesFragment extends BaseFragment implements ArtistReleas
     public void setupComponent(AppComponent appComponent)
     {
         ArtistReleasesActivity.getComponent()
-                .plus(new ArtistReleasesFragmentModule(this))
+                .artistReleasesFragmentComponentBuilder()
+                .artistReleasesFragmentModule(new ArtistReleasesFragmentModule(this))
+                .build()
                 .inject(this);
     }
 

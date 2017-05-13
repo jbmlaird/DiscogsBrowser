@@ -6,9 +6,6 @@ import android.support.annotation.VisibleForTesting;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
@@ -23,13 +20,12 @@ import bj.discogsbrowser.epoxy.main.InfoTextModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.model.label.Label;
 import bj.discogsbrowser.model.labelrelease.LabelRelease;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 /**
  * Created by Josh Laird on 23/04/2017.
  */
-@ActivityScope
 public class LabelController extends BaseController
 {
     private Context context;
@@ -43,7 +39,6 @@ public class LabelController extends BaseController
     private boolean error = false;
     private AnalyticsTracker tracker;
 
-    @Inject
     public LabelController(Context context, LabelContract.View view, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.context = context;

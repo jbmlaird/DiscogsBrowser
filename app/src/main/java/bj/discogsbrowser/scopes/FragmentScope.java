@@ -1,4 +1,4 @@
-package bj.discogsbrowser;
+package bj.discogsbrowser.scopes;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -6,10 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Scope;
 
 /**
- * Created by Josh Laird on 11/05/2017.
+ * Created by Josh Laird on 13/05/2017.
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ActivityScope
+public @interface FragmentScope
 {
 }
+

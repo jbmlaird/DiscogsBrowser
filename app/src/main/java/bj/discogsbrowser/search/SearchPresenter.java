@@ -11,9 +11,6 @@ import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -27,7 +24,6 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Created by Josh Laird on 20/02/2017.
  */
-@ActivityScope
 public class SearchPresenter implements SearchContract.Presenter
 {
     private static final String TAG = "SearchPresenter";
@@ -42,7 +38,6 @@ public class SearchPresenter implements SearchContract.Presenter
     private CompositeDisposable disposable;
     private DisposableObserver<List<SearchResult>> searchObserver;
 
-    @Inject
     public SearchPresenter(Context mContext, SearchContract.View mView, SearchController searchController, Function<SearchViewQueryTextEvent,
             ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoManager daoManager, CompositeDisposable disposable)
     {

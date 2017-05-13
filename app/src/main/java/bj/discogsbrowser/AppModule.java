@@ -5,8 +5,6 @@ import android.content.Context;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth10aService;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.greenrobot.greendao.database.Database;
@@ -17,8 +15,10 @@ import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.network.CacheProviders;
+import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
 import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 import io.rx_cache2.internal.RxCache;
@@ -54,13 +54,6 @@ public class AppModule
     protected Context provideContext()
     {
         return applicationContext;
-    }
-
-    @Provides
-    @Singleton
-    protected Tracker provideTracker()
-    {
-        return GoogleAnalytics.getInstance(applicationContext).newTracker(R.xml.global_tracker);
     }
 
     @Provides
@@ -128,5 +121,12 @@ public class AppModule
     protected CacheProviders provideCacheProviders()
     {
         return cacheProviders;
+    }
+
+    @Provides
+    protected CollectionWantlistInteractor provideCollectionWantlistInteractor(Retrofit retrofit, CacheProviders cacheProviders,
+                                                                               SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
+    {
+        return new CollectionWantlistInteractor(retrofit, cacheProviders, sharedPrefsManager, mySchedulerProvider);
     }
 }

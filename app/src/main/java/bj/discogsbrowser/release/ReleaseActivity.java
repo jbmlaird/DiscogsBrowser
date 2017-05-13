@@ -18,7 +18,7 @@ import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.label.LabelActivity;
 import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.model.listing.ScrapeListing;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +37,8 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        DaggerReleaseComponent.builder()
-                .appComponent(appComponent)
+        appComponent
+                .releaseComponentBuilder()
                 .releaseModule(new ReleaseModule(this))
                 .build()
                 .inject(this);

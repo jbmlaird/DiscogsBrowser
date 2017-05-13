@@ -5,10 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -17,7 +13,6 @@ import bj.discogsbrowser.wrappers.LogWrapper;
 /**
  * Created by Josh Laird on 07/04/2017.
  */
-@ActivityScope
 public class ArtistPresenter implements ArtistContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
@@ -28,7 +23,6 @@ public class ArtistPresenter implements ArtistContract.Presenter
     private ArtistController artistController;
     private RemoveUnwantedLinksFunction removeUnwantedLinksFunction;
 
-    @Inject
     public ArtistPresenter(@NonNull ArtistContract.View view, @NonNull DiscogsInteractor discogsInteractor,
                            @NonNull MySchedulerProvider mySchedulerProvider, @NonNull LogWrapper log, @NonNull ArtistController artistController,
                            @NonNull RemoveUnwantedLinksFunction removeUnwantedLinksFunction)

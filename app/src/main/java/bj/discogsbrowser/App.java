@@ -11,6 +11,8 @@ import com.squareup.leakcanary.LeakCanary;
 import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
 
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
+import bj.discogsbrowser.utils.analytics.AnalyticsModule;
+import bj.discogsbrowser.wrappers.WrappersModule;
 import io.victoralbertos.jolyglot.GsonSpeaker;
 
 /**
@@ -47,11 +49,13 @@ public class App extends Application
     {
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
+                .analyticsModule(new AnalyticsModule())
+                .wrappersModule(new WrappersModule())
                 .build();
         appComponent.inject(this);
     }
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     public void setComponent(AppComponent component)
     {
         appComponent = component;

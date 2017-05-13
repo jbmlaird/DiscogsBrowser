@@ -1,6 +1,12 @@
 package bj.discogsbrowser.marketplace;
 
-import bj.discogsbrowser.ActivityScope;
+import android.content.Context;
+
+import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
+import bj.discogsbrowser.wrappers.NumberFormatWrapper;
 import dagger.Module;
 import dagger.Provides;
 
@@ -22,5 +28,19 @@ public class MarketplaceModule
     MarketplaceContract.View provideMarketplaceView()
     {
         return view;
+    }
+
+    @Provides
+    @ActivityScope
+    MarketplaceController providesController(Context context, ImageViewAnimator imageViewAnimator, NumberFormatWrapper wrapper)
+    {
+        return new MarketplaceController(context, view, imageViewAnimator, wrapper);
+    }
+
+    @Provides
+    @ActivityScope
+    MarketplacePresenter providesPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, MarketplaceController controller)
+    {
+        return new MarketplacePresenter(context, view, discogsInteractor, mySchedulerProvider, controller);
     }
 }

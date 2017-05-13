@@ -1,15 +1,22 @@
 package bj.discogsbrowser.release;
 
-import bj.discogsbrowser.ActivityScope;
-import bj.discogsbrowser.AppComponent;
-import dagger.Component;
+import bj.discogsbrowser.scopes.ActivityScope;
+import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 23/04/2017.
  */
 @ActivityScope
-@Component(modules = {ReleaseModule.class}, dependencies = {AppComponent.class})
+@Subcomponent(modules = {ReleaseModule.class})
 public interface ReleaseComponent
 {
     void inject(ReleaseActivity releaseActivity);
+
+    @Subcomponent.Builder
+    interface Builder
+    {
+        Builder releaseModule(ReleaseModule module);
+
+        ReleaseComponent build();
+    }
 }

@@ -8,9 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
@@ -28,7 +25,6 @@ import io.reactivex.observers.DisposableSingleObserver;
  * <p>
  * Decouple this and have a separate activity for each type?
  */
-@ActivityScope
 public class SingleListPresenter implements SingleListContract.Presenter
 {
     private Context context;
@@ -41,7 +37,6 @@ public class SingleListPresenter implements SingleListContract.Presenter
     private FilterHelper filterHelper;
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
 
-    @Inject
     public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor, CollectionWantlistInteractor collectionWantlistInteractor,
                                MySchedulerProvider mySchedulerProvider, SingleListController controller, CompositeDisposable disposable,
                                FilterHelper filterHelper)

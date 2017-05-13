@@ -5,9 +5,6 @@ import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
@@ -27,14 +24,13 @@ import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.model.release.Track;
 import bj.discogsbrowser.model.release.Video;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 /**
  * Created by Josh Laird on 24/04/2017.
  */
-@ActivityScope
 public class ReleaseController extends BaseController
 {
     private final Context context;
@@ -55,7 +51,6 @@ public class ReleaseController extends BaseController
     private boolean collectionLoading = true;
     private AnalyticsTracker tracker;
 
-    @Inject
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
                              CollectionWantlistPresenter presenter, AnalyticsTracker tracker)
     {

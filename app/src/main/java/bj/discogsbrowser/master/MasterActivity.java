@@ -13,7 +13,7 @@ import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.release.ReleaseActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -30,9 +30,9 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        DaggerMasterComponent.builder()
-                .appComponent(appComponent)
-                .masterModule(new MasterModule(this))
+        appComponent
+                .masterComponentBuilder()
+                .masterActivityModule(new MasterModule(this))
                 .build()
                 .inject(this);
     }

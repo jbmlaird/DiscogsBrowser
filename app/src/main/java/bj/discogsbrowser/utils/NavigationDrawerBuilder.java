@@ -26,7 +26,7 @@ import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
 
 import javax.inject.Inject;
 
-import bj.discogsbrowser.ActivityScope;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.about.AboutActivity;
 import bj.discogsbrowser.login.LoginActivity;

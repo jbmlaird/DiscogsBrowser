@@ -5,10 +5,6 @@ import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
@@ -21,14 +17,13 @@ import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.model.master.Master;
 import bj.discogsbrowser.model.version.Version;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 /**
  * Created by Josh Laird on 25/04/2017.
  */
-@ActivityScope
 public class MasterController extends BaseController
 {
     private final MasterContract.View mView;
@@ -41,7 +36,6 @@ public class MasterController extends BaseController
     private List<Version> masterVersions;
     private boolean viewAllVersions;
 
-    @Inject
     public MasterController(MasterContract.View view, Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         mView = view;

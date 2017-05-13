@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -29,11 +29,11 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        OrderComponent component = DaggerOrderComponent.builder()
-                .appComponent(appComponent)
+        appComponent
+                .orderComponentBuilder()
                 .orderModule(new OrderModule(this))
-                .build();
-        component.inject(this);
+                .build()
+                .inject(this);
     }
 
     public static Intent createIntent(Context context, String id)

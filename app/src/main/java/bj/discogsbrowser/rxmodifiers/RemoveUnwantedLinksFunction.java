@@ -2,8 +2,6 @@ package bj.discogsbrowser.rxmodifiers;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.utils.WantedUrl;
 import io.reactivex.annotations.NonNull;
@@ -14,7 +12,6 @@ import io.reactivex.functions.Function;
  */
 public class RemoveUnwantedLinksFunction implements Function<ArtistResult, ArtistResult>
 {
-    @Inject
     public RemoveUnwantedLinksFunction()
     {
     }

@@ -29,7 +29,7 @@ import bj.discogsbrowser.label.LabelActivity;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.release.ReleaseActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,11 +57,11 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        component = DaggerSearchComponent.builder()
-                .appComponent(appComponent)
+        appComponent
+                .searchComponentBuilder()
                 .searchModule(new SearchModule(this))
-                .build();
-        component.inject(this);
+                .build()
+                .inject(this);
     }
 
     public static Intent createIntent(Context context)

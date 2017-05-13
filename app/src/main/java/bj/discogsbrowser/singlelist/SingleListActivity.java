@@ -21,7 +21,7 @@ import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.order.OrderActivity;
 import bj.discogsbrowser.release.ReleaseActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,12 +44,11 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        SingleListComponent component = DaggerSingleListComponent.builder()
-                .appComponent(appComponent)
-                .singleListModule(new SingleListModule(this))
-                .build();
-
-        component.inject(this);
+        appComponent
+                .singleListComponentBuilder()
+                .singleModule(new SingleListModule(this))
+                .build()
+                .inject(this);
     }
 
     public static Intent createIntent(Context context, Integer stringId, String username)

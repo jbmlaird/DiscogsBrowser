@@ -17,7 +17,7 @@ import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.main.MainActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,12 +34,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        LoginComponent component = DaggerLoginComponent.builder()
-                .appComponent(appComponent)
-                .loginModule(new LoginModule(this))
-                .build();
-
-        component.inject(this);
+        appComponent
+                .loginComponentBuilder()
+                .loginActivityModule(new LoginModule(this))
+                .build()
+                .inject(this);
     }
 
     public static Intent createIntent(Context context)

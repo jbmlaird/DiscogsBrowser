@@ -4,9 +4,6 @@ import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
@@ -15,7 +12,6 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 /**
  * Created by Josh Laird on 10/04/2017.
  */
-@ActivityScope
 public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
 {
     private ArtistReleasesContract.View view;
@@ -25,7 +21,6 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private MySchedulerProvider mySchedulerProvider;
     private ArtistReleasesTransformer artistReleasesTransformer;
 
-    @Inject
     public ArtistReleasesPresenter(ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, ArtistReleasesController controller,
                                    BehaviorRelay<List<ArtistRelease>> behaviorRelay,
                                    MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)

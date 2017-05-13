@@ -8,7 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.EspressoDaggerMockRule;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 /**
  * Created by Josh Laird on 12/05/2017.
@@ -17,6 +18,8 @@ import bj.discogsbrowser.utils.AnalyticsTracker;
 @RunWith(AndroidJUnit4.class)
 public class LabelActivityTest
 {
+    @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
+
     @Rule
     public ActivityTestRule<LabelActivity> mActivityTestRule = new ActivityTestRule<>(LabelActivity.class, false,
             // Don't launch the Activity immediately
@@ -28,7 +31,8 @@ public class LabelActivityTest
     @Test
     public void test() throws InterruptedException
     {
-        mActivityTestRule.launchActivity(null);
+        final LabelActivity activity = mActivityTestRule.launchActivity(null);
+
         Thread.sleep(1000);
     }
 }

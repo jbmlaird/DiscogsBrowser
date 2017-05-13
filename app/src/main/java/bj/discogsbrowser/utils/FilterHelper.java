@@ -2,8 +2,6 @@ package bj.discogsbrowser.utils;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.model.listing.Listing;
 import io.reactivex.Single;
@@ -17,7 +15,6 @@ public class FilterHelper
 {
     private String filterText = "";
 
-    @Inject
     public FilterHelper()
     {
 

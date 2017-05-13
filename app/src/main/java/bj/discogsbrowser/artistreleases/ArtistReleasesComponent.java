@@ -1,11 +1,14 @@
 package bj.discogsbrowser.artistreleases;
 
-import android.content.Context;
+import com.jakewharton.rxrelay2.BehaviorRelay;
 
-import bj.discogsbrowser.ActivityScope;
+import java.util.List;
+
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.artistreleases.fragments.ArtistReleasesFragmentComponent;
-import bj.discogsbrowser.artistreleases.fragments.ArtistReleasesFragmentModule;
+import bj.discogsbrowser.model.artistrelease.ArtistRelease;
+import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
 import dagger.Component;
 
 /**
@@ -17,7 +20,9 @@ public interface ArtistReleasesComponent
 {
     void inject(ArtistReleasesActivity artistReleasesActivity);
 
-    ArtistReleasesFragmentComponent plus(ArtistReleasesFragmentModule module);
+    ArtistReleasesFragmentComponent.Builder artistReleasesFragmentComponentBuilder();
 
-    Context getContext();
+    BehaviorRelay<List<ArtistRelease>> provideRelay();
+
+    ArtistReleasesTransformer provideTransformer();
 }

@@ -22,7 +22,7 @@ import bj.discogsbrowser.model.order.TestListing;
 import bj.discogsbrowser.testmodels.TestOrder;
 import bj.discogsbrowser.testmodels.TestSearchResult;
 import bj.discogsbrowser.testmodels.TestViewedRelease;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;

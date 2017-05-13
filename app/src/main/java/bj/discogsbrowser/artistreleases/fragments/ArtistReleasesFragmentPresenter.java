@@ -8,8 +8,6 @@ import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.artistreleases.ArtistReleasesController;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
@@ -30,7 +28,6 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
     private ArtistReleasesTransformer artistReleasesTransformer;
     private ArtistReleasesController controller;
 
-    @Inject
     public ArtistReleasesFragmentPresenter(CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
                                            BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer,
                                            ArtistReleasesController controller)

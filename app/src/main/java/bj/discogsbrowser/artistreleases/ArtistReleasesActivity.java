@@ -26,7 +26,7 @@ import bj.discogsbrowser.label.LabelActivity;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.release.ReleaseActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;

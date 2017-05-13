@@ -26,7 +26,7 @@ import bj.discogsbrowser.order.OrderActivity;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.search.SearchActivity;
 import bj.discogsbrowser.singlelist.SingleListActivity;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import butterknife.BindView;
@@ -65,9 +65,9 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        DaggerMainComponent.builder()
-                .appComponent(appComponent)
-                .mainModule(new MainModule(this))
+        appComponent
+                .mainComponentBuilder()
+                .mainActivityModule(new MainModule(this))
                 .build()
                 .inject(this);
     }

@@ -1,15 +1,22 @@
 package bj.discogsbrowser.artist;
 
-import bj.discogsbrowser.ActivityScope;
-import bj.discogsbrowser.AppComponent;
-import dagger.Component;
+import bj.discogsbrowser.scopes.ActivityScope;
+import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 07/04/2017.
  */
 @ActivityScope
-@Component(modules = {ArtistModule.class}, dependencies = {AppComponent.class})
+@Subcomponent(modules = {ArtistModule.class})
 public interface ArtistComponent
 {
     void inject(ArtistActivity artistActivity);
+
+    @Subcomponent.Builder
+    interface Builder
+    {
+        Builder artistModule(ArtistModule module);
+
+        ArtistComponent build();
+    }
 }

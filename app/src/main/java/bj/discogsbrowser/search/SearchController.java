@@ -7,10 +7,6 @@ import com.airbnb.epoxy.EpoxyController;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import bj.discogsbrowser.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.greendao.SearchTerm;
@@ -19,13 +15,12 @@ import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.search.PastSearchModel_;
 import bj.discogsbrowser.epoxy.search.SearchResultModel_;
 import bj.discogsbrowser.model.search.SearchResult;
-import bj.discogsbrowser.utils.AnalyticsTracker;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 /**
  * Created by Josh Laird on 25/04/2017.
  */
-@ActivityScope
 public class SearchController extends EpoxyController
 {
     private Context context;
@@ -38,7 +33,6 @@ public class SearchController extends EpoxyController
     private boolean error = false;
     private AnalyticsTracker tracker;
 
-    @Inject
     public SearchController(Context context, SearchContract.View mView, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.context = context;
