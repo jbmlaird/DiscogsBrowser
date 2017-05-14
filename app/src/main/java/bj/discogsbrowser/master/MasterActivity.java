@@ -26,6 +26,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject MasterPresenter presenter;
     @Inject AnalyticsTracker tracker;
+    @Inject MasterController controller;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -52,7 +53,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
         setContentView(R.layout.activity_recyclerview);
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
-        presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
+        setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
         presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
@@ -75,5 +76,11 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     {
         tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "retry", 1L);
         presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+    }
+
+    private void setupRecyclerView(MyRecyclerView recyclerView, MasterController controller, String title)
+    {
+        setupRecyclerView(recyclerView, controller);
+        controller.setTitle(title);
     }
 }

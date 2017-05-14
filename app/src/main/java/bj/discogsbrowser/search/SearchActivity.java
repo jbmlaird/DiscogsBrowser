@@ -46,6 +46,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Inject SearchPresenter presenter;
     @Inject MySchedulerProvider mySchedulerProvider;
     @Inject AnalyticsTracker tracker;
+    @Inject SearchController controller;
     @BindView(R.id.lytTabs) LinearLayout lytTabs;
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.searchView) SearchView searchView;
@@ -74,7 +75,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         unbinder = ButterKnife.bind(this);
-        presenter.setupRecyclerView(rvResults);
+        setupRecyclerView(rvResults, controller);
+        controller.setPastSearches(presenter.getRecentSearchTerms());
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

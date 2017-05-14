@@ -1,10 +1,6 @@
 package bj.discogsbrowser.singlelist;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.airbnb.epoxy.EpoxyControllerAdapter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,7 +28,6 @@ import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -78,21 +73,21 @@ public class SingleListPresenterTest
         verifyNoMoreInteractions(context, view, discogsInteractor, controller, compositeDisposable);
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        SingleListActivity mockActivity = mock(SingleListActivity.class);
-        RecyclerView mockRecyclerView = mock(RecyclerView.class);
-        EpoxyControllerAdapter mockEpoxyControllerAdapter = mock(EpoxyControllerAdapter.class);
-        when(controller.getAdapter()).thenReturn(mockEpoxyControllerAdapter);
-
-        singleListPresenter.setupRecyclerView(mockActivity, mockRecyclerView);
-
-        verify(mockRecyclerView).setLayoutManager(any(LinearLayoutManager.class));
-        verify(controller, times(1)).getAdapter();
-        verify(mockRecyclerView).setAdapter(mockEpoxyControllerAdapter);
-        verify(controller, times(1)).requestModelBuild();
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        SingleListActivity mockActivity = mock(SingleListActivity.class);
+//        RecyclerView mockRecyclerView = mock(RecyclerView.class);
+//        EpoxyControllerAdapter mockEpoxyControllerAdapter = mock(EpoxyControllerAdapter.class);
+//        when(controller.getAdapter()).thenReturn(mockEpoxyControllerAdapter);
+//
+//        singleListPresenter.setupRecyclerView(mockActivity, mockRecyclerView);
+//
+//        verify(mockRecyclerView).setLayoutManager(any(LinearLayoutManager.class));
+//        verify(controller, times(1)).getAdapter();
+//        verify(mockRecyclerView).setAdapter(mockEpoxyControllerAdapter);
+//        verify(controller, times(1)).requestModelBuild();
+//    }
 
     @Test
     public void setupFilterSubscriptionNoItems_setsUpFilterSubscription()

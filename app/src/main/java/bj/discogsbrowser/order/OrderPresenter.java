@@ -1,8 +1,5 @@
 package bj.discogsbrowser.order;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
@@ -33,11 +30,5 @@ public class OrderPresenter implements OrderContract.Presenter
                                 orderController.setOrderDetails(orderDetails),
                         error ->
                                 orderController.setError(true));
-    }
-
-    public void setupRecyclerView(OrderActivity orderActivity, RecyclerView recyclerView)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(orderActivity));
-        recyclerView.setAdapter(orderController.getAdapter());
     }
 }

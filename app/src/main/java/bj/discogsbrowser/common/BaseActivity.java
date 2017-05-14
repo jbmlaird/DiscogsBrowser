@@ -3,8 +3,12 @@ package bj.discogsbrowser.common;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.airbnb.epoxy.EpoxyController;
 
 import bj.discogsbrowser.App;
 import bj.discogsbrowser.AppComponent;
@@ -57,5 +61,11 @@ public abstract class BaseActivity extends AppCompatActivity
                 break;
         }
         return true;
+    }
+
+    protected void setupRecyclerView(RecyclerView recyclerView, EpoxyController controller)
+    {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(controller.getAdapter());
     }
 }

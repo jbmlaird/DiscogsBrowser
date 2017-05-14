@@ -1,8 +1,6 @@
 package bj.discogsbrowser.artistreleases.fragments;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.RecyclerView;
-
+import bj.discogsbrowser.artistreleases.ArtistReleasesController;
 import bj.discogsbrowser.common.BasePresenter;
 
 /**
@@ -10,12 +8,15 @@ import bj.discogsbrowser.common.BasePresenter;
  */
 public interface ArtistReleasesFragmentContract
 {
-    interface View {}
+    interface View
+    {
+        ArtistReleasesController getController();
+    }
 
     interface Presenter extends BasePresenter
     {
         void connectToBehaviorRelay(String searchFilter);
 
-        void setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity);
+        void bind(ArtistReleasesFragment fragment);
     }
 }

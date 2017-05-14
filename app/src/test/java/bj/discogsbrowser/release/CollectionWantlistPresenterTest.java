@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;

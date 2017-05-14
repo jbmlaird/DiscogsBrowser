@@ -55,13 +55,4 @@ public class ArtistPresenter implements ArtistContract.Presenter
                     artistController.setError(true);
                 });
     }
-
-    @Override
-    public void setupRecyclerView(Context context, RecyclerView rvDetailed, String title)
-    {
-        rvDetailed.setLayoutManager(new LinearLayoutManager(context));
-        rvDetailed.setAdapter(artistController.getAdapter());
-        artistController.setTitle(title);
-        artistController.requestModelBuild();
-    }
 }

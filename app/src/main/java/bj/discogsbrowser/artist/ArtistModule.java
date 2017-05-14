@@ -4,6 +4,7 @@ import android.content.Context;
 
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -25,12 +26,14 @@ public class ArtistModule
     }
 
     @Provides
+    @ActivityScope
     ArtistContract.View providesDetailedView()
     {
         return view;
     }
 
     @Provides
+    @ActivityScope
     ArtistController provideArtistController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         return new ArtistController(view, context, imageViewAnimator, tracker);
@@ -43,6 +46,7 @@ public class ArtistModule
     }
 
     @Provides
+    @ActivityScope
     ArtistPresenter provideArtistPresenter(DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
                                            LogWrapper log, ArtistController controller, RemoveUnwantedLinksFunction function)
     {

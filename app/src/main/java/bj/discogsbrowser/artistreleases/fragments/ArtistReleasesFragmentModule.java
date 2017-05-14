@@ -4,11 +4,10 @@ import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.util.List;
 
-import bj.discogsbrowser.scopes.FragmentScope;
-import bj.discogsbrowser.artistreleases.ArtistReleasesController;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
 import bj.discogsbrowser.rxmodifiers.ArtistResultFunction;
+import bj.discogsbrowser.scopes.FragmentScope;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
@@ -37,8 +36,8 @@ public class ArtistReleasesFragmentModule
     @Provides
     ArtistReleasesFragmentPresenter providePresenter(ArtistResultFunction artistResultFunction,
                                                      BehaviorRelay<List<ArtistRelease>> relay, MySchedulerProvider mySchedulerProvider,
-                                                     ArtistReleasesTransformer transformer, ArtistReleasesController controller)
+                                                     ArtistReleasesTransformer transformer)
     {
-        return new ArtistReleasesFragmentPresenter(new CompositeDisposable(), artistResultFunction, relay, mySchedulerProvider, transformer, controller);
+        return new ArtistReleasesFragmentPresenter(new CompositeDisposable(), artistResultFunction, relay, mySchedulerProvider, transformer);
     }
 }

@@ -2,6 +2,7 @@ package bj.discogsbrowser.artistreleases.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,16 +39,10 @@ public class ArtistReleasesFragment extends BaseFragment implements ArtistReleas
     {
         View view = inflater.inflate(R.layout.fragment_artist_releases, container, false);
         unbinder = ButterKnife.bind(this, view);
-        presenter.setupRecyclerView(recyclerView, getActivity());
+        setupRecyclerView(recyclerView, controller);
         presenter.connectToBehaviorRelay(getArguments().getString("map"));
+        presenter.bind(this);
         return view;
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        presenter.unsubscribe();
     }
 
     @Override
@@ -61,9 +56,29 @@ public class ArtistReleasesFragment extends BaseFragment implements ArtistReleas
     }
 
     @Override
+    public void onPause()
+    {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
     public void onDestroy()
     {
         super.onDestroy();
         presenter.dispose();
+    }
+
+    private void setupRecyclerView(RecyclerView recyclerView, ArtistReleasesController controller)
+    {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(controller.getAdapter());
+        controller.requestModelBuild();
+    }
+
+    @Override
+    public ArtistReleasesController getController()
+    {
+        return controller;
     }
 }

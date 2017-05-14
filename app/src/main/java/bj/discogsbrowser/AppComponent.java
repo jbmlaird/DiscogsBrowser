@@ -14,6 +14,7 @@ import bj.discogsbrowser.order.OrderComponent;
 import bj.discogsbrowser.release.ReleaseComponent;
 import bj.discogsbrowser.search.SearchComponent;
 import bj.discogsbrowser.singlelist.SingleListComponent;
+import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.analytics.AnalyticsModule;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.wrappers.WrappersModule;
@@ -24,7 +25,7 @@ import retrofit2.Retrofit;
  * Created by j on 18/02/2017.
  */
 @Singleton
-@Component(modules = {AppModule.class, WrappersModule.class, AnalyticsModule.class})
+@Component(modules = {AppModule.class, WrappersModule.class, AnalyticsModule.class, ImageViewAnimatorModule.class})
 public interface AppComponent
 {
     void inject(App app);
@@ -55,4 +56,6 @@ public interface AppComponent
     Context getContext();
 
     Retrofit retrofit();
+
+    ImageViewAnimator imageViewAnimator();
 }

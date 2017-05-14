@@ -18,14 +18,13 @@ package bj.discogsbrowser;
 
 import android.support.test.InstrumentationRegistry;
 
-import bj.discogsbrowser.utils.analytics.AnalyticsModule;
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 public class EspressoDaggerMockRule extends DaggerMockRule<AppComponent>
 {
     public EspressoDaggerMockRule()
     {
-        super(AppComponent.class, new AppModule(getApp()), new AnalyticsModule());
+        super(AppComponent.class, new AppModule(getApp()), new ImageViewAnimatorModule());
         set(component -> getApp().setComponent(component));
     }
 

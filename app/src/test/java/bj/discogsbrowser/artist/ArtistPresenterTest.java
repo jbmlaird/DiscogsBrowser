@@ -88,15 +88,15 @@ public class ArtistPresenterTest
         verify(artistController).setError(true);
         verify(logWrapper).e(any(String.class), any(String.class));
     }
-
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        artistPresenter.setupRecyclerView(context, recyclerView, "title");
-
-        verify(recyclerView).setAdapter(any());
-        verify(artistController).setTitle("title");
-        verify(artistController).getAdapter();
-        verify(artistController).requestModelBuild();
-    }
+//
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        artistPresenter.setupRecyclerView(context, recyclerView, "title");
+//
+//        verify(recyclerView).setAdapter(any());
+//        verify(artistController).setTitle("title");
+//        verify(artistController).getAdapter();
+//        verify(artistController).requestModelBuild();
+//    }
 }

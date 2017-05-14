@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
+import com.airbnb.epoxy.EpoxyController;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import javax.inject.Inject;
@@ -21,8 +22,8 @@ import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.order.OrderActivity;
 import bj.discogsbrowser.release.ReleaseActivity;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -40,6 +41,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @Inject SingleListPresenter presenter;
     @Inject ImageViewAnimator imageViewAnimator;
     @Inject AnalyticsTracker tracker;
+    @Inject SingleListController controller;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -67,8 +69,15 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         presenter.setupFilterSubscription();
-        presenter.setupRecyclerView(this, recyclerView);
+        setupRecyclerView(recyclerView, controller);
         presenter.getData(getIntent().getIntExtra("type", -1), getIntent().getStringExtra("username"));
+    }
+
+    @Override
+    protected void setupRecyclerView(RecyclerView recyclerView, EpoxyController controller)
+    {
+        super.setupRecyclerView(recyclerView, controller);
+        controller.requestModelBuild();
     }
 
     @Override

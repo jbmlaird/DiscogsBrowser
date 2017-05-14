@@ -1,9 +1,5 @@
 package bj.discogsbrowser.artistreleases.fragments;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.util.List;
@@ -29,23 +25,13 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
     private ArtistReleasesController controller;
 
     public ArtistReleasesFragmentPresenter(CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
-                                           BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer,
-                                           ArtistReleasesController controller)
+                                           BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)
     {
         this.disposable = disposable;
         this.artistResultFunction = artistResultFunction;
         this.behaviorRelay = behaviorRelay;
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistReleasesTransformer = artistReleasesTransformer;
-        this.controller = controller;
-    }
-
-    @Override
-    public void setupRecyclerView(RecyclerView recyclerView, FragmentActivity activity)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        recyclerView.setAdapter(controller.getAdapter());
-        controller.requestModelBuild();
     }
 
     @Override
@@ -66,6 +52,12 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
                                         controller.setItems(artistReleases1),
                                 error ->
                                         controller.setError("Unable to fetch Artist Releases")));
+    }
+
+    @Override
+    public void bind(ArtistReleasesFragment fragment)
+    {
+        controller = fragment.getController();
     }
 
     @Override

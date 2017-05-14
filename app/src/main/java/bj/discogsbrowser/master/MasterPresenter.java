@@ -1,9 +1,6 @@
 package bj.discogsbrowser.master;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -42,13 +39,5 @@ public class MasterPresenter implements MasterContract.Presenter
                             controller.setError(true);
                             error.printStackTrace();
                         });
-    }
-
-    @Override
-    public void setupRecyclerView(Context context, RecyclerView recyclerView, String title)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(controller.getAdapter());
-        controller.setTitle(title);
     }
 }

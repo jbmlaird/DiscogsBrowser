@@ -2,8 +2,6 @@ package bj.discogsbrowser.main;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import java.util.Collections;
@@ -17,9 +15,9 @@ import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
 import io.reactivex.Single;
@@ -138,14 +136,6 @@ public class MainPresenter implements MainContract.Presenter
         return discogsInteractor.fetchSelling(sharedPrefsManager.getUsername())
                 .observeOn(mySchedulerProvider.ui())
                 .subscribeOn(mySchedulerProvider.io());
-    }
-
-    @Override
-    public void setupRecyclerView(MainActivity mainActivity, RecyclerView recyclerView)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
-        recyclerView.setAdapter(mainController.getAdapter());
-        mainController.requestModelBuild();
     }
 
     @Override

@@ -15,6 +15,7 @@ import org.robolectric.annotation.Config;
 import java.util.Collections;
 import java.util.List;
 
+import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;

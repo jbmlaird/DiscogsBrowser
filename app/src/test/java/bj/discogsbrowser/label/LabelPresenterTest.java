@@ -55,23 +55,23 @@ public class LabelPresenterTest
         verifyNoMoreInteractions(controller, labelInteractor);
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        String title = "title";
-        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
-        Context mockCtx = mock(Context.class);
-        RecyclerView mockRv = mock(RecyclerView.class);
-        when(controller.getAdapter()).thenReturn(mockAdapter);
-
-        presenter.setupRecyclerView(mockCtx, mockRv, title);
-
-        verify(mockRv, times(1)).setLayoutManager(any(LinearLayoutManager.class));
-        verify(mockRv, times(1)).setAdapter(mockAdapter);
-        verify(controller, times(1)).getAdapter();
-        verify(controller, times(1)).setTitle(title);
-        verify(controller, times(1)).requestModelBuild();
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        String title = "title";
+//        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
+//        Context mockCtx = mock(Context.class);
+//        RecyclerView mockRv = mock(RecyclerView.class);
+//        when(controller.getAdapter()).thenReturn(mockAdapter);
+//
+//        presenter.setupRecyclerView(mockCtx, mockRv, title);
+//
+//        verify(mockRv, times(1)).setLayoutManager(any(LinearLayoutManager.class));
+//        verify(mockRv, times(1)).setAdapter(mockAdapter);
+//        verify(controller, times(1)).getAdapter();
+//        verify(controller, times(1)).setTitle(title);
+//        verify(controller, times(1)).requestModelBuild();
+//    }
 
     @Test
     public void fetchLabelDetailsNoReleasesSuccess_controllerDisplays()

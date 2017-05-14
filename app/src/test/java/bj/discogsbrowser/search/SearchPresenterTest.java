@@ -2,9 +2,7 @@ package bj.discogsbrowser.search;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
-import android.support.v7.widget.RecyclerView;
 
-import com.airbnb.epoxy.EpoxyControllerAdapter;
 import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
@@ -64,23 +62,23 @@ public class SearchPresenterTest
         verifyNoMoreInteractions(mContext, mView, searchController, searchModelFunc, daoManager, disposable);
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        List list = Collections.emptyList();
-        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
-        RecyclerView mockRv = mock(RecyclerView.class);
-        when(searchController.getAdapter()).thenReturn(mockAdapter);
-        when(daoManager.getRecentSearchTerms()).thenReturn(list);
-
-        presenter.setupRecyclerView(mockRv);
-
-        verify(mockRv, times(1)).setLayoutManager(any());
-        verify(mockRv, times(1)).setAdapter(mockAdapter);
-        verify(daoManager, times(1)).getRecentSearchTerms();
-        verify(searchController, times(1)).getAdapter();
-        verify(searchController, times(1)).setPastSearches(list);
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        List list = Collections.emptyList();
+//        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
+//        RecyclerView mockRv = mock(RecyclerView.class);
+//        when(searchController.getAdapter()).thenReturn(mockAdapter);
+//        when(daoManager.getRecentSearchTerms()).thenReturn(list);
+//
+//        presenter.setupRecyclerView(mockRv);
+//
+//        verify(mockRv, times(1)).setLayoutManager(any());
+//        verify(mockRv, times(1)).setAdapter(mockAdapter);
+//        verify(daoManager, times(1)).getRecentSearchTerms();
+//        verify(searchController, times(1)).getAdapter();
+//        verify(searchController, times(1)).setPastSearches(list);
+//    }
 
     @Test
     public void showPastSearchesTrue_showsPastSearches()

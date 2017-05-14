@@ -2,6 +2,7 @@ package bj.discogsbrowser.release;
 
 import android.content.Context;
 
+import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.network.CollectionWantlistInteractor;

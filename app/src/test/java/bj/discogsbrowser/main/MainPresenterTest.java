@@ -29,9 +29,9 @@ import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.testmodels.TestRootSearchResponse;
 import bj.discogsbrowser.testmodels.TestViewedRelease;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -135,14 +135,14 @@ public class MainPresenterTest
         verify(logWrapper).e(any(String.class), any(String.class));
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        mainPresenter.setupRecyclerView(mainActivity, recyclerView);
-
-        verify(mainController, times(1)).getAdapter();
-        verify(mainController, times(1)).requestModelBuild();
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        mainPresenter.setupRecyclerView(mainActivity, recyclerView);
+//
+//        verify(mainController, times(1)).getAdapter();
+//        verify(mainController, times(1)).requestModelBuild();
+//    }
 
     @Test
     public void retrySuccessful_displaysInfo()

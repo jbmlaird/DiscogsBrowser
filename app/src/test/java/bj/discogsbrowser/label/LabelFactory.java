@@ -10,7 +10,6 @@ import bj.discogsbrowser.model.release.Image;
 /**
  * Created by Josh Laird on 09/05/2017.
  */
-
 public class LabelFactory
 {
     public TestLabel getLabel()

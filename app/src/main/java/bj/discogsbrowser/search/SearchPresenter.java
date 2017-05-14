@@ -1,8 +1,6 @@
 package bj.discogsbrowser.search;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
@@ -11,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.greendao.DaoManager;
+import bj.discogsbrowser.greendao.SearchTerm;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Observable;
@@ -47,14 +46,6 @@ public class SearchPresenter implements SearchContract.Presenter
         this.mySchedulerProvider = mySchedulerProvider;
         this.daoManager = daoManager;
         this.disposable = disposable;
-    }
-
-    @Override
-    public void setupRecyclerView(RecyclerView rvResults)
-    {
-        rvResults.setLayoutManager(new LinearLayoutManager(mContext));
-        rvResults.setAdapter(searchController.getAdapter());
-        searchController.setPastSearches(daoManager.getRecentSearchTerms());
     }
 
     @Override
@@ -184,6 +175,12 @@ public class SearchPresenter implements SearchContract.Presenter
         if (showPastSearches)
             searchController.setPastSearches(daoManager.getRecentSearchTerms());
         searchController.setShowPastSearches(showPastSearches);
+    }
+
+    @Override
+    public List<SearchTerm> getRecentSearchTerms()
+    {
+        return daoManager.getRecentSearchTerms();
     }
 
     @Override

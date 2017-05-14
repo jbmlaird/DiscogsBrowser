@@ -1,11 +1,5 @@
 package bj.discogsbrowser.master;
 
-import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.airbnb.epoxy.EpoxyControllerAdapter;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +16,6 @@ import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -55,22 +46,22 @@ public class MasterPresenterTest
         verifyNoMoreInteractions(view, discogsInteractor, controller);
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        Context mockCtx = mock(Context.class);
-        RecyclerView mockRv = mock(RecyclerView.class);
-        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
-        String title = "title";
-        when(controller.getAdapter()).thenReturn(mockAdapter);
-
-        presenter.setupRecyclerView(mockCtx, mockRv, title);
-
-        verify(mockRv, times(1)).setLayoutManager(any(LinearLayoutManager.class));
-        verify(mockRv, times(1)).setAdapter(controller.getAdapter());
-        verify(controller, times(2)).getAdapter();
-        verify(controller, times(1)).setTitle(title);
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        Context mockCtx = mock(Context.class);
+//        RecyclerView mockRv = mock(RecyclerView.class);
+//        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
+//        String title = "title";
+//        when(controller.getAdapter()).thenReturn(mockAdapter);
+//
+//        presenter.setupRecyclerView(mockCtx, mockRv, title);
+//
+//        verify(mockRv, times(1)).setLayoutManager(any(LinearLayoutManager.class));
+//        verify(mockRv, times(1)).setAdapter(controller.getAdapter());
+//        verify(controller, times(2)).getAdapter();
+//        verify(controller, times(1)).setTitle(title);
+//    }
 
     @Test
     public void getValidData_getsDetailsAndVersions()

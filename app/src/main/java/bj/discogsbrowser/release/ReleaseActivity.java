@@ -18,8 +18,8 @@ import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.label.LabelActivity;
 import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.model.listing.ScrapeListing;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -31,6 +31,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Inject ArtistsBeautifier artistsBeautifier;
     @Inject ReleasePresenter presenter;
     @Inject AnalyticsTracker tracker;
+    @Inject ReleaseController controller;
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -66,7 +67,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
         setContentView(R.layout.activity_recyclerview);
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
-        presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
+        setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
         presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
@@ -117,5 +118,12 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
         {
 
         }
+    }
+
+    private void setupRecyclerView(MyRecyclerView recyclerView, ReleaseController controller, String title)
+    {
+        setupRecyclerView(recyclerView, controller);
+        controller.setTitle(title);
+        controller.requestModelBuild();
     }
 }

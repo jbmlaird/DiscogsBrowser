@@ -1,6 +1,5 @@
 package bj.discogsbrowser.main;
 
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -58,8 +57,6 @@ public interface MainContract
         Single<List<Order>> fetchOrders();
 
         Single<List<Listing>> fetchSelling();
-
-        void setupRecyclerView(MainActivity mainActivity, RecyclerView recyclerView);
 
         void buildRecommendations();
 

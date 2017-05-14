@@ -31,13 +31,6 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
     }
 
     @Override
-    public void setupRecyclerView(MyRecyclerView recyclerView)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(controller.getAdapter());
-    }
-
-    @Override
     public void getListingDetails(String listingId)
     {
         discogsInteractor.fetchListingDetails(listingId)

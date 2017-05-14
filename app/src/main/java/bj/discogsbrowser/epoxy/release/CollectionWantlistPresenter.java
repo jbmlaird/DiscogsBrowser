@@ -1,4 +1,4 @@
-package bj.discogsbrowser.release;
+package bj.discogsbrowser.epoxy.release;
 
 import android.content.Context;
 

@@ -14,6 +14,7 @@ import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.common.MyRecyclerView;
+import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
@@ -26,6 +27,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
 {
     @Inject LabelPresenter presenter;
     @Inject AnalyticsTracker tracker;
+    @Inject LabelController controller;
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -54,7 +56,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
         setContentView(R.layout.activity_recyclerview);
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
-        presenter.setupRecyclerView(this, recyclerView, getIntent().getStringExtra("title"));
+        setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
         presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 
@@ -84,5 +86,12 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     {
         tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "retry", 1L);
         presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+    }
+
+    private void setupRecyclerView(MyRecyclerView recyclerView, BaseController controller, String title)
+    {
+        super.setupRecyclerView(recyclerView, controller);
+        controller.setTitle(title);
+        controller.requestModelBuild();
     }
 }

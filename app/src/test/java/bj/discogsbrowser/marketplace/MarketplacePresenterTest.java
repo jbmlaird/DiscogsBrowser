@@ -1,9 +1,6 @@
 package bj.discogsbrowser.marketplace;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-
-import com.airbnb.epoxy.EpoxyControllerAdapter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.network.DiscogsInteractor;
@@ -20,8 +16,6 @@ import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -104,18 +98,18 @@ public class MarketplacePresenterTest
         verify(controller, times(1)).setSellerDetails(userDetails);
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        MyRecyclerView mockRv = mock(MyRecyclerView.class);
-        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
-        when(controller.getAdapter()).thenReturn(mockAdapter);
-
-        presenter.setupRecyclerView(mockRv);
-
-        verify(mockRv).setLayoutManager(any(LinearLayoutManager.class));
-        verify(mockRv).setAdapter(mockAdapter);
-        verify(controller).getAdapter();
-        verifyNoMoreInteractions(mockRv);
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        MyRecyclerView mockRv = mock(MyRecyclerView.class);
+//        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
+//        when(controller.getAdapter()).thenReturn(mockAdapter);
+//
+//        presenter.setupRecyclerView(mockRv);
+//
+//        verify(mockRv).setLayoutManager(any(LinearLayoutManager.class));
+//        verify(mockRv).setAdapter(mockAdapter);
+//        verify(controller).getAdapter();
+//        verifyNoMoreInteractions(mockRv);
+//    }
 }

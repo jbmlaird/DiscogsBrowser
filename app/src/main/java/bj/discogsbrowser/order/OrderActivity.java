@@ -25,6 +25,7 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @Inject OrderPresenter presenter;
     @Inject AnalyticsTracker tracker;
+    @Inject OrderController controller;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -51,7 +52,7 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         toolbar.setTitle(getIntent().getStringExtra("id"));
-        presenter.setupRecyclerView(this, recyclerView);
+        setupRecyclerView(recyclerView, controller);
         presenter.fetchOrderDetails(getIntent().getStringExtra("id"));
     }
 

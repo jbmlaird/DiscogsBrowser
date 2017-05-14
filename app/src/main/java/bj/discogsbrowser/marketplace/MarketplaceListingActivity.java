@@ -15,8 +15,8 @@ import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.common.MyRecyclerView;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,6 +28,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     @Inject MarketplacePresenter presenter;
     @Inject AnalyticsTracker tracker;
     @Inject ImageViewAnimator imageViewAnimator;
+    @Inject MarketplaceController controller;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
 
@@ -59,7 +60,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar, getIntent().getStringExtra("id"));
         presenter.getListingDetails(getIntent().getStringExtra("id"));
-        presenter.setupRecyclerView(recyclerView);
+        setupRecyclerView(recyclerView, controller);
     }
 
     @Override

@@ -1,10 +1,5 @@
 package bj.discogsbrowser.order;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.airbnb.epoxy.EpoxyControllerAdapter;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +13,6 @@ import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -48,20 +41,20 @@ public class OrderPresenterTest
         verifyNoMoreInteractions(discogsInteractor, controller);
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        OrderActivity mockOrderActivity = mock(OrderActivity.class);
-        RecyclerView mockRecyclerView = mock(RecyclerView.class);
-        EpoxyControllerAdapter epoxyControllerAdapter = mock(EpoxyControllerAdapter.class);
-        when(controller.getAdapter()).thenReturn(epoxyControllerAdapter);
-
-        presenter.setupRecyclerView(mockOrderActivity, mockRecyclerView);
-
-        verify(mockRecyclerView).setLayoutManager(any(LinearLayoutManager.class));
-        verify(controller).getAdapter();
-        verify(mockRecyclerView).setAdapter(epoxyControllerAdapter);
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        OrderActivity mockOrderActivity = mock(OrderActivity.class);
+//        RecyclerView mockRecyclerView = mock(RecyclerView.class);
+//        EpoxyControllerAdapter epoxyControllerAdapter = mock(EpoxyControllerAdapter.class);
+//        when(controller.getAdapter()).thenReturn(epoxyControllerAdapter);
+//
+//        presenter.setupRecyclerView(mockOrderActivity, mockRecyclerView);
+//
+//        verify(mockRecyclerView).setLayoutManager(any(LinearLayoutManager.class));
+//        verify(controller).getAdapter();
+//        verify(mockRecyclerView).setAdapter(epoxyControllerAdapter);
+//    }
 
     @Test
     public void getValidOrderDetails_displaysDetails()

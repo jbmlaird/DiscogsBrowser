@@ -52,14 +52,6 @@ public class SingleListPresenter implements SingleListContract.Presenter
     }
 
     @Override
-    public void setupRecyclerView(SingleListActivity singleListActivity, RecyclerView recyclerView)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(singleListActivity));
-        recyclerView.setAdapter(controller.getAdapter());
-        controller.requestModelBuild();
-    }
-
-    @Override
     public void setupFilterSubscription()
     {
         disposable.add(view.filterIntent()

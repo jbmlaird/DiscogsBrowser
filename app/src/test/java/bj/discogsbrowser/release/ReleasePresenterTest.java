@@ -1,11 +1,5 @@
 package bj.discogsbrowser.release;
 
-import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.airbnb.epoxy.EpoxyControllerAdapter;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +24,6 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -68,23 +60,23 @@ public class ReleasePresenterTest
                 daoManager, artistsBeautifier);
     }
 
-    @Test
-    public void setupRecyclerView_setsUpRecyclerView()
-    {
-        Context mockCtx = mock(Context.class);
-        RecyclerView mockRv = mock(RecyclerView.class);
-        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
-        String title = "yedawg";
-        when(controller.getAdapter()).thenReturn(mockAdapter);
-
-        presenter.setupRecyclerView(mockCtx, mockRv, title);
-
-        verify(mockRv).setLayoutManager(any(LinearLayoutManager.class));
-        verify(mockRv).setAdapter(mockAdapter);
-        verify(controller).getAdapter();
-        verify(controller).setTitle(title);
-        verify(controller).requestModelBuild();
-    }
+//    @Test
+//    public void setupRecyclerView_setsUpRecyclerView()
+//    {
+//        Context mockCtx = mock(Context.class);
+//        RecyclerView mockRv = mock(RecyclerView.class);
+//        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
+//        String title = "yedawg";
+//        when(controller.getAdapter()).thenReturn(mockAdapter);
+//
+//        presenter.setupRecyclerView(mockCtx, mockRv, title);
+//
+//        verify(mockRv).setLayoutManager(any(LinearLayoutManager.class));
+//        verify(mockRv).setAdapter(mockAdapter);
+//        verify(controller).getAdapter();
+//        verify(controller).setTitle(title);
+//        verify(controller).requestModelBuild();
+//    }
 
     @Test
     public void getReleaseAndLabelDetailsError_displaysError()

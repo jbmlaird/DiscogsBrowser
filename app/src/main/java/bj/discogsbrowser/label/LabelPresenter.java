@@ -1,9 +1,6 @@
 package bj.discogsbrowser.label;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -23,15 +20,6 @@ public class LabelPresenter implements LabelContract.Presenter
         this.controller = controller;
         this.labelInteractor = labelInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
-    }
-
-    @Override
-    public void setupRecyclerView(Context context, RecyclerView recyclerView, String title)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(controller.getAdapter());
-        controller.setTitle(title);
-        controller.requestModelBuild();
     }
 
     @Override

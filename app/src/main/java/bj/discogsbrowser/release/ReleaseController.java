@@ -15,6 +15,7 @@ import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.epoxy.release.CollectionWantlistModel_;
+import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.discogsbrowser.epoxy.release.MarketplaceListingsHeader_;
 import bj.discogsbrowser.epoxy.release.MarketplaceModel_;
 import bj.discogsbrowser.epoxy.release.TrackModel_;

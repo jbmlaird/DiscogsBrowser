@@ -26,9 +26,9 @@ import bj.discogsbrowser.order.OrderActivity;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.search.SearchActivity;
 import bj.discogsbrowser.singlelist.SingleListActivity;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Inject MainPresenter presenter;
     @Inject SharedPrefsManager sharedPrefsManager;
     @Inject AnalyticsTracker tracker;
+    @Inject MainController controller;
     private Drawer drawer;
 
     @Override
@@ -183,7 +184,8 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void setupRecyclerView()
     {
-        presenter.setupRecyclerView(this, recyclerView);
+        setupRecyclerView(recyclerView, controller);
+        controller.requestModelBuild();
         showLoading(false);
     }
 

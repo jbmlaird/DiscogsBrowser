@@ -1,11 +1,12 @@
 package bj.discogsbrowser.search;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
+import java.util.List;
+
 import bj.discogsbrowser.common.BasePresenter;
+import bj.discogsbrowser.greendao.SearchTerm;
 import bj.discogsbrowser.model.search.SearchResult;
 import io.reactivex.Observable;
 
@@ -30,12 +31,12 @@ public interface SearchContract
 
     interface Presenter extends BasePresenter
     {
-        void setupRecyclerView(RecyclerView rvResults);
-
         void setupSearchViewObserver();
 
         void setupTabObserver();
 
         void showPastSearches(boolean b);
+
+        List<SearchTerm> getRecentSearchTerms();
     }
 }

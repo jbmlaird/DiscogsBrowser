@@ -1,7 +1,5 @@
 package bj.discogsbrowser.singlelist;
 
-import android.support.v7.widget.RecyclerView;
-
 import bj.discogsbrowser.common.BasePresenter;
 import bj.discogsbrowser.common.SingleListView;
 import io.reactivex.Observable;
@@ -20,8 +18,6 @@ public interface SingleListContract
     interface Presenter extends BasePresenter
     {
         void getData(Integer stringId, String username);
-
-        void setupRecyclerView(SingleListActivity singleListActivity, RecyclerView recyclerView);
 
         void setupFilterSubscription();
     }

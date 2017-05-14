@@ -1,0 +1,125 @@
+package bj.discogsbrowser.label;
+
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.Intent;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
+import com.thefinestartist.finestwebview.FinestWebViewActivity;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+
+import java.util.Arrays;
+
+import bj.discogsbrowser.EspressoDaggerMockRule;
+import bj.discogsbrowser.R;
+import bj.discogsbrowser.release.ReleaseActivity;
+import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItem;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+
+/**
+ * Created by Josh Laird on 12/05/2017.
+ */
+@android.support.test.filters.LargeTest
+@RunWith(AndroidJUnit4.class)
+public class LabelActivityMockPresenterTest
+{
+    @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
+    @Rule
+    public IntentsTestRule<LabelActivity> mActivityTestRule = new IntentsTestRule<>(LabelActivity.class, false, false);
+    @Mock LabelPresenter presenter;
+    @Mock AnalyticsTracker tracker;
+    @Mock ImageViewAnimator imageViewAnimator;
+    private LabelActivity activity;
+    private TestLabel testLabel;
+    private TestLabel.TestLabelRelease testLabelRelease;
+
+    @Before
+    public void setUp() throws InterruptedException
+    {
+        Intent startingIntent = new Intent();
+        startingIntent.putExtra("title", "title");
+        startingIntent.putExtra("id", "id");
+        testLabel = new TestLabel();
+        testLabelRelease = new TestLabel.TestLabelRelease();
+
+        doAnswer(invocation ->
+                // Disable spinning
+                invocation).when(imageViewAnimator).rotateImage(any());
+        doAnswer(invocation ->
+                // swallow
+                invocation).when(presenter).getReleaseAndLabelDetails("id");
+
+        activity = mActivityTestRule.launchActivity(startingIntent);
+        activity.controller.setLabel(testLabel);
+        Thread.sleep(100); //Sleep as you can't call two requestModelBuilds() simultaneously
+        activity.controller.setLabelReleases(Arrays.asList(testLabelRelease));
+    }
+
+    @Test
+    public void onLoad_displaysCorrectData() throws InterruptedException
+    {
+        onView(withId(R.id.recyclerView))
+                // Scroll to bottom as that's where the label info is
+                .perform(scrollToPosition(activity.recyclerView.getAdapter().getItemCount() - 1));
+        onView(withText(testLabel.getName())).check(matches(isDisplayed()));
+        onView(withText(testLabel.getProfile())).check(matches(isDisplayed()));
+        onView(withText(testLabelRelease.getTitle() + " (" + testLabelRelease.getCatno() + ")")).check(matches(isDisplayed()));
+        onView(withText(testLabelRelease.getArtist())).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void onLabelReleaseClicked_launchesReleaseActivity() throws InterruptedException
+    {
+        Intent resultData = new Intent();
+        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+        intending(hasComponent(ReleaseActivity.class.getName())).respondWith(result);
+
+        onView(withId(R.id.recyclerView))
+                // 0: Header, 1: Divider, 2: Release
+                .perform(actionOnItemAtPosition(2, click()));
+
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra(equalTo("title"), equalTo(testLabelRelease.getTitle())),
+                hasExtra(equalTo("id"), equalTo(testLabelRelease.getId()))));
+    }
+
+    @Test
+    public void onViewOnDiscogsClicked_launchesWebView() throws InterruptedException
+    {
+        Intent resultData = new Intent();
+        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+        intending(hasComponent(FinestWebViewActivity.class.getName())).respondWith(result);
+
+        onView(withId(R.id.recyclerView))
+                .perform(actionOnItem(hasDescendant(withText("View on Discogs")), click()));
+
+        intended(
+                hasComponent(FinestWebViewActivity.class.getName()));
+    }
+}

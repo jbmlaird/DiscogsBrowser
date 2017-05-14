@@ -1,9 +1,6 @@
 package bj.discogsbrowser.release;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.io.IOException;
@@ -44,15 +41,6 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         this.mySchedulerProvider = mySchedulerProvider;
         this.daoManager = daoManager;
         this.artistsBeautifier = artistsBeautifier;
-    }
-
-    @Override
-    public void setupRecyclerView(Context context, RecyclerView recyclerView, String title)
-    {
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(controller.getAdapter());
-        controller.setTitle(title);
-        controller.requestModelBuild();
     }
 
     @Override

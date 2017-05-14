@@ -9,7 +9,6 @@ import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.release.CollectionWantlistPresenter;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;

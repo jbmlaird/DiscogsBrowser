@@ -5,14 +5,11 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import javax.inject.Inject;
-
 /**
  * Created by Josh Laird on 17/04/2017.
  */
 public class ImageViewAnimator
 {
-    @Inject
     public ImageViewAnimator()
     {
     }
