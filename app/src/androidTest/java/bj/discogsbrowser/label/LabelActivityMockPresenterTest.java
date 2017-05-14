@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.thefinestartist.finestwebview.FinestWebViewActivity;
@@ -20,7 +21,6 @@ import bj.discogsbrowser.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.utils.ImageViewAnimator;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -44,7 +44,7 @@ import static org.mockito.Mockito.doAnswer;
 /**
  * Created by Josh Laird on 12/05/2017.
  */
-@android.support.test.filters.LargeTest
+@MediumTest
 @RunWith(AndroidJUnit4.class)
 public class LabelActivityMockPresenterTest
 {
@@ -52,7 +52,6 @@ public class LabelActivityMockPresenterTest
     @Rule
     public IntentsTestRule<LabelActivity> mActivityTestRule = new IntentsTestRule<>(LabelActivity.class, false, false);
     @Mock LabelPresenter presenter;
-    @Mock AnalyticsTracker tracker;
     @Mock ImageViewAnimator imageViewAnimator;
     private LabelActivity activity;
     private TestLabel testLabel;
@@ -68,7 +67,7 @@ public class LabelActivityMockPresenterTest
         testLabelRelease = new TestLabel.TestLabelRelease();
 
         doAnswer(invocation ->
-                // Disable spinning
+                // Disable spinning to not cause Espresso timeout
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // swallow

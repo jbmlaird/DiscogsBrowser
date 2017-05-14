@@ -10,7 +10,6 @@ import bj.discogsbrowser.model.release.Image;
 /**
  * Created by Josh Laird on 14/05/2017.
  */
-
 public class TestLabel extends Label
 {
     @Override
