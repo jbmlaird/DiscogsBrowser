@@ -54,11 +54,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         unbinder = ButterKnife.bind(this);
-        if (presenter.hasUserLoggedIn())
-        {
-            finish();
-        }
-
         SpannableString content = new SpannableString(getString(R.string.by_signing_in_you_agree_to_the_privacy_policy));
         content.setSpan(new UnderlineSpan(), content.length() - 14, content.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         tvTnCs.setText(content);
@@ -90,12 +85,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     }
 
     @Override
-    public void finish()
+    public void finishActivity()
     {
         Intent intent = MainActivity.createIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        super.finish();
+        finish();
     }
 
     @Override

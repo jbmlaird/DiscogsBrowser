@@ -29,12 +29,6 @@ public class LoginPresenter implements LoginContract.Presenter
     }
 
     @Override
-    public boolean hasUserLoggedIn()
-    {
-        return sharedPrefsManager.isUserLoggedIn();
-    }
-
-    @Override
     public void startOAuthService(LoginActivity loginActivity)
     {
         rxSocialConnectWrapper.with(loginActivity, oAuth10aService)
@@ -42,7 +36,7 @@ public class LoginPresenter implements LoginContract.Presenter
                 {
                     OAuth1AccessToken token = response.token();
                     sharedPrefsManager.storeOAuthToken(token);
-                    view.finish();
+                    view.finishActivity();
                 }, error ->
                         view.displayErrorDialog());
     }

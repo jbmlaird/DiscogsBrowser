@@ -8,15 +8,13 @@ public interface LoginContract
 {
     interface View
     {
-        void finish();
+        void finishActivity();
 
         void displayErrorDialog();
     }
 
     interface Presenter
     {
-        boolean hasUserLoggedIn();
-
         void startOAuthService(LoginActivity loginActivity);
     }
 }

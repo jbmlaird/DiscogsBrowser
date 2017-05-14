@@ -35,7 +35,6 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
 
 @MediumTest
 @RunWith(AndroidJUnit4.class)
@@ -67,7 +66,6 @@ public class LoginActivityTest
 
         onView(withId(R.id.btnLogin)).check(matches(isDisplayed()));
         onView(withId(R.id.tvTnCs)).check(matches(isDisplayed())).perform(click());
-
         onView(withText("Privacy Policy"))
                 .inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView()))));
         onView(withText("Dismiss"))
@@ -78,16 +76,15 @@ public class LoginActivityTest
     public void userLogsIn_finishes() throws InterruptedException
     {
         Intents.init();
-        when(presenter.hasUserLoggedIn()).thenReturn(false);
         doAnswer(invocation ->
         {
-            mActivityTestRule.getActivity().finish();
+            mActivityTestRule.getActivity().finishActivity();
             return invocation;
         }).when(presenter).startOAuthService(any());
         // Stub all MainActivity intents
         intending(hasComponent(MainActivity.class.getName())).respondWith(result);
-
         mActivityTestRule.launchActivity(null);
+
         onView(withId(R.id.btnLogin)).perform(click());
 
         assertTrue(mActivityTestRule.getActivity().isFinishing());

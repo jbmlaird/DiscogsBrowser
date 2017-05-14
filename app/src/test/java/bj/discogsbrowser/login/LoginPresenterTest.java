@@ -15,7 +15,6 @@ import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.wrappers.RxSocialConnectWrapper;
 import io.reactivex.Observable;
 
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -48,26 +47,6 @@ public class LoginPresenterTest
     }
 
     @Test
-    public void hasUserLoggedInNoToken_returnsFalse()
-    {
-        when(sharedPrefsManager.isUserLoggedIn()).thenReturn(false);
-
-        assertEquals(presenter.hasUserLoggedIn(), false);
-
-        verify(sharedPrefsManager).isUserLoggedIn();
-    }
-
-    @Test
-    public void hasUserLoggedInToken_returnsTrue()
-    {
-        when(sharedPrefsManager.isUserLoggedIn()).thenReturn(true);
-
-        assertEquals(presenter.hasUserLoggedIn(), true);
-
-        verify(sharedPrefsManager).isUserLoggedIn();
-    }
-
-    @Test
     public void startOAuthServiceValid_logsIn()
     {
         LoginActivity mockLoginActivity = mock(LoginActivity.class);
@@ -76,7 +55,7 @@ public class LoginPresenterTest
         presenter.startOAuthService(mockLoginActivity);
 
         verify(sharedPrefsManager).storeOAuthToken(any(OAuth1AccessToken.class));
-        verify(view).finish();
+        verify(view).finishActivity();
     }
 
     @Test
