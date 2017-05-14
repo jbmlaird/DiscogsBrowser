@@ -35,6 +35,16 @@ public class SharedPrefsManager
     }
 
     /**
+     * If the user has a token stored then they're logged in.
+     *
+     * @return True if there is a token.
+     */
+    public boolean isUserLoggedIn()
+    {
+        return (!getUserOAuthToken().getToken().equals(""));
+    }
+
+    /**
      * Temporarily store OAuth in plain text while RxSocialConnect disk cache is not working.
      *
      * @param token OAuth access token & secret.

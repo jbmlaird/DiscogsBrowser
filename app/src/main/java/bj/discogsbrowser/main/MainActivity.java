@@ -21,6 +21,7 @@ import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.common.MyRecyclerView;
+import bj.discogsbrowser.login.LoginActivity;
 import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.order.OrderActivity;
 import bj.discogsbrowser.release.ReleaseActivity;
@@ -52,6 +53,11 @@ public class MainActivity extends BaseActivity implements MainContract.View
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        if (!sharedPrefsManager.isUserLoggedIn())
+        {
+            startActivity(LoginActivity.createIntent(this));
+            finish();
+        }
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
         toolbar.inflateMenu(R.menu.options_menu);
@@ -92,7 +98,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
                     .onPositive((dialog, which) ->
                     {
                         dialog.dismiss();
-                        super.onBackPressed();
+                        finishAndRemoveTask();
                     })
                     .show();
     }

@@ -1,6 +1,10 @@
 package bj.discogsbrowser.login;
 
+import com.github.scribejava.core.oauth.OAuth10aService;
+
 import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.wrappers.RxSocialConnectWrapper;
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,8 +23,15 @@ public class LoginModule
 
     @Provides
     @ActivityScope
-    LoginContract.View provideView()
+    protected LoginContract.View provideView()
     {
         return view;
+    }
+
+    @Provides
+    @ActivityScope
+    protected LoginPresenter providePresenter(SharedPrefsManager sharedPrefsManager, RxSocialConnectWrapper wrapper, OAuth10aService service)
+    {
+        return new LoginPresenter(view, sharedPrefsManager, wrapper, service);
     }
 }

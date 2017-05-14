@@ -5,16 +5,12 @@ import android.support.annotation.NonNull;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.wrappers.RxSocialConnectWrapper;
 
 /**
  * Created by Josh Laird on 15/04/2017.
  */
-@ActivityScope
 public class LoginPresenter implements LoginContract.Presenter
 {
     private static final String TAG = "LoginPresenter";
@@ -23,7 +19,6 @@ public class LoginPresenter implements LoginContract.Presenter
     private RxSocialConnectWrapper rxSocialConnectWrapper;
     private OAuth10aService oAuth10aService;
 
-    @Inject
     public LoginPresenter(@NonNull LoginContract.View view, @NonNull SharedPrefsManager sharedPrefsManager,
                           @NonNull RxSocialConnectWrapper rxSocialConnectWrapper, @NonNull OAuth10aService oAuth10aService)
     {
@@ -36,8 +31,7 @@ public class LoginPresenter implements LoginContract.Presenter
     @Override
     public boolean hasUserLoggedIn()
     {
-        OAuth1AccessToken userOAuthToken = sharedPrefsManager.getUserOAuthToken();
-        return !userOAuthToken.getToken().equals("");
+        return sharedPrefsManager.isUserLoggedIn();
     }
 
     @Override

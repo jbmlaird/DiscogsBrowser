@@ -18,7 +18,6 @@ import io.reactivex.Observable;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -51,25 +50,21 @@ public class LoginPresenterTest
     @Test
     public void hasUserLoggedInNoToken_returnsFalse()
     {
-        OAuth1AccessToken emptyToken = oAuthTokenFactory.getEmptyToken();
-        when(sharedPrefsManager.getUserOAuthToken()).thenReturn(emptyToken);
+        when(sharedPrefsManager.isUserLoggedIn()).thenReturn(false);
 
         assertEquals(presenter.hasUserLoggedIn(), false);
 
-        assertEquals(sharedPrefsManager.getUserOAuthToken(), emptyToken);
-        verify(sharedPrefsManager, times(2)).getUserOAuthToken();
+        verify(sharedPrefsManager).isUserLoggedIn();
     }
 
     @Test
     public void hasUserLoggedInToken_returnsTrue()
     {
-        OAuth1AccessToken validToken = oAuthTokenFactory.getValidToken();
-        when(sharedPrefsManager.getUserOAuthToken()).thenReturn(validToken);
+        when(sharedPrefsManager.isUserLoggedIn()).thenReturn(true);
 
         assertEquals(presenter.hasUserLoggedIn(), true);
 
-        assertEquals(sharedPrefsManager.getUserOAuthToken(), validToken);
-        verify(sharedPrefsManager, times(2)).getUserOAuthToken();
+        verify(sharedPrefsManager).isUserLoggedIn();
     }
 
     @Test
