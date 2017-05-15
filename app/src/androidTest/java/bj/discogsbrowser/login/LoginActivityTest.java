@@ -1,9 +1,6 @@
 package bj.discogsbrowser.login;
 
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Intent;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
@@ -18,17 +15,18 @@ import org.mockito.Mock;
 import bj.discogsbrowser.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.main.MainActivity;
+import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withResourceName;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.core.Is.is;
@@ -46,14 +44,10 @@ public class LoginActivityTest
 
     @Mock LoginPresenter presenter;
     @Mock ImageViewAnimator imageViewAnimator;
-    private Instrumentation.ActivityResult result;
 
     @Before
     public void setUp()
     {
-        Intent resultData = new Intent();
-        result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
                 invocation).when(imageViewAnimator).rotateImage(any());
@@ -73,23 +67,33 @@ public class LoginActivityTest
     }
 
     @Test
+    public void onBackPressedDialog_closes() throws Throwable
+    {
+        mActivityTestRule.launchActivity(null);
+
+        mActivityTestRule.runOnUiThread(() -> mActivityTestRule.getActivity().onBackPressed());
+
+        onView(withResourceName("md_title")).check(matches(isDisplayed()));
+        onView(withResourceName("md_buttonDefaultPositive")).perform(click());
+        assertTrue(mActivityTestRule.getActivity().isFinishing());
+    }
+
+    @Test
     public void userLogsIn_finishes() throws InterruptedException
     {
         Intents.init();
         doAnswer(invocation ->
         {
-            mActivityTestRule.getActivity().finishActivity();
+            mActivityTestRule.getActivity().finishActivityLaunchMain();
             return invocation;
         }).when(presenter).startOAuthService(any());
-        // Stub all MainActivity intents
-        intending(hasComponent(MainActivity.class.getName())).respondWith(result);
+        TestUtils.stubIntents(MainActivity.class);
         mActivityTestRule.launchActivity(null);
 
         onView(withId(R.id.btnLogin)).perform(click());
 
         assertTrue(mActivityTestRule.getActivity().isFinishing());
-        intended(
-                hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(MainActivity.class.getName()));
         Intents.release();
     }
 }

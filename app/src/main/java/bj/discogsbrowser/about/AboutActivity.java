@@ -16,7 +16,6 @@ import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.thefinestartist.finestwebview.FinestWebView;
 
 import bj.discogsbrowser.R;
-import butterknife.ButterKnife;
 
 /**
  * Created by Josh Laird on 04/05/2017.
@@ -63,7 +62,6 @@ public class AboutActivity extends MaterialAboutActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
     }
 
     @Nullable

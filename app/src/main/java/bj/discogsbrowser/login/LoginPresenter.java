@@ -36,7 +36,7 @@ public class LoginPresenter implements LoginContract.Presenter
                 {
                     OAuth1AccessToken token = response.token();
                     sharedPrefsManager.storeOAuthToken(token);
-                    view.finishActivity();
+                    view.finishActivityLaunchMain();
                 }, error ->
                         view.displayErrorDialog());
     }

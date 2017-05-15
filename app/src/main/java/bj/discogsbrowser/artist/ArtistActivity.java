@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  */
 public class ArtistActivity extends BaseActivity implements ArtistContract.View
 {
-    @BindView(R.id.recyclerView) MyRecyclerView rvDetailed;
+    @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject AnalyticsTracker tracker;
     @Inject ArtistPresenter presenter;
@@ -57,7 +57,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
         setContentView(R.layout.activity_recyclerview);
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
-        setupRecyclerView(rvDetailed, controller, getIntent().getStringExtra("title"));
+        setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
         presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
     }
 

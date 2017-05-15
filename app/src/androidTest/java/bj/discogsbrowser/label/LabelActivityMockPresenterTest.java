@@ -1,7 +1,5 @@
 package bj.discogsbrowser.label;
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.MediumTest;
@@ -20,6 +18,7 @@ import java.util.Arrays;
 import bj.discogsbrowser.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.release.ReleaseActivity;
+import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -29,7 +28,6 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.actionOn
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -94,9 +92,7 @@ public class LabelActivityMockPresenterTest
     @Test
     public void onLabelReleaseClicked_launchesReleaseActivity() throws InterruptedException
     {
-        Intent resultData = new Intent();
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-        intending(hasComponent(ReleaseActivity.class.getName())).respondWith(result);
+        TestUtils.stubIntents(ReleaseActivity.class);
 
         onView(withId(R.id.recyclerView))
                 // 0: Header, 1: Divider, 2: Release
@@ -111,9 +107,7 @@ public class LabelActivityMockPresenterTest
     @Test
     public void onViewOnDiscogsClicked_launchesWebView() throws InterruptedException
     {
-        Intent resultData = new Intent();
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-        intending(hasComponent(FinestWebViewActivity.class.getName())).respondWith(result);
+        TestUtils.stubIntents(FinestWebViewActivity.class);
 
         onView(withId(R.id.recyclerView))
                 .perform(actionOnItem(hasDescendant(withText("View on Discogs")), click()));

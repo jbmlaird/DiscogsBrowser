@@ -15,13 +15,14 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:includeFontPadding="false"
-        android:text="View releases"
+        android:text="@string/view_releases"
         android:textSize="@dimen/text_normal"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:contentDescription="clickable link"
         android:src="@drawable/ic_chevron_right_black_24dp"/>
 
 </LinearLayout>

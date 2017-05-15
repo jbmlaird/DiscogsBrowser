@@ -66,4 +66,5 @@
     <string name="learn_more">Learn more</string>
     <string name="learn_more_content">Non-intelligent recommender system that suggests tracks in the same genre or label as releases you have looked at</string>
     <string name="onboarding_completed">onboarding_completed</string>
+    <string name="view_releases">View releases</string>
 </resources>

@@ -41,7 +41,7 @@ public class ArtistResult
     @SerializedName("members")
     @Expose
     private List<Member> members = null;
-    private ArrayList<WantedUrl> wantedUrls;
+    private List<WantedUrl> wantedUrls;
 
     public List<String> getNamevariations()
     {
@@ -143,12 +143,12 @@ public class ArtistResult
         this.members = members;
     }
 
-    public void setWantedUrls(ArrayList<WantedUrl> wantedUrls)
+    public void setWantedUrls(List<WantedUrl> wantedUrls)
     {
         this.wantedUrls = wantedUrls;
     }
 
-    public ArrayList<WantedUrl> getWantedUrls()
+    public List<WantedUrl> getWantedUrls()
     {
         return wantedUrls;
     }

@@ -8,7 +8,7 @@ public interface LoginContract
 {
     interface View
     {
-        void finishActivity();
+        void finishActivityLaunchMain();
 
         void displayErrorDialog();
     }

@@ -55,7 +55,7 @@ public class LoginPresenterTest
         presenter.startOAuthService(mockLoginActivity);
 
         verify(sharedPrefsManager).storeOAuthToken(any(OAuth1AccessToken.class));
-        verify(view).finishActivity();
+        verify(view).finishActivityLaunchMain();
     }
 
     @Test
