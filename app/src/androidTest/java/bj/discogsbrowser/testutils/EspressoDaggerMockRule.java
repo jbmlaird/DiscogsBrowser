@@ -32,7 +32,7 @@ public class EspressoDaggerMockRule extends DaggerMockRule<AppComponent>
         set(component -> getApp().setComponent(component));
     }
 
-    private static App getApp()
+    public static App getApp()
     {
         return (App) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
     }

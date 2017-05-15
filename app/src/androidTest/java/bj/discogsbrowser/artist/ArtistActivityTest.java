@@ -14,9 +14,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
+import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
@@ -36,6 +36,8 @@ import static org.mockito.Mockito.doAnswer;
 
 /**
  * Created by Josh Laird on 15/05/2017.
+ * <p>
+ * Due to the Roboletric tests which test the models have been built, these Espresso tests test onClick and content.
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
@@ -54,9 +56,7 @@ public class ArtistActivityTest
     @Before
     public void setUp()
     {
-        Intent startingIntent = new Intent();
-        startingIntent.putExtra("title", artistTitle);
-        startingIntent.putExtra("id", artistId);
+        Intent startingIntent = ArtistActivity.createIntent(EspressoDaggerMockRule.getApp(), artistTitle, artistId);
 
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout

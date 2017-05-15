@@ -2,8 +2,8 @@ package bj.discogsbrowser.marketplace;
 
 import android.content.Context;
 
-import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.NumberFormatWrapper;
@@ -25,21 +25,21 @@ public class MarketplaceModule
 
     @Provides
     @ActivityScope
-    MarketplaceContract.View provideMarketplaceView()
+    protected MarketplaceContract.View provideMarketplaceView()
     {
         return view;
     }
 
     @Provides
     @ActivityScope
-    MarketplaceController providesController(Context context, ImageViewAnimator imageViewAnimator, NumberFormatWrapper wrapper)
+    protected MarketplaceController providesController(Context context, ImageViewAnimator imageViewAnimator, NumberFormatWrapper wrapper)
     {
         return new MarketplaceController(context, view, imageViewAnimator, wrapper);
     }
 
     @Provides
     @ActivityScope
-    MarketplacePresenter providesPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, MarketplaceController controller)
+    protected MarketplacePresenter providesPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, MarketplaceController controller)
     {
         return new MarketplacePresenter(context, view, discogsInteractor, mySchedulerProvider, controller);
     }

@@ -11,7 +11,6 @@ import bj.discogsbrowser.model.listing.Seller;
 
 public class ListingFactory
 {
-
     public Listing getListing()
     {
         Listing listing = new Listing();

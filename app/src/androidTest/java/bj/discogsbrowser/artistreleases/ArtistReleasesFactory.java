@@ -28,7 +28,7 @@ public class ArtistReleasesFactory
         }
     }
 
-    public class TestRelease extends ArtistRelease
+    public static class TestRelease extends ArtistRelease
     {
         public TestRelease(String id, String title, String artist)
         {

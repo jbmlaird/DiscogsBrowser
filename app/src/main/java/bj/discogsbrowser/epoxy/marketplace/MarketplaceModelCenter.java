@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
-import com.joanzapata.iconify.widget.IconTextView;
 
 import bj.discogsbrowser.R;
 import butterknife.BindView;
@@ -26,8 +25,8 @@ public abstract class MarketplaceModelCenter extends EpoxyModel<LinearLayout>
     @EpoxyAttribute String comments;
     @BindView(R.id.tvSeller) TextView tvSeller;
     @BindView(R.id.tvSellerRating) TextView tvSellerRating;
-    @BindView(R.id.tvSleeve) IconTextView tvSleeve;
-    @BindView(R.id.tvMedia) IconTextView tvMedia;
+    @BindView(R.id.tvSleeve) TextView tvSleeve;
+    @BindView(R.id.tvMedia) TextView tvMedia;
     @BindView(R.id.tvComments) TextView tvComments;
     private Unbinder unbinder;
 
@@ -35,10 +34,10 @@ public abstract class MarketplaceModelCenter extends EpoxyModel<LinearLayout>
     public void bind(LinearLayout view)
     {
         unbinder = ButterKnife.bind(this, view);
-        tvSleeve.setText("{fa-inbox} " + sleeveCondition);
-        tvMedia.setText("{fa-music} " + mediaCondition);
-        tvSeller.setText("Seller: " + sellerUsername);
-        tvSellerRating.setText("Seller rating: " + sellerRating + "%");
+        tvSleeve.setText(sleeveCondition);
+        tvMedia.setText(mediaCondition);
+        tvSeller.setText(sellerUsername);
+        tvSellerRating.setText(sellerRating + "%");
         if (comments != null && !comments.equals(""))
             tvComments.setText(comments);
     }

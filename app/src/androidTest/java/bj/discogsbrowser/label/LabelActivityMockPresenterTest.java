@@ -15,9 +15,9 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 
-import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.release.ReleaseActivity;
+import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
@@ -41,6 +41,8 @@ import static org.mockito.Mockito.doAnswer;
 
 /**
  * Created by Josh Laird on 12/05/2017.
+ * <p>
+ * Due to the Roboletric tests which test the models have been built, these Espresso tests test onClick and content.
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
@@ -54,13 +56,13 @@ public class LabelActivityMockPresenterTest
     private LabelActivity activity;
     private TestLabel testLabel;
     private TestLabel.TestLabelRelease testLabelRelease;
+    private String title = "labelTitle";
+    private String id = "labelId";
 
     @Before
     public void setUp() throws InterruptedException
     {
-        Intent startingIntent = new Intent();
-        startingIntent.putExtra("title", "title");
-        startingIntent.putExtra("id", "id");
+        Intent startingIntent = LabelActivity.createIntent(EspressoDaggerMockRule.getApp(), title, id);
         testLabel = new TestLabel();
         testLabelRelease = new TestLabel.TestLabelRelease();
 

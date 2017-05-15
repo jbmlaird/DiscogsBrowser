@@ -18,6 +18,7 @@ import java.util.List;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.fragments.ViewPagerAdapter;
+import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
@@ -53,6 +54,8 @@ import static org.mockito.Mockito.when;
  * Created by Josh Laird on 15/05/2017.
  * <p>
  * This doesn't use a mock Presenter as it uses a BehaviorRelay which passes data to the fragments.
+ * <p>
+ * Due to the Roboletric tests which test the models have been built, these Espresso tests test onClick and content.
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
@@ -70,13 +73,15 @@ public class ArtistReleasesActivityTest
     private String artistId = "2089744";
     private String artistTitle = "artistTitle";
     private ViewPagerAdapter adapter;
+    private String marketplaceId = "marketplaceId";
+    private String listingTitle = "listingTitle";
+    private String listingArtist = "listingArtist";
+    private String listingSeller = "listingSeller";
 
     @Before
     public void setUp() throws InterruptedException
     {
-        Intent startingIntent = new Intent();
-        startingIntent.putExtra("title", artistTitle);
-        startingIntent.putExtra("id", artistId);
+        Intent startingIntent = MarketplaceListingActivity.createIntent(EspressoDaggerMockRule.getApp(), marketplaceId, listingTitle, listingArtist, listingSeller);
         BehaviorRelay<List<ArtistRelease>> artistReleaseRelay = BehaviorRelay.create();
 
         doAnswer(invocation ->
