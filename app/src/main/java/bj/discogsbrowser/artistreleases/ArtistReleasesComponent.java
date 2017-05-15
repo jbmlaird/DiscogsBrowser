@@ -8,7 +8,6 @@ import dagger.Subcomponent;
  * Created by Josh Laird on 10/04/2017.
  */
 @ActivityScope
-//@Component(modules = {ArtistReleasesModule.class}, dependencies = {AppComponent.class})
 @Subcomponent(modules = {ArtistReleasesModule.class})
 public interface ArtistReleasesComponent
 {

@@ -52,8 +52,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Josh Laird on 15/05/2017.
  * <p>
- * This doesn't use a mock Presenter as it's testing live data against a real Artist and that data is then passed to the Fragments.
- * As this Activity has a ViewPager AND a filter I feel it necessary to not mock any network calls.
+ * This doesn't use a mock Presenter as it uses a BehaviorRelay which passes data to the fragments.
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
@@ -68,7 +67,7 @@ public class ArtistReleasesActivityTest
     @Mock ArtistReleaseBehaviorRelay behaviorRelay;
     private ArtistReleasesActivity activity;
     private ArtistReleasesFactory artistReleasesFactory = new ArtistReleasesFactory();
-    private String artistId = "2089744"; // Objekt's ID
+    private String artistId = "2089744";
     private String artistTitle = "artistTitle";
     private ViewPagerAdapter adapter;
 
@@ -133,8 +132,8 @@ public class ArtistReleasesActivityTest
 
         onView(withId(R.id.viewpager)).perform(withCustomConstraints(swipeLeft(), isDisplayingAtLeast(51)));
 
-        onView(allOf(withId(R.id.recyclerView), isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(allOf(withId(R.id.recyclerView), isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView(allOf(withId(R.id.recyclerView), isDisplayingAtLeast(51))).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(allOf(withId(R.id.recyclerView), isDisplayingAtLeast(51))).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
         intending(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
