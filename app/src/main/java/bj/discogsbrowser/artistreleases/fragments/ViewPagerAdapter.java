@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Created by Josh Laird on 10/04/2017.
  */
-
 public class ViewPagerAdapter extends FragmentPagerAdapter
 {
     private final List<Fragment> mFragmentList = new ArrayList<>();

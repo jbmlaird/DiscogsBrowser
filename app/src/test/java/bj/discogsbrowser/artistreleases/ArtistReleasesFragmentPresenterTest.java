@@ -1,11 +1,5 @@
 package bj.discogsbrowser.artistreleases;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.jakewharton.rxrelay2.BehaviorRelay;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +39,7 @@ public class ArtistReleasesFragmentPresenterTest
     @Mock ArtistReleasesFragmentContract.View view;
     @Mock CompositeDisposable disposable;
     @Mock ArtistResultFunction artistResultFunction;
-    @Mock BehaviorRelay<List<ArtistRelease>> behaviorRelay;
+    private ArtistReleaseBehaviorRelay behaviorRelay = new ArtistReleaseBehaviorRelay();
     private TestScheduler testScheduler = new TestScheduler();
     @Mock ArtistReleasesTransformer artistReleasesTransformer;
     @Mock ArtistReleasesController controller;
@@ -60,7 +54,7 @@ public class ArtistReleasesFragmentPresenterTest
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(view, disposable, artistResultFunction, behaviorRelay,
+        verifyNoMoreInteractions(view, disposable, artistResultFunction,
                 artistReleasesTransformer, controller);
     }
 
@@ -77,10 +71,6 @@ public class ArtistReleasesFragmentPresenterTest
     @Test
     public void behaviorRelayValid_controllerDisplays() throws Exception
     {
-        // Will need to use a real behaviorRelay for this test
-        BehaviorRelay<List<ArtistRelease>> behaviorRelay = BehaviorRelay.create();
-        presenter = new ArtistReleasesFragmentPresenter(disposable, artistResultFunction, behaviorRelay,
-                new TestSchedulerProvider(testScheduler), artistReleasesTransformer);
         ArtistReleasesFragment mockArtistReleasesFragment = mock(ArtistReleasesFragment.class);
         when(mockArtistReleasesFragment.getController()).thenReturn(controller);
         ArrayList<ArtistRelease> artistReleases = new ArrayList<>();
@@ -93,7 +83,7 @@ public class ArtistReleasesFragmentPresenterTest
         when(artistReleasesTransformer.apply(any(Single.class))).thenReturn(just);
 
         presenter.connectToBehaviorRelay("filter");
-        behaviorRelay.accept(artistReleases);
+        behaviorRelay.getArtistReleaseBehaviorRelay().accept(artistReleases);
         testScheduler.triggerActions();
 
         verify(disposable, times(1)).add(any(Disposable.class));
@@ -106,10 +96,6 @@ public class ArtistReleasesFragmentPresenterTest
     @Test
     public void behaviorRelayError_controllerSetsError() throws Exception
     {
-        // Will need to use a real behaviorRelay for this test
-        BehaviorRelay<List<ArtistRelease>> behaviorRelay = BehaviorRelay.create();
-        presenter = new ArtistReleasesFragmentPresenter(disposable, artistResultFunction, behaviorRelay,
-                new TestSchedulerProvider(testScheduler), artistReleasesTransformer);
         ArtistReleasesFragment mockArtistReleasesFragment = mock(ArtistReleasesFragment.class);
         when(mockArtistReleasesFragment.getController()).thenReturn(controller);
         when(disposable.add(any())).thenReturn(true);
@@ -122,7 +108,7 @@ public class ArtistReleasesFragmentPresenterTest
 
         presenter.bind(mockArtistReleasesFragment);
         presenter.connectToBehaviorRelay("filter");
-        behaviorRelay.accept(artistReleases);
+        behaviorRelay.getArtistReleaseBehaviorRelay().accept(artistReleases);
         testScheduler.triggerActions();
 
         verify(disposable, times(1)).add(any(Disposable.class));
@@ -131,17 +117,4 @@ public class ArtistReleasesFragmentPresenterTest
         verify(artistReleasesTransformer, times(1)).apply(any(Single.class));
         verify(controller, times(1)).setError(any(String.class));
     }
-
-//    @Test
-//    public void setupRecyclerView_setsUpRecyclerView()
-//    {
-//        RecyclerView mockRv = mock(RecyclerView.class);
-//        FragmentActivity activity = mock(FragmentActivity.class);
-//
-//        presenter.setupRecyclerView(mockRv, activity);
-//
-//        verify(mockRv, times(1)).setLayoutManager(any(LinearLayoutManager.class));
-//        verify(controller, times(1)).getAdapter();
-//        verify(controller, times(1)).requestModelBuild();
-//    }
 }

@@ -16,7 +16,9 @@ import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.network.CacheProviders;
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
+import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
+import bj.discogsbrowser.utils.DiscogsScraper;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
@@ -128,5 +130,11 @@ public class AppModule
                                                                                SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
     {
         return new CollectionWantlistInteractor(retrofit, cacheProviders, sharedPrefsManager, mySchedulerProvider);
+    }
+
+    @Provides
+    protected DiscogsInteractor provideDiscogsInteractor(Retrofit retrofit, MySchedulerProvider mySchedulerProvider, DiscogsScraper scraper, SharedPrefsManager sharedPrefsManager)
+    {
+        return new DiscogsInteractor(applicationContext, retrofit, mySchedulerProvider, scraper, sharedPrefsManager);
     }
 }

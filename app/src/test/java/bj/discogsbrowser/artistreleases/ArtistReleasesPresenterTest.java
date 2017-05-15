@@ -24,6 +24,7 @@ import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -40,23 +41,26 @@ public class ArtistReleasesPresenterTest
     @Mock ArtistReleasesContract.View view;
     @Mock ArtistReleasesController controller;
     @Mock DiscogsInteractor discogsInteractor;
-    @Mock BehaviorRelay<List<ArtistRelease>> behaviorRelay; // = BehaviorRelay.create();
+    @Mock ArtistReleaseBehaviorRelay artistReleaseBehaviorRelay; // = BehaviorRelay.create();
     private TestScheduler testScheduler;
     @Mock ArtistReleasesTransformer artistReleasesTransformer;
+    @Mock BehaviorRelay<List<ArtistRelease>> artistReleases;
 
     @Before
     public void setUp()
     {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        presenter = new ArtistReleasesPresenter(view, discogsInteractor, controller, behaviorRelay,
+        when(artistReleaseBehaviorRelay.getArtistReleaseBehaviorRelay()).thenReturn(BehaviorRelay.create());
+        presenter = new ArtistReleasesPresenter(view, discogsInteractor, controller, artistReleaseBehaviorRelay,
                 new TestSchedulerProvider(testScheduler), artistReleasesTransformer);
+        verify(artistReleaseBehaviorRelay).getArtistReleaseBehaviorRelay();
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(view, discogsInteractor, controller, behaviorRelay, artistReleasesTransformer);
+        verifyNoMoreInteractions(view, discogsInteractor, controller, artistReleaseBehaviorRelay, artistReleasesTransformer);
     }
 
     @Test
@@ -83,7 +87,7 @@ public class ArtistReleasesPresenterTest
         presenter.getArtistReleases(id);
         testScheduler.triggerActions();
 
-        verify(behaviorRelay).accept(artistReleases);
+        verify(artistReleaseBehaviorRelay).getArtistReleaseBehaviorRelay();
         verify(discogsInteractor).fetchArtistsReleases(id);
     }
 
@@ -103,35 +107,42 @@ public class ArtistReleasesPresenterTest
     @Test
     public void setupFilterRelayEmpty_setsFilterText()
     {
+        // mock relay
+        BehaviorRelay<List<ArtistRelease>> mockRelay = mock(BehaviorRelay.class);
+        presenter.setBehaviorRelay(mockRelay);
         String filterText = "filterText";
         Observable<CharSequence> just = Observable.just(filterText);
         when(view.filterIntent()).thenReturn(just);
-        when(behaviorRelay.getValue()).thenReturn(Collections.emptyList());
+        when(mockRelay.getValue()).thenReturn(Collections.emptyList());
 
         presenter.setupFilter();
 
         assertEquals(view.filterIntent(), just);
         verify(view, times(2)).filterIntent();
         verify(artistReleasesTransformer, times(1)).setFilterText(filterText);
-        verify(behaviorRelay, times(2)).getValue();
+        verify(mockRelay, times(2)).getValue();
+        verifyNoMoreInteractions(mockRelay);
     }
 
     @Test
     public void setupFilterRelayItem_setsFilterTextEmits()
     {
+        // Mock Relay
+        BehaviorRelay<List<ArtistRelease>> mockRelay = mock(BehaviorRelay.class);
+        presenter.setBehaviorRelay(mockRelay);
         String filterText = "filterText";
         ArtistRelease artistRelease = new ArtistRelease();
         List list = Collections.singletonList(artistRelease);
         Observable<CharSequence> just = Observable.just(filterText);
         when(view.filterIntent()).thenReturn(just);
-        when(behaviorRelay.getValue()).thenReturn(list);
+        when(mockRelay.getValue()).thenReturn(list);
 
         presenter.setupFilter();
 
         assertEquals(view.filterIntent(), just);
         verify(view, times(2)).filterIntent();
         verify(artistReleasesTransformer, times(1)).setFilterText(filterText);
-        verify(behaviorRelay, times(3)).getValue();
-        verify(behaviorRelay, times(1)).accept(list);
+        verify(mockRelay, times(3)).getValue();
+        verify(mockRelay, times(1)).accept(list);
     }
 }

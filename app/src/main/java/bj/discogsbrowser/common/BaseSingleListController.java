@@ -7,6 +7,7 @@ import com.airbnb.epoxy.EpoxyController;
 import java.util.ArrayList;
 import java.util.List;
 
+import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.CardListItemModel_;
 import bj.discogsbrowser.epoxy.common.CenterTextModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
@@ -47,7 +48,7 @@ public abstract class BaseSingleListController extends EpoxyController
                     .addTo(this);
         else if (items.size() == 0 && !loading)
             new CenterTextModel_()
-                    .text("No items")
+                    .text(context.getString(R.string.no_items))
                     .id("no items model")
                     .addTo(this);
         else

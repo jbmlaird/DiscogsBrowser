@@ -1,5 +1,7 @@
 package bj.discogsbrowser.artistreleases;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.util.List;
@@ -22,13 +24,13 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
     private ArtistReleasesTransformer artistReleasesTransformer;
 
     public ArtistReleasesPresenter(ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, ArtistReleasesController controller,
-                                   BehaviorRelay<List<ArtistRelease>> behaviorRelay,
-                                   MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)
+                                   ArtistReleaseBehaviorRelay behaviorRelay, MySchedulerProvider mySchedulerProvider,
+                                   ArtistReleasesTransformer artistReleasesTransformer)
     {
         this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.controller = controller;
-        this.behaviorRelay = behaviorRelay;
+        this.behaviorRelay = behaviorRelay.getArtistReleaseBehaviorRelay();
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistReleasesTransformer = artistReleasesTransformer;
     }
@@ -45,7 +47,6 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
                 });
     }
 
-
     @Override
     public void setupFilter()
     {
@@ -55,5 +56,11 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
             if (behaviorRelay.getValue() != null && behaviorRelay.getValue().size() != 0)
                 behaviorRelay.accept(behaviorRelay.getValue());
         });
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    public void setBehaviorRelay(BehaviorRelay<List<ArtistRelease>> artistReleases)
+    {
+        behaviorRelay = artistReleases;
     }
 }

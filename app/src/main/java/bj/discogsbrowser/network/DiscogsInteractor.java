@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
@@ -47,7 +45,6 @@ public class DiscogsInteractor
     private DiscogsScraper discogsScraper;
     private NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
 
-    @Inject
     public DiscogsInteractor(Context context, Retrofit retrofit, MySchedulerProvider mySchedulerProvider, DiscogsScraper discogsScraper, SharedPrefsManager sharedPrefsManager)
     {
         this.mySchedulerProvider = mySchedulerProvider;

@@ -24,10 +24,8 @@ import bj.discogsbrowser.artistreleases.fragments.ViewPagerAdapter;
 import bj.discogsbrowser.common.BaseActivity;
 import bj.discogsbrowser.label.LabelActivity;
 import bj.discogsbrowser.master.MasterActivity;
-import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
-import bj.discogsbrowser.utils.ImageViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -43,9 +41,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.viewpager) ViewPager viewPager;
     @Inject AnalyticsTracker tracker;
-    @Inject DiscogsInteractor discogsInteractor;
     @Inject ArtistReleasesPresenter presenter;
-    @Inject ImageViewAnimator imageViewAnimator;
 
     public static ArtistReleasesComponent getComponent()
     {
@@ -55,8 +51,8 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        component = DaggerArtistReleasesComponent.builder()
-                .appComponent(appComponent)
+        component = appComponent
+                .artistReleasesComponentBuilder()
                 .artistReleasesModule(new ArtistReleasesModule(this))
                 .build();
         component.inject(this);

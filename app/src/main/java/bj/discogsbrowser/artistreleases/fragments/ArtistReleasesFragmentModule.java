@@ -1,10 +1,6 @@
 package bj.discogsbrowser.artistreleases.fragments;
 
-import com.jakewharton.rxrelay2.BehaviorRelay;
-
-import java.util.List;
-
-import bj.discogsbrowser.model.artistrelease.ArtistRelease;
+import bj.discogsbrowser.artistreleases.ArtistReleaseBehaviorRelay;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
 import bj.discogsbrowser.rxmodifiers.ArtistResultFunction;
 import bj.discogsbrowser.scopes.FragmentScope;
@@ -28,15 +24,15 @@ public class ArtistReleasesFragmentModule
 
     @Provides
     @FragmentScope
-    ArtistReleasesFragmentContract.View providesView()
+    protected ArtistReleasesFragmentContract.View providesView()
     {
         return view;
     }
 
     @Provides
-    ArtistReleasesFragmentPresenter providePresenter(ArtistResultFunction artistResultFunction,
-                                                     BehaviorRelay<List<ArtistRelease>> relay, MySchedulerProvider mySchedulerProvider,
-                                                     ArtistReleasesTransformer transformer)
+    protected ArtistReleasesFragmentPresenter providePresenter(ArtistResultFunction artistResultFunction,
+                                                               ArtistReleaseBehaviorRelay relay, MySchedulerProvider mySchedulerProvider,
+                                                               ArtistReleasesTransformer transformer)
     {
         return new ArtistReleasesFragmentPresenter(new CompositeDisposable(), artistResultFunction, relay, mySchedulerProvider, transformer);
     }

@@ -10,7 +10,7 @@ import dagger.Provides;
  * Espresso tests will fail if there is animation. This will override ImageViewAnimator and disable the rotation.
  */
 @Module
-class ImageViewAnimatorModule
+public class ImageViewAnimatorModule
 {
     @Provides
     protected ImageViewAnimator provideImageViewAnimator()

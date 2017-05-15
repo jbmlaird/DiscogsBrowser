@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import bj.discogsbrowser.EspressoDaggerMockRule;
+import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.main.MainActivity;
 import bj.discogsbrowser.testutils.TestUtils;

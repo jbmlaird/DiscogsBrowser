@@ -1,10 +1,9 @@
 package bj.discogsbrowser;
 
-import android.content.Context;
-
 import javax.inject.Singleton;
 
 import bj.discogsbrowser.artist.ArtistComponent;
+import bj.discogsbrowser.artistreleases.ArtistReleasesComponent;
 import bj.discogsbrowser.label.LabelComponent;
 import bj.discogsbrowser.login.LoginComponent;
 import bj.discogsbrowser.main.MainComponent;
@@ -14,12 +13,9 @@ import bj.discogsbrowser.order.OrderComponent;
 import bj.discogsbrowser.release.ReleaseComponent;
 import bj.discogsbrowser.search.SearchComponent;
 import bj.discogsbrowser.singlelist.SingleListComponent;
-import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.analytics.AnalyticsModule;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.wrappers.WrappersModule;
 import dagger.Component;
-import retrofit2.Retrofit;
 
 /**
  * Created by j on 18/02/2017.
@@ -31,6 +27,8 @@ public interface AppComponent
     void inject(App app);
 
     ArtistComponent.Builder artistComponentBuilder();
+
+    ArtistReleasesComponent.Builder artistReleasesComponentBuilder();
 
     LabelComponent.Builder labelComponentBuilder();
 
@@ -49,13 +47,4 @@ public interface AppComponent
     SearchComponent.Builder searchComponentBuilder();
 
     SingleListComponent.Builder singleListComponentBuilder();
-
-    // Below provided for ArtistReleasesActivity
-    AnalyticsTracker getTracker();
-
-    Context getContext();
-
-    Retrofit retrofit();
-
-    ImageViewAnimator imageViewAnimator();
 }

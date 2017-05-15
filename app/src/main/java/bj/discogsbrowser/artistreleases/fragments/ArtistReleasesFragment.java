@@ -8,10 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jakewharton.rxrelay2.BehaviorRelay;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
 import bj.discogsbrowser.AppComponent;
@@ -19,7 +15,6 @@ import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
 import bj.discogsbrowser.artistreleases.ArtistReleasesController;
 import bj.discogsbrowser.common.BaseFragment;
-import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -29,7 +24,6 @@ import butterknife.ButterKnife;
 public class ArtistReleasesFragment extends BaseFragment implements ArtistReleasesFragmentContract.View
 {
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
-    @Inject BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     @Inject ArtistReleasesFragmentPresenter presenter;
     @Inject ArtistReleasesController controller;
 

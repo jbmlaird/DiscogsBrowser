@@ -4,6 +4,7 @@ import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import java.util.List;
 
+import bj.discogsbrowser.artistreleases.ArtistReleaseBehaviorRelay;
 import bj.discogsbrowser.artistreleases.ArtistReleasesController;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
@@ -25,11 +26,12 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
     private ArtistReleasesController controller;
 
     public ArtistReleasesFragmentPresenter(CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
-                                           BehaviorRelay<List<ArtistRelease>> behaviorRelay, MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)
+                                           ArtistReleaseBehaviorRelay behaviorRelay, MySchedulerProvider mySchedulerProvider,
+                                           ArtistReleasesTransformer artistReleasesTransformer)
     {
         this.disposable = disposable;
         this.artistResultFunction = artistResultFunction;
-        this.behaviorRelay = behaviorRelay;
+        this.behaviorRelay = behaviorRelay.getArtistReleaseBehaviorRelay();
         this.mySchedulerProvider = mySchedulerProvider;
         this.artistReleasesTransformer = artistReleasesTransformer;
     }

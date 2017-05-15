@@ -2,14 +2,9 @@ package bj.discogsbrowser.artistreleases;
 
 import android.content.Context;
 
-import com.jakewharton.rxrelay2.BehaviorRelay;
-
-import java.util.List;
-
-import bj.discogsbrowser.scopes.ActivityScope;
-import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
@@ -30,35 +25,35 @@ public class ArtistReleasesModule
 
     @Provides
     @ActivityScope
-    ArtistReleasesContract.View providesView()
+    protected ArtistReleasesContract.View providesView()
     {
         return view;
     }
 
     @Provides
     @ActivityScope
-    protected BehaviorRelay<List<ArtistRelease>> provideBehaviorRelay()
+    protected ArtistReleaseBehaviorRelay provideBehaviorRelay()
     {
-        return BehaviorRelay.create();
+        return new ArtistReleaseBehaviorRelay();
     }
 
     @Provides
     @ActivityScope
-    ArtistReleasesTransformer provideTransformer()
+    protected ArtistReleasesTransformer provideTransformer()
     {
         return new ArtistReleasesTransformer();
     }
 
     @Provides
-    ArtistReleasesController provideArtistReleasesController(Context context, ImageViewAnimator imageViewAnimator)
+    protected ArtistReleasesController provideArtistReleasesController(Context context, ImageViewAnimator imageViewAnimator)
     {
         return new ArtistReleasesController(context, view, imageViewAnimator);
     }
 
     @Provides
     @ActivityScope
-    ArtistReleasesPresenter provideArtistReleasesPresenter(DiscogsInteractor discogsInteractor, ArtistReleasesController controller, BehaviorRelay<List<ArtistRelease>> behaviorRelay,
-                                                           MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)
+    protected ArtistReleasesPresenter provideArtistReleasesPresenter(DiscogsInteractor discogsInteractor, ArtistReleasesController controller, ArtistReleaseBehaviorRelay behaviorRelay,
+                                                                     MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)
     {
         return new ArtistReleasesPresenter(view, discogsInteractor, controller, behaviorRelay, mySchedulerProvider, artistReleasesTransformer);
     }

@@ -15,7 +15,7 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 
-import bj.discogsbrowser.EspressoDaggerMockRule;
+import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.testutils.TestUtils;
