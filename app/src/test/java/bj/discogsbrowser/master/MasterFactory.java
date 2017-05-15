@@ -11,7 +11,6 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 /**
  * Created by Josh Laird on 09/05/2017.
  */
-
 public class MasterFactory
 {
     public Master getMaster()

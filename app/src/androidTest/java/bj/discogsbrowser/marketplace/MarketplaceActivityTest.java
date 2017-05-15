@@ -30,6 +30,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static bj.discogsbrowser.testutils.EspressoDaggerMockRule.getApp;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
@@ -58,9 +59,7 @@ public class MarketplaceActivityTest
     @Before
     public void setUp() throws InterruptedException
     {
-        Intent startingIntent = new Intent();
-        startingIntent.putExtra("title", listingTitle);
-        startingIntent.putExtra("id", listingId);
+        Intent startingIntent = MarketplaceListingActivity.createIntent(getApp(), listingTitle, listingId, "", "");
 
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout

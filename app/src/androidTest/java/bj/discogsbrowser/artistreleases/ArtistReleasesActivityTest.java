@@ -17,8 +17,6 @@ import org.mockito.Mock;
 import java.util.List;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.artistreleases.fragments.ViewPagerAdapter;
-import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
@@ -27,6 +25,7 @@ import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.RecyclerViewSizeAssertion;
 import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import io.reactivex.Single;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -68,20 +67,16 @@ public class ArtistReleasesActivityTest
     @Mock DiscogsInteractor discogsInteractor;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock ArtistReleaseBehaviorRelay behaviorRelay;
+    @Mock MySchedulerProvider mySchedulerProvider;
     private ArtistReleasesActivity activity;
     private ArtistReleasesFactory artistReleasesFactory = new ArtistReleasesFactory();
     private String artistId = "2089744";
     private String artistTitle = "artistTitle";
-    private ViewPagerAdapter adapter;
-    private String marketplaceId = "marketplaceId";
-    private String listingTitle = "listingTitle";
-    private String listingArtist = "listingArtist";
-    private String listingSeller = "listingSeller";
 
     @Before
     public void setUp() throws InterruptedException
     {
-        Intent startingIntent = MarketplaceListingActivity.createIntent(EspressoDaggerMockRule.getApp(), marketplaceId, listingTitle, listingArtist, listingSeller);
+        Intent startingIntent = ArtistReleasesActivity.createIntent(EspressoDaggerMockRule.getApp(), artistTitle, artistId);
         BehaviorRelay<List<ArtistRelease>> artistReleaseRelay = BehaviorRelay.create();
 
         doAnswer(invocation ->
@@ -91,7 +86,6 @@ public class ArtistReleasesActivityTest
         when(behaviorRelay.getArtistReleaseBehaviorRelay()).thenReturn(artistReleaseRelay);
 
         activity = mActivityTestRule.launchActivity(startingIntent);
-        adapter = (ViewPagerAdapter) activity.viewPager.getAdapter();
     }
 
     @Test

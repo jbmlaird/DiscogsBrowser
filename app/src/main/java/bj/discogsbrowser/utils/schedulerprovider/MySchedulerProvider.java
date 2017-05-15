@@ -1,7 +1,5 @@
 package bj.discogsbrowser.utils.schedulerprovider;
 
-import javax.inject.Inject;
-
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -11,7 +9,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class MySchedulerProvider implements SchedulerProvider
 {
-    @Inject
     public MySchedulerProvider()
     {
     }
