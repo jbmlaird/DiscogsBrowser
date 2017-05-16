@@ -26,26 +26,31 @@
             app:tabTextColor="#80FFFFFF">
 
             <android.support.design.widget.TabItem
+                android:id="@+id/tabAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All"/>
 
             <android.support.design.widget.TabItem
+                android:id="@+id/tabArtist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Artist"/>
 
             <android.support.design.widget.TabItem
+                android:id="@+id/tabMaster"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Master"/>
 
             <android.support.design.widget.TabItem
+                android:id="@+id/tabRelease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Release"/>
 
             <android.support.design.widget.TabItem
+                android:id="@+id/tabLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Label"/>
@@ -66,7 +71,7 @@
         />
 
     <bj.discogsbrowser.common.MyRecyclerView
-        android:id="@+id/rvResults"
+        android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/light_gray"

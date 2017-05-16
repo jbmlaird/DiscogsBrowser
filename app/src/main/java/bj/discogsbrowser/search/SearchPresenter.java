@@ -1,7 +1,5 @@
 package bj.discogsbrowser.search;
 
-import android.content.Context;
-
 import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
@@ -24,11 +22,10 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class SearchPresenter implements SearchContract.Presenter
 {
-    private static final String TAG = "SearchPresenter";
+    private final String TAG = getClass().getSimpleName();
     private MySchedulerProvider mySchedulerProvider;
     private List<SearchResult> searchResults = new ArrayList<>();
     private String currentFilter = "all";
-    private Context mContext;
     private SearchContract.View mView;
     private SearchController searchController;
     private Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchModelFunc;
@@ -36,10 +33,9 @@ public class SearchPresenter implements SearchContract.Presenter
     private CompositeDisposable disposable;
     private DisposableObserver<List<SearchResult>> searchObserver;
 
-    public SearchPresenter(Context mContext, SearchContract.View mView, SearchController searchController, Function<SearchViewQueryTextEvent,
+    public SearchPresenter(SearchContract.View mView, SearchController searchController, Function<SearchViewQueryTextEvent,
             ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoManager daoManager, CompositeDisposable disposable)
     {
-        this.mContext = mContext;
         this.mView = mView;
         this.searchController = searchController;
         this.searchModelFunc = searchModelFunc;

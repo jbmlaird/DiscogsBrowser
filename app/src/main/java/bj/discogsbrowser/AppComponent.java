@@ -21,7 +21,7 @@ import dagger.Component;
  * Created by j on 18/02/2017.
  */
 @Singleton
-@Component(modules = {AppModule.class, WrappersModule.class, AnalyticsModule.class, ImageViewAnimatorModule.class})
+@Component(modules = {AppModule.class, WrappersModule.class, AnalyticsModule.class, ImageViewAnimatorModule.class, DaoModule.class})
 public interface AppComponent
 {
     void inject(App app);

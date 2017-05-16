@@ -7,13 +7,8 @@ import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import org.greenrobot.greendao.database.Database;
-
 import javax.inject.Singleton;
 
-import bj.discogsbrowser.greendao.DaoManager;
-import bj.discogsbrowser.greendao.DaoMaster;
-import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.network.CacheProviders;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
@@ -61,24 +56,6 @@ public class AppModule
     protected MySchedulerProvider mySchedulerProvider()
     {
         return new MySchedulerProvider();
-    }
-
-    @Provides
-    @Singleton
-    protected DaoSession providesDaoSession()
-    {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(applicationContext, "search-db");
-        // Use when changing schema
-        // helper.onUpgrade(helper.getWritableDatabase(), 7, 8);
-        Database db = helper.getWritableDb();
-        return new DaoMaster(db).newSession();
-    }
-
-    @Provides
-    @Singleton
-    protected DaoManager providesDaoInteractor(DaoSession daoSession)
-    {
-        return new DaoManager(daoSession);
     }
 
     @Provides

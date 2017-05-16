@@ -19,8 +19,8 @@ import java.util.List;
 
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.marketplace.TestListing;
+import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.order.OrderFactory;
-import bj.discogsbrowser.testmodels.TestSearchResult;
 import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
@@ -192,7 +192,7 @@ public class MainControllerTest
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
         assertEquals(copyOfModels.size(), 9);
 
-        controller.setRecommendations(Arrays.asList(new TestSearchResult()));
+        controller.setRecommendations(Arrays.asList(new SearchResult()));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "LoadingModel_");

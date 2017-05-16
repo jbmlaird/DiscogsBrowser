@@ -6,12 +6,12 @@ import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
 import java.util.List;
 
-import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
@@ -36,21 +36,21 @@ public class SearchModule
 
     @Provides
     @ActivityScope
-    SearchContract.View providesSearchView()
+    protected SearchContract.View providesSearchView()
     {
         return mView;
     }
 
     @Provides
     @ActivityScope
-    CompositeDisposable providesCompositeDisposable()
+    protected CompositeDisposable providesCompositeDisposable()
     {
         return new CompositeDisposable();
     }
 
     @Provides
     @ActivityScope
-    Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(DiscogsInteractor discogsInteractor)
+    protected Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(DiscogsInteractor discogsInteractor)
     {
         return searchViewQueryTextEvent ->
                 discogsInteractor.searchDiscogs(searchViewQueryTextEvent.queryText().toString()).toObservable();
@@ -58,16 +58,16 @@ public class SearchModule
 
     @Provides
     @ActivityScope
-    SearchController provideController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    protected SearchController provideController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         return new SearchController(context, mView, imageViewAnimator, tracker);
     }
 
     @Provides
     @ActivityScope
-    SearchPresenter provideSearchPresenter(Context context, SearchController controller, Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchFunc,
-                                           MySchedulerProvider mySchedulerProvider, DaoManager daoManager, CompositeDisposable disposable)
+    protected SearchPresenter provideSearchPresenter(SearchController controller, Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchFunc,
+                                                     MySchedulerProvider mySchedulerProvider, DaoManager daoManager, CompositeDisposable disposable)
     {
-        return new SearchPresenter(context, mView, controller, searchFunc, mySchedulerProvider, daoManager, disposable);
+        return new SearchPresenter(mView, controller, searchFunc, mySchedulerProvider, daoManager, disposable);
     }
 }

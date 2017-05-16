@@ -52,7 +52,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @BindView(R.id.searchView) SearchView searchView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.pbRecyclerView) ProgressBar pbRecyclerView;
-    @BindView(R.id.rvResults) MyRecyclerView rvResults;
+    @BindView(R.id.recyclerView) MyRecyclerView rvResults;
 
     @Override
     public void setupComponent(AppComponent appComponent)
