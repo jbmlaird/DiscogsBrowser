@@ -46,7 +46,7 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     public void bind(LinearLayout view)
     {
         unbinder = ButterKnife.bind(this, view);
-        presenter.bind(inCollection, inWantlist, instanceId);
+        presenter.bind(inCollection, inWantlist, instanceId, releaseId, btnWantlist, btnCollection);
         if (presenter.isInCollection())
             btnCollection.setText("Remove from Collection");
         if (presenter.isInWantlist())
@@ -58,9 +58,9 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnCollection.startAnimation();
         if (!presenter.isInCollection())
-            presenter.addToCollection(releaseId, btnCollection);
+            presenter.addToCollection();
         else
-            presenter.removeFromCollection(releaseId, btnCollection);
+            presenter.removeFromCollection();
     }
 
     @OnClick(R.id.btnWantlist)
@@ -68,8 +68,8 @@ public abstract class CollectionWantlistModel extends EpoxyModel<LinearLayout>
     {
         btnWantlist.startAnimation();
         if (!presenter.isInWantlist())
-            presenter.addToWantlist(releaseId, btnWantlist);
+            presenter.addToWantlist();
         else
-            presenter.removeFromWantlist(releaseId, btnWantlist);
+            presenter.removeFromWantlist();
     }
 }

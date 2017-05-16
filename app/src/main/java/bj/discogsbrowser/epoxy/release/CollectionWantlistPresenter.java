@@ -1,7 +1,10 @@
 package bj.discogsbrowser.epoxy.release;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
+import bj.discogsbrowser.R;
+import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.ToastyWrapper;
@@ -13,15 +16,18 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 public class CollectionWantlistPresenter
 {
     private Context context;
-    private bj.discogsbrowser.network.DiscogsInteractor discogsInteractor;
+    private DiscogsInteractor discogsInteractor;
     private SharedPrefsManager sharedPrefsManager;
     private MySchedulerProvider mySchedulerProvider;
     private ToastyWrapper toasty;
     private String instanceId;
+    private String releaseId;
+    private CircularProgressButton btnWantlist;
+    private CircularProgressButton btnCollection;
     private boolean inCollection;
     private boolean inWantlist;
 
-    public CollectionWantlistPresenter(Context context, bj.discogsbrowser.network.DiscogsInteractor discogsInteractor,
+    public CollectionWantlistPresenter(Context context, DiscogsInteractor discogsInteractor,
                                        SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider,
                                        ToastyWrapper toasty)
     {
@@ -32,14 +38,17 @@ public class CollectionWantlistPresenter
         this.toasty = toasty;
     }
 
-    public void bind(boolean inCollection, boolean inWantlist, String instanceId)
+    public void bind(boolean inCollection, boolean inWantlist, String instanceId, String releaseId, CircularProgressButton btnWantlist, CircularProgressButton btnCollection)
     {
         this.inCollection = inCollection;
         this.inWantlist = inWantlist;
         this.instanceId = instanceId;
+        this.releaseId = releaseId;
+        this.btnWantlist = btnWantlist;
+        this.btnCollection = btnCollection;
     }
 
-    public void addToCollection(String releaseId, CircularProgressButton btnCollection)
+    public void addToCollection()
     {
         sharedPrefsManager.setFetchNextCollection("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
@@ -51,22 +60,22 @@ public class CollectionWantlistPresenter
                             {
                                 instanceId = result.getInstanceId();
                                 inCollection = true;
-                                btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText(context.getString(R.string.remove_from_collection)));
                             }
                             else
                             {
                                 toasty.error("Unable to add to Collection");
-                                btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText(context.getString(R.string.add_to_collection)));
                             }
                         },
                         error ->
                         {
                             toasty.error("Unable to add to Collection");
-                            btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
+                            btnCollection.revertAnimation(() -> btnCollection.setText(context.getString(R.string.add_to_collection)));
                         });
     }
 
-    public void removeFromCollection(String releaseId, CircularProgressButton btnCollection)
+    public void removeFromCollection()
     {
         sharedPrefsManager.setFetchNextCollection("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
@@ -77,22 +86,22 @@ public class CollectionWantlistPresenter
                             if (result.isSuccessful())
                             {
                                 inCollection = false;
-                                btnCollection.revertAnimation(() -> btnCollection.setText("Add to Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText(context.getString(R.string.add_to_collection)));
                             }
                             else
                             {
                                 toasty.error("Unable to remove from Collection");
-                                btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
+                                btnCollection.revertAnimation(() -> btnCollection.setText(context.getString(R.string.remove_from_collection)));
                             }
                         },
                         error ->
                         {
                             toasty.error("Unable to remove from Collection");
-                            btnCollection.revertAnimation(() -> btnCollection.setText("Remove from Collection"));
+                            btnCollection.revertAnimation(() -> btnCollection.setText(context.getString(R.string.remove_from_collection)));
                         });
     }
 
-    public void addToWantlist(String releaseId, CircularProgressButton btnWantlist)
+    public void addToWantlist()
     {
         sharedPrefsManager.setFetchNextWantlist("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
@@ -101,16 +110,16 @@ public class CollectionWantlistPresenter
                 .subscribe(result ->
                         {
                             inWantlist = true;
-                            btnWantlist.revertAnimation(() -> btnWantlist.setText("Remove from Wantlist"));
+                            btnWantlist.revertAnimation(() -> btnWantlist.setText(context.getString(R.string.remove_from_wantlist)));
                         },
                         error ->
                         {
                             toasty.error("Unable to add to Wantlist");
-                            btnWantlist.revertAnimation(() -> btnWantlist.setText("Add to Wantlist"));
+                            btnWantlist.revertAnimation(() -> btnWantlist.setText(context.getString(R.string.add_to_wantlist)));
                         });
     }
 
-    public void removeFromWantlist(String releaseId, CircularProgressButton btnWantlist)
+    public void removeFromWantlist()
     {
         sharedPrefsManager.setFetchNextWantlist("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
@@ -121,18 +130,18 @@ public class CollectionWantlistPresenter
                             if (result.isSuccessful())
                             {
                                 inWantlist = false;
-                                btnWantlist.revertAnimation(() -> btnWantlist.setText("Add to Wantlist"));
+                                btnWantlist.revertAnimation(() -> btnWantlist.setText(context.getString(R.string.add_to_wantlist)));
                             }
                             else
                             {
                                 toasty.error("Unable to remove from Wantlist");
-                                btnWantlist.revertAnimation(() -> btnWantlist.setText("Remove from Wantlist"));
+                                btnWantlist.revertAnimation(() -> btnWantlist.setText(context.getString(R.string.remove_from_wantlist)));
                             }
                         },
                         error ->
                         {
                             toasty.error("Unable to remove from Wantlist");
-                            btnWantlist.revertAnimation(() -> btnWantlist.setText("Remove from Wantlist"));
+                            btnWantlist.revertAnimation(() -> btnWantlist.setText(context.getString(R.string.remove_from_wantlist)));
                         });
 
     }
@@ -145,5 +154,17 @@ public class CollectionWantlistPresenter
     public boolean isInWantlist()
     {
         return inWantlist;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    public CircularProgressButton getBtnCollection()
+    {
+        return btnCollection;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    public CircularProgressButton getBtnWantlist()
+    {
+        return btnWantlist;
     }
 }

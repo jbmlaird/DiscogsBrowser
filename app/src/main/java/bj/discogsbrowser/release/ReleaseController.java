@@ -25,9 +25,9 @@ import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.model.release.Track;
 import bj.discogsbrowser.model.release.Video;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 /**
  * Created by Josh Laird on 24/04/2017.
@@ -51,6 +51,7 @@ public class ReleaseController extends BaseController
     private boolean listingsError;
     private boolean collectionLoading = true;
     private AnalyticsTracker tracker;
+    private boolean displayYoutubeHeader;
 
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
                              CollectionWantlistPresenter presenter, AnalyticsTracker tracker)
@@ -160,21 +161,30 @@ public class ReleaseController extends BaseController
                 new SubHeaderModel_()
                         .id("youtube subheader")
                         .subheader("YouTube videos")
-                        .addTo(this);
+                        .addIf(displayYoutubeHeader, this);
 
                 for (Video video : release.getVideos())
                 {
                     if (video.getUri() != null && !video.getUri().equals(""))
                     {
-                        String youtubeId = video.getUri().split("=")[1];
-                        new YouTubeModel_()
-                                .onClick(v -> view.launchYouTube(youtubeId))
-                                .imageUrl("https://img.youtube.com/vi/" + youtubeId + "/default.jpg")
-                                .context(context)
-                                .id("youtube" + release.getVideos().indexOf(video))
-                                .title(video.getTitle())
-                                .description(video.getDescription())
-                                .addTo(this);
+                        try
+                        {
+                            String youtubeId = video.getUri().split("=")[1];
+                            new YouTubeModel_()
+                                    .onClick(v -> view.launchYouTube(youtubeId))
+                                    .imageUrl("https://img.youtube.com/vi/" + youtubeId + "/default.jpg")
+                                    .context(context)
+                                    .id("youtube" + release.getVideos().indexOf(video))
+                                    .title(video.getTitle())
+                                    .description(video.getDescription())
+                                    .addTo(this);
+                            displayYoutubeHeader = true;
+                        }
+                        catch (IndexOutOfBoundsException e)
+                        {
+                            e.printStackTrace();
+                            // YouTube video returned has invalid URL
+                        }
                     }
                 }
 

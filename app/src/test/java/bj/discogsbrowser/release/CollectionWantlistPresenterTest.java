@@ -64,19 +64,19 @@ public class CollectionWantlistPresenterTest
     @Test
     public void bind_binds()
     {
-        presenter.bind(true, true, "ye");
+        presenter.bind(true, true, "ye", releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInCollection());
         assertTrue(presenter.isInWantlist());
 
-        presenter.bind(false, false, "ye");
+        presenter.bind(false, false, "ye", releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInCollection());
         assertFalse(presenter.isInWantlist());
 
-        presenter.bind(true, false, "ye");
+        presenter.bind(true, false, "ye", releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInCollection());
         assertFalse(presenter.isInWantlist());
 
-        presenter.bind(false, true, "ye");
+        presenter.bind(false, true, "ye", releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInCollection());
         assertTrue(presenter.isInWantlist());
     }
@@ -87,7 +87,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionSuccessfulResponse()));
 
-        presenter.bind(false, true, instanceId);
+        presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInCollection());
         presenter.addToCollection(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -106,7 +106,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionBadResponse()));
 
-        presenter.bind(false, true, instanceId);
+        presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInCollection());
         presenter.addToCollection(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -126,7 +126,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.error(new Throwable()));
 
-        presenter.bind(false, true, instanceId);
+        presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInCollection());
         presenter.addToCollection(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -146,7 +146,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
 
-        presenter.bind(true, true, instanceId);
+        presenter.bind(true, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInCollection());
         presenter.removeFromCollection(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -165,7 +165,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
 
-        presenter.bind(true, true, instanceId);
+        presenter.bind(true, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInCollection());
         presenter.removeFromCollection(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -185,7 +185,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.error(new Throwable()));
 
-        presenter.bind(true, true, instanceId);
+        presenter.bind(true, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInCollection());
         presenter.removeFromCollection(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -205,7 +205,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.addToWantlist(releaseId)).thenReturn(Single.just(responseFactory.getAddToWantlistSuccessfulResponse()));
 
-        presenter.bind(false, false, instanceId);
+        presenter.bind(false, false, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInWantlist());
         presenter.addToWantlist(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -224,7 +224,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.addToWantlist(releaseId)).thenReturn(Single.error(new Throwable()));
 
-        presenter.bind(false, false, instanceId);
+        presenter.bind(false, false, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInWantlist());
         presenter.addToWantlist(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -244,7 +244,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
 
-        presenter.bind(false, true, instanceId);
+        presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInWantlist());
         presenter.removeFromWantlist(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -263,7 +263,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
 
-        presenter.bind(false, true, instanceId);
+        presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInWantlist());
         presenter.removeFromWantlist(releaseId, mockBtn);
         testScheduler.triggerActions();
@@ -283,7 +283,7 @@ public class CollectionWantlistPresenterTest
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
         when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.error(new Throwable()));
 
-        presenter.bind(false, true, instanceId);
+        presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInWantlist());
         presenter.removeFromWantlist(releaseId, mockBtn);
         testScheduler.triggerActions();

@@ -4,7 +4,8 @@ package bj.discogsbrowser.model.release;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Image {
+public class Image
+{
 
     @SerializedName("height")
     @Expose
@@ -17,7 +18,7 @@ public class Image {
     private String type;
     @SerializedName("uri")
     @Expose
-    private String uri;
+    private String uri = "";
     @SerializedName("uri150")
     @Expose
     private String uri150;
@@ -25,51 +26,63 @@ public class Image {
     @Expose
     private Integer width;
 
-    public Integer getHeight() {
+    public Integer getHeight()
+    {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(Integer height)
+    {
         this.height = height;
     }
 
-    public String getResourceUrl() {
+    public String getResourceUrl()
+    {
         return resourceUrl;
     }
 
-    public void setResourceUrl(String resourceUrl) {
+    public void setResourceUrl(String resourceUrl)
+    {
         this.resourceUrl = resourceUrl;
     }
 
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(String type)
+    {
         this.type = type;
     }
 
-    public String getUri() {
+    public String getUri()
+    {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public void setUri(String uri)
+    {
         this.uri = uri;
     }
 
-    public String getUri150() {
+    public String getUri150()
+    {
         return uri150;
     }
 
-    public void setUri150(String uri150) {
+    public void setUri150(String uri150)
+    {
         this.uri150 = uri150;
     }
 
-    public Integer getWidth() {
+    public Integer getWidth()
+    {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(Integer width)
+    {
         this.width = width;
     }
 

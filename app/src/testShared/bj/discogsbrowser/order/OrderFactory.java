@@ -78,12 +78,12 @@ public class OrderFactory
     {
         Item item = new Item();
         item.setId(123);
-        item.setRelease(buildRelease(description));
+        item.setRelease(buildOrderRelease(description));
         item.setPrice(getPrice(price));
         return item;
     }
 
-    public static Release buildRelease(String description)
+    public static Release buildOrderRelease(String description)
     {
         Release release = new Release();
         release.setDescription(description);

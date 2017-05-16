@@ -17,22 +17,16 @@ Get it on the Play Store: [link to come]
 * Displays marketplace information on release page NB: marketplace searches only return 12"
 * Collection/wantlist editing
 
-# Forthcoming
-
-* Currency localisation
-* Browsing without being logged in
-* Intelligent recommender system 
-
 # Desirable but no plans to implement
 
-* Listen to releases in-app. This would require an architecture change and have to work like the YouTube app (windowed videos)
+* Listen to YouTube videos in-app
 * Carousels for images
 * Order comments/updates. The API restricts this to orders where you're the seller
-* Adding notes to releases in collection
+* Adding notes to releases in Collection
 
-# Limitations
+# Discogs API Limitations
 
-Currently, in April 2017, the public API does not allow any of the following:
+Currently, in May 2017, the public API does not allow any of the following:
 * Order placing/purchasing
 * Marketplace actions. This includes purchasing in app, viewing purchases or searching listings.
 * Seeing order comments/updates for purchases

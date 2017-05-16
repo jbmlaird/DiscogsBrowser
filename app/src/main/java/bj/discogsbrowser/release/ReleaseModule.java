@@ -3,13 +3,13 @@ package bj.discogsbrowser.release;
 import android.content.Context;
 
 import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
-import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.ToastyWrapper;
 import dagger.Module;
@@ -30,23 +30,23 @@ public class ReleaseModule
 
     @Provides
     @ActivityScope
-    ReleaseContract.View provideReleaseView()
+    protected ReleaseContract.View provideReleaseView()
     {
         return mView;
     }
 
     @Provides
     @ActivityScope
-    CollectionWantlistPresenter provideCollectionWantlistPresenter(Context context, DiscogsInteractor interactor, SharedPrefsManager sharedPrefsManager,
-                                                                   MySchedulerProvider mySchedulerProvider, ToastyWrapper toastyWrapper)
+    protected CollectionWantlistPresenter provideCollectionWantlistPresenter(Context context, DiscogsInteractor interactor, SharedPrefsManager sharedPrefsManager,
+                                                                             MySchedulerProvider mySchedulerProvider, ToastyWrapper toastyWrapper)
     {
         return new CollectionWantlistPresenter(context, interactor, sharedPrefsManager, mySchedulerProvider, toastyWrapper);
     }
 
     @Provides
     @ActivityScope
-    ReleaseController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, CollectionWantlistPresenter presenter,
-                                        AnalyticsTracker tracker)
+    protected ReleaseController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, CollectionWantlistPresenter presenter,
+                                                  AnalyticsTracker tracker)
     {
         return new ReleaseController(context, mView, artistsBeautifier, imageViewAnimator, presenter, tracker);
     }
@@ -54,8 +54,8 @@ public class ReleaseModule
 
     @Provides
     @ActivityScope
-    ReleasePresenter provideReleasePresenter(ReleaseController controller, DiscogsInteractor interactor,
-                                             MySchedulerProvider mySchedulerProvider, DaoManager daoManager, ArtistsBeautifier artistsBeautifier)
+    protected ReleasePresenter provideReleasePresenter(ReleaseController controller, DiscogsInteractor interactor,
+                                                       MySchedulerProvider mySchedulerProvider, DaoManager daoManager, ArtistsBeautifier artistsBeautifier)
     {
         return new ReleasePresenter(controller, interactor, mySchedulerProvider, daoManager, artistsBeautifier);
     }

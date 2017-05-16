@@ -43,6 +43,8 @@ import static org.mockito.Mockito.doAnswer;
 
 /**
  * Created by Josh Laird on 16/05/2017.
+ * <p>
+ * Due to the Roboletric tests which test the models have been built, these Espresso tests only test onClick and content.
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)

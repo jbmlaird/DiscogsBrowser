@@ -4,7 +4,8 @@ package bj.discogsbrowser.model.common;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Artist {
+public class Artist
+{
 
     @SerializedName("anv")
     @Expose
@@ -17,7 +18,7 @@ public class Artist {
     private String join;
     @SerializedName("name")
     @Expose
-    private String name;
+    private String name = "";
     @SerializedName("resource_url")
     @Expose
     private String resourceUrl;
@@ -28,59 +29,73 @@ public class Artist {
     @Expose
     private String tracks;
 
-    public String getAnv() {
+    public String getAnv()
+    {
         return anv;
     }
 
-    public void setAnv(String anv) {
+    public void setAnv(String anv)
+    {
         this.anv = anv;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getJoin() {
+    public String getJoin()
+    {
         return join;
     }
 
-    public void setJoin(String join) {
+    public void setJoin(String join)
+    {
         this.join = join;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getResourceUrl() {
+    public String getResourceUrl()
+    {
         return resourceUrl;
     }
 
-    public void setResourceUrl(String resourceUrl) {
+    public void setResourceUrl(String resourceUrl)
+    {
         this.resourceUrl = resourceUrl;
     }
 
-    public String getRole() {
+    public String getRole()
+    {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(String role)
+    {
         this.role = role;
     }
 
-    public String getTracks() {
+    public String getTracks()
+    {
         return tracks;
     }
 
-    public void setTracks(String tracks) {
+    public void setTracks(String tracks)
+    {
         this.tracks = tracks;
     }
 

@@ -10,30 +10,30 @@ import retrofit2.Response;
  */
 public class ResponseFactory
 {
-    public AddToCollectionResponse getAddToCollectionSuccessfulResponse()
+    public static AddToCollectionResponse getAddToCollectionSuccessfulResponse()
     {
         AddToCollectionResponse addToCollectionResponse = new AddToCollectionResponse();
         addToCollectionResponse.setInstanceId("yeson");
         return addToCollectionResponse;
     }
 
-    public AddToCollectionResponse getAddToCollectionBadResponse()
+    public static AddToCollectionResponse getAddToCollectionBadResponse()
     {
         AddToCollectionResponse addToCollectionResponse = new AddToCollectionResponse();
         return addToCollectionResponse;
     }
 
-    public Response<Void> getRetrofitSuccessfulResponse()
+    public static Response<Void> getRetrofitSuccessfulResponse()
     {
         return Response.success(null);
     }
 
-    public Response<Void> getRetrofitBadResponse()
+    public static Response<Void> getRetrofitBadResponse()
     {
         return Response.error(404, new RealResponseBody(null, null));
     }
 
-    public AddToWantlistResponse getAddToWantlistSuccessfulResponse()
+    public static AddToWantlistResponse getAddToWantlistSuccessfulResponse()
     {
         return new AddToWantlistResponse();
     }

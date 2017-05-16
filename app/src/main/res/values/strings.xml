@@ -68,4 +68,6 @@
     <string name="onboarding_completed">onboarding_completed</string>
     <string name="view_releases">View releases</string>
     <string name="no_items">No items</string>
+    <string name="remove_from_collection">Remove from Collection</string>
+    <string name="remove_from_wantlist">Remove from Wantlist</string>
 </resources>

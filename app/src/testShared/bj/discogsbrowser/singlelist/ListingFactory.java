@@ -5,7 +5,7 @@ import java.util.List;
 
 import bj.discogsbrowser.model.listing.Listing;
 
-import static bj.discogsbrowser.order.OrderFactory.buildRelease;
+import static bj.discogsbrowser.order.OrderFactory.buildOrderRelease;
 
 /**
  * Created by Josh Laird on 16/05/2017.
@@ -22,7 +22,7 @@ public class ListingFactory
     {
         Listing listing = new Listing();
         listing.setId(id);
-        listing.setRelease(buildRelease(title));
+        listing.setRelease(buildOrderRelease(title));
         listing.setPosted("");
         return listing;
     }

@@ -54,7 +54,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                                                 releaseLabel.setThumb(labelDetails.getImages().get(0).getUri());
                                         },
                                         error ->
-                                                Log.e("DiscogsInteractor", "Unable to get label details") //Silently swallow
+                                                Log.e("DiscogsInteractor", "Unable to get label details")
                                 );
                     }
                     daoManager.storeViewedRelease(release, artistsBeautifier);
@@ -78,7 +78,10 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 .subscribe(release ->
                                 controller.setCollectionWantlistChecked(true),
                         error ->
-                                controller.setReleaseError(true));
+                        {
+                            controller.setReleaseError(true);
+                            error.printStackTrace();
+                        });
     }
 
     public void fetchReleaseListings(String id) throws IOException

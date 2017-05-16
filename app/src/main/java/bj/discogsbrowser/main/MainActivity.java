@@ -155,10 +155,10 @@ public class MainActivity extends BaseActivity implements MainContract.View
         if (!sharedPrefsManager.isOnBoardingCompleted())
             new TapTargetSequence(this)
                     .targets(
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.search, "Search discogs here", "This is where the magic happens")
+                            TapTarget.forToolbarMenuItem(toolbar, R.id.search, "Search Discogs here", "This is where the magic happens")
                                     .targetCircleColor(R.color.colorAccent)
                                     .cancelable(false),
-                            TapTarget.forToolbarNavigationIcon(toolbar, "Navigation drawer", "Open this to view your Wantlist and Collection")
+                            TapTarget.forToolbarNavigationIcon(toolbar, "Navigation Drawer", "Open this to view your Wantlist and Collection")
                                     .targetCircleColor(R.color.colorAccent)
                                     .cancelable(false))
                     .listener(new TapTargetSequence.Listener()
