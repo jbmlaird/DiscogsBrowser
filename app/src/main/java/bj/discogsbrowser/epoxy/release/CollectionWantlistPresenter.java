@@ -110,7 +110,8 @@ public class CollectionWantlistPresenter
                 .subscribe(result ->
                         {
                             inWantlist = true;
-                            btnWantlist.revertAnimation(() -> btnWantlist.setText(context.getString(R.string.remove_from_wantlist)));
+                            btnWantlist.revertAnimation(() ->
+                                    btnWantlist.setText(context.getString(R.string.remove_from_wantlist)));
                         },
                         error ->
                         {

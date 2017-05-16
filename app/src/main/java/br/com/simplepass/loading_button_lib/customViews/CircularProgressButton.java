@@ -579,7 +579,7 @@ public class CircularProgressButton extends Button implements AnimatedButton
         private int mSpinningBarColor;
         private int mDoneColor;
         private Float mPaddingProgress;
-        private Integer mInitialHeight;
+        private int mInitialHeight;
         private int mInitialWidth;
         private String mText;
         private float mInitialCornerRadius;
