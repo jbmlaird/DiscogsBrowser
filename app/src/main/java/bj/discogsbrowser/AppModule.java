@@ -59,6 +59,12 @@ public class AppModule
     }
 
     @Provides
+    protected MySchedulerProvider mySchedulerProvider()
+    {
+        return new MySchedulerProvider();
+    }
+
+    @Provides
     @Singleton
     protected DaoSession providesDaoSession()
     {

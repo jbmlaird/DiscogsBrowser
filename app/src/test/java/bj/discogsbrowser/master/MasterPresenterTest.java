@@ -32,7 +32,6 @@ public class MasterPresenterTest
     @Mock MasterController controller;
     private TestScheduler testScheduler = new TestScheduler();
     private String id = "123";
-    private MasterFactory masterFactory = new MasterFactory();
 
     @Before
     public void setUp()
@@ -46,29 +45,12 @@ public class MasterPresenterTest
         verifyNoMoreInteractions(view, discogsInteractor, controller);
     }
 
-//    @Test
-//    public void setupRecyclerView_setsUpRecyclerView()
-//    {
-//        Context mockCtx = mock(Context.class);
-//        RecyclerView mockRv = mock(RecyclerView.class);
-//        EpoxyControllerAdapter mockAdapter = mock(EpoxyControllerAdapter.class);
-//        String title = "title";
-//        when(controller.getAdapter()).thenReturn(mockAdapter);
-//
-//        presenter.setupRecyclerView(mockCtx, mockRv, title);
-//
-//        verify(mockRv, times(1)).setLayoutManager(any(LinearLayoutManager.class));
-//        verify(mockRv, times(1)).setAdapter(controller.getAdapter());
-//        verify(controller, times(2)).getAdapter();
-//        verify(controller, times(1)).setTitle(title);
-//    }
-
     @Test
     public void getValidData_getsDetailsAndVersions()
     {
-        Master master = masterFactory.getMaster();
+        Master master = new TestMaster();
         Single<Master> justMaster = Single.just(master);
-        List<Version> versions = masterFactory.getTwoMasterVersions();
+        List<Version> versions = MasterVersionsFactory.getTwoMasterVersions();
         Single<List<Version>> justVersions = Single.just(versions);
 
         when(discogsInteractor.fetchMasterDetails(id)).thenReturn(justMaster);

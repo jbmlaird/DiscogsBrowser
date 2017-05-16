@@ -13,12 +13,10 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import bj.discogsbrowser.model.common.RecyclerViewModel;
-import bj.discogsbrowser.testmodels.TestOrder;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -44,7 +42,7 @@ public class SingleListControllerTest
         controller = new SingleListController(context, view, imageViewAnimator);
         controller.requestModelBuild();
 
-        recyclerViewModels.addAll(Arrays.asList(new TestOrder(), new TestOrder(), new TestOrder()));
+        recyclerViewModels.addAll(WantFactory.getThreeWants());
     }
 
     @Test

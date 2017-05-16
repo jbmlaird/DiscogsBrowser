@@ -12,11 +12,12 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.Collections;
 import java.util.List;
 
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static junit.framework.Assert.assertEquals;
@@ -34,7 +35,6 @@ public class MasterControllerTest
     @Mock ArtistsBeautifier artistsBeautifer;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock AnalyticsTracker tracker;
-    private MasterFactory masterFactory = new MasterFactory();
 
     @Before
     public void setup()
@@ -58,7 +58,7 @@ public class MasterControllerTest
     @Test
     public void masterVersionsEmpty_displaysPaddedCenterText()
     {
-        controller.setMasterVersions(masterFactory.getEmptyMasterVersions());
+        controller.setMasterVersions(Collections.emptyList());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -86,7 +86,7 @@ public class MasterControllerTest
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 4);
 
-        controller.setMaster(masterFactory.getMaster());
+        controller.setMaster(new TestMaster());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -94,7 +94,7 @@ public class MasterControllerTest
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 4);
 
-        controller.setMasterVersions(masterFactory.getTwoMasterVersions());
+        controller.setMasterVersions(MasterVersionsFactory.getTwoMasterVersions());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -107,7 +107,7 @@ public class MasterControllerTest
     @Test
     public void masterReleaseOverFive_concatenatesThenExpands()
     {
-        controller.setMaster(masterFactory.getMaster());
+        controller.setMaster(new TestMaster());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -115,7 +115,7 @@ public class MasterControllerTest
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 4);
 
-        controller.setMasterVersions(masterFactory.getSixMasterVersions());
+        controller.setMasterVersions(MasterVersionsFactory.getSixMasterVersions());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");

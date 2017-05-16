@@ -21,14 +21,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:paddingTop="@dimen/margin_normal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Buyer:"
+            android:textSize="@dimen/text_normal"/>
 
         <TextView
             android:id="@+id/tvBuyer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buyer: thisBuyer"
+            android:text="thisBuyer"
             android:textSize="@dimen/text_normal"/>
 
     </LinearLayout>

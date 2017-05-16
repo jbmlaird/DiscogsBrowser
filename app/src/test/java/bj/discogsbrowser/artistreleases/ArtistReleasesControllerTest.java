@@ -12,12 +12,8 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import bj.discogsbrowser.model.common.RecyclerViewModel;
-import bj.discogsbrowser.testmodels.TestOrder;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -36,7 +32,6 @@ public class ArtistReleasesControllerTest
     @Mock Context context;
     @Mock ArtistReleasesContract.View view;
     @Mock ImageViewAnimator imageViewAnimator;
-    private List<RecyclerViewModel> recyclerViewModels = new ArrayList<>();
 
     @Before
     public void setUp()
@@ -44,8 +39,6 @@ public class ArtistReleasesControllerTest
         MockitoAnnotations.initMocks(this);
         controller = new ArtistReleasesController(context, view, imageViewAnimator);
         controller.requestModelBuild();
-
-        recyclerViewModels.addAll(Arrays.asList(new TestOrder(), new TestOrder(), new TestOrder()));
     }
 
     @Test

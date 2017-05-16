@@ -9,10 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import bj.discogsbrowser.ArtistReleasesFactory;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
-import bj.discogsbrowser.testmodels.TestArtistResultFactory;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
 import io.reactivex.Single;
@@ -29,7 +29,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 public class ArtistPresenterTest
 {
-    private TestArtistResultFactory testArtistResultFactory = new TestArtistResultFactory();
     @Mock Context context;
     @Mock ArtistContract.View view;
     @Mock DiscogsInteractor discogsInteractor;
@@ -61,7 +60,7 @@ public class ArtistPresenterTest
     @Test
     public void getsDataValid_controllerSetsArtist() throws Exception
     {
-        ArtistResult testArtistResult = testArtistResultFactory.getTestArtistResultNoMembers();
+        ArtistResult testArtistResult = ArtistReleasesFactory.getTestArtistResultNoMembers();
         when(discogsInteractor.fetchArtistDetails(myId)).thenReturn(Single.just(testArtistResult));
         when(unwantedLinksFunction.apply(testArtistResult)).thenReturn(testArtistResult);
 

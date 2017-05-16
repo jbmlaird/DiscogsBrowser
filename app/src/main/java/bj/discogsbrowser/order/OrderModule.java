@@ -2,10 +2,10 @@ package bj.discogsbrowser.order;
 
 import android.content.Context;
 
-import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
@@ -25,7 +25,7 @@ public class OrderModule
 
     @Provides
     @ActivityScope
-    OrderContract.View providesView()
+    protected OrderContract.View providesView()
     {
         return view;
     }
@@ -39,7 +39,7 @@ public class OrderModule
 
     @Provides
     @ActivityScope
-    OrderPresenter providesPresenter(DiscogsInteractor interactor, MySchedulerProvider provider, OrderController controller)
+    protected OrderPresenter providesPresenter(DiscogsInteractor interactor, MySchedulerProvider provider, OrderController controller)
     {
         return new OrderPresenter(interactor, provider, controller);
     }

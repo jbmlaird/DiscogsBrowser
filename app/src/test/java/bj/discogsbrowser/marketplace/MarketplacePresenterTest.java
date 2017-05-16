@@ -34,7 +34,6 @@ public class MarketplacePresenterTest
     @Mock MarketplaceController controller;
     private TestScheduler testScheduler;
     private String listingId = "123";
-    private ListingFactory listingFactory = new ListingFactory();
 
     @Before
     public void setUp()
@@ -65,7 +64,7 @@ public class MarketplacePresenterTest
     @Test
     public void getListingDetailsValid_displayListingsAndUpdatesUser()
     {
-        Listing listing = listingFactory.getListing();
+        Listing listing = new TestListing();
         UserDetails userDetails = new UserDetails();
         when(discogsInteractor.fetchListingDetails(listingId)).thenReturn(Single.just(listing));
         when(discogsInteractor.fetchUserDetails(listing.getSeller().getUsername())).thenReturn(Single.just(userDetails));
@@ -83,7 +82,7 @@ public class MarketplacePresenterTest
     @Test
     public void getListingDetailsError_displayListingsAndUpdatesUser()
     {
-        Listing listing = listingFactory.getListing();
+        Listing listing = new TestListing();
         UserDetails userDetails = new UserDetails();
         when(discogsInteractor.fetchListingDetails(listingId)).thenReturn(Single.just(listing));
         when(discogsInteractor.fetchUserDetails(listing.getSeller().getUsername())).thenReturn(Single.just(userDetails));

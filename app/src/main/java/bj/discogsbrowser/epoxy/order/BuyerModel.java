@@ -32,7 +32,7 @@ public abstract class BuyerModel extends EpoxyModel<LinearLayout>
     {
         ButterKnife.bind(this, view);
         tvStatus.setText(status);
-        tvBuyer.setText("Buyer: " + buyer);
+        tvBuyer.setText(buyer);
         if (specialInstructions == null || specialInstructions.equals(""))
             tvSpecialInstructions.setVisibility(View.GONE);
         else

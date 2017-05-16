@@ -34,8 +34,6 @@ public class MarketplaceControllerTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock NumberFormatWrapper numberFormatWrapper;
 
-    private ListingFactory listingFactory = new ListingFactory();
-
     @Before
     public void setup()
     {
@@ -71,7 +69,7 @@ public class MarketplaceControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setListing(listingFactory.getListing());
+        controller.setListing(new TestListing());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MarketplaceModelTop_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");

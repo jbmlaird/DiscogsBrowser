@@ -17,7 +17,7 @@ import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.testmodels.TestOrder;
+import bj.discogsbrowser.order.OrderFactory;
 import bj.discogsbrowser.utils.FilterHelper;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import io.reactivex.Observable;
@@ -108,7 +108,7 @@ public class SingleListPresenterTest
     public void setupFilterSubscriptionItemsNoFilter_showsItems()
     {
         List<RecyclerViewModel> recyclerViewModels = new ArrayList<>();
-        recyclerViewModels.add(new TestOrder());
+        recyclerViewModels.add(OrderFactory.getOneItemOrder());
 
         singleListPresenter.setItems(recyclerViewModels);
         String filterText = "yeson";

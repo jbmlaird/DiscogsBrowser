@@ -18,14 +18,14 @@ import java.util.Collections;
 import java.util.List;
 
 import bj.discogsbrowser.greendao.DaoSession;
-import bj.discogsbrowser.model.order.TestListing;
-import bj.discogsbrowser.testmodels.TestOrder;
+import bj.discogsbrowser.marketplace.TestListing;
+import bj.discogsbrowser.order.OrderFactory;
 import bj.discogsbrowser.testmodels.TestSearchResult;
 import bj.discogsbrowser.testmodels.TestViewedRelease;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static junit.framework.Assert.assertEquals;
@@ -371,7 +371,7 @@ public class MainControllerTest
     @Test
     public void ordersList_displaysList()
     {
-        controller.setOrders(Arrays.asList(new TestOrder(), new TestOrder()));
+        controller.setOrders(OrderFactory.getListOfTwo());
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
@@ -411,8 +411,7 @@ public class MainControllerTest
     public void overFiveItems_Concatenates()
     {
         //Adding 6 orders
-        controller.setOrders(Arrays.asList(new TestOrder(), new TestOrder(), new TestOrder(),
-                new TestOrder(), new TestOrder(), new TestOrder()));
+        controller.setOrders(OrderFactory.getListOfSix());
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");

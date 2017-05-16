@@ -15,9 +15,9 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import bj.discogsbrowser.testmodels.TestArtistResultFactory;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
+import bj.discogsbrowser.ArtistReleasesFactory;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static junit.framework.Assert.assertEquals;
@@ -34,7 +34,6 @@ public class ArtistControllerTest
     @Mock ArtistContract.View view;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock AnalyticsTracker tracker;
-    private TestArtistResultFactory testArtistResultFactory;
 
     @Before
     public void setup()
@@ -42,7 +41,6 @@ public class ArtistControllerTest
         MockitoAnnotations.initMocks(this);
         controller = new ArtistController(view, context, imageViewAnimator, tracker);
         controller.requestModelBuild();
-        testArtistResultFactory = new TestArtistResultFactory();
     }
 
     @After
@@ -67,7 +65,7 @@ public class ArtistControllerTest
     @Test
     public void setArtistNoMembers_displaysNoMembers()
     {
-        controller.setArtist(testArtistResultFactory.getTestArtistResultNoMembers());
+        controller.setArtist(ArtistReleasesFactory.getTestArtistResultNoMembers());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -78,7 +76,7 @@ public class ArtistControllerTest
     @Test
     public void setArtistMembers_displaysMembers()
     {
-        controller.setArtist(testArtistResultFactory.getTestArtistResultMembers());
+        controller.setArtist(ArtistReleasesFactory.getTestArtistResultMembers());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -92,7 +90,7 @@ public class ArtistControllerTest
     @Test
     public void setArtistWithReleasesUrl_displaysArtistWithReleaseUrl()
     {
-        controller.setArtist(testArtistResultFactory.getTestArtistResultReleasesUrl());
+        controller.setArtist(ArtistReleasesFactory.getTestArtistResultReleasesUrl());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -105,7 +103,7 @@ public class ArtistControllerTest
     @Test
     public void setArtistWithWantedUrl_displaysArtistWithWantedUrl()
     {
-        controller.setArtist(testArtistResultFactory.getTestArtistResultWantedUrls());
+        controller.setArtist(ArtistReleasesFactory.getTestArtistResultWantedUrls());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -132,7 +130,7 @@ public class ArtistControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "EmptySpaceModel_");
 
-        controller.setArtist(testArtistResultFactory.getTestArtistResultNoMembers());
+        controller.setArtist(ArtistReleasesFactory.getTestArtistResultNoMembers());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");

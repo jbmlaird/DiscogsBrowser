@@ -104,4 +104,9 @@ public class Want implements RecyclerViewModel
     {
         return "release";
     }
+
+    public void setSubtitle(String subtitle)
+    {
+        this.subtitle = subtitle;
+    }
 }
