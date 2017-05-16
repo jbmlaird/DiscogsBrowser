@@ -52,6 +52,8 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created by Josh Laird on 16/05/2017.
+ * <p>
+ * TODO: Real network tests.
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)

@@ -10,7 +10,6 @@ import bj.discogsbrowser.model.search.SearchResult;
 /**
  * Created by Josh Laird on 08/05/2017.
  */
-
 public class TestRootSearchResponse extends RootSearchResponse
 {
     @Override
@@ -30,7 +29,7 @@ public class TestRootSearchResponse extends RootSearchResponse
         List<SearchResult> searchResults = new ArrayList<>();
         for (int i = 0; i < 21; i++)
         {
-            searchResults.add(new TestSearchResult());
+            searchResults.add(new SearchResult());
         }
         return searchResults;
     }
