@@ -194,7 +194,7 @@ public class ReleasePresenterTest
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
         when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
         ArgumentCaptor<List> listArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
-        when(discogsInteractor.getReleaseMarketListings(id)).thenReturn(Single.just(releaseFactory.getFourScrapeListings()));
+        when(discogsInteractor.getReleaseMarketListings(id)).thenReturn(Single.just(releaseFactory.getFourEmptyScrapeListings()));
 
         when(discogsInteractor.checkIfInCollection(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));

@@ -16,9 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static junit.framework.Assert.assertEquals;
@@ -37,7 +37,6 @@ public class ReleaseControllerTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock CollectionWantlistPresenter presenter;
     @Mock AnalyticsTracker tracker;
-    private ReleaseFactory releaseFactory = new ReleaseFactory();
 
     @Before
     public void setup()
@@ -85,7 +84,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setRelease(releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos());
+        controller.setRelease(ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -130,7 +129,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setRelease(releaseFactory.getReleaseWithLabelSevenTracksNoVideos());
+        controller.setRelease(ReleaseFactory.getReleaseWithLabelSevenTracksNoVideos());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -183,7 +182,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setRelease(releaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -207,7 +206,7 @@ public class ReleaseControllerTest
     @Test
     public void loadReleaseCollectionFourListings_displaysAllListingsAndCollection()
     {
-        controller.setRelease(releaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -247,7 +246,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 17);
 
-        controller.setReleaseListings(releaseFactory.getFourScrapeListings());
+        controller.setReleaseListings(ReleaseFactory.getFourEmptyScrapeListings());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -297,7 +296,7 @@ public class ReleaseControllerTest
     @Test
     public void releaseCollectionError_displaysCollectionError()
     {
-        controller.setRelease(releaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -381,7 +380,7 @@ public class ReleaseControllerTest
     @Test
     public void listingsErrorRetryEmptyListings_displaysEmptyListings()
     {
-        controller.setRelease(releaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -441,7 +440,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 17);
 
-        controller.setReleaseListings(releaseFactory.getOneScrapeListing());
+        controller.setReleaseListings(ReleaseFactory.getOneEmptyScrapeListing());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");

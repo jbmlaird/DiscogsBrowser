@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import java.util.List;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.discogsbrowser.label.LabelActivity;
 import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.model.listing.ScrapeListing;
@@ -57,7 +56,6 @@ public class ReleaseActivityMockPresenterTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock ReleasePresenter presenter;
     @Mock DiscogsInteractor interactor;
-    CollectionWantlistPresenter collectionWantlistPresenter;
     private ReleaseController controller;
     private Intent startIntent;
     private String releaseId = "releaseId";
@@ -115,7 +113,7 @@ public class ReleaseActivityMockPresenterTest
     }
 
     @Test
-    public void collectionWantlistClicked_changeTextOnSuccess()
+    public void collectionWantlistClicked_changeTextOnSuccess() throws InterruptedException
     {
         when(interactor.addToCollection(release.getId())).thenReturn(Single.just(ResponseFactory.getAddToCollectionSuccessfulResponse()));
         when(interactor.removeFromCollection(any(), any())).thenReturn(Single.just(ResponseFactory.getRetrofitSuccessfulResponse()));

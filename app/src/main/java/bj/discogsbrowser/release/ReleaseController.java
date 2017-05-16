@@ -51,7 +51,6 @@ public class ReleaseController extends BaseController
     private boolean listingsError;
     private boolean collectionLoading = true;
     private AnalyticsTracker tracker;
-    private boolean displayYoutubeHeader;
 
     public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
                              CollectionWantlistPresenter presenter, AnalyticsTracker tracker)
@@ -161,7 +160,7 @@ public class ReleaseController extends BaseController
                 new SubHeaderModel_()
                         .id("youtube subheader")
                         .subheader("YouTube videos")
-                        .addIf(displayYoutubeHeader, this);
+                        .addTo(this);
 
                 for (Video video : release.getVideos())
                 {
@@ -178,7 +177,6 @@ public class ReleaseController extends BaseController
                                     .title(video.getTitle())
                                     .description(video.getDescription())
                                     .addTo(this);
-                            displayYoutubeHeader = true;
                         }
                         catch (IndexOutOfBoundsException e)
                         {
