@@ -15,7 +15,6 @@ import java.util.List;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.model.listing.Listing;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.order.OrderFactory;
 import bj.discogsbrowser.utils.FilterHelper;
@@ -53,7 +52,6 @@ public class SingleListPresenterTest
     @Mock Context context;
     @Mock SingleListContract.View view;
     @Mock DiscogsInteractor discogsInteractor;
-    @Mock CollectionWantlistInteractor collectionWantlistInteractor;
     private TestScheduler testScheduler;
     @Mock SingleListController controller;
     @Mock CompositeDisposable compositeDisposable;
@@ -63,7 +61,7 @@ public class SingleListPresenterTest
     public void setup()
     {
         testScheduler = new TestScheduler();
-        singleListPresenter = new SingleListPresenter(context, view, discogsInteractor, collectionWantlistInteractor,
+        singleListPresenter = new SingleListPresenter(context, view, discogsInteractor,
                 new TestSchedulerProvider(testScheduler), controller, compositeDisposable, filterHelper);
     }
 
@@ -141,7 +139,7 @@ public class SingleListPresenterTest
     public void getDataWantlistError_showsError()
     {
         Single error = Single.error(new Throwable());
-        when(collectionWantlistInteractor.fetchWantlist(username)).thenReturn(error);
+        when(discogsInteractor.fetchWantlist(username)).thenReturn(error);
         when(context.getString(R.string.error_wantlist)).thenReturn(errorWantlistString);
         when(context.getString(R.string.wantlist_none)).thenReturn(wantlistNoneString);
         // Test filter in filter class - don't filter here
@@ -149,7 +147,7 @@ public class SingleListPresenterTest
 
         testScheduler.triggerActions();
 
-        verify(collectionWantlistInteractor, times(1)).fetchWantlist(username);
+        verify(discogsInteractor, times(1)).fetchWantlist(username);
         assertEquals(context.getString(R.string.error_wantlist), errorWantlistString);
         verify(context, times(2)).getString(R.string.error_wantlist);
         assertEquals(context.getString(R.string.wantlist_none), wantlistNoneString);
@@ -161,14 +159,14 @@ public class SingleListPresenterTest
     public void getDataCollectionError_showsError()
     {
         Single error = Single.error(new Throwable());
-        when(collectionWantlistInteractor.fetchCollection(username)).thenReturn(error);
+        when(discogsInteractor.fetchCollection(username)).thenReturn(error);
         when(context.getString(R.string.error_collection)).thenReturn(errorCollectionString);
         when(context.getString(R.string.collection_none)).thenReturn(collectionNoneString);
 
         singleListPresenter.getData(R.string.drawer_item_collection, username);
         testScheduler.triggerActions();
 
-        verify(collectionWantlistInteractor, times(1)).fetchCollection(username);
+        verify(discogsInteractor, times(1)).fetchCollection(username);
         assertEquals(context.getString(R.string.error_collection), errorCollectionString);
         verify(context, times(2)).getString(R.string.error_collection);
         assertEquals(context.getString(R.string.collection_none), collectionNoneString);

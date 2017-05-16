@@ -4,7 +4,10 @@ package bj.discogsbrowser.model.order;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Item {
+import bj.discogsbrowser.model.listing.Release;
+
+public class Item
+{
 
     @SerializedName("release")
     @Expose
@@ -16,27 +19,33 @@ public class Item {
     @Expose
     private Integer id;
 
-    public Release getRelease() {
+    public Release getRelease()
+    {
         return release;
     }
 
-    public void setRelease(Release release) {
+    public void setRelease(Release release)
+    {
         this.release = release;
     }
 
-    public Price getPrice() {
+    public Price getPrice()
+    {
         return price;
     }
 
-    public void setPrice(Price price) {
+    public void setPrice(Price price)
+    {
         this.price = price;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 

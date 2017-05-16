@@ -8,9 +8,7 @@ import java.util.ArrayList;
 
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.model.release.Label;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
@@ -24,20 +22,15 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     private final String TAG = getClass().getSimpleName();
     private final ReleaseController controller;
     private final DiscogsInteractor discogsInteractor;
-    private LabelInteractor labelInteractor;
-    private CollectionWantlistInteractor collectionWantlistInteractor;
     private final MySchedulerProvider mySchedulerProvider;
     private final ArtistsBeautifier artistsBeautifier;
     private DaoManager daoManager;
 
-    public ReleasePresenter(@NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor, @NonNull LabelInteractor labelInteractor,
-                            @NonNull CollectionWantlistInteractor collectionWantlistInteractor,
+    public ReleasePresenter(@NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor,
                             @NonNull MySchedulerProvider mySchedulerProvider, @NonNull DaoManager daoManager, @NonNull ArtistsBeautifier artistsBeautifier)
     {
         this.controller = controller;
         this.discogsInteractor = discogsInteractor;
-        this.labelInteractor = labelInteractor;
-        this.collectionWantlistInteractor = collectionWantlistInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.daoManager = daoManager;
         this.artistsBeautifier = artistsBeautifier;
@@ -54,14 +47,14 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 {
                     for (Label releaseLabel : release.getLabels())
                     {
-                        labelInteractor.fetchLabelDetails(releaseLabel.getId())
+                        discogsInteractor.fetchLabelDetails(releaseLabel.getId())
                                 .subscribe(labelDetails ->
                                         {
                                             if (labelDetails.getImages() != null && labelDetails.getImages().size() > 0)
                                                 releaseLabel.setThumb(labelDetails.getImages().get(0).getUri());
                                         },
                                         error ->
-                                                Log.e("LabelInteractor", "Unable to get label details") //Silently swallow
+                                                Log.e("DiscogsInteractor", "Unable to get label details") //Silently swallow
                                 );
                     }
                     daoManager.storeViewedRelease(release, artistsBeautifier);
@@ -79,9 +72,9 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 })
                 .subscribeOn(mySchedulerProvider.io())
                 .flatMap(release ->
-                        collectionWantlistInteractor.checkIfInCollection(controller, controller.getRelease()))
+                        discogsInteractor.checkIfInCollection(controller, controller.getRelease()))
                 .flatMap(collectionReleases ->
-                        collectionWantlistInteractor.checkIfInWantlist(controller, controller.getRelease()))
+                        discogsInteractor.checkIfInWantlist(controller, controller.getRelease()))
                 .subscribe(release ->
                                 controller.setCollectionWantlistChecked(true),
                         error ->
@@ -102,9 +95,9 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     @Override
     public void checkCollectionWantlist()
     {
-        collectionWantlistInteractor.checkIfInCollection(controller, controller.getRelease())
+        discogsInteractor.checkIfInCollection(controller, controller.getRelease())
                 .flatMap(collectionReleases ->
-                        collectionWantlistInteractor.checkIfInWantlist(controller, controller.getRelease()))
+                        discogsInteractor.checkIfInWantlist(controller, controller.getRelease()))
                 .subscribe(wants ->
                                 controller.setCollectionWantlistChecked(true),
                         error ->

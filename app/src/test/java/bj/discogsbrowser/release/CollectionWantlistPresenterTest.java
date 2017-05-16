@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
+import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import bj.discogsbrowser.wrappers.ToastyWrapper;
@@ -36,7 +36,7 @@ public class CollectionWantlistPresenterTest
 {
     private CollectionWantlistPresenter presenter;
     @Mock Context context;
-    @Mock CollectionWantlistInteractor collectionWantlistInteractor;
+    @Mock DiscogsInteractor DiscogsInteractor;
     @Mock SharedPrefsManager sharedPrefsManager;
     private TestScheduler testScheduler = new TestScheduler();
     @Mock ToastyWrapper toasty;
@@ -51,14 +51,14 @@ public class CollectionWantlistPresenterTest
     @Before
     public void setUp()
     {
-        presenter = new CollectionWantlistPresenter(context, collectionWantlistInteractor,
+        presenter = new CollectionWantlistPresenter(context, DiscogsInteractor,
                 sharedPrefsManager, new TestSchedulerProvider(testScheduler), toasty);
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(context, collectionWantlistInteractor, sharedPrefsManager, toasty);
+        verifyNoMoreInteractions(context, DiscogsInteractor, sharedPrefsManager, toasty);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class CollectionWantlistPresenterTest
     public void addToCollectionSuccess_success()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionSuccessfulResponse()));
+        when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionSuccessfulResponse()));
 
         presenter.bind(false, true, instanceId);
         assertFalse(presenter.isInCollection());
@@ -95,7 +95,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextCollection("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).addToCollection(releaseId);
+        verify(DiscogsInteractor, times(1)).addToCollection(releaseId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verifyNoMoreInteractions(mockBtn);
     }
@@ -104,7 +104,7 @@ public class CollectionWantlistPresenterTest
     public void addToCollectionNoInstanceId_error()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionBadResponse()));
+        when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionBadResponse()));
 
         presenter.bind(false, true, instanceId);
         assertFalse(presenter.isInCollection());
@@ -114,7 +114,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextCollection("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).addToCollection(releaseId);
+        verify(DiscogsInteractor, times(1)).addToCollection(releaseId);
         verify(toasty).error(unableToAddToCollection);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verifyNoMoreInteractions(mockBtn);
@@ -124,7 +124,7 @@ public class CollectionWantlistPresenterTest
     public void addToCollectionError_error()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.addToCollection(releaseId)).thenReturn(Single.error(new Throwable()));
+        when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.error(new Throwable()));
 
         presenter.bind(false, true, instanceId);
         assertFalse(presenter.isInCollection());
@@ -134,7 +134,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextCollection("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).addToCollection(releaseId);
+        verify(DiscogsInteractor, times(1)).addToCollection(releaseId);
         verify(toasty).error(unableToAddToCollection);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verifyNoMoreInteractions(mockBtn);
@@ -144,7 +144,7 @@ public class CollectionWantlistPresenterTest
     public void removeFromCollectionSuccess_success()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
+        when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
 
         presenter.bind(true, true, instanceId);
         assertTrue(presenter.isInCollection());
@@ -154,7 +154,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextCollection("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).removeFromCollection(releaseId, instanceId);
+        verify(DiscogsInteractor, times(1)).removeFromCollection(releaseId, instanceId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verifyNoMoreInteractions(mockBtn);
     }
@@ -163,7 +163,7 @@ public class CollectionWantlistPresenterTest
     public void removeFromCollectionUnsuccessfulResponse_error()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
+        when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
 
         presenter.bind(true, true, instanceId);
         assertTrue(presenter.isInCollection());
@@ -173,7 +173,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextCollection("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).removeFromCollection(releaseId, instanceId);
+        verify(DiscogsInteractor, times(1)).removeFromCollection(releaseId, instanceId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verify(toasty).error(unableToRemoveFromCollection);
         verifyNoMoreInteractions(mockBtn);
@@ -183,7 +183,7 @@ public class CollectionWantlistPresenterTest
     public void RemoveFromCollectionError_error()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.error(new Throwable()));
+        when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.error(new Throwable()));
 
         presenter.bind(true, true, instanceId);
         assertTrue(presenter.isInCollection());
@@ -193,7 +193,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextCollection("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).removeFromCollection(releaseId, instanceId);
+        verify(DiscogsInteractor, times(1)).removeFromCollection(releaseId, instanceId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verify(toasty).error(unableToRemoveFromCollection);
         verifyNoMoreInteractions(mockBtn);
@@ -203,7 +203,7 @@ public class CollectionWantlistPresenterTest
     public void addToWantlistSuccess_success()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.addToWantlist(releaseId)).thenReturn(Single.just(responseFactory.getAddToWantlistSuccessfulResponse()));
+        when(DiscogsInteractor.addToWantlist(releaseId)).thenReturn(Single.just(responseFactory.getAddToWantlistSuccessfulResponse()));
 
         presenter.bind(false, false, instanceId);
         assertFalse(presenter.isInWantlist());
@@ -213,7 +213,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextWantlist("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).addToWantlist(releaseId);
+        verify(DiscogsInteractor, times(1)).addToWantlist(releaseId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verifyNoMoreInteractions(mockBtn);
     }
@@ -222,7 +222,7 @@ public class CollectionWantlistPresenterTest
     public void addToWantlistError_displaysError()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.addToWantlist(releaseId)).thenReturn(Single.error(new Throwable()));
+        when(DiscogsInteractor.addToWantlist(releaseId)).thenReturn(Single.error(new Throwable()));
 
         presenter.bind(false, false, instanceId);
         assertFalse(presenter.isInWantlist());
@@ -232,7 +232,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextWantlist("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).addToWantlist(releaseId);
+        verify(DiscogsInteractor, times(1)).addToWantlist(releaseId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verify(toasty).error(unableToAddToWantlist);
         verifyNoMoreInteractions(mockBtn);
@@ -242,7 +242,7 @@ public class CollectionWantlistPresenterTest
     public void removeFromWantlistSuccess_success()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
+        when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
 
         presenter.bind(false, true, instanceId);
         assertTrue(presenter.isInWantlist());
@@ -252,7 +252,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextWantlist("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).removeFromWantlist(releaseId);
+        verify(DiscogsInteractor, times(1)).removeFromWantlist(releaseId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verifyNoMoreInteractions(mockBtn);
     }
@@ -261,7 +261,7 @@ public class CollectionWantlistPresenterTest
     public void removeFromWantlistResponseError_displaysError()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
+        when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
 
         presenter.bind(false, true, instanceId);
         assertTrue(presenter.isInWantlist());
@@ -271,7 +271,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextWantlist("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).removeFromWantlist(releaseId);
+        verify(DiscogsInteractor, times(1)).removeFromWantlist(releaseId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verify(toasty).error(unableToRemoveFromWantlist);
         verifyNoMoreInteractions(mockBtn);
@@ -281,7 +281,7 @@ public class CollectionWantlistPresenterTest
     public void removeFromWantlistSingleError_displaysError()
     {
         CircularProgressButton mockBtn = mock(CircularProgressButton.class);
-        when(collectionWantlistInteractor.removeFromWantlist(releaseId)).thenReturn(Single.error(new Throwable()));
+        when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.error(new Throwable()));
 
         presenter.bind(false, true, instanceId);
         assertTrue(presenter.isInWantlist());
@@ -291,7 +291,7 @@ public class CollectionWantlistPresenterTest
 
         verify(sharedPrefsManager).setFetchNextWantlist("yes");
         verify(sharedPrefsManager).setfetchNextUserDetails("yes");
-        verify(collectionWantlistInteractor, times(1)).removeFromWantlist(releaseId);
+        verify(DiscogsInteractor, times(1)).removeFromWantlist(releaseId);
         verify(mockBtn).revertAnimation(any(OnAnimationEndListener.class));
         verify(toasty).error(unableToRemoveFromWantlist);
         verifyNoMoreInteractions(mockBtn);

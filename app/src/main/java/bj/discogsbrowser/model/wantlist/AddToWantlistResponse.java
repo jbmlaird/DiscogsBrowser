@@ -4,6 +4,8 @@ package bj.discogsbrowser.model.wantlist;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import bj.discogsbrowser.model.common.BasicInformation;
+
 public class AddToWantlistResponse {
 
     @SerializedName("id")

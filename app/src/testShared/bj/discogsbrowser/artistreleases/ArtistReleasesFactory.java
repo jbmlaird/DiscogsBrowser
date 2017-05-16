@@ -1,4 +1,4 @@
-package bj.discogsbrowser;
+package bj.discogsbrowser.artistreleases;
 
 import java.util.ArrayList;
 import java.util.Arrays;

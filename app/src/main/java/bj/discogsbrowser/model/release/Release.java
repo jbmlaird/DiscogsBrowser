@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import bj.discogsbrowser.model.common.Artist;
+
 public class Release
 {
     @SerializedName("title")

@@ -1,12 +1,13 @@
 
-package bj.discogsbrowser.model.wantlist;
+package bj.discogsbrowser.model.common;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import bj.discogsbrowser.model.release.Artist;
+import bj.discogsbrowser.model.wantlist.Format;
+import bj.discogsbrowser.model.wantlist.Label;
 
 public class BasicInformation
 {

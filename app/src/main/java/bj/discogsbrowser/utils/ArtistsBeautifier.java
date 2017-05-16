@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import bj.discogsbrowser.model.release.Artist;
+import bj.discogsbrowser.model.common.Artist;
 
 /**
  * Created by Josh Laird on 12/04/2017.

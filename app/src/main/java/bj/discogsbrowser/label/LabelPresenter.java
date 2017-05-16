@@ -2,7 +2,6 @@ package bj.discogsbrowser.label;
 
 import android.support.annotation.NonNull;
 
-import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
 /**
@@ -11,27 +10,27 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 public class LabelPresenter implements LabelContract.Presenter
 {
     private LabelController controller;
-    private LabelInteractor labelInteractor;
+    private bj.discogsbrowser.network.DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
 
-    public LabelPresenter(@NonNull LabelController controller, @NonNull LabelInteractor labelInteractor,
+    public LabelPresenter(@NonNull LabelController controller, @NonNull bj.discogsbrowser.network.DiscogsInteractor discogsInteractor,
                           @NonNull MySchedulerProvider mySchedulerProvider)
     {
         this.controller = controller;
-        this.labelInteractor = labelInteractor;
+        this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
     @Override
     public void getReleaseAndLabelDetails(String id)
     {
-        labelInteractor.fetchLabelDetails(id)
+        discogsInteractor.fetchLabelDetails(id)
                 .doOnSubscribe(onSubscribe -> controller.setLoading(true))
                 .subscribeOn(mySchedulerProvider.ui())
                 .flatMap(label ->
                 {
                     controller.setLabel(label);
-                    return labelInteractor.fetchLabelReleases(id)
+                    return discogsInteractor.fetchLabelReleases(id)
                             .subscribeOn(mySchedulerProvider.io());
                 })
                 .observeOn(mySchedulerProvider.ui())

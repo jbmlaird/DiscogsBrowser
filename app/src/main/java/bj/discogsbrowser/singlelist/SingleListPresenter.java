@@ -2,15 +2,12 @@ package bj.discogsbrowser.singlelist;
 
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.model.common.RecyclerViewModel;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.FilterHelper;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -30,21 +27,19 @@ public class SingleListPresenter implements SingleListContract.Presenter
     private Context context;
     private SingleListContract.View view;
     private DiscogsInteractor discogsInteractor;
-    private CollectionWantlistInteractor collectionWantlistInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private SingleListController controller;
     private CompositeDisposable disposable;
     private FilterHelper filterHelper;
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
 
-    public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor, CollectionWantlistInteractor collectionWantlistInteractor,
+    public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor,
                                MySchedulerProvider mySchedulerProvider, SingleListController controller, CompositeDisposable disposable,
                                FilterHelper filterHelper)
     {
         this.context = context;
         this.view = view;
         this.discogsInteractor = discogsInteractor;
-        this.collectionWantlistInteractor = collectionWantlistInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.controller = controller;
         this.disposable = disposable;
@@ -65,13 +60,13 @@ public class SingleListPresenter implements SingleListContract.Presenter
         switch (stringId)
         {
             case R.string.drawer_item_wantlist:
-                collectionWantlistInteractor.fetchWantlist(username)
+                discogsInteractor.fetchWantlist(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .subscribeWith(getNetworkObserver(context.getString(R.string.error_wantlist)));
                 break;
             case R.string.drawer_item_collection:
-                collectionWantlistInteractor.fetchCollection(username)
+                discogsInteractor.fetchCollection(username)
                         .subscribeOn(mySchedulerProvider.io())
                         .observeOn(mySchedulerProvider.ui())
                         .subscribeWith(getNetworkObserver(context.getString(R.string.error_collection)));

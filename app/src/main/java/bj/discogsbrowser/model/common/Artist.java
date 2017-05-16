@@ -1,5 +1,5 @@
 
-package bj.discogsbrowser.model.release;
+package bj.discogsbrowser.model.common;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

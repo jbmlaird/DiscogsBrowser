@@ -15,9 +15,7 @@ import java.util.List;
 
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.model.release.Release;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import io.reactivex.Single;
@@ -38,8 +36,6 @@ public class ReleasePresenterTest
     private ReleasePresenter presenter;
     @Mock ReleaseController controller;
     @Mock DiscogsInteractor discogsInteractor;
-    @Mock LabelInteractor labelInteractor;
-    @Mock CollectionWantlistInteractor collectionWantlistInteractor;
     private TestScheduler testScheduler = new TestScheduler();
     @Mock DaoManager daoManager;
     @Mock ArtistsBeautifier artistsBeautifier;
@@ -49,14 +45,14 @@ public class ReleasePresenterTest
     @Before
     public void setUp()
     {
-        presenter = new ReleasePresenter(controller, discogsInteractor, labelInteractor, collectionWantlistInteractor,
+        presenter = new ReleasePresenter(controller, discogsInteractor,
                 new TestSchedulerProvider(testScheduler), daoManager, artistsBeautifier);
     }
 
     @After
     public void tearDown()
     {
-        verifyNoMoreInteractions(controller, discogsInteractor, labelInteractor, collectionWantlistInteractor,
+        verifyNoMoreInteractions(controller, discogsInteractor,
                 daoManager, artistsBeautifier);
     }
 
@@ -109,13 +105,13 @@ public class ReleasePresenterTest
     {
         Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
-        when(collectionWantlistInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.error(new Throwable()));
+        when(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.error(new Throwable()));
 
         presenter.checkCollectionWantlist();
         testScheduler.triggerActions();
 
         verify(controller, times(1)).getRelease();
-        verify(collectionWantlistInteractor).checkIfInCollection(controller, releaseNoLabelNoneForSale);
+        verify(discogsInteractor).checkIfInCollection(controller, releaseNoLabelNoneForSale);
         verify(controller).setCollectionWantlistError(true);
     }
 
@@ -124,15 +120,15 @@ public class ReleasePresenterTest
     {
         Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
-        when(collectionWantlistInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
-        when(collectionWantlistInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
+        when(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
+        when(discogsInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
 
         presenter.checkCollectionWantlist();
         testScheduler.triggerActions();
 
         verify(controller, times(2)).getRelease();
-        verify(collectionWantlistInteractor).checkIfInCollection(controller, releaseNoLabelNoneForSale);
-        verify(collectionWantlistInteractor).checkIfInWantlist(controller, releaseNoLabelNoneForSale);
+        verify(discogsInteractor).checkIfInCollection(controller, releaseNoLabelNoneForSale);
+        verify(discogsInteractor).checkIfInWantlist(controller, releaseNoLabelNoneForSale);
         verify(controller).setCollectionWantlistChecked(true);
     }
 
@@ -143,8 +139,8 @@ public class ReleasePresenterTest
         Single<Release> releaseSingle = Single.just(releaseNoLabelNoneForSale);
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
         ArgumentCaptor<ArrayList> arrayListArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
-        when(collectionWantlistInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
-        when(collectionWantlistInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
+        when(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
+        when(discogsInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
 
         presenter.getReleaseAndLabelDetails(id);
@@ -156,8 +152,8 @@ public class ReleasePresenterTest
         verify(controller).setRelease(releaseNoLabelNoneForSale);
         verify(controller).setReleaseListings(arrayListArgumentCaptor.capture());
         assertEquals(arrayListArgumentCaptor.getValue().size(), 0);
-        verify(collectionWantlistInteractor, times(1)).checkIfInCollection(controller, releaseNoLabelNoneForSale);
-        verify(collectionWantlistInteractor, times(1)).checkIfInWantlist(controller, releaseNoLabelNoneForSale);
+        verify(discogsInteractor, times(1)).checkIfInCollection(controller, releaseNoLabelNoneForSale);
+        verify(discogsInteractor, times(1)).checkIfInWantlist(controller, releaseNoLabelNoneForSale);
         verify(controller, times(2)).getRelease();
         verify(controller).setCollectionWantlistChecked(true);
     }
@@ -168,10 +164,10 @@ public class ReleasePresenterTest
         Release releaseWithLabelNoneForSale = releaseFactory.getReleaseWithLabelNoneForSale();
         Single<Release> releaseSingle = Single.just(releaseWithLabelNoneForSale);
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
-        when(labelInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
+        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
         ArgumentCaptor<ArrayList> arrayListArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
-        when(collectionWantlistInteractor.checkIfInCollection(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
-        when(collectionWantlistInteractor.checkIfInWantlist(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
+        when(discogsInteractor.checkIfInCollection(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
+        when(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(controller.getRelease()).thenReturn(releaseWithLabelNoneForSale);
 
         presenter.getReleaseAndLabelDetails(id);
@@ -179,13 +175,13 @@ public class ReleasePresenterTest
 
         verify(discogsInteractor).fetchReleaseDetails(id);
         verify(controller).setReleaseLoading(true);
-        verify(labelInteractor).fetchLabelDetails(id);
+        verify(discogsInteractor).fetchLabelDetails(id);
         verify(daoManager).storeViewedRelease(releaseWithLabelNoneForSale, artistsBeautifier);
         verify(controller).setRelease(releaseWithLabelNoneForSale);
         verify(controller).setReleaseListings(arrayListArgumentCaptor.capture());
         assertEquals(arrayListArgumentCaptor.getValue().size(), 0);
-        verify(collectionWantlistInteractor, times(1)).checkIfInCollection(controller, releaseWithLabelNoneForSale);
-        verify(collectionWantlistInteractor, times(1)).checkIfInWantlist(controller, releaseWithLabelNoneForSale);
+        verify(discogsInteractor, times(1)).checkIfInCollection(controller, releaseWithLabelNoneForSale);
+        verify(discogsInteractor, times(1)).checkIfInWantlist(controller, releaseWithLabelNoneForSale);
         verify(controller, times(2)).getRelease();
         verify(controller).setCollectionWantlistChecked(true);
     }
@@ -196,12 +192,12 @@ public class ReleasePresenterTest
         Release releaseWithLabelSomeForSale = releaseFactory.getReleaseWithLabelSomeForSale();
         Single<Release> releaseSingle = Single.just(releaseWithLabelSomeForSale);
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
-        when(labelInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
+        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
         ArgumentCaptor<List> listArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
         when(discogsInteractor.getReleaseMarketListings(id)).thenReturn(Single.just(releaseFactory.getFourScrapeListings()));
 
-        when(collectionWantlistInteractor.checkIfInCollection(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
-        when(collectionWantlistInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
+        when(discogsInteractor.checkIfInCollection(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
+        when(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(controller.getRelease()).thenReturn(releaseWithLabelSomeForSale);
 
         presenter.getReleaseAndLabelDetails(id);
@@ -209,13 +205,13 @@ public class ReleasePresenterTest
 
         verify(discogsInteractor).fetchReleaseDetails(id);
         verify(controller).setReleaseLoading(true);
-        verify(labelInteractor).fetchLabelDetails(id);
+        verify(discogsInteractor).fetchLabelDetails(id);
         verify(daoManager).storeViewedRelease(releaseWithLabelSomeForSale, artistsBeautifier);
         verify(controller).setRelease(releaseWithLabelSomeForSale);
         verify(controller).setReleaseListings(listArgumentCaptor.capture());
         assertEquals(listArgumentCaptor.getValue().size(), 4);
-        verify(collectionWantlistInteractor, times(1)).checkIfInCollection(controller, releaseWithLabelSomeForSale);
-        verify(collectionWantlistInteractor, times(1)).checkIfInWantlist(controller, releaseWithLabelSomeForSale);
+        verify(discogsInteractor, times(1)).checkIfInCollection(controller, releaseWithLabelSomeForSale);
+        verify(discogsInteractor, times(1)).checkIfInWantlist(controller, releaseWithLabelSomeForSale);
         verify(discogsInteractor).getReleaseMarketListings(id);
         verify(controller, times(2)).getRelease();
         verify(controller).setCollectionWantlistChecked(true);

@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import bj.discogsbrowser.model.common.BasicInformation;
 import bj.discogsbrowser.model.common.RecyclerViewModel;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 

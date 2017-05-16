@@ -42,7 +42,7 @@ import static org.mockito.Mockito.doAnswer;
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class MarketplaceActivityTest
+public class MarketplaceActivityMockPresenterTest
 {
     @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
     @Rule

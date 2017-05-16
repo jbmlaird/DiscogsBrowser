@@ -5,9 +5,7 @@ import android.content.Context;
 import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.network.LabelInteractor;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
@@ -39,7 +37,7 @@ public class ReleaseModule
 
     @Provides
     @ActivityScope
-    CollectionWantlistPresenter provideCollectionWantlistPresenter(Context context, CollectionWantlistInteractor interactor, SharedPrefsManager sharedPrefsManager,
+    CollectionWantlistPresenter provideCollectionWantlistPresenter(Context context, DiscogsInteractor interactor, SharedPrefsManager sharedPrefsManager,
                                                                    MySchedulerProvider mySchedulerProvider, ToastyWrapper toastyWrapper)
     {
         return new CollectionWantlistPresenter(context, interactor, sharedPrefsManager, mySchedulerProvider, toastyWrapper);
@@ -56,9 +54,9 @@ public class ReleaseModule
 
     @Provides
     @ActivityScope
-    ReleasePresenter provideReleasePresenter(ReleaseController controller, DiscogsInteractor interactor, LabelInteractor labelInteractor, CollectionWantlistInteractor collectionWantlistInteractor,
+    ReleasePresenter provideReleasePresenter(ReleaseController controller, DiscogsInteractor interactor,
                                              MySchedulerProvider mySchedulerProvider, DaoManager daoManager, ArtistsBeautifier artistsBeautifier)
     {
-        return new ReleasePresenter(controller, interactor, labelInteractor, collectionWantlistInteractor, mySchedulerProvider, daoManager, artistsBeautifier);
+        return new ReleasePresenter(controller, interactor, mySchedulerProvider, daoManager, artistsBeautifier);
     }
 }

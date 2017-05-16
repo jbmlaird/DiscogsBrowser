@@ -15,7 +15,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import bj.discogsbrowser.ArtistReleasesFactory;
+import bj.discogsbrowser.artistreleases.ArtistReleasesFactory;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 

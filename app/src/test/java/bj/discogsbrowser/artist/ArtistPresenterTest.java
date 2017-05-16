@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import bj.discogsbrowser.ArtistReleasesFactory;
+import bj.discogsbrowser.artistreleases.ArtistReleasesFactory;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;

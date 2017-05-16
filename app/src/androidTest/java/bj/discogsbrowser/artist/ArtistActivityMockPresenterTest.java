@@ -16,6 +16,7 @@ import org.mockito.Mock;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
+import bj.discogsbrowser.artistreleases.TestArtistResult;
 import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
@@ -41,7 +42,7 @@ import static org.mockito.Mockito.doAnswer;
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class ArtistActivityTest
+public class ArtistActivityMockPresenterTest
 {
     @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
     @Rule

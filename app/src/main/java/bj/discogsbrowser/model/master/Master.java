@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import bj.discogsbrowser.model.release.Artist;
+import bj.discogsbrowser.model.common.Artist;
 import bj.discogsbrowser.model.release.Image;
 
 public class Master

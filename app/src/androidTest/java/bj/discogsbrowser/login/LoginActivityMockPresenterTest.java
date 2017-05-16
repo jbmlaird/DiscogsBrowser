@@ -36,7 +36,7 @@ import static org.mockito.Mockito.doAnswer;
 
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest
+public class LoginActivityMockPresenterTest
 {
     @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
     @Rule

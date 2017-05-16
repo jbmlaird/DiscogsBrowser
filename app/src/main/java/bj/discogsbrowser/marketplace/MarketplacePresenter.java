@@ -2,9 +2,7 @@ package bj.discogsbrowser.marketplace;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 
-import bj.discogsbrowser.common.MyRecyclerView;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 

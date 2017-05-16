@@ -15,7 +15,6 @@ import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.DaoMaster;
 import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.network.CacheProviders;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
 import bj.discogsbrowser.utils.DiscogsScraper;
@@ -129,13 +128,6 @@ public class AppModule
     protected CacheProviders provideCacheProviders()
     {
         return cacheProviders;
-    }
-
-    @Provides
-    protected CollectionWantlistInteractor provideCollectionWantlistInteractor(Retrofit retrofit, CacheProviders cacheProviders,
-                                                                               SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider)
-    {
-        return new CollectionWantlistInteractor(retrofit, cacheProviders, sharedPrefsManager, mySchedulerProvider);
     }
 
     @Provides

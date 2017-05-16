@@ -3,7 +3,7 @@ package bj.discogsbrowser.master;
 import java.util.Collections;
 
 import bj.discogsbrowser.model.master.Master;
-import bj.discogsbrowser.model.release.Artist;
+import bj.discogsbrowser.model.common.Artist;
 import bj.discogsbrowser.model.release.Image;
 
 /**

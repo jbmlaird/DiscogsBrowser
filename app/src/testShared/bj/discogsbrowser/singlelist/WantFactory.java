@@ -1,9 +1,11 @@
 package bj.discogsbrowser.singlelist;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import bj.discogsbrowser.model.wantlist.BasicInformation;
+import bj.discogsbrowser.artist.ArtistFactory;
+import bj.discogsbrowser.model.common.BasicInformation;
 import bj.discogsbrowser.model.wantlist.Want;
 
 /**
@@ -14,10 +16,10 @@ public class WantFactory
 {
     public static List<Want> getThreeWants()
     {
-        return Arrays.asList(buildWant(), buildWant(), buildWant());
+        return Arrays.asList(buildWant("want1"), buildWant("want2"), buildWant("want3"));
     }
 
-    private static Want buildWant()
+    private static Want buildWant(String title)
     {
         Want want = new Want();
         want.setId("ye");
@@ -25,14 +27,15 @@ public class WantFactory
         want.setRating(12);
         want.setResourceUrl("url");
         want.setSubtitle("subtitleFam");
-        want.setBasicInformation(buildBasicInformation());
+        want.setBasicInformation(buildBasicInformation(title));
         return want;
     }
 
-    private static BasicInformation buildBasicInformation()
+    static BasicInformation buildBasicInformation(String title)
     {
         BasicInformation basicInformation = new BasicInformation();
-        basicInformation.setTitle("title");
+        basicInformation.setTitle(title);
+        basicInformation.setArtists(Collections.singletonList(ArtistFactory.buildSingleArtist()));
         return basicInformation;
     }
 }

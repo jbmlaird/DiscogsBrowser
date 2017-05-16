@@ -2,9 +2,8 @@ package bj.discogsbrowser.singlelist;
 
 import android.content.Context;
 
-import bj.discogsbrowser.scopes.ActivityScope;
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.network.DiscogsInteractor;
+import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.FilterHelper;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -48,10 +47,10 @@ public class SingleListModule
 
     @Provides
     @ActivityScope
-    protected SingleListPresenter providePresenter(Context context, DiscogsInteractor interactor, CollectionWantlistInteractor collectionWantlistInteractor,
-                                                   MySchedulerProvider mySchedulerProvider, SingleListController controller, FilterHelper filterHelper)
+    protected SingleListPresenter providePresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
+                                                   SingleListController controller, FilterHelper filterHelper)
     {
-        return new SingleListPresenter(context, view, interactor, collectionWantlistInteractor, mySchedulerProvider, controller,
+        return new SingleListPresenter(context, view, discogsInteractor, mySchedulerProvider, controller,
                 new CompositeDisposable(), filterHelper);
     }
 }

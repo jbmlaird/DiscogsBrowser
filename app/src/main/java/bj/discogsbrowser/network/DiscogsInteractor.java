@@ -9,6 +9,12 @@ import java.util.List;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
+import bj.discogsbrowser.model.collection.AddToCollectionResponse;
+import bj.discogsbrowser.model.collection.CollectionRelease;
+import bj.discogsbrowser.model.collection.RootCollectionRelease;
+import bj.discogsbrowser.model.label.Label;
+import bj.discogsbrowser.model.labelrelease.LabelRelease;
+import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.listing.RootListingResponse;
 import bj.discogsbrowser.model.listing.ScrapeListing;
@@ -21,6 +27,10 @@ import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.model.version.RootVersionsResponse;
 import bj.discogsbrowser.model.version.Version;
+import bj.discogsbrowser.model.wantlist.AddToWantlistResponse;
+import bj.discogsbrowser.model.wantlist.RootWantlistResponse;
+import bj.discogsbrowser.model.wantlist.Want;
+import bj.discogsbrowser.release.ReleaseController;
 import bj.discogsbrowser.utils.DiscogsScraper;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -29,6 +39,7 @@ import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
 import io.rx_cache2.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -193,5 +204,108 @@ public class DiscogsInteractor
         if (sharedPrefsManager.fetchNextUserDetails())
             sharedPrefsManager.setfetchNextUserDetails("no");
         return userDetailsSingle;
+    }
+
+    public Single<List<CollectionRelease>> fetchCollection(String username)
+    {
+        Single<List<CollectionRelease>> collectionSingle = cacheProviders.fetchCollection(discogsService.fetchCollection(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextCollection()))
+                .subscribeOn(mySchedulerProvider.io())
+                .map(RootCollectionRelease::getCollectionReleases);
+        if (sharedPrefsManager.fetchNextCollection())
+            sharedPrefsManager.setFetchNextCollection("no");
+        return collectionSingle;
+    }
+
+    public Single<List<Want>> fetchWantlist(String username)
+    {
+        Single<List<Want>> wantlistSingle = cacheProviders.fetchWantlist(discogsService.fetchWantlist(username, "year", "desc", "500"), new DynamicKey(username + "desc500"), new EvictDynamicKey(sharedPrefsManager.fetchNextWantlist()))
+                .observeOn(mySchedulerProvider.io())
+                .subscribeOn(mySchedulerProvider.io())
+                .map(RootWantlistResponse::getWants);
+        if (sharedPrefsManager.fetchNextWantlist())
+            sharedPrefsManager.setFetchNextWantlist("no");
+        return wantlistSingle;
+    }
+
+    public Single<List<Want>> checkIfInWantlist(ReleaseController controller, Release release)
+    {
+        return fetchWantlist(sharedPrefsManager.getUsername())
+                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
+                .subscribeOn(mySchedulerProvider.ui())
+                .flattenAsObservable(results -> results)
+                .map(want ->
+                {
+                    if (want.getId().equals(release.getId()))
+                        release.setIsInWantlist(true);
+                    return want;
+                })
+                .toList();
+    }
+
+    public Single<List<CollectionRelease>> checkIfInCollection(ReleaseController controller, Release release)
+    {
+        return fetchCollection(sharedPrefsManager.getUsername())
+                .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
+                .flattenAsObservable(results -> results)
+                .map(collectionRelease ->
+                {
+                    if (collectionRelease.getId().equals(release.getId()))
+                    {
+                        release.setIsInCollection(true);
+                        release.setInstanceId(collectionRelease.getInstanceId());
+                    }
+                    return collectionRelease;
+                })
+                .observeOn(mySchedulerProvider.ui())
+                .toList(); //toList so it doesn't call subscribe until it's complete
+    }
+
+    public Single<AddToCollectionResponse> addToCollection(String releaseId)
+    {
+        return discogsService.addToCollection(sharedPrefsManager.getUsername(), releaseId)
+                .subscribeOn(mySchedulerProvider.io());
+    }
+
+    public Single<Response<Void>> removeFromCollection(String releaseId, String instanceId)
+    {
+        return discogsService.removeFromCollection(sharedPrefsManager.getUsername(), releaseId, instanceId)
+                .subscribeOn(mySchedulerProvider.io());
+    }
+
+    public Single<AddToWantlistResponse> addToWantlist(String releaseId)
+    {
+        return discogsService.addToWantlist(sharedPrefsManager.getUsername(), releaseId)
+                .subscribeOn(mySchedulerProvider.io());
+    }
+
+    public Single<Response<Void>> removeFromWantlist(String releaseId)
+    {
+        return discogsService.removeFromWantlist(sharedPrefsManager.getUsername(), releaseId)
+                .subscribeOn(mySchedulerProvider.io());
+    }
+
+    public Single<Label> fetchLabelDetails(String labelId)
+    {
+        return cacheProviders.fetchLabelDetails(discogsService.getLabel(labelId), new DynamicKey(labelId))
+                .subscribeOn(mySchedulerProvider.io())
+                .map(label ->
+                {
+                    if (label.getProfile() != null)
+                    {
+                        label.setProfile(label.getProfile().replace("[a=", ""));
+                        label.setProfile(label.getProfile().replace("[i]", ""));
+                        label.setProfile(label.getProfile().replace("[/l]", ""));
+                        label.setProfile(label.getProfile().replace("[/I]", ""));
+                        label.setProfile(label.getProfile().replace("]", ""));
+                    }
+                    return label;
+                });
+    }
+
+    public Single<List<LabelRelease>> fetchLabelReleases(String labelId)
+    {
+        return cacheProviders.fetchLabelReleases(discogsService.getLabelReleases(labelId, "desc", "500"), new DynamicKey(labelId))
+                .subscribeOn(mySchedulerProvider.io())
+                .map(RootLabelResponse::getLabelReleases);
     }
 }

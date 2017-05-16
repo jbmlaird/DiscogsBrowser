@@ -2,7 +2,7 @@ package bj.discogsbrowser.label;
 
 import android.content.Context;
 
-import bj.discogsbrowser.network.LabelInteractor;
+import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
@@ -39,8 +39,8 @@ public class LabelModule
 
     @Provides
     @ActivityScope
-    protected LabelPresenter provideLabelPresenter(LabelInteractor labelInteractor, LabelController controller, MySchedulerProvider mySchedulerProvider)
+    protected LabelPresenter provideLabelPresenter(DiscogsInteractor interactor, LabelController controller, MySchedulerProvider mySchedulerProvider)
     {
-        return new LabelPresenter(controller, labelInteractor, mySchedulerProvider);
+        return new LabelPresenter(controller, interactor, mySchedulerProvider);
     }
 }

@@ -2,7 +2,6 @@ package bj.discogsbrowser.epoxy.release;
 
 import android.content.Context;
 
-import bj.discogsbrowser.network.CollectionWantlistInteractor;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.ToastyWrapper;
@@ -14,7 +13,7 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 public class CollectionWantlistPresenter
 {
     private Context context;
-    private CollectionWantlistInteractor collectionWantlistInteractor;
+    private bj.discogsbrowser.network.DiscogsInteractor discogsInteractor;
     private SharedPrefsManager sharedPrefsManager;
     private MySchedulerProvider mySchedulerProvider;
     private ToastyWrapper toasty;
@@ -22,12 +21,12 @@ public class CollectionWantlistPresenter
     private boolean inCollection;
     private boolean inWantlist;
 
-    public CollectionWantlistPresenter(Context context, CollectionWantlistInteractor collectionWantlistInteractor,
+    public CollectionWantlistPresenter(Context context, bj.discogsbrowser.network.DiscogsInteractor discogsInteractor,
                                        SharedPrefsManager sharedPrefsManager, MySchedulerProvider mySchedulerProvider,
                                        ToastyWrapper toasty)
     {
         this.context = context;
-        this.collectionWantlistInteractor = collectionWantlistInteractor;
+        this.discogsInteractor = discogsInteractor;
         this.sharedPrefsManager = sharedPrefsManager;
         this.mySchedulerProvider = mySchedulerProvider;
         this.toasty = toasty;
@@ -44,7 +43,7 @@ public class CollectionWantlistPresenter
     {
         sharedPrefsManager.setFetchNextCollection("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
-        collectionWantlistInteractor.addToCollection(releaseId)
+        discogsInteractor.addToCollection(releaseId)
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {
@@ -71,7 +70,7 @@ public class CollectionWantlistPresenter
     {
         sharedPrefsManager.setFetchNextCollection("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
-        collectionWantlistInteractor.removeFromCollection(releaseId, instanceId)
+        discogsInteractor.removeFromCollection(releaseId, instanceId)
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {
@@ -97,7 +96,7 @@ public class CollectionWantlistPresenter
     {
         sharedPrefsManager.setFetchNextWantlist("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
-        collectionWantlistInteractor.addToWantlist(releaseId)
+        discogsInteractor.addToWantlist(releaseId)
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {
@@ -115,7 +114,7 @@ public class CollectionWantlistPresenter
     {
         sharedPrefsManager.setFetchNextWantlist("yes");
         sharedPrefsManager.setfetchNextUserDetails("yes");
-        collectionWantlistInteractor.removeFromWantlist(releaseId)
+        discogsInteractor.removeFromWantlist(releaseId)
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {

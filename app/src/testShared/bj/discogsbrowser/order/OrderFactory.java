@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import bj.discogsbrowser.model.listing.Release;
 import bj.discogsbrowser.model.order.Buyer;
 import bj.discogsbrowser.model.order.Item;
 import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.order.Price;
-import bj.discogsbrowser.model.order.Release;
 import bj.discogsbrowser.model.order.Total;
 
 /**
@@ -24,21 +24,21 @@ public class OrderFactory
 
     public static Order getOneItemOrder()
     {
-        Order order = buildOrder(120);
+        Order order = buildOrder("order1", 120);
         order.setItems(Collections.singletonList(getItem(120, "item1")));
         return order;
     }
 
     public static Order getTwoItemsOrder()
     {
-        Order order = buildOrder(150 + 130);
+        Order order = buildOrder("order1", 150 + 130);
         order.setItems(Arrays.asList(getItem(150, "item1"), getItem(130, "item2")));
         return order;
     }
 
     public Order getFourItemsOrder()
     {
-        Order order = buildOrder(480);
+        Order order = buildOrder("order1", 480);
         Item[] items = {getItem(120, "item1"), getItem(120, "item2"), getItem(120, "item3"), getItem(120, "item4")};
         order.setItems(Arrays.asList(items));
         return order;
@@ -46,18 +46,19 @@ public class OrderFactory
 
     public static List<Order> getListOfTwo()
     {
-        return Arrays.asList(buildOrder(20), buildOrder(25));
+        return Arrays.asList(buildOrder("order1", 20), buildOrder("order2", 25));
     }
 
     public static List<Order> getListOfSix()
     {
-        return Arrays.asList(buildOrder(20), buildOrder(25), buildOrder(30), buildOrder(35), buildOrder(40), buildOrder(45));
+        return Arrays.asList(buildOrder("order1", 20), buildOrder("order2", 25), buildOrder("order3", 30), buildOrder("order4", 35), buildOrder("order5", 40), buildOrder("order6", 45));
     }
 
-    private static Order buildOrder(double total)
+    private static Order buildOrder(String id, double total)
     {
         Order order = new Order();
-        order.setId("idFam");
+        order.setItems(Collections.singletonList(getItem(120, "item1")));
+        order.setId(id);
         order.setStatus("ok");
         order.setBuyer(getBuyer());
         order.setShippingAddress("UK");
@@ -82,7 +83,7 @@ public class OrderFactory
         return item;
     }
 
-    private static Release buildRelease(String description)
+    public static Release buildRelease(String description)
     {
         Release release = new Release();
         release.setDescription(description);

@@ -16,7 +16,6 @@ import org.mockito.Mock;
 
 import java.util.List;
 
-import bj.discogsbrowser.ArtistReleasesFactory;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
@@ -58,7 +57,7 @@ import static org.mockito.Mockito.when;
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class ArtistReleasesActivityTest
+public class ArtistReleasesMockNetworkTest
 {
     @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
     @Rule
