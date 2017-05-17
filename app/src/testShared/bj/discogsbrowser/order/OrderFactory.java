@@ -24,21 +24,21 @@ public class OrderFactory
 
     public static Order getOneItemOrder()
     {
-        Order order = buildOrder("order1", 120);
+        Order order = buildOrder("order1", 120, "buyer1");
         order.setItems(Collections.singletonList(getItem(120, "item1")));
         return order;
     }
 
     public static Order getTwoItemsOrder()
     {
-        Order order = buildOrder("order1", 150 + 130);
+        Order order = buildOrder("order1", 150 + 130, "buyer1");
         order.setItems(Arrays.asList(getItem(150, "item1"), getItem(130, "item2")));
         return order;
     }
 
     public Order getFourItemsOrder()
     {
-        Order order = buildOrder("order1", 480);
+        Order order = buildOrder("order1", 480, "buyer1");
         Item[] items = {getItem(120, "item1"), getItem(120, "item2"), getItem(120, "item3"), getItem(120, "item4")};
         order.setItems(Arrays.asList(items));
         return order;
@@ -46,31 +46,33 @@ public class OrderFactory
 
     public static List<Order> getListOfTwo()
     {
-        return Arrays.asList(buildOrder("order1", 20), buildOrder("order2", 25));
+        return Arrays.asList(buildOrder("order1", 20, "buyer1"), buildOrder("order2", 25, "buyer2"));
     }
 
     public static List<Order> getListOfSix()
     {
-        return Arrays.asList(buildOrder("order1", 20), buildOrder("order2", 25), buildOrder("order3", 30), buildOrder("order4", 35), buildOrder("order5", 40), buildOrder("order6", 45));
+        return Arrays.asList(buildOrder("order1", 20, "buyer1"), buildOrder("order2", 25, "buyer2"), buildOrder("order3", 30, "buyer3"),
+                buildOrder("order4", 35, "buyer4"), buildOrder("order5", 40, "buyer5"), buildOrder("order6", 45, "buyer6"));
     }
 
-    private static Order buildOrder(String id, double total)
+    private static Order buildOrder(String id, double total, String buyerName)
     {
         Order order = new Order();
         order.setItems(Collections.singletonList(getItem(120, "item1")));
         order.setId(id);
         order.setStatus("ok");
-        order.setBuyer(getBuyer());
+        order.setBuyer(getBuyer(buyerName));
         order.setShippingAddress("UK");
         order.setAdditionalInstructions("additionalInstructions");
         order.setTotal(buildTotal(total));
+        order.setLastActivity("2008-09-15T15:53:00+05:00");
         return order;
     }
 
-    private static Buyer getBuyer()
+    private static Buyer getBuyer(String buyerName)
     {
         Buyer buyer = new Buyer();
-        buyer.setUsername("vinyl123");
+        buyer.setUsername(buyerName);
         return buyer;
     }
 

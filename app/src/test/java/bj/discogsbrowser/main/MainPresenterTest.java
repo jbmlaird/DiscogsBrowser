@@ -28,7 +28,6 @@ import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.testmodels.TestRootSearchResponse;
-import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
@@ -198,7 +197,7 @@ public class MainPresenterTest
     public void buildRecommendationsError_ControllerError()
     {
         ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
-        viewedReleases.add(new TestViewedRelease());
+        viewedReleases.add(MainFactory.buildViewedRelease("yeee"));
         when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.error(new Throwable()));
         when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.error(new Throwable()));
@@ -218,7 +217,7 @@ public class MainPresenterTest
     {
         final ArgumentCaptor searchResultCaptor = ArgumentCaptor.forClass(List.class);
         ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
-        viewedReleases.add(new TestViewedRelease());
+        viewedReleases.add(MainFactory.buildViewedRelease("yeee"));
         when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         // TestSearchResponse contains 20 entries each
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.just(new TestRootSearchResponse()));

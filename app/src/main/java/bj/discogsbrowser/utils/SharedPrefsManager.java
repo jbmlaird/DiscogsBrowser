@@ -6,8 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.github.scribejava.core.model.OAuth1AccessToken;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.model.user.UserDetails;
 
@@ -21,7 +19,6 @@ public class SharedPrefsManager
     private SharedPreferences settings;
     private Context context;
 
-    @Inject
     public SharedPrefsManager(Context context)
     {
         this.context = context;

@@ -37,13 +37,11 @@ import bj.discogsbrowser.singlelist.SingleListActivity;
 /**
  * Created by Josh Laird on 16/04/2017.
  */
-@ActivityScope
 public class NavigationDrawerBuilder
 {
     private Context context;
     private SharedPrefsManager sharedPrefsManager;
 
-    @Inject
     public NavigationDrawerBuilder(Context context, SharedPrefsManager sharedPrefsManager)
     {
         this.context = context;

@@ -7,14 +7,22 @@ import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewAssertion;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by Josh Laird on 15/05/2017.
@@ -84,5 +92,20 @@ public class TestUtils
 
             assertEquals(((EditText) view).getText().toString(), searchTerm);
         }
+    }
+
+    /**
+     * A matcher to get the ActionBar home/hamburger button.
+     * <p>
+     * Taken from: http://stackoverflow.com/a/34658817/4624156
+     *
+     * @return Matcher.
+     */
+    public static Matcher<View> getHomeButton()
+    {
+        return allOf(
+                withParent(withClassName(is(Toolbar.class.getName()))),
+                withClassName(anyOf(is(ImageButton.class.getName()),
+                        is(AppCompatImageButton.class.getName()))));
     }
 }

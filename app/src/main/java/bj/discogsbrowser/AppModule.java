@@ -70,6 +70,12 @@ public class AppModule
     }
 
     @Provides
+    protected SharedPrefsManager sharedPrefsManager(Context context)
+    {
+        return new SharedPrefsManager(context);
+    }
+
+    @Provides
     @Singleton
     protected Retrofit providesRetrofit(Context context, SharedPrefsManager sharedPrefsManager)
     {

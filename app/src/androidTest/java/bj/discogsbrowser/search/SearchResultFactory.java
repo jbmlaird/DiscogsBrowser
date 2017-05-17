@@ -11,12 +11,19 @@ import bj.discogsbrowser.model.search.SearchResult;
 
 public class SearchResultFactory
 {
-    public static List<SearchResult> getResults()
+    public static List<SearchResult> getOneArtistTwoMastersThreeReleases()
     {
         return Arrays.asList(buildSearchResult("artist1", "artistTitle1", "artist"),
                 buildSearchResult("master1", "masterTitle1", "master"),
                 buildSearchResult("master2", "masterTitle2", "master"),
                 buildSearchResult("release1", "releaseTitle1", "release"),
+                buildSearchResult("release2", "releaseTitle2", "release"),
+                buildSearchResult("release3", "releaseTitle3", "release"));
+    }
+
+    public static List<SearchResult> getThreeReleases()
+    {
+        return Arrays.asList(buildSearchResult("release1", "releaseTitle1", "release"),
                 buildSearchResult("release2", "releaseTitle2", "release"),
                 buildSearchResult("release3", "releaseTitle3", "release"));
     }

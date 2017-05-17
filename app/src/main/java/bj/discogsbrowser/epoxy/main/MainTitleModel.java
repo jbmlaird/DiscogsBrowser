@@ -35,7 +35,7 @@ public abstract class MainTitleModel extends EpoxyModel<LinearLayout>
         tvHeader.setText(title);
         if (tvButtonText != null)
             tvButton.setText(tvButtonText);
-        if (size == 0)
+        if (size > 5)
             tvButton.setVisibility(View.GONE);
         else
         {

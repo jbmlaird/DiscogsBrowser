@@ -67,7 +67,7 @@ public class SearchActivityTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock DaoManager daoManager;
     @Mock Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchFunction;
-    private List<SearchResult> results = SearchResultFactory.getResults();
+    private List<SearchResult> results = SearchResultFactory.getOneArtistTwoMastersThreeReleases();
     private SearchActivity activity;
     private SearchController controller;
     private String searchQuery = "yeeeeboi";
@@ -115,16 +115,16 @@ public class SearchActivityTest
         assertEquals(controller.getAdapter().getItemCount(), results.size());
         onView(withText("Artist")).perform(click());
         onView(withText(results.get(0).getTitle())).check(matches(isDisplayed()));
-        Thread.sleep(5);
+        Thread.sleep(500);
         onView(withText("Master")).perform(click());
         onView(withText(results.get(1).getTitle())).check(matches(isDisplayed()));
         onView(withText(results.get(2).getTitle())).check(matches(isDisplayed()));
-        Thread.sleep(5);
+        Thread.sleep(500);
         onView(withText("Release")).perform(click());
         onView(withText(results.get(3).getTitle())).check(matches(isDisplayed()));
         onView(withText(results.get(4).getTitle())).check(matches(isDisplayed()));
         onView(withText(results.get(5).getTitle())).check(matches(isDisplayed()));
-        Thread.sleep(5);
+        Thread.sleep(500);
         onView(withText("Label")).perform(click());
         onView(withText("No search results")).check(matches(isDisplayed()));
     }

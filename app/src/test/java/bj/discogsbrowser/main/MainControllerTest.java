@@ -21,7 +21,6 @@ import bj.discogsbrowser.greendao.DaoSession;
 import bj.discogsbrowser.marketplace.TestListing;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.order.OrderFactory;
-import bj.discogsbrowser.testmodels.TestViewedRelease;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;
@@ -144,7 +143,7 @@ public class MainControllerTest
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
         assertEquals(copyOfModels.size(), 9);
 
-        controller.setViewedReleases(Arrays.asList(new TestViewedRelease()));
+        controller.setViewedReleases(Arrays.asList(MainFactory.buildViewedRelease("123")));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "CarouselModel_");
@@ -402,9 +401,8 @@ public class MainControllerTest
         assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "ListingModel_");
         assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "ListingModel_");
-        assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "EmptySpaceModel_");
-        assertEquals(copyOfModels.size(), 14);
+        assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 13);
     }
 
     @Test

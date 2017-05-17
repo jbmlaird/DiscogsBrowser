@@ -1,34 +1,270 @@
-//package bj.discogsbrowser.main;
-//
-//import android.support.test.espresso.intent.rule.IntentsTestRule;
-//import android.support.test.runner.AndroidJUnit4;
-//
-//import org.junit.Before;
-//import org.junit.Rule;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//
-///**
-// * Created by Josh Laird on 12/05/2017.
-// */
-//@android.support.test.filters.MediumTest
-//@RunWith(AndroidJUnit4.class)
-//public class MainActivityTest
-//{
-//    private MainActivity mainActivity;
-//
-//    @Rule
-//    public IntentsTestRule<MainActivity> mActivityTestRule = new IntentsTestRule<>(MainActivity.class);
-//
-//    @Before
-//    public void setUp()
-//    {
-//        mainActivity = mActivityTestRule.getActivity();
-//    }
-//
-//    @Test
-//    public void wtf() throws InterruptedException
-//    {
-//        Thread.sleep(10000);
-//    }
-//}
+package bj.discogsbrowser.main;
+
+import android.content.Intent;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.filters.MediumTest;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+
+import java.util.List;
+
+import bj.discogsbrowser.R;
+import bj.discogsbrowser.about.AboutActivity;
+import bj.discogsbrowser.customviews.Carousel;
+import bj.discogsbrowser.greendao.ViewedRelease;
+import bj.discogsbrowser.login.LoginActivity;
+import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
+import bj.discogsbrowser.model.listing.Listing;
+import bj.discogsbrowser.model.order.Order;
+import bj.discogsbrowser.model.search.SearchResult;
+import bj.discogsbrowser.order.OrderActivity;
+import bj.discogsbrowser.order.OrderFactory;
+import bj.discogsbrowser.release.ReleaseActivity;
+import bj.discogsbrowser.search.SearchActivity;
+import bj.discogsbrowser.search.SearchResultFactory;
+import bj.discogsbrowser.singlelist.ListingFactory;
+import bj.discogsbrowser.singlelist.SingleListActivity;
+import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
+import bj.discogsbrowser.testutils.TestUtils;
+import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.NavigationDrawerBuilder;
+import bj.discogsbrowser.utils.SharedPrefsManager;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.times;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withResourceName;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static bj.discogsbrowser.testutils.EspressoDaggerMockRule.getApp;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
+
+/**
+ * Created by Josh Laird on 12/05/2017.
+ * <p>
+ * Due to the Roboletric tests which test the models have been built, these Espresso tests only test onClick and content.
+ */
+@MediumTest
+@RunWith(AndroidJUnit4.class)
+public class MainActivityTest
+{
+    @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
+    @Rule
+    public IntentsTestRule<MainActivity> mActivityTestRule = new IntentsTestRule<>(MainActivity.class, false, false);
+    @Mock MainPresenter presenter;
+    @Mock ImageViewAnimator imageViewAnimator;
+    @Mock SharedPrefsManager sharedPrefsManager;
+    private MainActivity activity;
+    private NavigationDrawerBuilder navigationDrawerBuilder;
+    private String numCollection = "50";
+    private String numWantlist = "90";
+    private MainController controller;
+    private List<ViewedRelease> viewedReleases = MainFactory.buildFourViewedReleases();
+    private List<SearchResult> recommendations = SearchResultFactory.getThreeReleases();
+    private List<Order> orders = OrderFactory.getListOfTwo();
+    private List<Listing> listings = ListingFactory.getThreeListings();
+
+    @Before
+    public void setUp()
+    {
+        Intent startingIntent = MainActivity.createIntent(getApp());
+        doAnswer(invocation ->
+                // Disable spinning to not cause Espresso timeout
+                invocation).when(imageViewAnimator).rotateImage(any());
+        when(sharedPrefsManager.isUserLoggedIn()).thenReturn(true);
+        doAnswer(invocation ->
+                // Swallow
+                invocation).when(presenter).connectAndBuildNavigationDrawer(any(), any());
+        doAnswer(invocation ->
+                // Swallow
+                invocation).when(presenter).buildRecommendations();
+        doAnswer(invocation ->
+                // Swallow
+                invocation).when(presenter).buildViewedReleases();
+        activity = mActivityTestRule.launchActivity(startingIntent);
+        controller = activity.controller;
+        navigationDrawerBuilder = new NavigationDrawerBuilder(getApp(), sharedPrefsManager);
+        initialiseUi();
+    }
+
+    @Test
+    public void navDrawerPressed_intendsCorrectly() throws InterruptedException
+    {
+        TestUtils.stubIntents(SingleListActivity.class);
+        TestUtils.stubIntents(SearchActivity.class);
+        TestUtils.stubIntents(LoginActivity.class);
+        TestUtils.stubIntents(AboutActivity.class);
+
+        onView(withText(numCollection)).check(matches(isDisplayed()));
+        onView(withText(numWantlist)).check(matches(isDisplayed()));
+        onView(allOf(withText("Collection"), withResourceName("material_drawer_name"))).perform(click());
+        onView(TestUtils.getHomeButton()).perform(click()); // Drawer closes on button press
+        onView(allOf(withText("Wantlist"), withResourceName("material_drawer_name"))).perform(click());
+        onView(TestUtils.getHomeButton()).perform(click());
+        onView(allOf(withText("Marketplace"), withResourceName("material_drawer_name"))).perform(click());
+        onView(allOf(withText("Selling"), withResourceName("material_drawer_name"))).perform(click());
+        onView(TestUtils.getHomeButton()).perform(click());
+        onView(allOf(withText("Orders"), withResourceName("material_drawer_name"))).perform(click());
+        onView(TestUtils.getHomeButton()).perform(click());
+        onView(allOf(withText("Search"), withResourceName("material_drawer_name"))).perform(click());
+        onView(TestUtils.getHomeButton()).perform(click());
+        onView(allOf(withText("About"), withResourceName("material_drawer_name"))).perform(click());
+        onView(TestUtils.getHomeButton()).perform(click());
+        onView(allOf(withText("Logout"), withResourceName("material_drawer_name"))).perform(click());
+
+        intended(hasComponent(SingleListActivity.class.getName()), times(4));
+        intended(hasComponent(SearchActivity.class.getName()));
+        intended(hasComponent(AboutActivity.class.getName()));
+        intended(hasComponent(LoginActivity.class.getName()));
+    }
+
+    @Test
+    public void recommendations_intendCorrectly() throws InterruptedException
+    {
+        TestUtils.stubIntents(ReleaseActivity.class);
+        // Close navdrawer
+        onView(withId(R.id.lytMainContent)).perform(swipeLeft());
+        controller.setRecommendations(recommendations);
+        Thread.sleep(500);
+
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(recommendations.get(0).getTitle()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(recommendations.get(1).getTitle()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(recommendations.get(2).getTitle()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", recommendations.get(0).getTitle()),
+                hasExtra("id", recommendations.get(0).getId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", recommendations.get(1).getTitle()),
+                hasExtra("id", recommendations.get(1).getId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", recommendations.get(2).getTitle()),
+                hasExtra("id", recommendations.get(2).getId())));
+    }
+
+    @Test
+    public void orders_intendCorrectly() throws InterruptedException
+    {
+        TestUtils.stubIntents(OrderActivity.class);
+        // Close navdrawer
+        onView(withId(R.id.lytMainContent)).perform(swipeLeft());
+        controller.setOrders(orders);
+        Thread.sleep(500);
+
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Buyer: " + orders.get(0).getBuyer().getUsername())), click()));
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Buyer: " + orders.get(1).getBuyer().getUsername())), click()));
+        intended(allOf(
+                hasComponent(OrderActivity.class.getName()),
+                hasExtra("id", orders.get(0).getId())));
+        intended(allOf(
+                hasComponent(OrderActivity.class.getName()),
+                hasExtra("id", orders.get(1).getId())));
+    }
+
+    @Test
+    public void listings_intendCorrectly() throws InterruptedException
+    {
+        TestUtils.stubIntents(MarketplaceListingActivity.class);
+        // Close navdrawer
+        onView(withId(R.id.lytMainContent)).perform(swipeLeft());
+        controller.setSelling(listings);
+        Thread.sleep(500);
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(listings.get(0).getTitle())), click()));
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(listings.get(1).getTitle())), click()));
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(listings.get(2).getTitle())), click()));
+        intended(allOf(
+                hasComponent(MarketplaceListingActivity.class.getName()),
+                hasExtra("id", listings.get(0).getId()),
+                hasExtra("title", listings.get(0).getTitle())));
+        intended(allOf(
+                hasComponent(MarketplaceListingActivity.class.getName()),
+                hasExtra("id", listings.get(1).getId()),
+                hasExtra("title", listings.get(1).getTitle())));
+        intended(allOf(
+                hasComponent(MarketplaceListingActivity.class.getName()),
+                hasExtra("id", listings.get(2).getId()),
+                hasExtra("title", listings.get(2).getTitle())));
+    }
+
+    @Test
+    public void viewedReleases_intendCorrectly() throws InterruptedException
+    {
+        TestUtils.stubIntents(SingleListActivity.class);
+        // Close navdrawer
+        onView(withId(R.id.lytMainContent)).perform(swipeLeft());
+
+        controller.setViewedReleases(viewedReleases);
+        Thread.sleep(500);
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(0).getArtists() + " - " + viewedReleases.get(0).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(1).getArtists() + " - " + viewedReleases.get(1).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(2).getArtists() + " - " + viewedReleases.get(2).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(3).getArtists() + " - " + viewedReleases.get(3).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(0).getReleaseName()),
+                hasExtra("id", viewedReleases.get(0).getReleaseId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(1).getReleaseName()),
+                hasExtra("id", viewedReleases.get(1).getReleaseId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(2).getReleaseName()),
+                hasExtra("id", viewedReleases.get(2).getReleaseId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(3).getReleaseName()),
+                hasExtra("id", viewedReleases.get(3).getReleaseId())));
+    }
+
+    private void initialiseUi()
+    {
+        when(sharedPrefsManager.getUsername()).thenReturn("BjLairy");
+        when(sharedPrefsManager.getName()).thenReturn("Joshy Boi");
+        when(sharedPrefsManager.getAvatarUrl()).thenReturn("http://thissomegoodshit.com");
+        when(sharedPrefsManager.getNumCollection()).thenReturn(numCollection);
+        when(sharedPrefsManager.getNumWantlist()).thenReturn(numWantlist);
+        activity.runOnUiThread(() ->
+        {
+            activity.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(activity, activity.toolbar));
+            activity.showLoading(false);
+            activity.setupRecyclerView();
+        });
+        onView(withId(R.id.search)).perform(click());
+        onView(TestUtils.getHomeButton()).perform(click());
+    }
+}

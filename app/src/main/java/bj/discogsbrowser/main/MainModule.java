@@ -39,6 +39,13 @@ public class MainModule
 
     @Provides
     @ActivityScope
+    protected NavigationDrawerBuilder provideNavigationDrawerBuilder(Context context, SharedPrefsManager sharedPrefsManager)
+    {
+        return new NavigationDrawerBuilder(context, sharedPrefsManager);
+    }
+
+    @Provides
+    @ActivityScope
     protected CompositeDisposable compositeDisposable()
     {
         return new CompositeDisposable();

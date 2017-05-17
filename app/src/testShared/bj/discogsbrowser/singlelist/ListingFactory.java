@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import bj.discogsbrowser.model.listing.Listing;
+import bj.discogsbrowser.model.listing.Seller;
 
 import static bj.discogsbrowser.order.OrderFactory.buildOrderRelease;
 
@@ -24,8 +25,14 @@ public class ListingFactory
         listing.setId(id);
         listing.setRelease(buildOrderRelease(title));
         listing.setPosted("");
+        listing.setSeller(buildSeller());
         return listing;
     }
 
-
+    private static Seller buildSeller()
+    {
+        Seller seller = new Seller();
+        seller.setUsername("youknowthatsright");
+        return seller;
+    }
 }

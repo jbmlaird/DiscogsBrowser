@@ -23,10 +23,10 @@ import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
 import bj.discogsbrowser.model.search.SearchResult;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 /**
  * Created by Josh Laird on 17/04/2017.
@@ -247,7 +247,7 @@ public class MainController extends EpoxyController
 
             new DividerModel_()
                     .id("sale divider " + listings.indexOf(listing))
-                    .addTo(this);
+                    .addIf(listings.indexOf(listing) != listings.size() - 1, this);
         }
 
         new EmptySpaceModel_()
