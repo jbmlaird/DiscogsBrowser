@@ -50,10 +50,12 @@ public class LoginPresenterTest
     public void startOAuthServiceValid_logsIn()
     {
         LoginActivity mockLoginActivity = mock(LoginActivity.class);
+        when(view.getActivity()).thenReturn(mockLoginActivity);
         when(rxSocialConnectWrapper.with(mockLoginActivity, oAuth10aService)).thenReturn(Observable.just(new Response<>(mockLoginActivity, oAuthTokenFactory.getValidToken())));
 
-        presenter.startOAuthService(mockLoginActivity);
+        presenter.beginLogin();
 
+        verify(view).getActivity();
         verify(sharedPrefsManager).storeOAuthToken(any(OAuth1AccessToken.class));
         verify(view).finishActivityLaunchMain();
     }
@@ -62,10 +64,12 @@ public class LoginPresenterTest
     public void startOAuthServiceError_viewDisplaysError()
     {
         LoginActivity mockLoginActivity = mock(LoginActivity.class);
+        when(view.getActivity()).thenReturn(mockLoginActivity);
         when(rxSocialConnectWrapper.with(mockLoginActivity, oAuth10aService)).thenReturn(Observable.error(new Throwable()));
 
-        presenter.startOAuthService(mockLoginActivity);
+        presenter.beginLogin();
 
+        verify(view).getActivity();
         verify(view).displayErrorDialog();
     }
 }

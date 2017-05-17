@@ -10,6 +10,8 @@ import bj.discogsbrowser.utils.ArtistsBeautifier;
 
 /**
  * Created by Josh Laird on 07/05/2017.
+ * <p>
+ * Wrapper for interacting with GreenDAO databases.
  */
 public class DaoManager
 {
@@ -22,6 +24,9 @@ public class DaoManager
         searchTermDao = daoSession.getSearchTermDao();
     }
 
+    /**
+     * @return Viewed releases in descending order by date
+     */
     public List<ViewedRelease> getViewedReleases()
     {
         return viewedReleaseDao.queryBuilder().orderDesc(ViewedReleaseDao.Properties.Date).build().list();
@@ -51,6 +56,9 @@ public class DaoManager
         viewedReleaseDao.insertOrReplace(viewedRelease);
     }
 
+    /**
+     * @return Recent search terms in descending order by date
+     */
     public List<SearchTerm> getRecentSearchTerms()
     {
         return searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list();

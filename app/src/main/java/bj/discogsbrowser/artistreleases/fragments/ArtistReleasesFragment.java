@@ -20,6 +20,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Josh Laird on 11/04/2017.
+ * <p>
+ * Fragment containing a RecyclerView.
  */
 public class ArtistReleasesFragment extends BaseFragment implements ArtistReleasesFragmentContract.View
 {

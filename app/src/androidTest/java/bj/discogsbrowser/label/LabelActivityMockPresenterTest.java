@@ -5,8 +5,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.thefinestartist.finestwebview.FinestWebViewActivity;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,6 +26,7 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.actionOn
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -71,7 +70,7 @@ public class LabelActivityMockPresenterTest
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // swallow
-                invocation).when(presenter).getReleaseAndLabelDetails("id");
+                invocation).when(presenter).fetchReleaseDetails("id");
 
         activity = mActivityTestRule.launchActivity(startingIntent);
         activity.controller.setLabel(testLabel);
@@ -94,7 +93,7 @@ public class LabelActivityMockPresenterTest
     @Test
     public void onLabelReleaseClicked_launchesReleaseActivity() throws InterruptedException
     {
-        TestUtils.stubIntents(ReleaseActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
 
         onView(withId(R.id.recyclerView))
                 // 0: Header, 1: Divider, 2: Release
@@ -109,12 +108,11 @@ public class LabelActivityMockPresenterTest
     @Test
     public void onViewOnDiscogsClicked_launchesWebView() throws InterruptedException
     {
-        TestUtils.stubIntents(FinestWebViewActivity.class);
+        TestUtils.stubIntentAction(Intent.ACTION_VIEW);
 
         onView(withId(R.id.recyclerView))
                 .perform(actionOnItem(hasDescendant(withText("View on Discogs")), click()));
 
-        intended(
-                hasComponent(FinestWebViewActivity.class.getName()));
+        intended(hasAction(Intent.ACTION_VIEW));
     }
 }

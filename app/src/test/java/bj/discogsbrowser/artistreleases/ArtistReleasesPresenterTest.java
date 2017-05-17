@@ -69,7 +69,7 @@ public class ArtistReleasesPresenterTest
         Single<List<ArtistRelease>> error = Single.error(new Throwable());
         when(discogsInteractor.fetchArtistsReleases(id)).thenReturn(error);
 
-        presenter.getArtistReleases(id);
+        presenter.fetchArtistReleases(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchArtistsReleases(id);
@@ -84,7 +84,7 @@ public class ArtistReleasesPresenterTest
         Single<List<ArtistRelease>> just = Single.just(artistReleases);
         when(discogsInteractor.fetchArtistsReleases(id)).thenReturn(just);
 
-        presenter.getArtistReleases(id);
+        presenter.fetchArtistReleases(id);
         testScheduler.triggerActions();
 
         verify(artistReleaseBehaviorRelay).getArtistReleaseBehaviorRelay();
@@ -97,7 +97,7 @@ public class ArtistReleasesPresenterTest
         Single<List<ArtistRelease>> error = Single.error(new Throwable());
         when(discogsInteractor.fetchArtistsReleases(id)).thenReturn(error);
 
-        presenter.getArtistReleases(id);
+        presenter.fetchArtistReleases(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchArtistsReleases(id);

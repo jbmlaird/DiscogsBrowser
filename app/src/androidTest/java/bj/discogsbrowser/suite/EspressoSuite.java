@@ -13,7 +13,7 @@ import bj.discogsbrowser.master.MasterActivityMockPresenterTest;
 import bj.discogsbrowser.order.OrderActivityMockPresenterTest;
 import bj.discogsbrowser.release.ReleaseActivityMockPresenterTest;
 import bj.discogsbrowser.search.SearchActivityTest;
-import bj.discogsbrowser.singlelist.SingleListActivity;
+import bj.discogsbrowser.singlelist.SingleListMockPresenterTest;
 
 /**
  * Created by Josh Laird on 14/05/2017.
@@ -24,5 +24,5 @@ import bj.discogsbrowser.singlelist.SingleListActivity;
 @Suite.SuiteClasses({ArtistActivityMockPresenterTest.class, ArtistReleasesMockNetworkTest.class, LabelActivityMockPresenterTest.class,
         LoginActivityMockPresenterTest.class, MainActivityTest.class, MarketplaceActivityMockPresenterTest.class,
         MasterActivityMockPresenterTest.class, OrderActivityMockPresenterTest.class, ReleaseActivityMockPresenterTest.class,
-        SearchActivityTest.class, SingleListActivity.class})
+        SearchActivityTest.class, SingleListMockPresenterTest.class})
 public class EspressoSuite {}

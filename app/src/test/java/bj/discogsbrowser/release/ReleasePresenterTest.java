@@ -79,7 +79,7 @@ public class ReleasePresenterTest
     {
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(Single.error(new Throwable()));
 
-        presenter.getReleaseAndLabelDetails(id);
+        presenter.fetchReleaseDetails(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchReleaseDetails(id);
@@ -143,7 +143,7 @@ public class ReleasePresenterTest
         when(discogsInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
 
-        presenter.getReleaseAndLabelDetails(id);
+        presenter.fetchReleaseDetails(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchReleaseDetails(id);
@@ -170,7 +170,7 @@ public class ReleasePresenterTest
         when(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(controller.getRelease()).thenReturn(releaseWithLabelNoneForSale);
 
-        presenter.getReleaseAndLabelDetails(id);
+        presenter.fetchReleaseDetails(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchReleaseDetails(id);
@@ -200,7 +200,7 @@ public class ReleasePresenterTest
         when(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(controller.getRelease()).thenReturn(releaseWithLabelSomeForSale);
 
-        presenter.getReleaseAndLabelDetails(id);
+        presenter.fetchReleaseDetails(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchReleaseDetails(id);

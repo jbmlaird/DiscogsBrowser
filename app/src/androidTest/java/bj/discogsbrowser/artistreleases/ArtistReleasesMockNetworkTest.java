@@ -120,8 +120,8 @@ public class ArtistReleasesMockNetworkTest
     @Test
     public void onClick_launchesCorrectIntents()
     {
-        TestUtils.stubIntents(ReleaseActivity.class);
-        TestUtils.stubIntents(MasterActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
+        TestUtils.stubIntentClass(MasterActivity.class);
 
         // Start from 1 as first element is SmallEmptySpaceModel_
         onView(allOf(withId(R.id.recyclerView), isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));

@@ -6,8 +6,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.thefinestartist.finestwebview.FinestWebViewActivity;
-
 import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,7 +22,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -99,7 +97,7 @@ public class MarketplaceActivityMockPresenterTest
     @Test
     public void buttonsClicked_intentsLaunched()
     {
-        TestUtils.stubIntents(FinestWebViewActivity.class);
+        TestUtils.stubIntentAction(Intent.ACTION_VIEW);
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollToPosition(activity.recyclerView.getAdapter().getItemCount() - 1));
 
@@ -109,6 +107,6 @@ public class MarketplaceActivityMockPresenterTest
         onView(withText("Dismiss"))
                 .inRoot(withDecorView(IsNot.not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).perform(click());
         onView(withText("View on Discogs")).perform(click());
-        intended(hasComponent(FinestWebViewActivity.class.getName()));
+        intended(hasAction(Intent.ACTION_VIEW));
     }
 }

@@ -64,7 +64,7 @@ public class ArtistPresenterTest
         when(discogsInteractor.fetchArtistDetails(myId)).thenReturn(Single.just(testArtistResult));
         when(unwantedLinksFunction.apply(testArtistResult)).thenReturn(testArtistResult);
 
-        artistPresenter.getReleaseAndLabelDetails(myId);
+        artistPresenter.fetchReleaseDetails(myId);
         testScheduler.triggerActions();
 
         verify(unwantedLinksFunction).apply(testArtistResult);
@@ -79,7 +79,7 @@ public class ArtistPresenterTest
     {
         when(discogsInteractor.fetchArtistDetails(myId)).thenReturn(Single.error(new Exception()));
 
-        artistPresenter.getReleaseAndLabelDetails(myId);
+        artistPresenter.fetchReleaseDetails(myId);
         testScheduler.triggerActions();
 
         verify(discogsInteractor).fetchArtistDetails(myId);

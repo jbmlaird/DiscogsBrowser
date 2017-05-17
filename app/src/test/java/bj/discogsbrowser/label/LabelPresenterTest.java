@@ -73,7 +73,7 @@ public class LabelPresenterTest
         when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label));
         when(discogsInteractor.fetchLabelReleases(id)).thenReturn(Single.just(emptyList));
 
-        presenter.getReleaseAndLabelDetails(id);
+        presenter.fetchReleaseDetails(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor, times(1)).fetchLabelDetails(id);
@@ -93,7 +93,7 @@ public class LabelPresenterTest
         when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label));
         when(discogsInteractor.fetchLabelReleases(id)).thenReturn(Single.just(labelReleases));
 
-        presenter.getReleaseAndLabelDetails(id);
+        presenter.fetchReleaseDetails(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor, times(1)).fetchLabelDetails(id);
@@ -108,7 +108,7 @@ public class LabelPresenterTest
     {
         when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.error(new Throwable()));
 
-        presenter.getReleaseAndLabelDetails(id);
+        presenter.fetchReleaseDetails(id);
         testScheduler.triggerActions();
 
         verify(discogsInteractor, times(1)).fetchLabelDetails(id);

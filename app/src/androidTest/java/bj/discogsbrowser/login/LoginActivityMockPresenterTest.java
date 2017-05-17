@@ -86,8 +86,8 @@ public class LoginActivityMockPresenterTest
         {
             mActivityTestRule.getActivity().finishActivityLaunchMain();
             return invocation;
-        }).when(presenter).startOAuthService(any());
-        TestUtils.stubIntents(MainActivity.class);
+        }).when(presenter).beginLogin();
+        TestUtils.stubIntentClass(MainActivity.class);
         mActivityTestRule.launchActivity(null);
 
         onView(withId(R.id.btnLogin)).perform(click());

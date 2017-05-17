@@ -3,8 +3,6 @@ package bj.discogsbrowser.utils.rxmodifiers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
@@ -16,19 +14,24 @@ public class ArtistResultFunction implements Function<List<ArtistRelease>, List<
 {
     private String parameterToMapTo = "";
 
-    @Inject
-    public ArtistResultFunction()
-    {
-
-    }
-
+    /**
+     * Sets whether to filter the releases to Releases or Masters.
+     *
+     * @param parameterToMapTo release or master.
+     */
     public void setParameterToMapTo(String parameterToMapTo)
     {
         this.parameterToMapTo = parameterToMapTo;
     }
 
+    /**
+     * Applies filter set above.
+     *
+     * @param artistReleases List of artist releases.
+     * @return Filtered list of artist releases.
+     */
     @Override
-    public List<ArtistRelease> apply(@NonNull List<ArtistRelease> artistReleases) throws Exception
+    public List<ArtistRelease> apply(@NonNull List<ArtistRelease> artistReleases)
     {
         ArrayList<ArtistRelease> remixes = new ArrayList<>();
         for (ArtistRelease release : artistReleases)

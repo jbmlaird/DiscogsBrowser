@@ -11,11 +11,11 @@ import static android.text.format.DateUtils.DAY_IN_MILLIS;
 
 /**
  * Created by Josh Laird on 17/04/2017.
+ * <p>
+ * Wrapper for formatting ISO dates into more readable Strings.
  */
-
 public class DateFormatter
 {
-    private final String TAG = this.getClass().getSimpleName();
     private DateUtilsWrapper dateUtilsWrapper;
     private SimpleDateFormatWrapper simpleDateFormatWrapper;
 

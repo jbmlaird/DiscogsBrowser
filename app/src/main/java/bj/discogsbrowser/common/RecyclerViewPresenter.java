@@ -5,5 +5,5 @@ package bj.discogsbrowser.common;
  */
 public interface RecyclerViewPresenter
 {
-    void getReleaseAndLabelDetails(String id);
+    void fetchReleaseDetails(String id);
 }

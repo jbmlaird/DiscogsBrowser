@@ -2,12 +2,11 @@ package bj.discogsbrowser.artist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import javax.inject.Inject;
 
@@ -23,6 +22,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Josh Laird on 07/04/2017.
+ * <p>
+ * Activity that displays Artist details.
  */
 public class ArtistActivity extends BaseActivity implements ArtistContract.View
 {
@@ -58,7 +59,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -72,7 +73,8 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     public void openLink(String link)
     {
         tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), link, 1L);
-        new FinestWebView.Builder(this).show(link);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        startActivity(intent);
     }
 
     @Override
@@ -93,7 +95,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     public void retry()
     {
         tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "retry", 1L);
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     private void setupRecyclerView(RecyclerView rvDetailed, BaseController controller, String title)

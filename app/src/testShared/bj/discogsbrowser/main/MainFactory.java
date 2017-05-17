@@ -1,6 +1,6 @@
 package bj.discogsbrowser.main;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.greendao.ViewedRelease;
@@ -10,13 +10,17 @@ import bj.discogsbrowser.greendao.ViewedRelease;
  */
 public class MainFactory
 {
-    public static List<ViewedRelease> buildFourViewedReleases()
+    public static List<ViewedRelease> buildViewedReleases(int number)
     {
-        return Arrays.asList(buildViewedRelease("1"), buildViewedRelease("2"),
-                buildViewedRelease("3"), buildViewedRelease("4"));
+        List<ViewedRelease> viewedReleases = new ArrayList<>();
+        for (int i = 0; i < number; i++)
+        {
+            viewedReleases.add(buildViewedRelease(i));
+        }
+        return viewedReleases;
     }
 
-    public static ViewedRelease buildViewedRelease(String number)
+    public static ViewedRelease buildViewedRelease(int number)
     {
         ViewedRelease viewedRelease = new ViewedRelease();
         viewedRelease.setStyle("techno");

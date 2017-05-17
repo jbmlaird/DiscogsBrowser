@@ -21,16 +21,21 @@ public class MasterPresenter implements MasterContract.Presenter
         this.mySchedulerProvider = mySchedulerProvider;
     }
 
+    /**
+     * Fetches {@link bj.discogsbrowser.model.collection.Label} details from Discogs.
+     *
+     * @param labelId Label ID.
+     */
     @Override
-    public void getReleaseAndLabelDetails(String id)
+    public void fetchReleaseDetails(String labelId)
     {
-        discogsInteractor.fetchMasterDetails(id)
+        discogsInteractor.fetchMasterDetails(labelId)
                 .doOnSubscribe(onSubscribe -> controller.setLoading(true))
                 .observeOn(mySchedulerProvider.ui())
                 .flatMap(master ->
                 {
                     controller.setMaster(master);
-                    return discogsInteractor.fetchMasterVersions(id);
+                    return discogsInteractor.fetchMasterVersions(labelId);
                 })
                 .subscribe(masterVersions ->
                                 controller.setMasterVersions(masterVersions),

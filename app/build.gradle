@@ -87,7 +87,6 @@ dependencies {
         transitive = true
     }
     compile "com.joanzapata.iconify:android-iconify-fontawesome:$ICONIFY_VERSION"
-    compile "com.thefinestartist:finestwebview:1.2.7"
     compile "com.jakewharton.rxrelay2:rxrelay:2.0.0"
     compile "org.jsoup:jsoup:1.10.2"
     compile "com.android.support.constraint:constraint-layout:1.0.2"

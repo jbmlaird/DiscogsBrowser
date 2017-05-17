@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 /**
  * Created by Josh Laird on 17/04/2017.
  * <p>
+ * A custom implementation of RecyclerView to avoid memory leaks:
  * https://github.com/airbnb/epoxy/wiki/Avoiding-Memory-Leaks
  */
 public class MyRecyclerView extends RecyclerView

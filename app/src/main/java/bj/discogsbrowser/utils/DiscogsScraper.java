@@ -8,26 +8,18 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import bj.discogsbrowser.model.listing.ScrapeListing;
 
 /**
  * Created by Josh Laird on 12/04/2017.
  * <p>
  * Due to Discogs making their marketplace search API endpoint private I have to go to the website and scrape the information.
+ * It only searches for 12" records.
  */
 public class DiscogsScraper
 {
-    @Inject
-    public DiscogsScraper()
-    {
-
-    }
-
     public ArrayList<ScrapeListing> scrapeListings(String id) throws IOException
     {
-        // Only searches for 12"
         ArrayList<ScrapeListing> scrapeListings = new ArrayList<>();
         Document doc = Jsoup
                 .connect("http://www.discogs.com/sell/list?sort=price%2Casc&limit=50&ev=mbformat_desc=12\"&release_id=" + id)
@@ -35,7 +27,7 @@ public class DiscogsScraper
         Elements marketplaceListings = doc.getElementsByClass("shortcut_navigable ");
         for (Element element : marketplaceListings)
         {
-            // Price element
+            // Contains price details
             String price = element.getElementsByClass("hide_desktop").get(0).getElementsByClass("price").get(0).text();
             String convertedPrice = "";
             try
@@ -44,7 +36,7 @@ public class DiscogsScraper
             }
             catch (IndexOutOfBoundsException e)
             {
-                // Listed in local price
+                // Listed in local price. No need to convert
             }
             // Contains media and sleeve condition
             Element itemDescription = element.getElementsByClass("item_description").get(0);

@@ -80,6 +80,11 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
         controller.requestModelBuild();
     }
 
+    /**
+     * Exposes an Observable that watches the EditText's changes.
+     *
+     * @return Observable.
+     */
     @Override
     public Observable<CharSequence> filterIntent()
     {

@@ -2,12 +2,12 @@ package bj.discogsbrowser.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import javax.inject.Inject;
 
@@ -22,6 +22,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Josh Laird on 13/04/2017.
+ * <p>
+ * Activity to show listing information.
  */
 public class MarketplaceListingActivity extends BaseActivity implements MarketplaceContract.View
 {
@@ -74,7 +76,8 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     public void viewOnDiscogs(String listingUri)
     {
         tracker.send(getString(R.string.marketplace_activity), getString(R.string.marketplace_activity), getString(R.string.loaded), "onResume", 1L);
-        new FinestWebView.Builder(this).show(listingUri);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(listingUri));
+        startActivity(intent);
     }
 
     @Override

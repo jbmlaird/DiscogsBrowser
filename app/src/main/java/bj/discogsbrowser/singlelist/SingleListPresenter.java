@@ -46,6 +46,9 @@ public class SingleListPresenter implements SingleListContract.Presenter
         this.filterHelper = filterHelper;
     }
 
+    /**
+     * Sets up an Observer on the SearchView.
+     */
     @Override
     public void setupFilterSubscription()
     {
@@ -54,6 +57,12 @@ public class SingleListPresenter implements SingleListContract.Presenter
                 .subscribeWith(getFilterObserver()));
     }
 
+    /**
+     * Fetches relevant information from Discogs depending on the data type.
+     *
+     * @param stringId Orders, Selling, Wantlist or Collection
+     * @param username User's username.
+     */
     @Override
     public void getData(Integer stringId, String username)
     {
@@ -88,6 +97,12 @@ public class SingleListPresenter implements SingleListContract.Presenter
         }
     }
 
+    /**
+     * Observer that subscribes to the network response.
+     *
+     * @param errorMessage Error message relevant to data type.
+     * @return Observer.
+     */
     private DisposableSingleObserver<List<? extends RecyclerViewModel>> getNetworkObserver(String errorMessage)
     {
         return new DisposableSingleObserver<List<? extends RecyclerViewModel>>()
@@ -119,6 +134,9 @@ public class SingleListPresenter implements SingleListContract.Presenter
         disposable.dispose();
     }
 
+    /**
+     * Observer that subscribes to the filter EditText.
+     */
     private DisposableObserver<CharSequence> getFilterObserver()
     {
         return new DisposableObserver<CharSequence>()
@@ -145,6 +163,9 @@ public class SingleListPresenter implements SingleListContract.Presenter
         };
     }
 
+    /**
+     * Displays items depending on the filter query.
+     */
     private void displayItems()
     {
         Single.just(items)

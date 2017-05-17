@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -35,11 +36,25 @@ public class TestUtils
      *
      * @param classToStub Target class to stub intents to.
      */
-    public static void stubIntents(Class classToStub)
+    public static void stubIntentClass(Class classToStub)
+    {
+        intending(hasComponent(classToStub.getName())).respondWith(buildOkResult());
+    }
+
+    /**
+     * Stub intents by Action. Currently only used for ACTION_VIEW (WebViews)
+     *
+     * @param actionView Action
+     */
+    public static void stubIntentAction(String actionView)
+    {
+        intending(hasAction(actionView)).respondWith(buildOkResult());
+    }
+
+    private static Instrumentation.ActivityResult buildOkResult()
     {
         Intent resultData = new Intent();
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-        intending(hasComponent(classToStub.getName())).respondWith(result);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
     /**
@@ -75,6 +90,9 @@ public class TestUtils
         };
     }
 
+    /**
+     * A matcher to match EditText text contents.
+     */
     public static class isEditTextEqualTo implements ViewAssertion
     {
         private String searchTerm = "";

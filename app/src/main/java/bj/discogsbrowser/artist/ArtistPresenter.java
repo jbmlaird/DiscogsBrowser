@@ -32,8 +32,13 @@ public class ArtistPresenter implements ArtistContract.Presenter
         this.removeUnwantedLinksFunction = removeUnwantedLinksFunction;
     }
 
+    /**
+     * Fetch the artist's details from Discogs.
+     *
+     * @param id Artist ID.
+     */
     @Override
-    public void getReleaseAndLabelDetails(String id)
+    public void fetchReleaseDetails(String id)
     {
         discogsInteractor.fetchArtistDetails(id)
                 .doOnSubscribe(onSubscribe -> artistController.setLoading(true))

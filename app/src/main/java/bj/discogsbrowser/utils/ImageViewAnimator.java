@@ -7,13 +7,11 @@ import android.widget.ImageView;
 
 /**
  * Created by Josh Laird on 17/04/2017.
+ * <p>
+ * Rotates the vinyl image. This UX business ain't so bad?
  */
 public class ImageViewAnimator
 {
-    public ImageViewAnimator()
-    {
-    }
-
     public void rotateImage(ImageView imageView)
     {
         RotateAnimation rotateAnimation = new RotateAnimation(0, 360f,

@@ -19,6 +19,11 @@ public class OrderPresenter implements OrderContract.Presenter
         this.orderController = orderController;
     }
 
+    /**
+     * Fetches {@link bj.discogsbrowser.model.order.Order} details from Discogs.
+     *
+     * @param orderId Order ID.
+     */
     @Override
     public void fetchOrderDetails(String orderId)
     {

@@ -36,6 +36,11 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
         this.artistReleasesTransformer = artistReleasesTransformer;
     }
 
+    /**
+     * Connects the Fragment to the {@link ArtistReleaseBehaviorRelay}.
+     *
+     * @param searchFilter master or release to filter the {@link ArtistRelease}s by.
+     */
     @Override
     public void connectToBehaviorRelay(String searchFilter)
     {

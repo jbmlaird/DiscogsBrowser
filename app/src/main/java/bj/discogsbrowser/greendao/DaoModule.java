@@ -1,4 +1,4 @@
-package bj.discogsbrowser.di.modules;
+package bj.discogsbrowser.greendao;
 
 import android.content.Context;
 

@@ -116,7 +116,6 @@ public class MainController extends EpoxyController
                 .id("Recommendations model")
                 .tvButtonText("Learn more")
                 .onClickListener(v -> mView.learnMore())
-                .size(recommendations.size())
                 .addTo(this);
 
         if (recommendationsLoading)

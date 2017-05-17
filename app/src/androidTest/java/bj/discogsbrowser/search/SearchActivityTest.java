@@ -135,9 +135,9 @@ public class SearchActivityTest
         when(daoManager.getRecentSearchTerms()).thenReturn(Collections.emptyList());
         activity = mActivityTestRule.launchActivity(startIntent);
         controller = activity.controller;
-        TestUtils.stubIntents(ReleaseActivity.class);
-        TestUtils.stubIntents(MasterActivity.class);
-        TestUtils.stubIntents(ArtistActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
+        TestUtils.stubIntentClass(MasterActivity.class);
+        TestUtils.stubIntentClass(ArtistActivity.class);
 
         when(searchFunction.apply(any())).thenReturn(Observable.just(results));
         onView(withId(R.id.search_src_text)).perform(click());

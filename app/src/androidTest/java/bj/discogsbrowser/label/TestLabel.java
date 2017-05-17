@@ -33,7 +33,7 @@ public class TestLabel extends Label
     @Override
     public String getUri()
     {
-        return "labelUri";
+        return "http://yeson.com";
     }
 
     @Override
@@ -71,6 +71,12 @@ public class TestLabel extends Label
 
     static class TestLabelRelease extends LabelRelease
     {
+        @Override
+        public String getResourceUrl()
+        {
+            return "http://yeson.com";
+        }
+
         @Override
         public String getStatus()
         {

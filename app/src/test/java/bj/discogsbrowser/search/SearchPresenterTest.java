@@ -110,6 +110,7 @@ public class SearchPresenterTest
         testScheduler.triggerActions();
 
         verify(searchController).setSearching(true);
+        verify(mockTextEvent).queryText();
         verify(daoManager).storeSearchTerm("yee");
         verify(searchModelFunc).apply(mockTextEvent);
         verify(searchController).setSearchResults(emptyList);
@@ -140,6 +141,7 @@ public class SearchPresenterTest
         verify(daoManager).storeSearchTerm("yee");
         verify(searchModelFunc).apply(mockTextEvent);
         verify(searchController).setSearchResults(emptyList);
+        verify(mockTextEvent).queryText();
         verifyNoMoreInteractions(mockTextEvent);
     }
 
@@ -213,6 +215,8 @@ public class SearchPresenterTest
         verify(searchController, times(2)).setSearching(true);
         verify(daoManager).storeSearchTerm("yee1");
         verify(daoManager).storeSearchTerm("yee2");
+        verify(mockTextEvent).queryText();
+        verify(mockTextEvent2).queryText();
         verify(searchModelFunc).apply(mockTextEvent);
         verify(searchModelFunc).apply(mockTextEvent2);
         verify(searchController).setSearchResults(emptyList);

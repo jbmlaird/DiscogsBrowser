@@ -1,8 +1,5 @@
 package bj.discogsbrowser.wrappers;
 
-import android.content.Context;
-
-import bj.discogsbrowser.utils.DateFormatter;
 import dagger.Module;
 import dagger.Provides;
 
@@ -15,21 +12,9 @@ import dagger.Provides;
 public class WrappersModule
 {
     @Provides
-    protected DateUtilsWrapper dateUtilsWrapper()
-    {
-        return new DateUtilsWrapper();
-    }
-
-    @Provides
     protected SimpleDateFormatWrapper provideSdfWrapper()
     {
         return new SimpleDateFormatWrapper();
-    }
-
-    @Provides
-    protected DateFormatter provideDateFormatter(DateUtilsWrapper dateUtilsWrapper, SimpleDateFormatWrapper simpleDateFormatWrapper)
-    {
-        return new DateFormatter(dateUtilsWrapper, simpleDateFormatWrapper);
     }
 
     @Provides
@@ -39,8 +24,26 @@ public class WrappersModule
     }
 
     @Provides
-    protected ToastyWrapper provideToasty(Context context)
+    protected ToastyWrapper provideToasty()
     {
-        return new ToastyWrapper(context);
+        return new ToastyWrapper();
+    }
+
+    @Provides
+    protected DateUtilsWrapper provideDateUtils()
+    {
+        return new DateUtilsWrapper();
+    }
+
+    @Provides
+    protected RxSocialConnectWrapper provideRxSocial()
+    {
+        return new RxSocialConnectWrapper();
+    }
+
+    @Provides
+    protected LogWrapper provideLogWrapper()
+    {
+        return new LogWrapper();
     }
 }

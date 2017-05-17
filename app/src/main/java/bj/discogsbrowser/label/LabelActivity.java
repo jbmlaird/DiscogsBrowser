@@ -2,11 +2,10 @@ package bj.discogsbrowser.label;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import javax.inject.Inject;
 
@@ -57,7 +56,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -78,14 +77,15 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     public void openLink(String uri)
     {
         tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), uri, 1L);
-        new FinestWebView.Builder(this).show(uri);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
     }
 
     @Override
     public void retry()
     {
         tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "retry", 1L);
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     private void setupRecyclerView(MyRecyclerView recyclerView, BaseController controller, String title)

@@ -34,6 +34,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * The view the user sees after logging in.
+ */
 public class MainActivity extends BaseActivity implements MainContract.View
 {
     @BindView(R.id.ivLoading) ImageView ivLoading;
@@ -122,12 +125,18 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
+    public MainActivity getActivity()
+    {
+        return this;
+    }
+
+    @Override
     protected void onResume()
     {
         super.onResume();
         tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1L);
         if (drawer == null)
-            presenter.connectAndBuildNavigationDrawer(this, toolbar);
+            presenter.connectAndBuildNavigationDrawer(toolbar);
         presenter.buildRecommendations();
         presenter.buildViewedReleases();
     }
@@ -183,9 +192,8 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     /**
-     * RecyclerView gets detached upon attaching the navigation drawer.
-     * <p>
-     * Called from the View as it has a reference to the Activity and RecyclerView.
+     * RecyclerView gets detached upon attaching the navigation drawer so must be called from the
+     * {@link MainPresenter} after fetching login details.
      */
     @Override
     public void setupRecyclerView()
@@ -262,6 +270,6 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @OnClick(R.id.btnError)
     public void reconnectPressed()
     {
-        presenter.connectAndBuildNavigationDrawer(this, toolbar);
+        presenter.connectAndBuildNavigationDrawer(toolbar);
     }
 }

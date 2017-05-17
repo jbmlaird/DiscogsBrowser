@@ -2,6 +2,7 @@ package bj.discogsbrowser.about;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,12 +14,13 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import bj.discogsbrowser.R;
 
 /**
  * Created by Josh Laird on 04/05/2017.
+ * <p>
+ * About page powered by Material About Library by Daniel Stone: https://github.com/daniel-stoneuk/material-about-library
  */
 public class AboutActivity extends MaterialAboutActivity
 {
@@ -52,7 +54,11 @@ public class AboutActivity extends MaterialAboutActivity
         authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Fork on Github")
                 .icon(new IconDrawable(context, FontAwesomeIcons.fa_github).sizeDp(18))
-                .setOnClickAction(() -> new FinestWebView.Builder(context).show("http://github.com/jbmlaird"))
+                .setOnClickAction(() ->
+                {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://github.com/jbmlaird"));
+                    startActivity(intent);
+                })
                 .build());
 
         return new MaterialAboutList(appCardBuilder.build(), authorCardBuilder.build());

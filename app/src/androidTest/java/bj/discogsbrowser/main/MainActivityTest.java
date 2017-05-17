@@ -79,7 +79,7 @@ public class MainActivityTest
     private String numCollection = "50";
     private String numWantlist = "90";
     private MainController controller;
-    private List<ViewedRelease> viewedReleases = MainFactory.buildFourViewedReleases();
+    private List<ViewedRelease> fourViewedReleases = MainFactory.buildViewedReleases(4);
     private List<SearchResult> recommendations = SearchResultFactory.getThreeReleases();
     private List<Order> orders = OrderFactory.getListOfTwo();
     private List<Listing> listings = ListingFactory.getThreeListings();
@@ -95,7 +95,7 @@ public class MainActivityTest
         when(sharedPrefsManager.isUserLoggedIn()).thenReturn(true);
         doAnswer(invocation ->
                 // Swallow
-                invocation).when(presenter).connectAndBuildNavigationDrawer(any(), any());
+                invocation).when(presenter).connectAndBuildNavigationDrawer(any());
         doAnswer(invocation ->
                 // Swallow
                 invocation).when(presenter).buildRecommendations();
@@ -111,10 +111,10 @@ public class MainActivityTest
     @Test
     public void navDrawerPressed_intendsCorrectly() throws InterruptedException
     {
-        TestUtils.stubIntents(SingleListActivity.class);
-        TestUtils.stubIntents(SearchActivity.class);
-        TestUtils.stubIntents(LoginActivity.class);
-        TestUtils.stubIntents(AboutActivity.class);
+        TestUtils.stubIntentClass(SingleListActivity.class);
+        TestUtils.stubIntentClass(SearchActivity.class);
+        TestUtils.stubIntentClass(LoginActivity.class);
+        TestUtils.stubIntentClass(AboutActivity.class);
 
         onView(withText(numCollection)).check(matches(isDisplayed()));
         onView(withText(numWantlist)).check(matches(isDisplayed()));
@@ -144,46 +144,55 @@ public class MainActivityTest
     @Test
     public void viewedReleases_intendCorrectly() throws InterruptedException
     {
-        TestUtils.stubIntents(ReleaseActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
         // Close navdrawer
         onView(withId(R.id.lytMainContent)).perform(swipeLeft());
 
-        controller.setViewedReleases(viewedReleases);
+        controller.setViewedReleases(fourViewedReleases);
         Thread.sleep(500);
         onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(0).getArtists() + " - " + viewedReleases.get(0).getReleaseName()))))
+                hasDescendant(withText(fourViewedReleases.get(0).getArtists() + " - " + fourViewedReleases.get(0).getReleaseName()))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(1).getArtists() + " - " + viewedReleases.get(1).getReleaseName()))))
+                hasDescendant(withText(fourViewedReleases.get(1).getArtists() + " - " + fourViewedReleases.get(1).getReleaseName()))))
+                .perform(RecyclerViewActions.scrollToPosition(1));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(fourViewedReleases.get(1).getArtists() + " - " + fourViewedReleases.get(1).getReleaseName()))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(2).getArtists() + " - " + viewedReleases.get(2).getReleaseName()))))
+                hasDescendant(withText(fourViewedReleases.get(1).getArtists() + " - " + fourViewedReleases.get(1).getReleaseName())))) //Use an already displayed view to match the Carousel
+                .perform(RecyclerViewActions.scrollToPosition(2));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(fourViewedReleases.get(2).getArtists() + " - " + fourViewedReleases.get(2).getReleaseName()))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(3).getArtists() + " - " + viewedReleases.get(3).getReleaseName()))))
+                hasDescendant(withText(fourViewedReleases.get(2).getArtists() + " - " + fourViewedReleases.get(2).getReleaseName())))) //Use an already displayed view to match the Carousel
+                .perform(RecyclerViewActions.scrollToPosition(3));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(fourViewedReleases.get(3).getArtists() + " - " + fourViewedReleases.get(3).getReleaseName()))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
         intended(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(0).getReleaseName()),
-                hasExtra("id", viewedReleases.get(0).getReleaseId())));
+                hasExtra("title", fourViewedReleases.get(0).getReleaseName()),
+                hasExtra("id", fourViewedReleases.get(0).getReleaseId())));
         intended(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(1).getReleaseName()),
-                hasExtra("id", viewedReleases.get(1).getReleaseId())));
+                hasExtra("title", fourViewedReleases.get(1).getReleaseName()),
+                hasExtra("id", fourViewedReleases.get(1).getReleaseId())));
         intended(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(2).getReleaseName()),
-                hasExtra("id", viewedReleases.get(2).getReleaseId())));
+                hasExtra("title", fourViewedReleases.get(2).getReleaseName()),
+                hasExtra("id", fourViewedReleases.get(2).getReleaseId())));
         intended(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(3).getReleaseName()),
-                hasExtra("id", viewedReleases.get(3).getReleaseId())));
+                hasExtra("title", fourViewedReleases.get(3).getReleaseName()),
+                hasExtra("id", fourViewedReleases.get(3).getReleaseId())));
     }
 
     @Test
     public void recommendations_intendCorrectly() throws InterruptedException
     {
-        TestUtils.stubIntents(ReleaseActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
         // Close navdrawer
         onView(withId(R.id.lytMainContent)).perform(swipeLeft());
         controller.setRecommendations(recommendations);
@@ -215,7 +224,7 @@ public class MainActivityTest
     @Test
     public void orders_intendCorrectly() throws InterruptedException
     {
-        TestUtils.stubIntents(OrderActivity.class);
+        TestUtils.stubIntentClass(OrderActivity.class);
         // Close navdrawer
         onView(withId(R.id.lytMainContent)).perform(swipeLeft());
         controller.setOrders(orders);
@@ -234,7 +243,7 @@ public class MainActivityTest
     @Test
     public void listings_intendCorrectly() throws InterruptedException
     {
-        TestUtils.stubIntents(MarketplaceListingActivity.class);
+        TestUtils.stubIntentClass(MarketplaceListingActivity.class);
         // Close navdrawer
         onView(withId(R.id.lytMainContent)).perform(swipeLeft());
         controller.setSelling(listings);
@@ -254,6 +263,12 @@ public class MainActivityTest
                 hasComponent(MarketplaceListingActivity.class.getName()),
                 hasExtra("id", listings.get(2).getId()),
                 hasExtra("title", listings.get(2).getTitle())));
+    }
+
+    @Test
+    public void overFiveItems_seeAllDisplayed()
+    {
+
     }
 
     private void initialiseUi()

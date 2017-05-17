@@ -21,15 +21,15 @@ import android.support.test.InstrumentationRegistry;
 import bj.discogsbrowser.App;
 import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.AppModule;
-import bj.discogsbrowser.di.modules.DaoModule;
-import bj.discogsbrowser.di.modules.ImageViewAnimatorModule;
+import bj.discogsbrowser.greendao.DaoModule;
+import bj.discogsbrowser.utils.UtilsModule;
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 public class EspressoDaggerMockRule extends DaggerMockRule<AppComponent>
 {
     public EspressoDaggerMockRule()
     {
-        super(AppComponent.class, new AppModule(getApp()), new ImageViewAnimatorModule(), new DaoModule());
+        super(AppComponent.class, new AppModule(getApp()), new UtilsModule(), new DaoModule());
         set(component -> getApp().setComponent(component));
     }
 

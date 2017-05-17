@@ -8,6 +8,8 @@ import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 
 /**
  * Created by Josh Laird on 15/05/2017.
+ * <p>
+ * Wrapper for BehaviorRelay for DI.
  */
 
 public class ArtistReleaseBehaviorRelay

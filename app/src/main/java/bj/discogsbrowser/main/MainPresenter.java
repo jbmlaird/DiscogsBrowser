@@ -23,7 +23,7 @@ import bj.discogsbrowser.wrappers.LogWrapper;
 import io.reactivex.Single;
 
 /**
- * Created by j on 18/02/2017.
+ * Created by Josh Laird on 18/02/2017.
  */
 public class MainPresenter implements MainContract.Presenter
 {
@@ -56,8 +56,13 @@ public class MainPresenter implements MainContract.Presenter
         this.tracker = tracker;
     }
 
+    /**
+     * Fetches the user information from Discogs then builds the Navigation Drawer.
+     *
+     * @param toolbar Activity toolbar.
+     */
     @Override
-    public void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar)
+    public void connectAndBuildNavigationDrawer(Toolbar toolbar)
     {
         mView.showLoading(true);
         fetchMainPageInformation()
@@ -65,7 +70,7 @@ public class MainPresenter implements MainContract.Presenter
                         {
                             mainController.setSelling(listing);
                             // As RecyclerView gets detached, these must be called after attaching NavDrawer
-                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
+                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mView.getActivity(), toolbar));
                             mView.setupRecyclerView();
                         },
                         error ->
@@ -74,13 +79,16 @@ public class MainPresenter implements MainContract.Presenter
                                 mainController.setConfirmEmail(true);
                             else
                                 mainController.setOrdersError(true);
-                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar));
+                            mView.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(mView.getActivity(), toolbar));
                             mView.setupRecyclerView();
                             error.printStackTrace();
                             log.e(TAG, "Wtf");
                         });
     }
 
+    /**
+     * Fetches the viewed releases from the database and populates the {@link MainActivity}.
+     */
     @Override
     public void buildViewedReleases()
     {
@@ -88,6 +96,9 @@ public class MainPresenter implements MainContract.Presenter
         mainController.setViewedReleases(viewedReleases);
     }
 
+    /**
+     * Chained requests to fetch the user details from Discogs.
+     */
     private Single<List<Listing>> fetchMainPageInformation()
     {
         return discogsInteractor.fetchUserDetails()
@@ -121,6 +132,11 @@ public class MainPresenter implements MainContract.Presenter
                         });
     }
 
+    /**
+     * Fetches the user's orders from Discogs.
+     *
+     * @return The user's orders.
+     */
     @Override
     public Single<List<Order>> fetchOrders()
     {
@@ -130,6 +146,11 @@ public class MainPresenter implements MainContract.Presenter
                 .doOnSubscribe(disposable -> mainController.setLoadingMorePurchases(true));
     }
 
+    /**
+     * Fetches the user's selling from Discogs.
+     *
+     * @return The user's selling.
+     */
     @Override
     public Single<List<Listing>> fetchSelling()
     {
@@ -138,6 +159,11 @@ public class MainPresenter implements MainContract.Presenter
                 .subscribeOn(mySchedulerProvider.io());
     }
 
+    /**
+     * Builds recommendations for the user by contacting Discogs with a request requesting tracks
+     * in the same genre and label as the last release they looked at. It then populates
+     * the {@link MainActivity}.
+     */
     @Override
     public void buildRecommendations()
     {

@@ -82,7 +82,7 @@ public class SingleListMockPresenterTest
     @Test
     public void sixOrders_displaysAndIntends()
     {
-        TestUtils.stubIntents(OrderActivity.class);
+        TestUtils.stubIntentClass(OrderActivity.class);
         List<Order> listOfSix = OrderFactory.getListOfSix();
         controller.setItems(listOfSix);
 
@@ -118,7 +118,7 @@ public class SingleListMockPresenterTest
     @Test
     public void loadThreeWants_displaysAndIntends()
     {
-        TestUtils.stubIntents(ReleaseActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
         List<Want> threeWants = WantFactory.getThreeWants();
         controller.setItems(threeWants);
 
@@ -143,7 +143,7 @@ public class SingleListMockPresenterTest
     @Test
     public void loadThreeSelling_displaysAndIntends()
     {
-        TestUtils.stubIntents(OrderActivity.class);
+        TestUtils.stubIntentClass(OrderActivity.class);
         List<Listing> threeListings = ListingFactory.getThreeListings();
         controller.setItems(threeListings);
 
@@ -165,7 +165,7 @@ public class SingleListMockPresenterTest
     @Test
     public void loadThreeCollection_displaysAndIntends()
     {
-        TestUtils.stubIntents(ReleaseActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
         List<CollectionRelease> threeCollectionReleases = CollectionFactory.getThreeCollectionReleases();
         controller.setItems(threeCollectionReleases);
 

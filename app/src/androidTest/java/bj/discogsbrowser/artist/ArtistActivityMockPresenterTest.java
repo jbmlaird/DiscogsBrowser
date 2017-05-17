@@ -6,8 +6,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.thefinestartist.finestwebview.FinestWebViewActivity;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,6 +23,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.times;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -64,7 +63,7 @@ public class ArtistActivityMockPresenterTest
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // swallow
-                invocation).when(presenter).getReleaseAndLabelDetails(artistId);
+                invocation).when(presenter).fetchReleaseDetails(artistId);
 
         activity = mActivityTestRule.launchActivity(startingIntent);
     }
@@ -84,7 +83,7 @@ public class ArtistActivityMockPresenterTest
     @Test
     public void membersClick_launchesIntent()
     {
-        TestUtils.stubIntents(ArtistActivity.class);
+        TestUtils.stubIntentClass(ArtistActivity.class);
 
         activity.controller.setArtist(artistResult);
 
@@ -105,7 +104,7 @@ public class ArtistActivityMockPresenterTest
     @Test
     public void viewReleasesClicked_launchesIntent()
     {
-        TestUtils.stubIntents(ArtistReleasesActivity.class);
+        TestUtils.stubIntentClass(ArtistReleasesActivity.class);
         activity.controller.setArtist(artistResult);
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(activity.getString(R.string.view_releases))), click()));
@@ -119,13 +118,12 @@ public class ArtistActivityMockPresenterTest
     @Test
     public void linksClicked_launchesFinestWebView()
     {
-        TestUtils.stubIntents(FinestWebViewActivity.class);
+        TestUtils.stubIntentAction(Intent.ACTION_VIEW);
         activity.controller.setArtist(artistResult);
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("spotify")), click()));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("redtube")), click()));
 
-        intended(
-                hasComponent(FinestWebViewActivity.class.getName()), times(2));
+        intended(hasAction(Intent.ACTION_VIEW), times(2));
     }
 }

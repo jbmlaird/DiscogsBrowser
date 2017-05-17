@@ -34,6 +34,8 @@ import bj.discogsbrowser.singlelist.SingleListActivity;
 
 /**
  * Created by Josh Laird on 16/04/2017.
+ * <p>
+ * Class to build the NavigationDrawer.
  */
 public class NavigationDrawerBuilder
 {
@@ -133,7 +135,9 @@ public class NavigationDrawerBuilder
                 .build();
     }
 
-
+    /**
+     * Lifted: https://github.com/mikepenz/MaterialDrawer#load-images-via-url
+     */
     public static void initialiseMaterialDrawerImageLoader()
     {
         //initialize and create the image loader logic

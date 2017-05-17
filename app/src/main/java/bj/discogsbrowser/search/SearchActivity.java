@@ -38,11 +38,11 @@ import io.reactivex.Observable;
 
 /**
  * Created by Josh Laird on 20/02/2017.
+ * <p>
+ * Activity containing Search capabilities.
  */
-
 public class SearchActivity extends BaseActivity implements SearchContract.View
 {
-    private final String TAG = getClass().getSimpleName();
     @Inject SearchPresenter presenter;
     @Inject MySchedulerProvider mySchedulerProvider;
     @Inject AnalyticsTracker tracker;
@@ -119,6 +119,12 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
         presenter.showPastSearches(true);
     }
 
+    /**
+     * Emits an RxBinding {@link Observable} that can be subscribed to to observe SearchView
+     * text changes.
+     *
+     * @return SearchViewQueryTextEvent Observable.
+     */
     @Override
     public Observable<SearchViewQueryTextEvent> searchIntent()
     {
@@ -136,6 +142,11 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
                 .filter(searchViewQueryTextEvent -> searchViewQueryTextEvent.queryText().length() > 2);
     }
 
+    /**
+     * Emits an Observable that can be subscribed to to watch tab click changes.
+     *
+     * @return TabLayoutSelectEvent Observable.
+     */
     @Override
     public Observable<TabLayoutSelectionEvent> tabIntent()
     {

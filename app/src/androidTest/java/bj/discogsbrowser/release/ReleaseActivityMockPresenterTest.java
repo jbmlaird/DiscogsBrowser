@@ -73,7 +73,7 @@ public class ReleaseActivityMockPresenterTest
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
-                invocation).when(presenter).getReleaseAndLabelDetails(releaseId);
+                invocation).when(presenter).fetchReleaseDetails(releaseId);
         activity = mActivityTestRule.launchActivity(startIntent);
         controller = activity.controller;
         controller.setRelease(release);
@@ -86,8 +86,8 @@ public class ReleaseActivityMockPresenterTest
     @Test
     public void onClick_intentsLaunched()
     {
-        TestUtils.stubIntents(MarketplaceListingActivity.class);
-        TestUtils.stubIntents(LabelActivity.class);
+        TestUtils.stubIntentClass(MarketplaceListingActivity.class);
+        TestUtils.stubIntentClass(LabelActivity.class);
 
         onView(withText(release.getTitle())).check(matches(isDisplayed()));
         onView(withText(release.getArtists().get(0).getName())).check(matches(isDisplayed()));

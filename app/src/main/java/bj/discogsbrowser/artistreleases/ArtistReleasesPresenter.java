@@ -35,8 +35,13 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
         this.artistReleasesTransformer = artistReleasesTransformer;
     }
 
+    /**
+     * Fetch artist releases from Discogs.
+     *
+     * @param id Artist ID.
+     */
     @Override
-    public void getArtistReleases(String id)
+    public void fetchArtistReleases(String id)
     {
         discogsInteractor.fetchArtistsReleases(id)
                 .observeOn(mySchedulerProvider.ui())
@@ -47,6 +52,11 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
                 });
     }
 
+    /**
+     * Sets up the filter field to automatically emit its value to the {@link ArtistReleasesTransformer}.
+     * <p>
+     * If the {@link ArtistReleaseBehaviorRelay} has already emitted an item, it re-emits with this filter applied.
+     */
     @Override
     public void setupFilter()
     {

@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Josh Laird on 23/04/2017.
+ * <p>
+ * Activity to display {@link bj.discogsbrowser.model.master.Master} information.
  */
 public class MasterActivity extends BaseActivity implements MasterContract.View
 {
@@ -54,7 +56,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -75,7 +77,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     public void retry()
     {
         tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "retry", 1L);
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     private void setupRecyclerView(MyRecyclerView recyclerView, MasterController controller, String title)

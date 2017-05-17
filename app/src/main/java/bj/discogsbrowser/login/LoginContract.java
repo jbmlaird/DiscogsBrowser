@@ -11,10 +11,12 @@ public interface LoginContract
         void finishActivityLaunchMain();
 
         void displayErrorDialog();
+
+        LoginActivity getActivity();
     }
 
     interface Presenter
     {
-        void startOAuthService(LoginActivity loginActivity);
+        void beginLogin();
     }
 }

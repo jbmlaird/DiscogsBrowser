@@ -9,22 +9,23 @@ import io.reactivex.SingleTransformer;
 
 /**
  * Created by Josh Laird on 08/05/2017.
+ * <p>
+ * Contains two {@link SingleTransformer}s to filter {@link Single}s to the given text.
  */
-
 public class FilterHelper
 {
     private String filterText = "";
-
-    public FilterHelper()
-    {
-
-    }
 
     public void setFilterText(String filterText)
     {
         this.filterText = filterText;
     }
 
+    /**
+     * Filters the given list against whether their Title or Subtitle matches the filter text.
+     *
+     * @return Filtered list.
+     */
     public SingleTransformer<List<? extends RecyclerViewModel>, List<? extends RecyclerViewModel>> filterByFilterText()
     {
         return untransformed ->
@@ -34,6 +35,11 @@ public class FilterHelper
                         .toList();
     }
 
+    /**
+     * Filters the list to items that are listed as For Sale.
+     *
+     * @return Filtered list.
+     */
     public SingleTransformer<List<Listing>, List<Listing>> filterForSale()
     {
         return listingsSingle ->

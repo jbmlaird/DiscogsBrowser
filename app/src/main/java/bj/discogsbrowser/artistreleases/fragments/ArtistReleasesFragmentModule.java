@@ -1,9 +1,9 @@
 package bj.discogsbrowser.artistreleases.fragments;
 
 import bj.discogsbrowser.artistreleases.ArtistReleaseBehaviorRelay;
+import bj.discogsbrowser.di.scopes.FragmentScope;
 import bj.discogsbrowser.utils.rxmodifiers.ArtistReleasesTransformer;
 import bj.discogsbrowser.utils.rxmodifiers.ArtistResultFunction;
-import bj.discogsbrowser.di.scopes.FragmentScope;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
@@ -20,6 +20,12 @@ public class ArtistReleasesFragmentModule
     public ArtistReleasesFragmentModule(ArtistReleasesFragmentContract.View view)
     {
         this.view = view;
+    }
+
+    @Provides
+    protected ArtistResultFunction providesFunction()
+    {
+        return new ArtistResultFunction();
     }
 
     @Provides

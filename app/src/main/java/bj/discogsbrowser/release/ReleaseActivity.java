@@ -25,6 +25,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Josh Laird on 23/04/2017.
+ * <p>
+ * Displays {@link bj.discogsbrowser.model.release.Release} details.
  */
 public class ReleaseActivity extends BaseActivity implements ReleaseContract.View
 {
@@ -68,7 +70,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
         unbinder = ButterKnife.bind(this);
         setupToolbar(toolbar);
         setupRecyclerView(recyclerView, controller, getIntent().getStringExtra("title"));
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
@@ -96,7 +98,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     public void retry()
     {
         tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryRelease", 1L);
-        presenter.getReleaseAndLabelDetails(getIntent().getStringExtra("id"));
+        presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     @Override

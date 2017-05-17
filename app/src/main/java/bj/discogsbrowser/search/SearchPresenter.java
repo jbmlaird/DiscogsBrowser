@@ -22,7 +22,6 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class SearchPresenter implements SearchContract.Presenter
 {
-    private final String TAG = getClass().getSimpleName();
     private MySchedulerProvider mySchedulerProvider;
     private List<SearchResult> searchResults = new ArrayList<>();
     private String currentFilter = "all";
@@ -44,6 +43,9 @@ public class SearchPresenter implements SearchContract.Presenter
         this.disposable = disposable;
     }
 
+    /**
+     * Subscribes to the SearchView Observable.
+     */
     @Override
     public void setupSearchViewObserver()
     {
@@ -51,6 +53,9 @@ public class SearchPresenter implements SearchContract.Presenter
                 .subscribeWith(getSearchObserver()));
     }
 
+    /**
+     * Subscribes to the TabLayout Observable.
+     */
     @Override
     public void setupTabObserver()
     {
@@ -64,7 +69,7 @@ public class SearchPresenter implements SearchContract.Presenter
      *
      * @return Observable to be subscribed to.
      */
-    public Observable<List<SearchResult>> getSearchIntent()
+    private Observable<List<SearchResult>> getSearchIntent()
     {
         return mView.searchIntent()
                 .subscribeOn(mySchedulerProvider.io())
@@ -80,9 +85,17 @@ public class SearchPresenter implements SearchContract.Presenter
                         searchController.setError(true);
                     // Else ignore. The user has just searched again and interrupted the thread
                 })
+                // Resubscribe to the SearchView onError.
                 .onErrorResumeNext(Observable.defer(this::getSearchIntent));
     }
 
+    /**
+     * Observer that subscribes to the SearchView.
+     * <p>
+     * This will filter the results if a filter query exists.
+     *
+     * @return Observer.
+     */
     private DisposableObserver<List<SearchResult>> getSearchObserver()
     {
         if (searchObserver == null || searchObserver.isDisposed())
@@ -118,7 +131,7 @@ public class SearchPresenter implements SearchContract.Presenter
                 @Override
                 public void onError(Throwable e)
                 {
-                    // Will never be reached as I have a onErrorResumeNext()
+                    // Will never be reached as I have an onErrorResumeNext()
                     e.printStackTrace();
                     searchController.setError(true);
                 }
@@ -132,7 +145,8 @@ public class SearchPresenter implements SearchContract.Presenter
     }
 
     /**
-     * Sets up an Observer on the TabLayout.
+     * Observer on the TabLayout. This will cause the SearchView Observer to re-emit its values
+     * against the new tab text if the user has selected a new tab.
      *
      * @return Observer subscribed to the TabLayout.
      */

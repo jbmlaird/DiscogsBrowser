@@ -19,7 +19,6 @@ import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
  */
 public class ReleasePresenter implements ReleaseContract.Presenter
 {
-    private final String TAG = getClass().getSimpleName();
     private final ReleaseController controller;
     private final DiscogsInteractor discogsInteractor;
     private final MySchedulerProvider mySchedulerProvider;
@@ -36,10 +35,19 @@ public class ReleasePresenter implements ReleaseContract.Presenter
         this.artistsBeautifier = artistsBeautifier;
     }
 
+    /**
+     * Fetches release details from Discogs.
+     * <p>
+     * This fetches the release information, the label (of the release) information, the marketplace
+     * listings for the release (if available), whether it's in the user's Wantlist or Collection
+     * and displays it to the user.
+     *
+     * @param releaseId Release ID.
+     */
     @Override
-    public void getReleaseAndLabelDetails(String id)
+    public void fetchReleaseDetails(String releaseId)
     {
-        discogsInteractor.fetchReleaseDetails(id)
+        discogsInteractor.fetchReleaseDetails(releaseId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.ui())
                 .doOnSubscribe(onSubscribe -> controller.setReleaseLoading(true))
@@ -65,7 +73,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 {
                     controller.setRelease(release);
                     if (release.getNumForSale() != 0)
-                        fetchReleaseListings(id);
+                        fetchReleaseListings(releaseId);
                     else
                         controller.setReleaseListings(new ArrayList<>());
                     return release;
@@ -84,9 +92,15 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                         });
     }
 
-    public void fetchReleaseListings(String id) throws IOException
+    /**
+     * Fetches marketplace listings.
+     *
+     * @param releaseId
+     * @throws IOException
+     */
+    public void fetchReleaseListings(String releaseId) throws IOException
     {
-        discogsInteractor.getReleaseMarketListings(id)
+        discogsInteractor.getReleaseMarketListings(releaseId)
                 .doOnSubscribe(onSubscribe -> controller.setListingsLoading(true))
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(controller::setReleaseListings,
@@ -95,6 +109,9 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 );
     }
 
+    /**
+     * Checks whether the release is in the user's Collection or Wantlist.
+     */
     @Override
     public void checkCollectionWantlist()
     {

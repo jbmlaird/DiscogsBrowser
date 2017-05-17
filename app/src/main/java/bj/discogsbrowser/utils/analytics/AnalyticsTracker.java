@@ -8,7 +8,7 @@ import bj.discogsbrowser.BuildConfig;
 /**
  * Created by Josh Laird on 04/05/2017.
  * <p>
- * Swallows events if the build is debug.
+ * Wrapper for sending things to Google Analytics.
  */
 public class AnalyticsTracker
 {

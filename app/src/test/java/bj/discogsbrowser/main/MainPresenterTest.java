@@ -97,11 +97,13 @@ public class MainPresenterTest
         when(discogsInteractor.fetchOrders()).thenReturn(Single.just(listOrders));
         when(discogsInteractor.fetchSelling(username)).thenReturn(Single.just(listSelling));
         when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar)).thenReturn(drawer);
+        when(mView.getActivity()).thenReturn(mainActivity);
 
-        mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
+        mainPresenter.connectAndBuildNavigationDrawer(toolbar);
         testScheduler.triggerActions();
 
         verify(mView, times(1)).showLoading(true);
+        verify(mView).getActivity();
         verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.getUsername(), 1L);
@@ -121,10 +123,12 @@ public class MainPresenterTest
     {
         when(discogsInteractor.fetchUserDetails()).thenReturn(Single.error(new UnknownHostException()));
         when(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar)).thenReturn(drawer);
+        when(mView.getActivity()).thenReturn(mainActivity);
 
-        mainPresenter.connectAndBuildNavigationDrawer(mainActivity, toolbar);
+        mainPresenter.connectAndBuildNavigationDrawer(toolbar);
         testScheduler.triggerActions();
 
+        verify(mView).getActivity();
         verify(mView, times(1)).showLoading(true);
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(mainController).setOrdersError(true);
@@ -197,7 +201,7 @@ public class MainPresenterTest
     public void buildRecommendationsError_ControllerError()
     {
         ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
-        viewedReleases.add(MainFactory.buildViewedRelease("yeee"));
+        viewedReleases.add(MainFactory.buildViewedRelease(4));
         when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.error(new Throwable()));
         when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.error(new Throwable()));
@@ -217,7 +221,7 @@ public class MainPresenterTest
     {
         final ArgumentCaptor searchResultCaptor = ArgumentCaptor.forClass(List.class);
         ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
-        viewedReleases.add(MainFactory.buildViewedRelease("yeee"));
+        viewedReleases.add(MainFactory.buildViewedRelease(1));
         when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         // TestSearchResponse contains 20 entries each
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.just(new TestRootSearchResponse()));

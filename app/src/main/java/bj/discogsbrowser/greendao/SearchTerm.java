@@ -9,6 +9,8 @@ import java.util.Date;
 
 /**
  * Created by Josh Laird on 25/04/2017.
+ *
+ * GreenDAO entity for user search terms.
  */
 @Entity
 public class SearchTerm

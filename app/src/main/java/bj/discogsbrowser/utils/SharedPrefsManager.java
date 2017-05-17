@@ -92,6 +92,10 @@ public class SharedPrefsManager
         return settings.getString(context.getString(R.string.num_wantlist), "");
     }
 
+    /**
+     * Called when the user has just modified their Collection.
+     * This causes the next time their Collection is fetched to be refreshed.
+     */
     public void setFetchNextCollection(String fetchNextCollection)
     {
         SharedPreferences.Editor editor = settings.edit();
@@ -111,6 +115,10 @@ public class SharedPrefsManager
             return false;
     }
 
+    /**
+     * Called when the user has just modified their Wantlist.
+     * This causes the next time their Wantlist is fetched to be refreshed.
+     */
     public void setFetchNextWantlist(String fetchNextWantlist)
     {
         SharedPreferences.Editor editor = settings.edit();
@@ -163,7 +171,10 @@ public class SharedPrefsManager
         editor.apply();
     }
 
-    public void removeUserDetails()
+    /**
+     * On logout, remove all relevant user data from SharedPrefs.
+     */
+    void removeUserDetails()
     {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(context.getString(R.string.oauth_access_token), "");

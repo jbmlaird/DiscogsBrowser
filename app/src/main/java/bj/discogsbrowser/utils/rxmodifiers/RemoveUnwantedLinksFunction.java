@@ -9,13 +9,12 @@ import io.reactivex.functions.Function;
 
 /**
  * Created by Josh Laird on 11/05/2017.
+ * <p>
+ * Filters out links returned from the Discogs Artists API endpoint to links that I want.
+ * Also removes duplicates.
  */
 public class RemoveUnwantedLinksFunction implements Function<ArtistResult, ArtistResult>
 {
-    public RemoveUnwantedLinksFunction()
-    {
-    }
-
     @Override
     public ArtistResult apply(@NonNull ArtistResult artistResult) throws Exception
     {

@@ -16,7 +16,7 @@ public interface ArtistReleasesContract
 
     interface Presenter
     {
-        void getArtistReleases(String id);
+        void fetchArtistReleases(String id);
 
         void setupFilter();
     }

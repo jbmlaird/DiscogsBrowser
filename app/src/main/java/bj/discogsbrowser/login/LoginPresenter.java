@@ -13,7 +13,7 @@ import bj.discogsbrowser.wrappers.RxSocialConnectWrapper;
  */
 public class LoginPresenter implements LoginContract.Presenter
 {
-    private static final String TAG = "LoginPresenter";
+    private final String TAG = getClass().getSimpleName();
     private LoginContract.View view;
     private SharedPrefsManager sharedPrefsManager;
     private RxSocialConnectWrapper rxSocialConnectWrapper;
@@ -28,10 +28,13 @@ public class LoginPresenter implements LoginContract.Presenter
         this.oAuth10aService = oAuth10aService;
     }
 
+    /**
+     * Starts the login process via OAuth using {@link RxSocialConnectWrapper}.
+     */
     @Override
-    public void startOAuthService(LoginActivity loginActivity)
+    public void beginLogin()
     {
-        rxSocialConnectWrapper.with(loginActivity, oAuth10aService)
+        rxSocialConnectWrapper.with(view.getActivity(), oAuth10aService)
                 .subscribe(response ->
                 {
                     OAuth1AccessToken token = response.token();

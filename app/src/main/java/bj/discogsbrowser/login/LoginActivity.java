@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     public void loginTapped()
     {
         tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.clicked), "login", 1L);
-        presenter.startOAuthService(this);
+        presenter.beginLogin();
     }
 
     @OnClick(R.id.tvTnCs)
@@ -117,5 +117,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
                 .content("Unable to contact Discogs. Please try again.")
                 .negativeText("Dismiss")
                 .show();
+    }
+
+    @Override
+    public LoginActivity getActivity()
+    {
+        return this;
     }
 }

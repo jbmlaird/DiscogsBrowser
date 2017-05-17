@@ -28,6 +28,7 @@
         android:paddingEnd="@dimen/margin_normal_half"
         android:paddingTop="@dimen/margin_normal_half"
         android:text="See all"
-        android:textSize="@dimen/text_small"/>
+        android:textSize="@dimen/text_small"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -68,7 +68,7 @@ public class MasterActivityMockPresenterTest
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
-                invocation).when(presenter).getReleaseAndLabelDetails(masterId);
+                invocation).when(presenter).fetchReleaseDetails(masterId);
         activity = mActivityTestRule.launchActivity(startingIntent);
         controller = activity.controller;
         activity.runOnUiThread(() ->
@@ -104,7 +104,7 @@ public class MasterActivityMockPresenterTest
     @Test
     public void onClick_launchesIntents() throws InterruptedException
     {
-        TestUtils.stubIntents(ReleaseActivity.class);
+        TestUtils.stubIntentClass(ReleaseActivity.class);
         onView(withId(R.id.recyclerView))
                 // Scroll to master version
                 .perform(actionOnItem(hasDescendant(withText(masterVersions.get(0).getTitle())), click()));

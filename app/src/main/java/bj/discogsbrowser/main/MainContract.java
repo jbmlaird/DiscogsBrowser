@@ -20,6 +20,8 @@ public interface MainContract
     {
         void showLoading(boolean b);
 
+        MainActivity getActivity();
+
         void retryHistory();
 
         void retryRecommendations();
@@ -48,7 +50,7 @@ public interface MainContract
 
     interface Presenter
     {
-        void connectAndBuildNavigationDrawer(MainActivity mainActivity, Toolbar toolbar);
+        void connectAndBuildNavigationDrawer(Toolbar toolbar);
 
         void buildViewedReleases();
 

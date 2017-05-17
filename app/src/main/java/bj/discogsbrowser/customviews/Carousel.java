@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * Lifted straight from the Epoxy sample app: https://github.com/airbnb/epoxy/blob/master/epoxy-sample/src/main/java/com/airbnb/epoxy/sample/views/Carousel.java
+ * <p>
+ * This is a vertical RecyclerView with custom options.
  */
 public class Carousel extends RecyclerView
 {

@@ -28,6 +28,11 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
         this.controller = controller;
     }
 
+    /**
+     * Fetches listing information from Discogs.
+     *
+     * @param listingId Listing ID.
+     */
     @Override
     public void getListingDetails(String listingId)
     {

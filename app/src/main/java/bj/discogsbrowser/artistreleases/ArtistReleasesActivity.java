@@ -32,6 +32,8 @@ import io.reactivex.Observable;
 
 /**
  * Created by Josh Laird on 10/04/2017.
+ * <p>
+ * Activity containing two {@link ArtistReleasesFragment} and a filter bar.
  */
 public class ArtistReleasesActivity extends BaseActivity implements ArtistReleasesContract.View
 {
@@ -74,7 +76,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         unbinder = ButterKnife.bind(this);
         setupViewPager();
         presenter.setupFilter();
-        presenter.getArtistReleases(getIntent().getStringExtra("id"));
+        presenter.fetchArtistReleases(getIntent().getStringExtra("id"));
         setupToolbar(toolbar, getIntent().getStringExtra("title"));
     }
 
