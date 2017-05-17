@@ -2,6 +2,7 @@ package bj.discogsbrowser.common;
 
 import android.content.Context;
 
+import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.EpoxyController;
 
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public abstract class BaseSingleListController extends EpoxyController
     protected boolean loading = true;
     protected boolean error;
     protected String errorMessage = "";
+    @AutoModel protected CenterTextModel_ centerTextModel;
+    @AutoModel protected LoadingModel_ loadingModel;
 
     @Override
     protected void buildModels()
@@ -36,20 +39,17 @@ public abstract class BaseSingleListController extends EpoxyController
                 .id("emptyspace")
                 .addTo(this);
 
-        new LoadingModel_()
+        loadingModel
                 .imageViewAnimator(imageViewAnimator)
-                .id("single list loading")
                 .addIf(loading, this);
 
         if (error)
-            new CenterTextModel_()
-                    .id("error model")
+            centerTextModel
                     .text(errorMessage)
                     .addTo(this);
         else if (items.size() == 0 && !loading)
-            new CenterTextModel_()
+            centerTextModel
                     .text(context.getString(R.string.no_items))
-                    .id("no items model")
                     .addTo(this);
         else
             for (RecyclerViewModel recyclerViewModel : items)

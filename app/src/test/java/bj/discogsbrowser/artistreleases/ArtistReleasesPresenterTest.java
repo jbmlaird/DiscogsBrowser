@@ -15,7 +15,7 @@ import java.util.List;
 
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
+import bj.discogsbrowser.utils.rxmodifiers.ArtistReleasesTransformer;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import edu.emory.mathcs.backport.java.util.Collections;
 import io.reactivex.Observable;

@@ -18,13 +18,13 @@ import bj.discogsbrowser.model.release.Video;
 
 public class ReleaseFactory
 {
-    public static Release buildRelease(boolean inCollection, boolean inWantlist)
+    public static Release buildRelease(String releaseNumber, boolean inCollection, boolean inWantlist)
     {
         Release release = new Release();
-        release.setId("releaseId");
-        release.setTitle("releaseTitle");
+        release.setId("releaseId" + releaseNumber);
+        release.setTitle("releaseTitle" + releaseNumber);
         release.setTracklist(Arrays.asList(buildTrack("track1", "A1"), buildTrack("track2", "A2")));
-        release.setArtists(Collections.singletonList(buildArtist("releaseArtist")));
+        release.setArtists(Collections.singletonList(buildArtist("releaseArtist" + releaseNumber)));
         release.setImages(Collections.singletonList(new Image()));
         release.setInstanceId("");
         release.setIsInCollection(inCollection);

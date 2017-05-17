@@ -2,9 +2,9 @@ package bj.discogsbrowser.main;
 
 import android.content.Context;
 
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.utils.DateFormatter;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
@@ -39,9 +39,9 @@ public class MainModule
 
     @Provides
     @ActivityScope
-    protected NavigationDrawerBuilder provideNavigationDrawerBuilder(Context context, SharedPrefsManager sharedPrefsManager)
+    protected NavigationDrawerBuilder provideNavigationDrawerBuilder(Context context, SharedPrefsManager sharedPrefsManager, DaoManager daoManager)
     {
-        return new NavigationDrawerBuilder(context, sharedPrefsManager);
+        return new NavigationDrawerBuilder(context, sharedPrefsManager, daoManager);
     }
 
     @Provides

@@ -5,7 +5,7 @@ import android.content.Context;
 import bj.discogsbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.SharedPrefsManager;

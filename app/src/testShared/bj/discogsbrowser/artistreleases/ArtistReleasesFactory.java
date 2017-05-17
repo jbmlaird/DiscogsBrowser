@@ -9,7 +9,7 @@ import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artist.Member;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
 import bj.discogsbrowser.model.release.Image;
-import bj.discogsbrowser.utils.WantedUrl;
+import bj.discogsbrowser.model.artist.ArtistWantedUrl;
 
 /**
  * Created by Josh Laird on 15/05/2017.
@@ -48,9 +48,9 @@ public class ArtistReleasesFactory
     public static ArtistResult getTestArtistResultWantedUrls()
     {
         ArtistResult artistResult = new ArtistResult();
-        ArrayList<WantedUrl> wantedUrls = new ArrayList<>();
-        wantedUrls.add(new WantedUrl("", "", "", ""));
-        artistResult.setWantedUrls(wantedUrls);
+        ArrayList<ArtistWantedUrl> artistWantedUrls = new ArrayList<>();
+        artistWantedUrls.add(new ArtistWantedUrl("", "", "", ""));
+        artistResult.setArtistWantedUrls(artistWantedUrls);
         return artistResult;
     }
 

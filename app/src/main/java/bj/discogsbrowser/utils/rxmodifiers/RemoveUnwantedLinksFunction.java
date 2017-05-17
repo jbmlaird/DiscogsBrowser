@@ -1,9 +1,9 @@
-package bj.discogsbrowser.rxmodifiers;
+package bj.discogsbrowser.utils.rxmodifiers;
 
 import java.util.ArrayList;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
-import bj.discogsbrowser.utils.WantedUrl;
+import bj.discogsbrowser.model.artist.ArtistWantedUrl;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
@@ -23,41 +23,41 @@ public class RemoveUnwantedLinksFunction implements Function<ArtistResult, Artis
             return artistResult;
         boolean wikipedia, youtube, facebook, spotify, twitter, soundcloud;
         wikipedia = youtube = facebook = spotify = twitter = soundcloud = false;
-        ArrayList<WantedUrl> wantedUrls = new ArrayList<>();
+        ArrayList<ArtistWantedUrl> artistWantedUrls = new ArrayList<>();
         for (String string : artistResult.getUrls())
         {
             if (string.contains("spotify") && !spotify)
             {
-                wantedUrls.add(new WantedUrl(string, "Listen on Spotify", "#6ae368", "{fa-spotify}"));
+                artistWantedUrls.add(new ArtistWantedUrl(string, "Listen on Spotify", "#6ae368", "{fa-spotify}"));
                 spotify = true;
             }
             else if (string.contains("wikipedia") && !wikipedia)
             {
-                wantedUrls.add(new WantedUrl(string, "Learn more on Wikipedia", "#000000", "{fa-wikipedia-w}"));
+                artistWantedUrls.add(new ArtistWantedUrl(string, "Learn more on Wikipedia", "#000000", "{fa-wikipedia-w}"));
                 wikipedia = true;
             }
             else if (string.contains("facebook") && !facebook)
             {
-                wantedUrls.add(new WantedUrl(string, "Check out Facebook", "#3b5998", "{fa-facebook}"));
+                artistWantedUrls.add(new ArtistWantedUrl(string, "Check out Facebook", "#3b5998", "{fa-facebook}"));
                 facebook = true;
             }
             else if (string.contains("twitter") && !twitter)
             {
-                wantedUrls.add(new WantedUrl(string, "Follow on Twitter", "#4099FF", "{fa-twitter}"));
+                artistWantedUrls.add(new ArtistWantedUrl(string, "Follow on Twitter", "#4099FF", "{fa-twitter}"));
                 twitter = true;
             }
             else if (string.contains("youtube") && !youtube)
             {
-                wantedUrls.add(new WantedUrl(string, "Watch on YouTube", "#bb0000", "{fa-youtube-play}"));
+                artistWantedUrls.add(new ArtistWantedUrl(string, "Watch on YouTube", "#bb0000", "{fa-youtube-play}"));
                 youtube = true;
             }
             else if (string.contains("soundcloud") && !soundcloud)
             {
-                wantedUrls.add(new WantedUrl(string, "Listen on SoundCloud", "#ff7700", "{fa-soundcloud}"));
+                artistWantedUrls.add(new ArtistWantedUrl(string, "Listen on SoundCloud", "#ff7700", "{fa-soundcloud}"));
                 soundcloud = true;
             }
         }
-        artistResult.setWantedUrls(wantedUrls);
+        artistResult.setArtistWantedUrls(artistWantedUrls);
         return artistResult;
     }
 }

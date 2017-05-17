@@ -24,11 +24,9 @@ import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
 import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
 
-import javax.inject.Inject;
-
-import bj.discogsbrowser.scopes.ActivityScope;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.about.AboutActivity;
+import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.login.LoginActivity;
 import bj.discogsbrowser.main.MainActivity;
 import bj.discogsbrowser.search.SearchActivity;
@@ -41,11 +39,13 @@ public class NavigationDrawerBuilder
 {
     private Context context;
     private SharedPrefsManager sharedPrefsManager;
+    private DaoManager daoManager;
 
-    public NavigationDrawerBuilder(Context context, SharedPrefsManager sharedPrefsManager)
+    public NavigationDrawerBuilder(Context context, SharedPrefsManager sharedPrefsManager, DaoManager daoManager)
     {
         this.context = context;
         this.sharedPrefsManager = sharedPrefsManager;
+        this.daoManager = daoManager;
     }
 
     public Drawer buildNavigationDrawer(MainActivity activity, Toolbar toolbar)
@@ -121,6 +121,8 @@ public class NavigationDrawerBuilder
                                 case 7:
                                     RxSocialConnect.closeConnections();
                                     sharedPrefsManager.removeUserDetails();
+                                    daoManager.clearRecentSearchTerms();
+                                    daoManager.clearViewedReleases();
                                     activity.startActivity(LoginActivity.createIntent(activity));
                                     activity.finish();
                                     break;

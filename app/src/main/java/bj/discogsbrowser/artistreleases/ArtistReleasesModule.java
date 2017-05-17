@@ -3,8 +3,8 @@ package bj.discogsbrowser.artistreleases;
 import android.content.Context;
 
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.rxmodifiers.ArtistReleasesTransformer;
-import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.utils.rxmodifiers.ArtistReleasesTransformer;
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import dagger.Module;

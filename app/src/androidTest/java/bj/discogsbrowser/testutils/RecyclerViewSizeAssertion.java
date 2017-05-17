@@ -5,7 +5,7 @@ import android.support.test.espresso.ViewAssertion;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import bj.discogsbrowser.common.MyRecyclerView;
+import bj.discogsbrowser.customviews.MyRecyclerView;
 
 import static junit.framework.Assert.assertEquals;
 

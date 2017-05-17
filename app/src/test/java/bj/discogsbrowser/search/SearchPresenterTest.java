@@ -96,6 +96,7 @@ public class SearchPresenterTest
     {
         List<SearchResult> emptyList = java.util.Collections.emptyList();
         SearchViewQueryTextEvent mockTextEvent = mock(SearchViewQueryTextEvent.class);
+        when(mockTextEvent.queryText()).thenReturn("yee");
         when(disposable.add(any())).thenReturn(true);
         when(mView.searchIntent()).thenReturn(Observable.just(mockTextEvent));
         when(searchModelFunc.apply(mockTextEvent)).thenReturn(Observable.just(emptyList));
@@ -109,7 +110,7 @@ public class SearchPresenterTest
         testScheduler.triggerActions();
 
         verify(searchController).setSearching(true);
-        verify(daoManager).storeSearchTerm(mockTextEvent);
+        verify(daoManager).storeSearchTerm("yee");
         verify(searchModelFunc).apply(mockTextEvent);
         verify(searchController).setSearchResults(emptyList);
         verifyNoMoreInteractions(mockTextEvent);
@@ -120,6 +121,7 @@ public class SearchPresenterTest
     {
         List<SearchResult> emptyList = Collections.emptyList();
         SearchViewQueryTextEvent mockTextEvent = mock(SearchViewQueryTextEvent.class);
+        when(mockTextEvent.queryText()).thenReturn("yee");
         when(disposable.add(any())).thenReturn(true);
         when(mView.searchIntent()).thenReturn(Observable.error(new Throwable()), Observable.just(mockTextEvent));
         when(searchModelFunc.apply(mockTextEvent)).thenReturn(Observable.just(emptyList));
@@ -135,7 +137,7 @@ public class SearchPresenterTest
         // Check for this intent again as it's resubscribed onErrorResumeNext()
         verify(mView, times(2)).searchIntent();
         verify(searchController).setSearching(true);
-        verify(daoManager).storeSearchTerm(mockTextEvent);
+        verify(daoManager).storeSearchTerm("yee");
         verify(searchModelFunc).apply(mockTextEvent);
         verify(searchController).setSearchResults(emptyList);
         verifyNoMoreInteractions(mockTextEvent);
@@ -186,7 +188,9 @@ public class SearchPresenterTest
 
         List<SearchResult> artistAndReleaseSearchResult = searchFactory.getArtistAndReleaseSearchResult();
         SearchViewQueryTextEvent mockTextEvent = mock(SearchViewQueryTextEvent.class);
+        when(mockTextEvent.queryText()).thenReturn("yee1");
         SearchViewQueryTextEvent mockTextEvent2 = mock(SearchViewQueryTextEvent.class);
+        when(mockTextEvent2.queryText()).thenReturn("yee2");
         when(mView.searchIntent()).thenReturn(Observable.fromArray(mockTextEvent, mockTextEvent2));
         when(searchModelFunc.apply(mockTextEvent)).thenReturn(Observable.just(emptyList));
         when(searchModelFunc.apply(mockTextEvent2)).thenReturn(Observable.just(artistAndReleaseSearchResult));
@@ -207,8 +211,8 @@ public class SearchPresenterTest
         verify(mockTab, times(1)).getText();
 
         verify(searchController, times(2)).setSearching(true);
-        verify(daoManager).storeSearchTerm(mockTextEvent);
-        verify(daoManager).storeSearchTerm(mockTextEvent2);
+        verify(daoManager).storeSearchTerm("yee1");
+        verify(daoManager).storeSearchTerm("yee2");
         verify(searchModelFunc).apply(mockTextEvent);
         verify(searchModelFunc).apply(mockTextEvent2);
         verify(searchController).setSearchResults(emptyList);

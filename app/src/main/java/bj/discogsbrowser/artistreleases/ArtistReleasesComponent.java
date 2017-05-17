@@ -1,7 +1,7 @@
 package bj.discogsbrowser.artistreleases;
 
 import bj.discogsbrowser.artistreleases.fragments.ArtistReleasesFragmentComponent;
-import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import dagger.Subcomponent;
 
 /**

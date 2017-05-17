@@ -1,5 +1,6 @@
 package bj.discogsbrowser.epoxy.common;
 
+import com.airbnb.epoxy.AutoModel;
 import com.airbnb.epoxy.EpoxyController;
 
 /**
@@ -11,8 +12,7 @@ public abstract class BaseController extends EpoxyController
     public String subtitle = "";
     public String imageUrl = "";
 
-    // Can't use this as ProGuard causes issues with AutoModels :/
-    // public @AutoModel HeaderModel_ header;
+    @AutoModel protected HeaderModel_ header;
 
     public void setTitle(String title)
     {

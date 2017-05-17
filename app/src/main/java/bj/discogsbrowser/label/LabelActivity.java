@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.common.BaseActivity;
-import bj.discogsbrowser.common.MyRecyclerView;
+import bj.discogsbrowser.customviews.MyRecyclerView;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;

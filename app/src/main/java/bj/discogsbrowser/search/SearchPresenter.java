@@ -71,7 +71,7 @@ public class SearchPresenter implements SearchContract.Presenter
                 .doOnNext(onNext ->
                 {
                     searchController.setSearching(true);
-                    daoManager.storeSearchTerm(onNext);
+                    daoManager.storeSearchTerm(onNext.queryText());
                 })
                 .switchMap(searchModelFunc)
                 .doOnError(throwable ->

@@ -2,16 +2,9 @@ package bj.discogsbrowser.greendao;
 
 import android.text.TextUtils;
 
-import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
-
 import java.util.Date;
 import java.util.List;
 
-import bj.discogsbrowser.greendao.DaoSession;
-import bj.discogsbrowser.greendao.SearchTerm;
-import bj.discogsbrowser.greendao.SearchTermDao;
-import bj.discogsbrowser.greendao.ViewedRelease;
-import bj.discogsbrowser.greendao.ViewedReleaseDao;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 
@@ -63,15 +56,35 @@ public class DaoManager
         return searchTermDao.queryBuilder().orderDesc(SearchTermDao.Properties.Date).build().list();
     }
 
-    public void storeSearchTerm(SearchViewQueryTextEvent queryTextEvent)
+    public void storeSearchTerm(CharSequence charSequence)
     {
         SearchTerm searchTerm = new SearchTerm();
-        searchTerm.setSearchTerm(queryTextEvent.queryText().toString());
+        searchTerm.setSearchTerm(charSequence.toString());
         searchTerm.setDate(new Date());
         // Delete the last entry (oldest) to preserve 12 items in recent searches
         List<SearchTerm> recentSearchTerms = getRecentSearchTerms();
         if (recentSearchTerms.size() == 12)
             searchTermDao.delete(recentSearchTerms.get(11));
         searchTermDao.insertOrReplace(searchTerm);
+    }
+
+    public void clearRecentSearchTerms()
+    {
+        List<SearchTerm> recentSearchTerms = getRecentSearchTerms();
+        int numberOfSearchTerms = recentSearchTerms.size();
+        for (int i = numberOfSearchTerms - 1; i >= 0; i--)
+        {
+            searchTermDao.delete(recentSearchTerms.get(i));
+        }
+    }
+
+    public void clearViewedReleases()
+    {
+        List<ViewedRelease> recentViewedReleases = getViewedReleases();
+        int numberOfSearchTerms = recentViewedReleases.size();
+        for (int i = numberOfSearchTerms - 1; i >= 0; i--)
+        {
+            viewedReleaseDao.delete(recentViewedReleases.get(i));
+        }
     }
 }

@@ -1,6 +1,6 @@
 package bj.discogsbrowser.marketplace;
 
-import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import dagger.Subcomponent;
 
 /**

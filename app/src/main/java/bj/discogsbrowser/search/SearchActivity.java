@@ -24,7 +24,7 @@ import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artist.ArtistActivity;
 import bj.discogsbrowser.common.BaseActivity;
-import bj.discogsbrowser.common.MyRecyclerView;
+import bj.discogsbrowser.customviews.MyRecyclerView;
 import bj.discogsbrowser.label.LabelActivity;
 import bj.discogsbrowser.master.MasterActivity;
 import bj.discogsbrowser.model.search.SearchResult;

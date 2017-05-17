@@ -2,7 +2,7 @@ package bj.discogsbrowser.login;
 
 import com.github.scribejava.core.oauth.OAuth10aService;
 
-import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.wrappers.RxSocialConnectWrapper;
 import dagger.Module;

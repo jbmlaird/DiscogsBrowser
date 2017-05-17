@@ -1,6 +1,6 @@
 package bj.discogsbrowser.artistreleases.fragments;
 
-import bj.discogsbrowser.scopes.FragmentScope;
+import bj.discogsbrowser.di.scopes.FragmentScope;
 import dagger.Subcomponent;
 
 /**

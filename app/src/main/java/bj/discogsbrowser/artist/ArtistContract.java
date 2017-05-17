@@ -1,6 +1,6 @@
 package bj.discogsbrowser.artist;
 
-import bj.discogsbrowser.common.BaseView;
+import bj.discogsbrowser.common.DetailedView;
 import bj.discogsbrowser.common.RecyclerViewPresenter;
 
 /**
@@ -9,11 +9,9 @@ import bj.discogsbrowser.common.RecyclerViewPresenter;
 
 public interface ArtistContract
 {
-    interface View extends BaseView
+    interface View extends DetailedView
     {
         void showMemberDetails(String name, String id);
-
-        void showLink(String link);
 
         void showArtistReleases(String title, String id);
     }

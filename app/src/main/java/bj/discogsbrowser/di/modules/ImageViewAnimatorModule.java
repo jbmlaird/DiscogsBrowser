@@ -1,4 +1,4 @@
-package bj.discogsbrowser;
+package bj.discogsbrowser.di.modules;
 
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import dagger.Module;

@@ -1,4 +1,4 @@
-package bj.discogsbrowser.common;
+package bj.discogsbrowser.customviews;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

@@ -1,6 +1,6 @@
 package bj.discogsbrowser.search;
 
-import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import dagger.Subcomponent;
 
 /**

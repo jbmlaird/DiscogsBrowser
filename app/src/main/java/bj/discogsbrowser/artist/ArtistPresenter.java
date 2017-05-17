@@ -3,7 +3,7 @@ package bj.discogsbrowser.artist;
 import android.support.annotation.NonNull;
 
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
+import bj.discogsbrowser.utils.rxmodifiers.RemoveUnwantedLinksFunction;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
 

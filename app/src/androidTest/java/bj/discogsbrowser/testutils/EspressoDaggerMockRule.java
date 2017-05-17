@@ -21,8 +21,8 @@ import android.support.test.InstrumentationRegistry;
 import bj.discogsbrowser.App;
 import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.AppModule;
-import bj.discogsbrowser.DaoModule;
-import bj.discogsbrowser.ImageViewAnimatorModule;
+import bj.discogsbrowser.di.modules.DaoModule;
+import bj.discogsbrowser.di.modules.ImageViewAnimatorModule;
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 public class EspressoDaggerMockRule extends DaggerMockRule<AppComponent>

@@ -15,7 +15,7 @@ import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
 import bj.discogsbrowser.common.BaseActivity;
-import bj.discogsbrowser.common.MyRecyclerView;
+import bj.discogsbrowser.customviews.MyRecyclerView;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
@@ -69,7 +69,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     }
 
     @Override
-    public void showLink(String link)
+    public void openLink(String link)
     {
         tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), link, 1L);
         new FinestWebView.Builder(this).show(link);

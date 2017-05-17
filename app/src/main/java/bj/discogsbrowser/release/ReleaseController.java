@@ -8,7 +8,6 @@ import java.util.List;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.PaddedCenterTextModel_;
 import bj.discogsbrowser.epoxy.common.RetryModel_;
@@ -66,8 +65,7 @@ public class ReleaseController extends BaseController
     @Override
     protected void buildModels()
     {
-        new HeaderModel_()
-                .id("header model")
+        header
                 .context(context)
                 .title(title)
                 .subtitle(subtitle)

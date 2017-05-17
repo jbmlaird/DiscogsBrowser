@@ -17,6 +17,7 @@ import java.util.List;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.about.AboutActivity;
 import bj.discogsbrowser.customviews.Carousel;
+import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.login.LoginActivity;
 import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
@@ -55,6 +56,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -81,6 +83,7 @@ public class MainActivityTest
     private List<SearchResult> recommendations = SearchResultFactory.getThreeReleases();
     private List<Order> orders = OrderFactory.getListOfTwo();
     private List<Listing> listings = ListingFactory.getThreeListings();
+    @Mock DaoManager daoManager;
 
     @Before
     public void setUp()
@@ -101,7 +104,7 @@ public class MainActivityTest
                 invocation).when(presenter).buildViewedReleases();
         activity = mActivityTestRule.launchActivity(startingIntent);
         controller = activity.controller;
-        navigationDrawerBuilder = new NavigationDrawerBuilder(getApp(), sharedPrefsManager);
+        navigationDrawerBuilder = new NavigationDrawerBuilder(getApp(), sharedPrefsManager, daoManager);
         initialiseUi();
     }
 
@@ -130,10 +133,51 @@ public class MainActivityTest
         onView(TestUtils.getHomeButton()).perform(click());
         onView(allOf(withText("Logout"), withResourceName("material_drawer_name"))).perform(click());
 
+        verify(daoManager).clearRecentSearchTerms();
+        verify(daoManager).clearViewedReleases();
         intended(hasComponent(SingleListActivity.class.getName()), times(4));
         intended(hasComponent(SearchActivity.class.getName()));
         intended(hasComponent(AboutActivity.class.getName()));
         intended(hasComponent(LoginActivity.class.getName()));
+    }
+
+    @Test
+    public void viewedReleases_intendCorrectly() throws InterruptedException
+    {
+        TestUtils.stubIntents(ReleaseActivity.class);
+        // Close navdrawer
+        onView(withId(R.id.lytMainContent)).perform(swipeLeft());
+
+        controller.setViewedReleases(viewedReleases);
+        Thread.sleep(500);
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(0).getArtists() + " - " + viewedReleases.get(0).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(1).getArtists() + " - " + viewedReleases.get(1).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(2).getArtists() + " - " + viewedReleases.get(2).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView(allOf(withClassName(is(Carousel.class.getName())),
+                hasDescendant(withText(viewedReleases.get(3).getArtists() + " - " + viewedReleases.get(3).getReleaseName()))))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(0).getReleaseName()),
+                hasExtra("id", viewedReleases.get(0).getReleaseId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(1).getReleaseName()),
+                hasExtra("id", viewedReleases.get(1).getReleaseId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(2).getReleaseName()),
+                hasExtra("id", viewedReleases.get(2).getReleaseId())));
+        intended(allOf(
+                hasComponent(ReleaseActivity.class.getName()),
+                hasExtra("title", viewedReleases.get(3).getReleaseName()),
+                hasExtra("id", viewedReleases.get(3).getReleaseId())));
     }
 
     @Test
@@ -210,45 +254,6 @@ public class MainActivityTest
                 hasComponent(MarketplaceListingActivity.class.getName()),
                 hasExtra("id", listings.get(2).getId()),
                 hasExtra("title", listings.get(2).getTitle())));
-    }
-
-    @Test
-    public void viewedReleases_intendCorrectly() throws InterruptedException
-    {
-        TestUtils.stubIntents(SingleListActivity.class);
-        // Close navdrawer
-        onView(withId(R.id.lytMainContent)).perform(swipeLeft());
-
-        controller.setViewedReleases(viewedReleases);
-        Thread.sleep(500);
-        onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(0).getArtists() + " - " + viewedReleases.get(0).getReleaseName()))))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(1).getArtists() + " - " + viewedReleases.get(1).getReleaseName()))))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(2).getArtists() + " - " + viewedReleases.get(2).getReleaseName()))))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
-        onView(allOf(withClassName(is(Carousel.class.getName())),
-                hasDescendant(withText(viewedReleases.get(3).getArtists() + " - " + viewedReleases.get(3).getReleaseName()))))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
-        intended(allOf(
-                hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(0).getReleaseName()),
-                hasExtra("id", viewedReleases.get(0).getReleaseId())));
-        intended(allOf(
-                hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(1).getReleaseName()),
-                hasExtra("id", viewedReleases.get(1).getReleaseId())));
-        intended(allOf(
-                hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(2).getReleaseName()),
-                hasExtra("id", viewedReleases.get(2).getReleaseId())));
-        intended(allOf(
-                hasComponent(ReleaseActivity.class.getName()),
-                hasExtra("title", viewedReleases.get(3).getReleaseName()),
-                hasExtra("id", viewedReleases.get(3).getReleaseId())));
     }
 
     private void initialiseUi()

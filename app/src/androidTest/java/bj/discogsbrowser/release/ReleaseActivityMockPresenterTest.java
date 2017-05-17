@@ -61,7 +61,7 @@ public class ReleaseActivityMockPresenterTest
     private String releaseId = "releaseId";
     private String releaseTitle = "releaseTitle";
     private ReleaseActivity activity;
-    private Release release = ReleaseFactory.buildRelease(false, false);
+    private Release release = ReleaseFactory.buildRelease("1", false, false);
     private List<ScrapeListing> releaseListings = ReleaseFactory.getReleaseListings();
 
     @Before

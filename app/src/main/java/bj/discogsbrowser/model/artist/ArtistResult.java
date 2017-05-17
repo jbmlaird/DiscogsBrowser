@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.discogsbrowser.model.release.Image;
-import bj.discogsbrowser.utils.WantedUrl;
 
 public class ArtistResult
 {
@@ -41,7 +40,7 @@ public class ArtistResult
     @SerializedName("members")
     @Expose
     private List<Member> members = null;
-    private List<WantedUrl> wantedUrls;
+    private List<ArtistWantedUrl> artistWantedUrls;
 
     public List<String> getNamevariations()
     {
@@ -143,13 +142,13 @@ public class ArtistResult
         this.members = members;
     }
 
-    public void setWantedUrls(List<WantedUrl> wantedUrls)
+    public void setArtistWantedUrls(List<ArtistWantedUrl> artistWantedUrls)
     {
-        this.wantedUrls = wantedUrls;
+        this.artistWantedUrls = artistWantedUrls;
     }
 
-    public List<WantedUrl> getWantedUrls()
+    public List<ArtistWantedUrl> getArtistWantedUrls()
     {
-        return wantedUrls;
+        return artistWantedUrls;
     }
 }

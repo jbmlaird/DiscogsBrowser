@@ -6,7 +6,7 @@ import java.util.Collections;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artist.Member;
 import bj.discogsbrowser.model.release.Image;
-import bj.discogsbrowser.utils.WantedUrl;
+import bj.discogsbrowser.model.artist.ArtistWantedUrl;
 
 /**
  * Created by Josh Laird on 15/05/2017.
@@ -29,7 +29,7 @@ public class TestArtistResult extends ArtistResult
         Member testMember2 = new Member();
         testMember2.setName("member2");
         setMembers(Arrays.asList(testMember, testMember2));
-        setWantedUrls(Arrays.asList(new WantedUrl("http://www.spotify.com", "spotify", "#000000", "i"), new WantedUrl("http://www.redtube.com", "redtube", "#ffffff", "i")));
+        setArtistWantedUrls(Arrays.asList(new ArtistWantedUrl("http://www.spotify.com", "spotify", "#000000", "i"), new ArtistWantedUrl("http://www.redtube.com", "redtube", "#ffffff", "i")));
     }
 
     private static class TestImage extends Image

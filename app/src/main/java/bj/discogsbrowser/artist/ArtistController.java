@@ -9,15 +9,14 @@ import bj.discogsbrowser.epoxy.artist.ViewReleasesModel_;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
 import bj.discogsbrowser.epoxy.common.EmptySpaceModel_;
-import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.RetryModel_;
 import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.model.artist.ArtistResult;
+import bj.discogsbrowser.model.artist.ArtistWantedUrl;
 import bj.discogsbrowser.model.artist.Member;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ImageViewAnimator;
-import bj.discogsbrowser.utils.WantedUrl;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 /**
  * Created by Josh Laird on 21/04/2017.
@@ -43,8 +42,7 @@ public class ArtistController extends BaseController
     @Override
     protected void buildModels()
     {
-        new HeaderModel_()
-                .id("header model")
+        header
                 .context(context)
                 .imageViewAnimator(imageViewAnimator)
                 .title(title)
@@ -102,21 +100,21 @@ public class ArtistController extends BaseController
                         .addTo(this);
             }
 
-            if (artistResult.getWantedUrls() != null && artistResult.getWantedUrls().size() > 0)
+            if (artistResult.getArtistWantedUrls() != null && artistResult.getArtistWantedUrls().size() > 0)
             {
                 new SubHeaderModel_()
                         .id("links subheader")
                         .subheader("Links")
                         .addTo(this);
 
-                for (WantedUrl wantedUrl : artistResult.getWantedUrls())
+                for (ArtistWantedUrl artistWantedUrl : artistResult.getArtistWantedUrls())
                 {
                     new UrlModel_()
-                            .id("wantedUrl" + artistResult.getWantedUrls().indexOf(wantedUrl))
-                            .onLinkClick(v -> view.showLink(wantedUrl.getUrl()))
-                            .fontAwesomeCode(wantedUrl.getFontAwesomeString())
-                            .friendlyText(wantedUrl.getDisplayText())
-                            .hexCode(wantedUrl.getHexCode())
+                            .id("wantedUrl" + artistResult.getArtistWantedUrls().indexOf(artistWantedUrl))
+                            .onLinkClick(v -> view.openLink(artistWantedUrl.getUrl()))
+                            .fontAwesomeCode(artistWantedUrl.getFontAwesomeString())
+                            .friendlyText(artistWantedUrl.getDisplayText())
+                            .hexCode(artistWantedUrl.getHexCode())
                             .addTo(this);
                 }
 

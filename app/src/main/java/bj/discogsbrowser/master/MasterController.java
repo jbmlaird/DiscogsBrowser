@@ -8,7 +8,6 @@ import java.util.List;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.epoxy.common.BaseController;
 import bj.discogsbrowser.epoxy.common.DividerModel_;
-import bj.discogsbrowser.epoxy.common.HeaderModel_;
 import bj.discogsbrowser.epoxy.common.ListItemModel_;
 import bj.discogsbrowser.epoxy.common.LoadingModel_;
 import bj.discogsbrowser.epoxy.common.PaddedCenterTextModel_;
@@ -17,9 +16,9 @@ import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
 import bj.discogsbrowser.model.master.Master;
 import bj.discogsbrowser.model.version.Version;
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 /**
  * Created by Josh Laird on 25/04/2017.
@@ -48,8 +47,7 @@ public class MasterController extends BaseController
     @Override
     protected void buildModels()
     {
-        new HeaderModel_()
-                .id("header model")
+        header
                 .context(context)
                 .title(title)
                 .imageViewAnimator(imageViewAnimator)

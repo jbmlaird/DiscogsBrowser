@@ -1,4 +1,4 @@
-package bj.discogsbrowser.utils;
+package bj.discogsbrowser.model.artist;
 
 import bj.discogsbrowser.artist.ArtistController;
 import bj.discogsbrowser.epoxy.artist.UrlModel;
@@ -8,14 +8,14 @@ import bj.discogsbrowser.epoxy.artist.UrlModel;
  * <p>
  * To ease {@link ArtistController}'s creation of {@link UrlModel}.
  */
-public class WantedUrl
+public class ArtistWantedUrl
 {
     private String url;
     private String displayText;
     private String hexCode;
     private String fontAwesomeString;
 
-    public WantedUrl(String url, String displayText, String hexCode, String fontAwesomeString)
+    public ArtistWantedUrl(String url, String displayText, String hexCode, String fontAwesomeString)
     {
         this.url = url;
         this.displayText = displayText;

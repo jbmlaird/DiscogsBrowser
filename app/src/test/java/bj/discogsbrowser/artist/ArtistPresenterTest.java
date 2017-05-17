@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import bj.discogsbrowser.artistreleases.ArtistReleasesFactory;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.rxmodifiers.RemoveUnwantedLinksFunction;
+import bj.discogsbrowser.utils.rxmodifiers.RemoveUnwantedLinksFunction;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import bj.discogsbrowser.wrappers.LogWrapper;
 import io.reactivex.Single;

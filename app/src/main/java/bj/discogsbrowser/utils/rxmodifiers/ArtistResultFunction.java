@@ -1,4 +1,4 @@
-package bj.discogsbrowser.rxmodifiers;
+package bj.discogsbrowser.utils.rxmodifiers;
 
 import java.util.ArrayList;
 import java.util.List;

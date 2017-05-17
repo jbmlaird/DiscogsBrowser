@@ -138,3 +138,9 @@ public static java.lang.String TABLENAME;
 ##----Begin LoadingButton---
 -dontwarn br.com.simplepass.loading_button_lib.customViews.**
 #-keep class br.com.simplepass.loading_button_lib.**
+
+##---Epoxy---
+-keep class * extends com.airbnb.epoxy.EpoxyController { *; }
+-keep class * extends com.airbnb.epoxy.ControllerHelper { *; }
+-keepclasseswithmembernames class * { @com.airbnb.epoxy.AutoModel <methods>; }
+-keepclasseswithmembernames class * { @com.airbnb.epoxy.AutoModel <fields>; }

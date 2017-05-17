@@ -14,6 +14,8 @@ import bj.discogsbrowser.release.ReleaseComponent;
 import bj.discogsbrowser.search.SearchComponent;
 import bj.discogsbrowser.singlelist.SingleListComponent;
 import bj.discogsbrowser.utils.analytics.AnalyticsModule;
+import bj.discogsbrowser.di.modules.DaoModule;
+import bj.discogsbrowser.di.modules.ImageViewAnimatorModule;
 import bj.discogsbrowser.wrappers.WrappersModule;
 import dagger.Component;
 

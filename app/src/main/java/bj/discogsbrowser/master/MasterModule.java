@@ -3,7 +3,7 @@ package bj.discogsbrowser.master;
 import android.content.Context;
 
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.scopes.ActivityScope;
+import bj.discogsbrowser.di.scopes.ActivityScope;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;

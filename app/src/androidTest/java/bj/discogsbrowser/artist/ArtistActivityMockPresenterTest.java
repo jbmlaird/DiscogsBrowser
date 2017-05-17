@@ -77,7 +77,7 @@ public class ArtistActivityMockPresenterTest
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getMembers().get(0).getName()))));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getMembers().get(1).getName()))));
 
-        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getWantedUrls().get(0).getDisplayText()))));
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getArtistWantedUrls().get(0).getDisplayText()))));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(activity.getString(R.string.view_releases)))));
     }
 
