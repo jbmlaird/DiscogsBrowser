@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import bj.discogsbrowser.AppComponent;
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
+import bj.discogsbrowser.artistreleases.ArtistReleasesComponent;
 import bj.discogsbrowser.artistreleases.ArtistReleasesController;
 import bj.discogsbrowser.common.BaseFragment;
 import butterknife.BindView;
@@ -44,7 +44,7 @@ public class ArtistReleasesFragment extends BaseFragment implements ArtistReleas
     @Override
     public void setupComponent(AppComponent appComponent)
     {
-        ArtistReleasesActivity.getComponent()
+        ((ArtistReleasesComponent) getArguments().getSerializable("component"))
                 .artistReleasesFragmentComponentBuilder()
                 .artistReleasesFragmentModule(new ArtistReleasesFragmentModule(this))
                 .build()

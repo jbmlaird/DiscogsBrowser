@@ -95,7 +95,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
     /**
      * Fetches marketplace listings.
      *
-     * @param releaseId
+     * @param releaseId Release ID.
      * @throws IOException
      */
     public void fetchReleaseListings(String releaseId) throws IOException
@@ -105,8 +105,10 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(controller::setReleaseListings,
                         error ->
-                                controller.setReleaseListingsError()
-                );
+                        {
+                            error.printStackTrace();
+                            controller.setReleaseListingsError();
+                        });
     }
 
     /**

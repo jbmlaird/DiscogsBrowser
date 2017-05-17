@@ -149,6 +149,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         {
             ArtistReleasesFragment artistReleasesFragment = new ArtistReleasesFragment();
             Bundle releasesBundle = new Bundle();
+            releasesBundle.putSerializable("component", component);
             releasesBundle.putString("map", String.valueOf(pair.first));
             artistReleasesFragment.setArguments(releasesBundle);
             viewPagerAdapter.addFragment(artistReleasesFragment, String.valueOf(pair.second));

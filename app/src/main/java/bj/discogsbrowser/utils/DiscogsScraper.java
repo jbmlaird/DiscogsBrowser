@@ -22,7 +22,7 @@ public class DiscogsScraper
     {
         ArrayList<ScrapeListing> scrapeListings = new ArrayList<>();
         Document doc = Jsoup
-                .connect("http://www.discogs.com/sell/list?sort=price%2Casc&limit=50&ev=mbformat_desc=12\"&release_id=" + id)
+                .connect("http://www.discogs.com/sell/list?sort=price%2Casc&limit=50&ev=mb&format_desc=12\"&release_id=" + id)
                 .get();
         Elements marketplaceListings = doc.getElementsByClass("shortcut_navigable ");
         for (Element element : marketplaceListings)
@@ -40,7 +40,15 @@ public class DiscogsScraper
             }
             // Contains media and sleeve condition
             Element itemDescription = element.getElementsByClass("item_description").get(0);
-            String mediaCondition = itemDescription.getElementsByClass("icon icon-info-circle muted media-condition-tooltip").get(0).attr("data-condition");
+            String mediaCondition = "Unable to fetch";
+            try
+            {
+                mediaCondition = itemDescription.getElementsByClass("icon icon-info-circle muted media-condition-tooltip").get(0).attr("data-condition");
+            }
+            catch (IndexOutOfBoundsException e)
+            {
+
+            }
             String sleeveCondition = "n/a";
             try
             {

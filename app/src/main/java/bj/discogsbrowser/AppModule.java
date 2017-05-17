@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 import bj.discogsbrowser.network.CacheProviders;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.network.DiscogsOAuthApi;
-import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.DiscogsScraper;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;

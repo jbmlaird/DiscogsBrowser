@@ -37,7 +37,7 @@
     <string name="error_orders">Unable to load orders</string>
     <string name="selling_none">Not selling anything</string>
     <string name="error_selling">Unable to load selling</string>
-    <string name="privacy_policy">The only information I store is your username so I can buid a recommendation system for you. This is not shared with anyone.\n\nYou are logged in securely via OAuth.</string>
+    <string name="privacy_policy">The only information I store is your username, Collection and Wantlist so I can buid a recommendation system for you. This is not shared with anyone.\n\nYou are logged in securely via OAuth.</string>
     <string name="name">name</string>
     <string name="num_collection">num_collection</string>
     <string name="num_wantlist">num_wantlist</string>

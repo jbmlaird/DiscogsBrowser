@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import bj.discogsbrowser.artist.ArtistComponent;
 import bj.discogsbrowser.artistreleases.ArtistReleasesComponent;
+import bj.discogsbrowser.greendao.DaoModule;
 import bj.discogsbrowser.label.LabelComponent;
 import bj.discogsbrowser.login.LoginComponent;
 import bj.discogsbrowser.main.MainComponent;
@@ -13,9 +14,8 @@ import bj.discogsbrowser.order.OrderComponent;
 import bj.discogsbrowser.release.ReleaseComponent;
 import bj.discogsbrowser.search.SearchComponent;
 import bj.discogsbrowser.singlelist.SingleListComponent;
-import bj.discogsbrowser.utils.analytics.AnalyticsModule;
-import bj.discogsbrowser.greendao.DaoModule;
 import bj.discogsbrowser.utils.UtilsModule;
+import bj.discogsbrowser.utils.analytics.AnalyticsModule;
 import bj.discogsbrowser.wrappers.WrappersModule;
 import dagger.Component;
 

@@ -1,5 +1,7 @@
 package bj.discogsbrowser.artistreleases;
 
+import java.io.Serializable;
+
 import bj.discogsbrowser.artistreleases.fragments.ArtistReleasesFragmentComponent;
 import bj.discogsbrowser.di.scopes.ActivityScope;
 import dagger.Subcomponent;
@@ -9,7 +11,7 @@ import dagger.Subcomponent;
  */
 @ActivityScope
 @Subcomponent(modules = {ArtistReleasesModule.class})
-public interface ArtistReleasesComponent
+public interface ArtistReleasesComponent extends Serializable
 {
     void inject(ArtistReleasesActivity artistReleasesActivity);
 

@@ -16,6 +16,7 @@ import org.mockito.Mock;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artist.ArtistActivity;
@@ -139,12 +140,11 @@ public class SearchActivityTest
         TestUtils.stubIntentClass(MasterActivity.class);
         TestUtils.stubIntentClass(ArtistActivity.class);
 
-        when(searchFunction.apply(any())).thenReturn(Observable.just(results));
+        when(searchFunction.apply(any())).thenReturn(Observable.just(results).delay(500, TimeUnit.MILLISECONDS)); // Delay to stop setLoading() and setResults() at the same time
         onView(withId(R.id.search_src_text)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(searchQuery));
         closeSoftKeyboard();
         Thread.sleep(501); // debounce time - could make this a static variable and set to zero
-
         assertEquals(controller.getAdapter().getItemCount(), results.size());
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(results.get(0).getTitle())), click()));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(results.get(1).getTitle())), click()));
