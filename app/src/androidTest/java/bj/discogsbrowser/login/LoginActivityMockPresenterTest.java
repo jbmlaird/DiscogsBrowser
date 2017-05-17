@@ -12,9 +12,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.main.MainActivity;
+import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
@@ -72,6 +72,7 @@ public class LoginActivityMockPresenterTest
         mActivityTestRule.launchActivity(null);
 
         mActivityTestRule.runOnUiThread(() -> mActivityTestRule.getActivity().onBackPressed());
+        Thread.sleep(500);
 
         onView(withResourceName("md_title")).check(matches(isDisplayed()));
         onView(withResourceName("md_buttonDefaultPositive")).perform(click());

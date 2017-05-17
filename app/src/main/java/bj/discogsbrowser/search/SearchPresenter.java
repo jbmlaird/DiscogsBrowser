@@ -184,7 +184,8 @@ public class SearchPresenter implements SearchContract.Presenter
     {
         if (showPastSearches)
             searchController.setPastSearches(daoManager.getRecentSearchTerms());
-        searchController.setShowPastSearches(showPastSearches);
+        else
+            searchController.setShowPastSearches(false);
     }
 
     @Override

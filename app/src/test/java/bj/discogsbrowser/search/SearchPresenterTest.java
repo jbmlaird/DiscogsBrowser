@@ -70,7 +70,6 @@ public class SearchPresenterTest
 
         verify(daoManager).getRecentSearchTerms();
         verify(searchController).setPastSearches(emptyList);
-        verify(searchController).setShowPastSearches(true);
     }
 
     @Test
