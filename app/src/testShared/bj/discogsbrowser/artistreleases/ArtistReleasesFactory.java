@@ -1,15 +1,12 @@
 package bj.discogsbrowser.artistreleases;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import bj.discogsbrowser.model.artist.ArtistResult;
-import bj.discogsbrowser.model.artist.Member;
 import bj.discogsbrowser.model.artistrelease.ArtistRelease;
-import bj.discogsbrowser.model.release.Image;
-import bj.discogsbrowser.model.artist.ArtistWantedUrl;
+
+import static bj.discogsbrowser.artistreleases.ArtistResultFactory.buildArtistResult;
 
 /**
  * Created by Josh Laird on 15/05/2017.
@@ -19,39 +16,22 @@ public class ArtistReleasesFactory
 {
     public static ArtistResult getTestArtistResultNoMembers()
     {
-        ArtistResult artistResult = new ArtistResult();
-        artistResult.setProfile("");
-        Image image = new Image();
-        image.setResourceUrl("");
-        artistResult.setImages(Collections.singletonList(image));
-        artistResult.setNamevariations(Collections.singletonList("ye"));
-        return artistResult;
+        return buildArtistResult(0);
     }
 
     public static ArtistResult getTestArtistResultMembers()
     {
-        ArtistResult artistResult = new ArtistResult();
-        Member member = new Member();
-        member.setName("Ye");
-        member.setId("Son");
-        artistResult.setMembers(Collections.singletonList(member));
-        return artistResult;
+        return buildArtistResult(2);
     }
 
     public static ArtistResult getTestArtistResultReleasesUrl()
     {
-        ArtistResult artistResult = new ArtistResult();
-        artistResult.setReleasesUrl("");
-        return artistResult;
+        return buildArtistResult(0);
     }
 
     public static ArtistResult getTestArtistResultWantedUrls()
     {
-        ArtistResult artistResult = new ArtistResult();
-        ArrayList<ArtistWantedUrl> artistWantedUrls = new ArrayList<>();
-        artistWantedUrls.add(new ArtistWantedUrl("", "", "", ""));
-        artistResult.setArtistWantedUrls(artistWantedUrls);
-        return artistResult;
+        return buildArtistResult(0);
     }
 
     public static List<ArtistRelease> getTwoMastersTwoReleases()

@@ -144,7 +144,7 @@ public class SearchActivityTest
         onView(withId(R.id.search_src_text)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(searchQuery));
         closeSoftKeyboard();
-        Thread.sleep(501); // debounce time - could make this a static variable and set to zero
+        Thread.sleep(1501); // debounce time - could make this a static variable and set to zero
         assertEquals(controller.getAdapter().getItemCount(), results.size());
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(results.get(0).getTitle())), click()));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(results.get(1).getTitle())), click()));

@@ -16,6 +16,7 @@ import org.robolectric.annotation.Config;
 import java.util.List;
 
 import bj.discogsbrowser.artistreleases.ArtistReleasesFactory;
+import bj.discogsbrowser.artistreleases.ArtistResultFactory;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
@@ -69,35 +70,33 @@ public class ArtistControllerTest
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "EmptySpaceModel_");
-        assertEquals(copyOfModels.size(), 3);
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "ViewReleasesModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 8);
     }
 
     @Test
-    public void setArtistMembers_displaysMembers()
+    public void setArtistTwoMembers_displaysTwoMembers()
     {
-        controller.setArtist(ArtistReleasesFactory.getTestArtistResultMembers());
+        controller.setArtist(ArtistResultFactory.buildArtistResult(2));
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "SubHeaderModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "MemberModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "EmptySpaceModel_");
-        assertEquals(copyOfModels.size(), 6);
-    }
-
-    @Test
-    public void setArtistWithReleasesUrl_displaysArtistWithReleaseUrl()
-    {
-        controller.setArtist(ArtistReleasesFactory.getTestArtistResultReleasesUrl());
-        List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
-        assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
-        assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "ViewReleasesModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "EmptySpaceModel_");
-        assertEquals(copyOfModels.size(), 5);
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "MemberModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "ViewReleasesModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 12);
     }
 
     @Test
@@ -107,10 +106,13 @@ public class ArtistControllerTest
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "SubHeaderModel_");
-        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "UrlModel_");
-        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "EmptySpaceModel_");
-        assertEquals(copyOfModels.size(), 5);
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "ViewReleasesModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 8);
     }
 
     @Test
@@ -122,6 +124,7 @@ public class ArtistControllerTest
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "RetryModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 4);
 
         controller.setLoading(true);
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -129,12 +132,18 @@ public class ArtistControllerTest
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 4);
 
         controller.setArtist(ArtistReleasesFactory.getTestArtistResultNoMembers());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "EmptySpaceModel_");
-        assertEquals(copyOfModels.size(), 3);
+        assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "ViewReleasesModel_");
+        assertEquals(copyOfModels.get(3).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "UrlModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "EmptySpaceModel_");
+        assertEquals(copyOfModels.size(), 8);
     }
 }

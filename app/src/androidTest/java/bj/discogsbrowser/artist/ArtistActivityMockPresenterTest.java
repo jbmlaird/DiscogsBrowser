@@ -14,7 +14,8 @@ import org.mockito.Mock;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.artistreleases.ArtistReleasesActivity;
-import bj.discogsbrowser.artistreleases.TestArtistResult;
+import bj.discogsbrowser.artistreleases.ArtistResultFactory;
+import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
@@ -49,7 +50,7 @@ public class ArtistActivityMockPresenterTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock ArtistPresenter presenter;
     private ArtistActivity activity;
-    private TestArtistResult artistResult = new TestArtistResult();
+    private ArtistResult artistResult = ArtistResultFactory.buildArtistResult(2);
     private String artistId = "artistId";
     private String artistTitle = "artistTitle";
 
@@ -72,7 +73,7 @@ public class ArtistActivityMockPresenterTest
     public void onLaunch_allInfoDisplayed()
     {
         activity.controller.setArtist(artistResult);
-        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getNamevariations().get(0)))));
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getNameVariations().get(0)))));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getMembers().get(0).getName()))));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(artistResult.getMembers().get(1).getName()))));
 
@@ -111,7 +112,7 @@ public class ArtistActivityMockPresenterTest
 
         intended(allOf(
                 hasComponent(ArtistReleasesActivity.class.getName()),
-                hasExtra(equalTo("title"), equalTo(artistResult.getNamevariations().get(0))),
+                hasExtra(equalTo("title"), equalTo(artistResult.getNameVariations().get(0))),
                 hasExtra(equalTo("id"), equalTo(artistResult.getId()))));
     }
 

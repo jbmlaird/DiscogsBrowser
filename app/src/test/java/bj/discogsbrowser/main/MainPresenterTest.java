@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.net.UnknownHostException;
@@ -59,7 +58,6 @@ public class MainPresenterTest
     @Mock DiscogsInteractor discogsInteractor;
     @Mock NavigationDrawerBuilder navigationDrawerBuilder;
     @Mock MainController mainController;
-    @Mock RecyclerView recyclerView;
     @Mock SharedPrefsManager sharedPrefsManager;
     @Mock LogWrapper logWrapper;
     @Mock DaoManager daoManager;
@@ -72,7 +70,6 @@ public class MainPresenterTest
     @Before
     public void setUp()
     {
-        MockitoAnnotations.initMocks(this);
         testUserDetails = new UserDetails();
         testUserDetails.setUsername(username);
         testScheduler = new TestScheduler();

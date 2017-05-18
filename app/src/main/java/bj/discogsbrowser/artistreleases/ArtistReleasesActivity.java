@@ -45,11 +45,6 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Inject AnalyticsTracker tracker;
     @Inject ArtistReleasesPresenter presenter;
 
-    public static ArtistReleasesComponent getComponent()
-    {
-        return component;
-    }
-
     @Override
     public void setupComponent(AppComponent appComponent)
     {
@@ -78,14 +73,6 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
         presenter.setupFilter();
         presenter.fetchArtistReleases(getIntent().getStringExtra("id"));
         setupToolbar(toolbar, getIntent().getStringExtra("title"));
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        // Component is only required for fragment instantiation. Leaks otherwise.
-        component = null;
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Created by Josh Laird on 10/05/2017.
@@ -39,12 +41,12 @@ public class ReleasePresenterTest
     private TestScheduler testScheduler = new TestScheduler();
     @Mock DaoManager daoManager;
     @Mock ArtistsBeautifier artistsBeautifier;
-    private ReleaseFactory releaseFactory = new ReleaseFactory();
     private String id = "123";
 
     @Before
     public void setUp()
     {
+        initMocks(this);
         presenter = new ReleasePresenter(controller, discogsInteractor,
                 new TestSchedulerProvider(testScheduler), daoManager, artistsBeautifier);
     }
@@ -103,7 +105,7 @@ public class ReleasePresenterTest
     @Test
     public void checkCollectionError_displaysError() throws IOException
     {
-        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
+        Release releaseNoLabelNoneForSale = ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
         when(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.error(new Throwable()));
 
@@ -118,7 +120,7 @@ public class ReleasePresenterTest
     @Test
     public void checkCollectionValid_displaysValid() throws IOException
     {
-        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
+        Release releaseNoLabelNoneForSale = ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         when(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale);
         when(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
         when(discogsInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just(Collections.emptyList()));
@@ -135,7 +137,7 @@ public class ReleasePresenterTest
     @Test
     public void getReleaseNoLabelNoneForSale_displaysRelease()
     {
-        Release releaseNoLabelNoneForSale = releaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
+        Release releaseNoLabelNoneForSale = ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos();
         Single<Release> releaseSingle = Single.just(releaseNoLabelNoneForSale);
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
         ArgumentCaptor<ArrayList> arrayListArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
@@ -161,10 +163,10 @@ public class ReleasePresenterTest
     @Test
     public void getReleaseWithLabelNoneForSale_displaysRelease()
     {
-        Release releaseWithLabelNoneForSale = releaseFactory.getReleaseWithLabelNoneForSale();
+        Release releaseWithLabelNoneForSale = ReleaseFactory.getReleaseWithLabelNoneForSale();
         Single<Release> releaseSingle = Single.just(releaseWithLabelNoneForSale);
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
-        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
+        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(ReleaseFactory.getLabelDetails()));
         ArgumentCaptor<ArrayList> arrayListArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
         when(discogsInteractor.checkIfInCollection(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just(new ArrayList<>()));
@@ -189,12 +191,12 @@ public class ReleasePresenterTest
     @Test
     public void getReleaseWithLabelAndListings_displaysReleaseAndListings() throws IOException
     {
-        Release releaseWithLabelSomeForSale = releaseFactory.getReleaseWithLabelSomeForSale();
+        Release releaseWithLabelSomeForSale = ReleaseFactory.getReleaseWithLabelSomeForSale();
         Single<Release> releaseSingle = Single.just(releaseWithLabelSomeForSale);
         when(discogsInteractor.fetchReleaseDetails(id)).thenReturn(releaseSingle);
-        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(releaseFactory.getLabelDetails()));
+        when(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(ReleaseFactory.getLabelDetails()));
         ArgumentCaptor<List> listArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
-        when(discogsInteractor.getReleaseMarketListings(id)).thenReturn(Single.just(releaseFactory.getFourEmptyScrapeListings()));
+        when(discogsInteractor.getReleaseMarketListings(id)).thenReturn(Single.just(ReleaseFactory.getFourEmptyScrapeListings()));
 
         when(discogsInteractor.checkIfInCollection(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
         when(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just(new ArrayList<>()));
