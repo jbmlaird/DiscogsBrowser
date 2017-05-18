@@ -11,7 +11,7 @@ The UI design is inspired by AirBnB's Android app and is similar in (the best lo
 
 # Usage
 
-Currently going through submission for the Play Store. For now, must be built from source.
+I am awaiting a ticket to be resolved by Google as apparently this app violates their [Impersonation policy](https://play.google.com/about/ip-deception-spam/impersonation-ip/impersonation/) (probably due to sharing a similar name to the Discogs app). A direct APK can be downloaded from my BuddyBuild [here](https://downloads.buddybuild.com/api/download/download-apk?buildID=591cb0a49d09010001e9ed39&application_variant=release) in the meantime.
 
 # Technical
 
