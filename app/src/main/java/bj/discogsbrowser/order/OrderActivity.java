@@ -59,14 +59,14 @@ public class OrderActivity extends BaseActivity implements OrderContract.View
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 
     @Override
     public void retry()
     {
-        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.clicked), "retry", 1L);
+        tracker.send(getString(R.string.order_activity), getString(R.string.order_activity), getString(R.string.clicked), "retry", 1);
         presenter.fetchOrderDetails(getIntent().getStringExtra("id"));
     }
 }

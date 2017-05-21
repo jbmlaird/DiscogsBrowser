@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import bj.discogsbrowser.greendao.DaoManager;
-import bj.discogsbrowser.model.release.Label;
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.ArtistsBeautifier;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -58,7 +58,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
                         discogsInteractor.fetchLabelDetails(releaseLabel.getId())
                                 .subscribe(labelDetails ->
                                         {
-                                            if (labelDetails.getImages() != null && labelDetails.getImages().size() > 0)
+                                            if (labelDetails.getImages().size() > 0)
                                                 releaseLabel.setThumb(labelDetails.getImages().get(0).getUri());
                                         },
                                         error ->

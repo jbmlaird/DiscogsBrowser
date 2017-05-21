@@ -14,8 +14,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import bj.discogsbrowser.R;
+import bj.discogsbrowser.listing.ListingFactory;
+import bj.discogsbrowser.model.listing.Listing;
+import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
+import bj.discogsbrowser.userdetails.UserDetailsFactory;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -50,8 +54,8 @@ public class MarketplaceActivityMockPresenterTest
     private MarketplaceListingActivity activity;
     private String listingTitle = "listingTitle";
     private String listingId = "listingId";
-    private TestListing listing = new TestListing();
-    private TestUserDetails testUserDetails = new TestUserDetails();
+    private Listing listing = ListingFactory.buildListing("");
+    private UserDetails testUserDetails = UserDetailsFactory.buildUserDetails();
     private MarketplaceController controller;
 
     @Before

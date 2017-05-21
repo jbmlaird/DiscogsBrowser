@@ -62,14 +62,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     @OnClick(R.id.btnLogin)
     public void loginTapped()
     {
-        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.clicked), "login", 1L);
+        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.clicked), "login", 1);
         presenter.beginLogin();
     }
 
     @OnClick(R.id.tvTnCs)
     public void onTsnCsClicked()
     {
-        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.clicked), "privacy policy", 1L);
+        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.clicked), "privacy policy", 1);
         new MaterialDialog.Builder(this)
                 .title("Privacy Policy")
                 .negativeText("Dismiss")
@@ -80,7 +80,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.login_activity), getString(R.string.login_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 

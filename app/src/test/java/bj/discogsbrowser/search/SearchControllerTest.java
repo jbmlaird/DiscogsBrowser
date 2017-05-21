@@ -35,7 +35,6 @@ public class SearchControllerTest
     @Mock SearchContract.View view;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock AnalyticsTracker tracker;
-    private SearchFactory searchFactory = new SearchFactory();
 
     @Before
     public void setup()
@@ -55,7 +54,7 @@ public class SearchControllerTest
     @Test
     public void initialStateTwoSearchTerms_displaysTwoSearchTerms()
     {
-        controller.setPastSearches(Arrays.asList(searchFactory.getPastSearch(), searchFactory.getPastSearch()));
+        controller.setPastSearches(Arrays.asList(SearchFactory.buildPastSearch(), SearchFactory.buildPastSearch()));
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), ("PastSearchModel_"));
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), ("PastSearchModel_"));
@@ -70,7 +69,7 @@ public class SearchControllerTest
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), ("LoadingModel_"));
         assertEquals(copyOfModels.size(), 1);
 
-        controller.setSearchResults(searchFactory.getThreeEmptySearchResults());
+        controller.setSearchResults(SearchFactory.buildThreeSearchResults());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), ("SearchResultModel_"));
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), ("SearchResultModel_"));
@@ -105,7 +104,7 @@ public class SearchControllerTest
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), ("LoadingModel_"));
         assertEquals(copyOfModels.size(), 1);
 
-        controller.setSearchResults(searchFactory.getThreeEmptySearchResults());
+        controller.setSearchResults(SearchFactory.buildThreeSearchResults());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), ("SearchResultModel_"));
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), ("SearchResultModel_"));
@@ -116,7 +115,7 @@ public class SearchControllerTest
     @Test
     public void resultsThenClear_showsPastSearches()
     {
-        controller.setSearchResults(searchFactory.getThreeEmptySearchResults());
+        controller.setSearchResults(SearchFactory.buildThreeSearchResults());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), ("SearchResultModel_"));
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), ("SearchResultModel_"));

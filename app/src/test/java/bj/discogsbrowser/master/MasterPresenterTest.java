@@ -10,7 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.List;
 
 import bj.discogsbrowser.model.master.Master;
-import bj.discogsbrowser.model.version.Version;
+import bj.discogsbrowser.model.version.MasterVersion;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;
 import io.reactivex.Single;
@@ -48,10 +48,10 @@ public class MasterPresenterTest
     @Test
     public void getValidData_getsDetailsAndVersions()
     {
-        Master master = new TestMaster();
+        Master master = new Master();
         Single<Master> justMaster = Single.just(master);
-        List<Version> versions = MasterVersionsFactory.getTwoMasterVersions();
-        Single<List<Version>> justVersions = Single.just(versions);
+        List<MasterVersion> masterVersions = MasterVersionsFactory.buildMasterVersions(2);
+        Single<List<MasterVersion>> justVersions = Single.just(masterVersions);
 
         when(discogsInteractor.fetchMasterDetails(id)).thenReturn(justMaster);
         when(discogsInteractor.fetchMasterVersions(id)).thenReturn(justVersions);
@@ -63,7 +63,7 @@ public class MasterPresenterTest
         verify(discogsInteractor).fetchMasterDetails(id);
         verify(controller).setMaster(master);
         verify(discogsInteractor).fetchMasterVersions(id);
-        verify(controller).setMasterVersions(versions);
+        verify(controller).setMasterMasterVersions(masterVersions);
     }
 
     @Test

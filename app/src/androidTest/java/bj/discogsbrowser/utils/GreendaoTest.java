@@ -30,6 +30,7 @@ public class GreendaoTest
 {
     private DaoManager daoManager;
     private ArtistsBeautifier artistsBeautifier;
+    private String id = "123";
 
     @Before
     public void setUp()
@@ -59,7 +60,7 @@ public class GreendaoTest
         assertEquals(daoManager.getViewedReleases().size(), 0);
 
         daoManager.storeSearchTerm("ye");
-        daoManager.storeViewedRelease(ReleaseFactory.buildRelease("1", false, false), artistsBeautifier);
+        daoManager.storeViewedRelease(ReleaseFactory.buildReleaseWithLabelNoneForSale(id), artistsBeautifier);
 
         assertEquals(daoManager.getRecentSearchTerms().size(), 1);
         assertEquals(daoManager.getViewedReleases().size(), 1);
@@ -78,8 +79,8 @@ public class GreendaoTest
 
         daoManager.storeSearchTerm("ye");
         daoManager.storeSearchTerm("ye");
-        daoManager.storeViewedRelease(ReleaseFactory.buildRelease("1", false, false), artistsBeautifier);
-        daoManager.storeViewedRelease(ReleaseFactory.buildRelease("1", false, false), artistsBeautifier);
+        daoManager.storeViewedRelease(ReleaseFactory.buildReleaseWithLabelNoneForSale(id), artistsBeautifier);
+        daoManager.storeViewedRelease(ReleaseFactory.buildReleaseWithLabelNoneForSale(id), artistsBeautifier);
 
         assertEquals(daoManager.getRecentSearchTerms().size(), 1);
         assertEquals(daoManager.getViewedReleases().size(), 1);
@@ -96,7 +97,7 @@ public class GreendaoTest
         for (int i = 0; i < 15; i++)
         {
             daoManager.storeSearchTerm(String.valueOf(i));
-            daoManager.storeViewedRelease(ReleaseFactory.buildRelease(String.valueOf(i), false, false), artistsBeautifier);
+            daoManager.storeViewedRelease(ReleaseFactory.buildRelease(id, String.valueOf(i), false, false, false, 0, 0, 0), artistsBeautifier);
         }
 
         viewedReleases = daoManager.getViewedReleases();

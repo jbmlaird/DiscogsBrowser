@@ -50,7 +50,7 @@ public class ArtistActivityMockPresenterTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock ArtistPresenter presenter;
     private ArtistActivity activity;
-    private ArtistResult artistResult = ArtistResultFactory.buildArtistResult(2);
+    private ArtistResult artistResult = ArtistResultFactory.buildArtistResult(0);
     private String artistId = "artistId";
     private String artistTitle = "artistTitle";
 

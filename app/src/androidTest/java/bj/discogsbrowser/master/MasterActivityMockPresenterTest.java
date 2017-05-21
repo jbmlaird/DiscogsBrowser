@@ -14,7 +14,8 @@ import org.mockito.Mock;
 import java.util.List;
 
 import bj.discogsbrowser.R;
-import bj.discogsbrowser.model.version.Version;
+import bj.discogsbrowser.model.master.Master;
+import bj.discogsbrowser.model.version.MasterVersion;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
@@ -56,8 +57,8 @@ public class MasterActivityMockPresenterTest
     private String masterId = "masterId";
     private MasterActivity activity;
     private MasterController controller;
-    private TestMaster master = new TestMaster();
-    private List<Version> masterVersions = MasterVersionsFactory.getTwoMasterVersions();
+    private Master master = MasterFactory.buildMaster();
+    private List<MasterVersion> masterMasterVersions = MasterVersionsFactory.buildMasterVersions(2);
 
     @Before
     public void setUp() throws InterruptedException
@@ -82,7 +83,7 @@ public class MasterActivityMockPresenterTest
             {
                 e.printStackTrace();
             }
-            controller.setMasterVersions(masterVersions);
+            controller.setMasterMasterVersions(masterMasterVersions);
         });
     }
 
@@ -97,8 +98,8 @@ public class MasterActivityMockPresenterTest
         onView(withId(R.id.recyclerView))
                 // Scroll to end
                 .perform(scrollToPosition(activity.recyclerView.getAdapter().getItemCount() - 1));
-        onView(withText(masterVersions.get(0).getTitle())).check(matches(isDisplayed()));
-        onView(withText(masterVersions.get(1).getTitle())).check(matches(isDisplayed()));
+        onView(withText(masterMasterVersions.get(0).getTitle())).check(matches(isDisplayed()));
+        onView(withText(masterMasterVersions.get(1).getTitle())).check(matches(isDisplayed()));
     }
 
     @Test
@@ -107,19 +108,19 @@ public class MasterActivityMockPresenterTest
         TestUtils.stubIntentClass(ReleaseActivity.class);
         onView(withId(R.id.recyclerView))
                 // Scroll to master version
-                .perform(actionOnItem(hasDescendant(withText(masterVersions.get(0).getTitle())), click()));
+                .perform(actionOnItem(hasDescendant(withText(masterMasterVersions.get(0).getTitle())), click()));
         onView(withId(R.id.recyclerView))
                 // Scroll to master version
-                .perform(actionOnItem(hasDescendant(withText(masterVersions.get(1).getTitle())), click()));
+                .perform(actionOnItem(hasDescendant(withText(masterMasterVersions.get(1).getTitle())), click()));
 
         intended(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
                 hasExtra(equalTo("title"), equalTo(master.getTitle())),
-                hasExtra(equalTo("id"), equalTo(masterVersions.get(0).getId()))));
+                hasExtra(equalTo("id"), equalTo(masterMasterVersions.get(0).getId()))));
 
         intended(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
                 hasExtra(equalTo("title"), equalTo(master.getTitle())),
-                hasExtra(equalTo("id"), equalTo(masterVersions.get(1).getId()))));
+                hasExtra(equalTo("id"), equalTo(masterMasterVersions.get(1).getId()))));
     }
 }

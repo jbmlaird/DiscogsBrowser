@@ -286,7 +286,7 @@ public class MainController extends EpoxyController
         this.loadingMorePurchases = false;
         this.loadingMoreSales = false;
         this.confirmEmail = false;
-        tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.error), "fetching orders", 1L);
+        tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.error), "fetching orders", 1);
         requestModelBuild();
     }
 

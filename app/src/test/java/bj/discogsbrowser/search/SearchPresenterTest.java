@@ -46,7 +46,6 @@ public class SearchPresenterTest
     TestScheduler testScheduler = new TestScheduler();
     @Mock DaoManager daoManager;
     @Mock CompositeDisposable disposable;
-    private SearchFactory searchFactory = new SearchFactory();
 
     @Before
     public void setUp()
@@ -187,7 +186,7 @@ public class SearchPresenterTest
         when(mockTabEvent.tab()).thenReturn(mockTab);
         when(mockTab.getText()).thenReturn("artist");
 
-        List<SearchResult> artistAndReleaseSearchResult = searchFactory.getArtistAndReleaseSearchResult();
+        List<SearchResult> artistAndReleaseSearchResult = SearchFactory.buildArtistAndReleaseSearchResult();
         SearchViewQueryTextEvent mockTextEvent = mock(SearchViewQueryTextEvent.class);
         when(mockTextEvent.queryText()).thenReturn("yee1");
         SearchViewQueryTextEvent mockTextEvent2 = mock(SearchViewQueryTextEvent.class);

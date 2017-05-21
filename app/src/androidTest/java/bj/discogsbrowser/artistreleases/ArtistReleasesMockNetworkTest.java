@@ -67,7 +67,6 @@ public class ArtistReleasesMockNetworkTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock ArtistReleaseBehaviorRelay behaviorRelay;
     private ArtistReleasesActivity activity;
-    private ArtistReleasesFactory artistReleasesFactory = new ArtistReleasesFactory();
     private String artistId = "2089744";
     private String artistTitle = "artistTitle";
 
@@ -80,7 +79,7 @@ public class ArtistReleasesMockNetworkTest
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
                 invocation).when(imageViewAnimator).rotateImage(any());
-        when(discogsInteractor.fetchArtistsReleases(artistId)).thenReturn(Single.just(artistReleasesFactory.getTwoMastersTwoReleases()));
+        when(discogsInteractor.fetchArtistsReleases(artistId)).thenReturn(Single.just(ArtistReleasesFactory.getTwoMastersTwoReleases()));
         when(behaviorRelay.getArtistReleaseBehaviorRelay()).thenReturn(artistReleaseRelay);
 
         activity = mActivityTestRule.launchActivity(startingIntent);

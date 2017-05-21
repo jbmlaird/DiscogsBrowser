@@ -58,7 +58,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 
@@ -76,35 +76,35 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Override
     public void displayListingInformation(String title, String artists, ScrapeListing scrapeListing)
     {
-        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "setListing", 1L);
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "setListing", 1);
         startActivity(MarketplaceListingActivity.createIntent(this, scrapeListing.getMarketPlaceId(), title, artists, scrapeListing.getSellerName()));
     }
 
     @Override
     public void launchYouTube(String youtubeId)
     {
-        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "launchYoutube", 1L);
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "launchYoutube", 1);
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + youtubeId)));
     }
 
     @Override
     public void displayLabel(String title, String id)
     {
-        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "displayLabel", 1L);
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "displayLabel", 1);
         startActivity(LabelActivity.createIntent(this, title, id));
     }
 
     @Override
     public void retry()
     {
-        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryRelease", 1L);
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryRelease", 1);
         presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
     @Override
     public void retryCollectionWantlist()
     {
-        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryWantlistCollection", 1L);
+        tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryWantlistCollection", 1);
         presenter.checkCollectionWantlist();
     }
 
@@ -113,7 +113,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     {
         try
         {
-            tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryListings", 1L);
+            tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "retryListings", 1);
             presenter.fetchReleaseListings(getIntent().getStringExtra("id"));
         }
         catch (IOException e)

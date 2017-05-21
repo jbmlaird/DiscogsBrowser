@@ -1,0 +1,46 @@
+package bj.discogsbrowser.model.order
+
+import bj.discogsbrowser.model.common.RecyclerViewModel
+import bj.discogsbrowser.model.common.Seller
+import com.google.gson.annotations.SerializedName
+
+/**
+ * Created by Josh Laird on 19/05/2017.
+ */
+data class Order(var status: String = "",
+                 var fee: Fee = Fee("", 0.0),
+                 var created: String = "",
+                 var items: List<Item> = emptyList(),
+                 var shipping: Shipping = Shipping("", "", 0.0),
+                 @SerializedName("shipping_address") var shippingAddress: String = "",
+                 @SerializedName("additional_instructions") var additionalInstructions: String = "",
+                 var seller: Seller = Seller(),
+                 @SerializedName("last_activity") var lastActivity: String = "",
+                 var buyer: Buyer = Buyer("", "", 0),
+                 var total: Total = Total("", 0.0),
+                 @get:JvmName("getId_") var id: String = "",
+                 @SerializedName("resource_url") var resourceUrl: String = "",
+                 @SerializedName("messages_url") var messagesUrl: String = "",
+                 var uri: String = "",
+                 @SerializedName("next_status") var nextStatus: List<String> = emptyList()
+) : RecyclerViewModel {
+    override fun getTitle(): String {
+        return id
+    }
+
+    override fun getSubtitle(): String {
+        return status
+    }
+
+    override fun getThumb(): String {
+        return items[0].release.thumbnail
+    }
+
+    override fun getType(): String {
+        return "order"
+    }
+
+    override fun getId(): String {
+        return id
+    }
+}

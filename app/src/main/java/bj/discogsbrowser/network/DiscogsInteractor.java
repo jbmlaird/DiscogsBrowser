@@ -12,7 +12,7 @@ import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
 import bj.discogsbrowser.model.collection.AddToCollectionResponse;
 import bj.discogsbrowser.model.collection.CollectionRelease;
 import bj.discogsbrowser.model.collection.RootCollectionRelease;
-import bj.discogsbrowser.model.label.Label;
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.model.labelrelease.LabelRelease;
 import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
 import bj.discogsbrowser.model.listing.Listing;
@@ -26,7 +26,7 @@ import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.model.version.RootVersionsResponse;
-import bj.discogsbrowser.model.version.Version;
+import bj.discogsbrowser.model.version.MasterVersion;
 import bj.discogsbrowser.model.wantlist.AddToWantlistResponse;
 import bj.discogsbrowser.model.wantlist.RootWantlistResponse;
 import bj.discogsbrowser.model.wantlist.Want;
@@ -113,7 +113,7 @@ public class DiscogsInteractor
                 .observeOn(mySchedulerProvider.io())
                 .map(release ->
                 {
-                    if (release.getLowestPrice() != null)
+                    if (release.getLowestPrice() != 0)
                         release.setLowestPriceString(numberFormat.format(release.getLowestPrice()));
                     return release;
                 });
@@ -126,18 +126,18 @@ public class DiscogsInteractor
                 .observeOn(mySchedulerProvider.io())
                 .map(master ->
                 {
-                    if (master.getLowestPrice() != null)
+                    if (master.getLowestPrice() != 0)
                         master.setLowestPriceString(numberFormat.format(master.getLowestPrice()));
                     return master;
                 });
     }
 
-    public Single<List<Version>> fetchMasterVersions(String masterId)
+    public Single<List<MasterVersion>> fetchMasterVersions(String masterId)
     {
         return discogsService.getMasterVersions(masterId)
                 .subscribeOn(mySchedulerProvider.io())
                 .observeOn(mySchedulerProvider.io())
-                .map(RootVersionsResponse::getVersions);
+                .map(RootVersionsResponse::getMasterVersions);
     }
 
     public Single<List<ArtistRelease>> fetchArtistsReleases(String artistId)
@@ -236,7 +236,7 @@ public class DiscogsInteractor
                 .map(want ->
                 {
                     if (want.getId().equals(release.getId()))
-                        release.setIsInWantlist(true);
+                        release.setInWantlist(true);
                     return want;
                 })
                 .toList();
@@ -251,7 +251,7 @@ public class DiscogsInteractor
                 {
                     if (collectionRelease.getId().equals(release.getId()))
                     {
-                        release.setIsInCollection(true);
+                        release.setInCollection(true);
                         release.setInstanceId(collectionRelease.getInstanceId());
                     }
                     return collectionRelease;

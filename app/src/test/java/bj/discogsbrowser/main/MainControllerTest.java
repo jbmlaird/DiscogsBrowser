@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import bj.discogsbrowser.greendao.DaoSession;
-import bj.discogsbrowser.marketplace.TestListing;
+import bj.discogsbrowser.listing.ListingFactory;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.order.OrderFactory;
 import bj.discogsbrowser.utils.DateFormatter;
@@ -143,7 +143,7 @@ public class MainControllerTest
         assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "EmptySpaceModel_");
         assertEquals(copyOfModels.size(), 9);
 
-        controller.setViewedReleases(Arrays.asList(MainFactory.buildViewedRelease(1)));
+        controller.setViewedReleases(ViewedReleaseFactory.buildViewedReleases(1));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "CarouselModel_");
@@ -370,7 +370,7 @@ public class MainControllerTest
     @Test
     public void ordersList_displaysList()
     {
-        controller.setOrders(OrderFactory.getListOfTwo());
+        controller.setOrders(OrderFactory.buildListOfOrders(2));
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
@@ -386,7 +386,7 @@ public class MainControllerTest
         assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "EmptySpaceModel_");
         assertEquals(copyOfModels.size(), 11);
 
-        controller.setSelling(Arrays.asList(new TestListing(), new TestListing()));
+        controller.setSelling(Arrays.asList(ListingFactory.buildListing("1"), ListingFactory.buildListing("2")));
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
@@ -409,7 +409,7 @@ public class MainControllerTest
     public void overFiveItems_Concatenates()
     {
         //Adding 6 orders
-        controller.setOrders(OrderFactory.getListOfSix());
+        controller.setOrders(OrderFactory.buildListOfOrders(6));
 
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");
@@ -432,8 +432,7 @@ public class MainControllerTest
         assertEquals(copyOfModels.get(17).getClass().getSimpleName(), "EmptySpaceModel_");
         assertEquals(copyOfModels.size(), 18);
 
-        controller.setSelling(Arrays.asList(new TestListing(), new TestListing(),
-                new TestListing(), new TestListing(), new TestListing(), new TestListing()));
+        controller.setSelling(ListingFactory.buildNumberOfListings(6));
 
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MainTitleModel_");

@@ -14,7 +14,10 @@ import org.mockito.Mock;
 import java.util.Arrays;
 
 import bj.discogsbrowser.R;
+import bj.discogsbrowser.model.common.Label;
+import bj.discogsbrowser.model.labelrelease.LabelRelease;
 import bj.discogsbrowser.release.ReleaseActivity;
+import bj.discogsbrowser.release.ReleaseFactory;
 import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
 import bj.discogsbrowser.utils.ImageViewAnimator;
@@ -53,17 +56,17 @@ public class LabelActivityMockPresenterTest
     @Mock LabelPresenter presenter;
     @Mock ImageViewAnimator imageViewAnimator;
     private LabelActivity activity;
-    private TestLabel testLabel;
-    private TestLabel.TestLabelRelease testLabelRelease;
+    private Label testLabel;
+    private LabelRelease labelRelease;
     private String title = "labelTitle";
     private String id = "labelId";
 
     @Before
     public void setUp() throws InterruptedException
     {
+        labelRelease = LabelFactory.buildLabelRelease(1);
+        testLabel = ReleaseFactory.buildReleaseLabel(id);
         Intent startingIntent = LabelActivity.createIntent(EspressoDaggerMockRule.getApp(), title, id);
-        testLabel = new TestLabel();
-        testLabelRelease = new TestLabel.TestLabelRelease();
 
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
@@ -75,7 +78,7 @@ public class LabelActivityMockPresenterTest
         activity = mActivityTestRule.launchActivity(startingIntent);
         activity.controller.setLabel(testLabel);
         Thread.sleep(100); //Sleep as you can't call two requestModelBuilds() simultaneously
-        activity.controller.setLabelReleases(Arrays.asList(testLabelRelease));
+        activity.controller.setLabelReleases(Arrays.asList(labelRelease));
     }
 
     @Test
@@ -86,8 +89,8 @@ public class LabelActivityMockPresenterTest
                 .perform(scrollToPosition(activity.recyclerView.getAdapter().getItemCount() - 1));
         onView(withText(testLabel.getName())).check(matches(isDisplayed()));
         onView(withText(testLabel.getProfile())).check(matches(isDisplayed()));
-        onView(withText(testLabelRelease.getTitle() + " (" + testLabelRelease.getCatno() + ")")).check(matches(isDisplayed()));
-        onView(withText(testLabelRelease.getArtist())).check(matches(isDisplayed()));
+        onView(withText(labelRelease.getTitle() + " (" + labelRelease.getCatno() + ")")).check(matches(isDisplayed()));
+        onView(withText(labelRelease.getArtist())).check(matches(isDisplayed()));
     }
 
     @Test
@@ -101,8 +104,8 @@ public class LabelActivityMockPresenterTest
 
         intended(allOf(
                 hasComponent(ReleaseActivity.class.getName()),
-                hasExtra(equalTo("title"), equalTo(testLabelRelease.getTitle())),
-                hasExtra(equalTo("id"), equalTo(testLabelRelease.getId()))));
+                hasExtra(equalTo("title"), equalTo(labelRelease.getTitle())),
+                hasExtra(equalTo("id"), equalTo(labelRelease.getId()))));
     }
 
     @Test

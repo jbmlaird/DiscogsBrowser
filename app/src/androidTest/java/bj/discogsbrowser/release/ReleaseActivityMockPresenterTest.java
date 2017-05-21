@@ -61,12 +61,13 @@ public class ReleaseActivityMockPresenterTest
     private String releaseId = "releaseId";
     private String releaseTitle = "releaseTitle";
     private ReleaseActivity activity;
-    private Release release = ReleaseFactory.buildRelease("1", false, false);
-    private List<ScrapeListing> releaseListings = ReleaseFactory.getReleaseListings();
+    private Release release;
+    private List<ScrapeListing> releaseListings = ScrapeListFactory.buildFourEmptyScrapeListing();
 
     @Before
     public void setUp() throws InterruptedException
     {
+        ReleaseFactory.buildReleaseWithLabelNoneForSale("2");
         startIntent = ReleaseActivity.createIntent(getApp(), releaseTitle, releaseId);
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
@@ -115,9 +116,9 @@ public class ReleaseActivityMockPresenterTest
     @Test
     public void collectionWantlistClicked_changeTextOnSuccess() throws InterruptedException
     {
-        when(interactor.addToCollection(release.getId())).thenReturn(Single.just(ResponseFactory.getAddToCollectionSuccessfulResponse()));
+        when(interactor.addToCollection(release.getId())).thenReturn(Single.just(ResponseFactory.buildAddToCollectionSuccessResponse()));
         when(interactor.removeFromCollection(any(), any())).thenReturn(Single.just(ResponseFactory.getRetrofitSuccessfulResponse()));
-        when(interactor.addToWantlist(release.getId())).thenReturn(Single.just(ResponseFactory.getAddToWantlistSuccessfulResponse()));
+        when(interactor.addToWantlist(release.getId())).thenReturn(Single.just(ResponseFactory.buildAddToWantlistSuccessResponse()));
         when(interactor.removeFromWantlist(release.getId())).thenReturn(Single.just(ResponseFactory.getRetrofitSuccessfulResponse()));
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText(activity.getString(R.string.add_to_wantlist)))));

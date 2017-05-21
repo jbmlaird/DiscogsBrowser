@@ -149,7 +149,7 @@ public class ArtistController extends BaseController
     {
         this.error = isError;
         this.loading = false;
-        tracker.send(context.getString(R.string.artist_activity), context.getString(R.string.artist_activity), context.getString(R.string.error), "fetching artist", 1L);
+        tracker.send(context.getString(R.string.artist_activity), context.getString(R.string.artist_activity), context.getString(R.string.error), "fetching artist", 1);
         requestModelBuild();
     }
 }

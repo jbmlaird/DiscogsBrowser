@@ -17,7 +17,7 @@ import bj.discogsbrowser.epoxy.common.SubHeaderModel_;
 import bj.discogsbrowser.epoxy.common.WholeLineModel_;
 import bj.discogsbrowser.epoxy.main.InfoTextModel_;
 import bj.discogsbrowser.epoxy.main.ViewMoreModel_;
-import bj.discogsbrowser.model.label.Label;
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.model.labelrelease.LabelRelease;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
@@ -92,6 +92,7 @@ public class LabelController extends BaseController
                 if (labelReleases.size() > 0)
                     for (LabelRelease labelRelease : labelReleases)
                     {
+                        int i = labelReleases.indexOf(labelRelease);
                         new ListItemModel_()
                                 .id("labelrelease" + labelReleases.indexOf(labelRelease))
                                 .subtitle(labelRelease.getArtist())
@@ -137,7 +138,7 @@ public class LabelController extends BaseController
     public void setLabel(Label label)
     {
         this.label = label;
-        if (label.getImages() != null)
+        if (label.getImages().size() > 0)
             this.imageUrl = label.getImages().get(0).getUri();
         this.title = label.getName();
         this.subtitle = label.getProfile();
@@ -154,7 +155,7 @@ public class LabelController extends BaseController
         requestModelBuild();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     public void setViewMore(boolean viewMore)
     {
         this.viewMore = viewMore;
@@ -168,7 +169,7 @@ public class LabelController extends BaseController
         {
             loading = false;
             loadingLabelReleases = false;
-            tracker.send(context.getString(R.string.label_activity), context.getString(R.string.label_activity), context.getString(R.string.error), "fetching label", 1L);
+            tracker.send(context.getString(R.string.label_activity), context.getString(R.string.label_activity), context.getString(R.string.error), "fetching label", 1);
         }
         requestModelBuild();
     }

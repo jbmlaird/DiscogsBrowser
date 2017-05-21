@@ -1,7 +1,6 @@
 package bj.discogsbrowser.main;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -23,10 +22,11 @@ import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.ViewedRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
+import bj.discogsbrowser.model.search.RootSearchResponse;
 import bj.discogsbrowser.model.search.SearchResult;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.network.DiscogsInteractor;
-import bj.discogsbrowser.testmodels.TestRootSearchResponse;
+import bj.discogsbrowser.search.RootSearchResponseFactory;
 import bj.discogsbrowser.utils.NavigationDrawerBuilder;
 import bj.discogsbrowser.utils.SharedPrefsManager;
 import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
@@ -103,7 +103,7 @@ public class MainPresenterTest
         verify(mView).getActivity();
         verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
         verify(discogsInteractor, times(1)).fetchUserDetails();
-        verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.getUsername(), 1L);
+        verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.getUsername(), 1);
         verify(discogsInteractor, times(1)).fetchOrders();
         verify(sharedPrefsManager, times(1)).getUsername();
         verify(mainController, times(1)).setOrders(listOrders);
@@ -162,7 +162,7 @@ public class MainPresenterTest
         verify(discogsInteractor, times(1)).fetchUserDetails();
         verify(discogsInteractor, times(1)).fetchOrders();
         verify(sharedPrefsManager, times(1)).getUsername();
-        verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.getUsername(), 1L);
+        verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.getUsername(), 1);
         verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails);
         verify(mainController, times(1)).setLoadingMorePurchases(true);
         verify(mainController, times(1)).setOrders(listOrders);
@@ -197,8 +197,7 @@ public class MainPresenterTest
     @Test
     public void buildRecommendationsError_ControllerError()
     {
-        ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
-        viewedReleases.add(MainFactory.buildViewedRelease(4));
+        List<ViewedRelease> viewedReleases = ViewedReleaseFactory.buildViewedReleases(4);
         when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.error(new Throwable()));
         when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.error(new Throwable()));
@@ -217,13 +216,13 @@ public class MainPresenterTest
     public void buildRecommendationsOver24_ControllerDisplaysTruncatedLists()
     {
         final ArgumentCaptor searchResultCaptor = ArgumentCaptor.forClass(List.class);
-        ArrayList<ViewedRelease> viewedReleases = new ArrayList<>();
-        viewedReleases.add(MainFactory.buildViewedRelease(1));
+        List<ViewedRelease> viewedReleases = ViewedReleaseFactory.buildViewedReleases(1);
+        RootSearchResponse rootSearchResponse = RootSearchResponseFactory.buildRootSearchResponse();
         when(daoManager.getViewedReleases()).thenReturn(viewedReleases);
         // TestSearchResponse contains 20 entries each
-        when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.just(new TestRootSearchResponse()));
-        when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), String.valueOf(1), true)).thenReturn(Single.just(new TestRootSearchResponse()));
-        when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.just(new TestRootSearchResponse().getSearchResults()));
+        when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), "1", false)).thenReturn(Single.just(rootSearchResponse));
+        when(discogsInteractor.searchByStyle(viewedReleases.get(0).getStyle(), String.valueOf(1), true)).thenReturn(Single.just(rootSearchResponse));
+        when(discogsInteractor.searchByLabel(viewedReleases.get(0).getLabelName())).thenReturn(Single.just(rootSearchResponse.getSearchResults()));
 
         mainPresenter.buildRecommendations();
         testScheduler.triggerActions();

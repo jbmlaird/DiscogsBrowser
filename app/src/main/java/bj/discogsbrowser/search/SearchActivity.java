@@ -105,7 +105,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
         presenter.setupSearchViewObserver();
         presenter.setupTabObserver();
@@ -114,7 +114,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @OnClick(R.id.search_close_btn)
     public void onClose()
     {
-        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "searchClear", 1L);
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "searchClear", 1);
         searchView.setQuery("", false);
         presenter.showPastSearches(true);
     }
@@ -157,7 +157,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     public void startDetailedActivity(SearchResult searchResult)
     {
-        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "detailedActivity", 1L);
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "detailedActivity", 1);
         switch (searchResult.getType())
         {
             case "release":
@@ -178,14 +178,14 @@ public class SearchActivity extends BaseActivity implements SearchContract.View
     @Override
     public void fillSearchBox(String searchTerm)
     {
-        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "searchTerm", 1L);
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "searchTerm", 1);
         searchView.setQuery(searchTerm, false);
     }
 
     @Override
     public void retry()
     {
-        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "retry", 1L);
+        tracker.send(getString(R.string.search_activity), getString(R.string.search_activity), getString(R.string.clicked), "retry", 1);
         String query = searchView.getQuery().toString();
         searchView.setQuery("", false);
         searchView.setQuery(query, false);

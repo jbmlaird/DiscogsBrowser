@@ -65,14 +65,14 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @Override
     public void showMemberDetails(String name, String id)
     {
-        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "Show member details", 1L);
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "Show member details", 1);
         startActivity(createIntent(this, name, id));
     }
 
     @Override
     public void openLink(String link)
     {
-        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), link, 1L);
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), link, 1);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(intent);
     }
@@ -80,21 +80,21 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @Override
     public void showArtistReleases(String title, String id)
     {
-        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "show artist releases", 1L);
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "show artist releases", 1);
         startActivity(ArtistReleasesActivity.createIntent(this, title, id));
     }
 
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 
     @Override
     public void retry()
     {
-        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "retry", 1L);
+        tracker.send(getString(R.string.artist_activity), getString(R.string.artist_activity), getString(R.string.clicked), "retry", 1);
         presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 

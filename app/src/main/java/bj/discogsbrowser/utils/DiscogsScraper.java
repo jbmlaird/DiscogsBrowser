@@ -22,7 +22,7 @@ public class DiscogsScraper
     {
         ArrayList<ScrapeListing> scrapeListings = new ArrayList<>();
         Document doc = Jsoup
-                .connect("http://www.discogs.com/sell/list?sort=price%2Casc&limit=50&ev=mb&format_desc=12\"&release_id=" + id)
+                .connect("https://www.discogs.com/sell/release/" + id + "?sort=price&format_desc=12\"&limit=50&ev=mb")
                 .get();
         Elements marketplaceListings = doc.getElementsByClass("shortcut_navigable ");
         for (Element element : marketplaceListings)

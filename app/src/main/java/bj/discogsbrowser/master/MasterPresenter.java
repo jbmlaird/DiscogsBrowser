@@ -2,6 +2,7 @@ package bj.discogsbrowser.master;
 
 import android.support.annotation.NonNull;
 
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.MySchedulerProvider;
 
@@ -22,7 +23,7 @@ public class MasterPresenter implements MasterContract.Presenter
     }
 
     /**
-     * Fetches {@link bj.discogsbrowser.model.collection.Label} details from Discogs.
+     * Fetches {@link Label} details from Discogs.
      *
      * @param labelId Label ID.
      */
@@ -38,7 +39,7 @@ public class MasterPresenter implements MasterContract.Presenter
                     return discogsInteractor.fetchMasterVersions(labelId);
                 })
                 .subscribe(masterVersions ->
-                                controller.setMasterVersions(masterVersions),
+                                controller.setMasterMasterVersions(masterVersions),
                         error ->
                         {
                             controller.setError(true);

@@ -78,7 +78,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
-        tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.clicked), "retry", 1L);
+        tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.clicked), "retry", 1);
         switch (type)
         {
             case "release":
@@ -106,7 +106,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 
@@ -124,7 +124,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
             @Override
             public void onPageSelected(int position)
             {
-                tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.clicked), "ViewPager", (long) position);
+                tracker.send(getString(R.string.artist_releases_activity), getString(R.string.artist_releases_activity), getString(R.string.clicked), "ViewPager", position);
                 super.onPageSelected(position);
             }
         });
@@ -141,5 +141,12 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
             artistReleasesFragment.setArguments(releasesBundle);
             viewPagerAdapter.addFragment(artistReleasesFragment, String.valueOf(pair.second));
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        component = null; // leaks otherwise and is only used by its fragments
     }
 }

@@ -45,7 +45,7 @@ public class OrderActivityMockPresenterTest
     private String orderId = "orderId";
     private OrderActivity activity;
     private OrderController controller;
-    private Order order = OrderFactory.getTwoItemsOrder();
+    private Order order = OrderFactory.buildOneOrderWithItems(2);
 
     @Before
     public void setUp() throws InterruptedException

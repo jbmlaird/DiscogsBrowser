@@ -19,8 +19,8 @@ import bj.discogsbrowser.epoxy.release.MarketplaceListingsHeader_;
 import bj.discogsbrowser.epoxy.release.MarketplaceModel_;
 import bj.discogsbrowser.epoxy.release.TrackModel_;
 import bj.discogsbrowser.epoxy.release.YouTubeModel_;
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.model.listing.ScrapeListing;
-import bj.discogsbrowser.model.release.Label;
 import bj.discogsbrowser.model.release.Release;
 import bj.discogsbrowser.model.release.Track;
 import bj.discogsbrowser.model.release.Video;
@@ -94,7 +94,7 @@ public class ReleaseController extends BaseController
             {
                 for (Track track : release.getTracklist())
                 {
-                    if (track.getTitle() != null && !track.getTitle().equals(""))
+                    if (!track.getTitle().equals(""))
                     {
                         new TrackModel_()
                                 .id("track" + release.getTracklist().indexOf(track))
@@ -153,7 +153,7 @@ public class ReleaseController extends BaseController
                     .onClick(v -> view.retryCollectionWantlist())
                     .addIf(collectionWantlistError, this);
 
-            if (release.getVideos() != null && release.getVideos().size() > 0)
+            if (release.getVideos().size() > 0)
             {
                 new SubHeaderModel_()
                         .id("youtube subheader")
@@ -162,7 +162,7 @@ public class ReleaseController extends BaseController
 
                 for (Video video : release.getVideos())
                 {
-                    if (video.getUri() != null && !video.getUri().equals(""))
+                    if (!video.getUri().equals(""))
                     {
                         try
                         {
@@ -246,7 +246,7 @@ public class ReleaseController extends BaseController
     public void setRelease(Release release)
     {
         this.release = release;
-        if (release.getImages() != null)
+        if (release.getImages().size() > 0)
             this.imageUrl = release.getImages().get(0).getUri();
         title = release.getTitle();
         subtitle = artistsBeautifier.formatArtists(release.getArtists());
@@ -267,18 +267,18 @@ public class ReleaseController extends BaseController
     {
         listingsError = true;
         listingsLoading = false;
-        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release listings", 1L);
+        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release listings", 1);
         requestModelBuild();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting()
     public void setViewFullTracklist(boolean viewFullTracklist)
     {
         this.viewFullTracklist = viewFullTracklist;
         requestModelBuild();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting()
     public void setViewAllListings(boolean viewFullListings)
     {
         this.viewAllListings = viewFullListings;
@@ -297,7 +297,7 @@ public class ReleaseController extends BaseController
     {
         this.collectionWantlistError = collectionWantlistError;
         this.collectionLoading = false;
-        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "collection", 1L);
+        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "collection", 1);
         requestModelBuild();
     }
 
@@ -327,7 +327,7 @@ public class ReleaseController extends BaseController
         collectionLoading = false;
         releaseLoading = false;
         listingsLoading = false;
-        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release", 1L);
+        tracker.send(context.getString(R.string.release_activity), context.getString(R.string.release_activity), context.getString(R.string.error), "release", 1);
         requestModelBuild();
     }
 

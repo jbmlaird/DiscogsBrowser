@@ -69,6 +69,7 @@ public class SearchController extends EpoxyController
                     .addTo(this);
         else
             for (SearchResult searchResult : searchResults)
+            {
                 new SearchResultModel_()
                         .id("searchResult" + searchResults.indexOf(searchResult))
                         .context(context)
@@ -77,6 +78,7 @@ public class SearchController extends EpoxyController
                         .image(searchResult.getThumb())
                         .clickListener(v -> mView.startDetailedActivity(searchResult))
                         .addTo(this);
+            }
     }
 
     public void setSearchResults(List<SearchResult> searchResults)
@@ -121,7 +123,7 @@ public class SearchController extends EpoxyController
         {
             this.showPastSearches = false;
             this.showSearching = false;
-            tracker.send(context.getString(R.string.search_activity), context.getString(R.string.search_activity), context.getString(R.string.error), "searchResults", 1L);
+            tracker.send(context.getString(R.string.search_activity), context.getString(R.string.search_activity), context.getString(R.string.error), "searchResults", 1);
         }
         requestModelBuild();
     }

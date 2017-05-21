@@ -1,7 +1,6 @@
 package bj.discogsbrowser.epoxy.release;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 
 import bj.discogsbrowser.R;
 import bj.discogsbrowser.network.DiscogsInteractor;
@@ -56,7 +55,7 @@ public class CollectionWantlistPresenter
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(result ->
                         {
-                            if (result.getInstanceId() != null)
+                            if (!result.getInstanceId().equals(""))
                             {
                                 instanceId = result.getInstanceId();
                                 inCollection = true;
@@ -155,17 +154,5 @@ public class CollectionWantlistPresenter
     public boolean isInWantlist()
     {
         return inWantlist;
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    public CircularProgressButton getBtnCollection()
-    {
-        return btnCollection;
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    public CircularProgressButton getBtnWantlist()
-    {
-        return btnWantlist;
     }
 }

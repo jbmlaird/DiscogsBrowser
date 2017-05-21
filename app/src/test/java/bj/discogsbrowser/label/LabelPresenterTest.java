@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import bj.discogsbrowser.model.label.Label;
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.model.labelrelease.LabelRelease;
 import bj.discogsbrowser.network.DiscogsInteractor;
 import bj.discogsbrowser.utils.schedulerprovider.TestSchedulerProvider;

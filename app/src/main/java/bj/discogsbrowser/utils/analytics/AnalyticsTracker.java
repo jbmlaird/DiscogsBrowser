@@ -19,7 +19,7 @@ public class AnalyticsTracker
         this.tracker = tracker;
     }
 
-    public void send(String screenName, String category, String action, String label, Long value)
+    public void send(String screenName, String category, String action, String label, int value)
     {
         if (!BuildConfig.DEBUG)
         {

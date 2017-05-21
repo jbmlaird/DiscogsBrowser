@@ -68,14 +68,14 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 
     @Override
     public void viewOnDiscogs(String listingUri)
     {
-        tracker.send(getString(R.string.marketplace_activity), getString(R.string.marketplace_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.marketplace_activity), getString(R.string.marketplace_activity), getString(R.string.loaded), "onResume", 1);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(listingUri));
         startActivity(intent);
     }
@@ -83,7 +83,7 @@ public class MarketplaceListingActivity extends BaseActivity implements Marketpl
     @Override
     public void viewSellerShipping(String shippingDetails, String username)
     {
-        tracker.send(getString(R.string.marketplace_activity), getString(R.string.marketplace_activity), getString(R.string.clicked), "Seller Shipping Info", 1L);
+        tracker.send(getString(R.string.marketplace_activity), getString(R.string.marketplace_activity), getString(R.string.clicked), "Seller Shipping Info", 1);
         new MaterialDialog.Builder(this)
                 .content(shippingDetails)
                 .title(username)

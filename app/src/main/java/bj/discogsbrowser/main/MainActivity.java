@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     protected void onResume()
     {
         super.onResume();
-        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.loaded), "onResume", 1);
         if (drawer == null)
             presenter.connectAndBuildNavigationDrawer(toolbar);
         presenter.buildRecommendations();
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void retryHistory()
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryHistory", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryHistory", 1);
         presenter.buildViewedReleases();
     }
 
@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     public void retryRecommendations()
     {
         presenter.showLoadingRecommendations(true);
-        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryRecommendations", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.error), getString(R.string.clicked), "retryRecommendations", 1);
         presenter.buildRecommendations();
     }
 
@@ -206,28 +206,28 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void displayOrder(String id)
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "order", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "order", 1);
         startActivity(OrderActivity.createIntent(this, id));
     }
 
     @Override
     public void displayOrdersActivity(String username)
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All orders", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All orders", 1);
         startActivity(SingleListActivity.createIntent(this, R.string.orders, username));
     }
 
     @Override
     public void displayListing(String listingId, String title, String username, String artist, String seller)
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "listing", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "listing", 1);
         startActivity(MarketplaceListingActivity.createIntent(this, listingId, title, artist, seller));
     }
 
     @Override
     public void displayListingsActivity(String username)
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All listings", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "All listings", 1);
         startActivity(SingleListActivity.createIntent(this, R.string.selling, username));
     }
 
@@ -246,21 +246,21 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void retry()
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "Retry", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.main_activity), getString(R.string.clicked), "Retry", 1);
         presenter.retry();
     }
 
     @Override
     public void displayRelease(String releaseName, String id)
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.recently_viewed_release), getString(R.string.clicked), releaseName, 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.recently_viewed_release), getString(R.string.clicked), releaseName, 1);
         startActivity(ReleaseActivity.createIntent(this, releaseName, id));
     }
 
     @Override
     public void learnMore()
     {
-        tracker.send(getString(R.string.main_activity), getString(R.string.learn_more), getString(R.string.clicked), "recommendations learn more", 1L);
+        tracker.send(getString(R.string.main_activity), getString(R.string.learn_more), getString(R.string.clicked), "recommendations learn more", 1);
         new MaterialDialog.Builder(this)
                 .content(getString(R.string.learn_more_content))
                 .negativeText("Dismiss")

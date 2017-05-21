@@ -7,12 +7,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-//        classpath 'com.android.tools.build:gradle:3.0.0-alpha1'
-        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha1'
+//        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         classpath 'com.google.gms:google-services:3.0.0'
-        //required for my implementation of LoadingButtonAndroid
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

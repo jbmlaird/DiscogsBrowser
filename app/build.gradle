@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: "me.tatarka.retrolambda"
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: "me.tatarka.retrolambda"
 apply plugin: "org.greenrobot.greendao"
 
 android {
@@ -24,18 +25,28 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     sourceSets {
-        androidTest {
+        test {
+            kotlin.srcDirs += "$projectDir/src/testShared"
             java.srcDirs += "$projectDir/src/testShared"
         }
 
-        test {
+        androidTest {
             java.srcDirs += "$projectDir/src/testShared"
         }
     }
+}
+
+task copyTestClasses(type: Copy) {
+    from "build/tmp/kotlin-classes/debugUnitTest"
+    into "build/intermediates/classes/debug"
+}
+task copySdkClasses(type: Copy) {
+    from "build/tmp/kotlin-classes/debug"
+    into "build/intermediates/classes/debug"
 }
 
 dependencies {
@@ -54,6 +65,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
     testCompile "junit:junit:4.12"
     testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile "com.nhaarman:mockito-kotlin:1.4.0"
 
     compile "com.android.support:appcompat-v7:$APPCOMPAT_VERSION"
     compile "com.android.support:design:$APPCOMPAT_VERSION"

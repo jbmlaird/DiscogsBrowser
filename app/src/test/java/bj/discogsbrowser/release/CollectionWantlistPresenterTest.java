@@ -43,7 +43,6 @@ public class CollectionWantlistPresenterTest
     @Mock CircularProgressButton btnCollection;
     private String releaseId = "1234";
     private String instanceId = "instanceId";
-    private ResponseFactory responseFactory = new ResponseFactory();
     private String unableToAddToCollection = "Unable to add to Collection";
     private String unableToRemoveFromCollection = "Unable to remove from Collection";
     private String unableToAddToWantlist = "Unable to add to Wantlist";
@@ -85,7 +84,7 @@ public class CollectionWantlistPresenterTest
     @Test
     public void addToCollectionSuccess_success()
     {
-        when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionSuccessfulResponse()));
+        when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(ResponseFactory.buildAddToCollectionSuccessResponse()));
 
         presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInCollection());
@@ -103,7 +102,7 @@ public class CollectionWantlistPresenterTest
     @Test
     public void addToCollectionNoInstanceId_error()
     {
-        when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(responseFactory.getAddToCollectionBadResponse()));
+        when(DiscogsInteractor.addToCollection(releaseId)).thenReturn(Single.just(ResponseFactory.buildAddToCollectionBadResponse()));
 
         presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInCollection());
@@ -141,7 +140,7 @@ public class CollectionWantlistPresenterTest
     @Test
     public void removeFromCollectionSuccess_success()
     {
-        when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
+        when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(ResponseFactory.getRetrofitSuccessfulResponse()));
 
         presenter.bind(true, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInCollection());
@@ -159,7 +158,7 @@ public class CollectionWantlistPresenterTest
     @Test
     public void removeFromCollectionUnsuccessfulResponse_error()
     {
-        when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
+        when(DiscogsInteractor.removeFromCollection(releaseId, instanceId)).thenReturn(Single.just(ResponseFactory.getRetrofitBadResponse()));
 
         presenter.bind(true, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInCollection());
@@ -197,7 +196,7 @@ public class CollectionWantlistPresenterTest
     @Test
     public void addToWantlistSuccess_success()
     {
-        when(DiscogsInteractor.addToWantlist(releaseId)).thenReturn(Single.just(responseFactory.getAddToWantlistSuccessfulResponse()));
+        when(DiscogsInteractor.addToWantlist(releaseId)).thenReturn(Single.just(ResponseFactory.buildAddToWantlistSuccessResponse()));
 
         presenter.bind(false, false, instanceId, releaseId, btnWantlist, btnCollection);
         assertFalse(presenter.isInWantlist());
@@ -234,7 +233,7 @@ public class CollectionWantlistPresenterTest
     @Test
     public void removeFromWantlistSuccess_success()
     {
-        when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitSuccessfulResponse()));
+        when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(ResponseFactory.getRetrofitSuccessfulResponse()));
 
         presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInWantlist());
@@ -252,7 +251,7 @@ public class CollectionWantlistPresenterTest
     @Test
     public void removeFromWantlistResponseError_displaysError()
     {
-        when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(responseFactory.getRetrofitBadResponse()));
+        when(DiscogsInteractor.removeFromWantlist(releaseId)).thenReturn(Single.just(ResponseFactory.getRetrofitBadResponse()));
 
         presenter.bind(false, true, instanceId, releaseId, btnWantlist, btnCollection);
         assertTrue(presenter.isInWantlist());

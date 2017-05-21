@@ -14,6 +14,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
+import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.user.UserDetails;
 import bj.discogsbrowser.utils.ImageViewAnimator;
 import bj.discogsbrowser.wrappers.NumberFormatWrapper;
@@ -69,7 +70,7 @@ public class MarketplaceControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setListing(new TestListing());
+        controller.setListing(new Listing());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "MarketplaceModelTop_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");

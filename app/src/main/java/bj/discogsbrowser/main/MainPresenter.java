@@ -105,7 +105,7 @@ public class MainPresenter implements MainContract.Presenter
                 .observeOn(mySchedulerProvider.ui())
                 .flatMap(userDetails ->
                 {
-                    tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.logged_in), userDetails.getUsername(), 1L);
+                    tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.logged_in), userDetails.getUsername(), 1);
                     sharedPrefsManager.storeUserDetails(userDetails);
                     return fetchOrders();
                 })

@@ -15,8 +15,9 @@ import org.robolectric.annotation.Config;
 import java.util.Collections;
 import java.util.List;
 
-import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.utils.ImageViewAnimator;
+import bj.discogsbrowser.utils.analytics.AnalyticsTracker;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static junit.framework.Assert.assertEquals;
@@ -33,7 +34,6 @@ public class LabelControllerTest
     @Mock LabelContract.View view;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock AnalyticsTracker tracker;
-    private LabelFactory labelFactory = new LabelFactory();
 
     @Before
     public void setUp()
@@ -89,7 +89,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 6);
 
-        controller.setLabel(labelFactory.getLabel());
+        controller.setLabel(new Label());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -102,7 +102,7 @@ public class LabelControllerTest
     @Test
     public void setLabelNoReleases_displaysLabelNoReleases()
     {
-        controller.setLabel(labelFactory.getLabel());
+        controller.setLabel(new Label());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -125,7 +125,7 @@ public class LabelControllerTest
     @Test
     public void setLabelWithReleases_displaysLabelWithReleases()
     {
-        controller.setLabel(labelFactory.getLabel());
+        controller.setLabel(new Label());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -134,7 +134,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 5);
 
-        controller.setLabelReleases(labelFactory.getThreeLabelReleases());
+        controller.setLabelReleases(LabelFactory.buildNumberOfLabelReleases(3));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -150,7 +150,7 @@ public class LabelControllerTest
     @Test
     public void setLabelWithReleasesOverFive_conctenatesThenDisplaysAll()
     {
-        controller.setLabel(labelFactory.getLabel());
+        controller.setLabel(new Label());
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -159,7 +159,7 @@ public class LabelControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "SmallEmptySpaceModel_");
         assertEquals(copyOfModels.size(), 5);
 
-        controller.setLabelReleases(labelFactory.getSixLabelReleases());
+        controller.setLabelReleases(LabelFactory.buildNumberOfLabelReleases(6));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");

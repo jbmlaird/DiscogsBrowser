@@ -27,7 +27,6 @@ public class OrderPresenterTest
     @Mock DiscogsInteractor discogsInteractor;
     private TestScheduler testScheduler = new TestScheduler();
     @Mock OrderController controller;
-    private OrderFactory orderFactory = new OrderFactory();
 
     @Before
     public void setUp()
@@ -41,26 +40,11 @@ public class OrderPresenterTest
         verifyNoMoreInteractions(discogsInteractor, controller);
     }
 
-//    @Test
-//    public void setupRecyclerView_setsUpRecyclerView()
-//    {
-//        OrderActivity mockOrderActivity = mock(OrderActivity.class);
-//        RecyclerView mockRecyclerView = mock(RecyclerView.class);
-//        EpoxyControllerAdapter epoxyControllerAdapter = mock(EpoxyControllerAdapter.class);
-//        when(controller.getAdapter()).thenReturn(epoxyControllerAdapter);
-//
-//        presenter.setupRecyclerView(mockOrderActivity, mockRecyclerView);
-//
-//        verify(mockRecyclerView).setLayoutManager(any(LinearLayoutManager.class));
-//        verify(controller).getAdapter();
-//        verify(mockRecyclerView).setAdapter(epoxyControllerAdapter);
-//    }
-
     @Test
     public void getValidOrderDetails_displaysDetails()
     {
-        String orderId = orderFactory.getOrderId();
-        Order order = orderFactory.getOneItemOrder();
+        Order order = OrderFactory.buildOneOrderWithItems(1);
+        String orderId = order.getId();
         Single<Order> just = Single.just(order);
         when(discogsInteractor.fetchOrderDetails(orderId)).thenReturn(just);
 
@@ -75,7 +59,8 @@ public class OrderPresenterTest
     @Test
     public void getInvalidOrderDetails_displaysError()
     {
-        String orderId = orderFactory.getOrderId();
+        Order order = OrderFactory.buildOneOrderWithItems(1);
+        String orderId = order.getId();
         when(discogsInteractor.fetchOrderDetails(orderId)).thenReturn(Single.error(new Throwable()));
 
         presenter.fetchOrderDetails(orderId);

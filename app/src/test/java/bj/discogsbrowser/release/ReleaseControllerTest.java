@@ -37,6 +37,7 @@ public class ReleaseControllerTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock CollectionWantlistPresenter presenter;
     @Mock AnalyticsTracker tracker;
+    private String id = "releaseId";
 
     @Before
     public void setup()
@@ -84,7 +85,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setRelease(ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos());
+        controller.setRelease(ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos(id));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -129,7 +130,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setRelease(ReleaseFactory.getReleaseWithLabelSevenTracksNoVideos());
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelSevenTracksNoVideos(id));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -182,7 +183,7 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(2).getClass().getSimpleName(), "LoadingModel_");
         assertEquals(copyOfModels.size(), 3);
 
-        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id));
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -191,22 +192,22 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
     }
 
     @Test
     public void loadReleaseCollectionFourListings_displaysAllListingsAndCollection()
     {
-        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id));
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -215,16 +216,16 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
 
         controller.setCollectionWantlistChecked(true);
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -235,18 +236,18 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "CollectionWantlistModel_");
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "CollectionWantlistModel_");
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
 
-        controller.setReleaseListings(ReleaseFactory.getFourEmptyScrapeListings());
+        controller.setReleaseListings(ScrapeListFactory.buildFourEmptyScrapeListing());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -255,19 +256,19 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "CollectionWantlistModel_");
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "CollectionWantlistModel_");
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceModel_");
         assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "MarketplaceModel_");
         assertEquals(copyOfModels.get(17).getClass().getSimpleName(), "MarketplaceModel_");
-        assertEquals(copyOfModels.get(18).getClass().getSimpleName(), "MarketplaceModel_");
-        assertEquals(copyOfModels.get(19).getClass().getSimpleName(), "ViewMoreModel_");
-        assertEquals(copyOfModels.size(), 20);
+        assertEquals(copyOfModels.get(18).getClass().getSimpleName(), "ViewMoreModel_");
+        assertEquals(copyOfModels.size(), 19);
 
         controller.setViewAllListings(true);
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -278,25 +279,25 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "CollectionWantlistModel_");
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "CollectionWantlistModel_");
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceModel_");
         assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "MarketplaceModel_");
         assertEquals(copyOfModels.get(17).getClass().getSimpleName(), "MarketplaceModel_");
         assertEquals(copyOfModels.get(18).getClass().getSimpleName(), "MarketplaceModel_");
-        assertEquals(copyOfModels.get(19).getClass().getSimpleName(), "MarketplaceModel_");
-        assertEquals(copyOfModels.size(), 20);
+        assertEquals(copyOfModels.size(), 19);
     }
 
     @Test
     public void releaseCollectionError_displaysCollectionError()
     {
-        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id));
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -305,16 +306,16 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
 
         controller.setCollectionWantlistError(true);
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -325,16 +326,16 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "RetryModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "RetryModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
 
         controller.setCollectionLoading(true);
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -345,16 +346,16 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
 
         controller.setCollectionWantlistChecked(true);
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -365,22 +366,22 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "CollectionWantlistModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "CollectionWantlistModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
     }
 
     @Test
     public void listingsErrorRetryEmptyListings_displaysEmptyListings()
     {
-        controller.setRelease(ReleaseFactory.getReleaseWithLabelFiveTracksTwoVideos());
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id));
         List<EpoxyModel<?>> copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -389,16 +390,16 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
 
         controller.setReleaseListingsError();
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -409,16 +410,16 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "RetryModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "RetryModel_");
+        assertEquals(copyOfModels.size(), 16);
 
         controller.setListingsLoading(true);
         copyOfModels = controller.getAdapter().getCopyOfModels();
@@ -429,18 +430,18 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "LoadingModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "LoadingModel_");
+        assertEquals(copyOfModels.size(), 16);
 
-        controller.setReleaseListings(ReleaseFactory.getOneEmptyScrapeListing());
+        controller.setReleaseListings(ScrapeListFactory.buildOneEmptyScrapeListing());
         copyOfModels = controller.getAdapter().getCopyOfModels();
         assertEquals(copyOfModels.get(0).getClass().getSimpleName(), "HeaderModel_");
         assertEquals(copyOfModels.get(1).getClass().getSimpleName(), "DividerModel_");
@@ -449,15 +450,15 @@ public class ReleaseControllerTest
         assertEquals(copyOfModels.get(4).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(5).getClass().getSimpleName(), "TrackModel_");
         assertEquals(copyOfModels.get(6).getClass().getSimpleName(), "TrackModel_");
-        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
-        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(7).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(8).getClass().getSimpleName(), "YouTubeModel_");
+        assertEquals(copyOfModels.get(9).getClass().getSimpleName(), "LoadingModel_"); // CollectionWantlist loading
+        assertEquals(copyOfModels.get(10).getClass().getSimpleName(), "SubHeaderModel_");
+        assertEquals(copyOfModels.get(11).getClass().getSimpleName(), "YouTubeModel_");
         assertEquals(copyOfModels.get(12).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "YouTubeModel_");
-        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "DividerModel_");
-        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceListingsHeader_");
-        assertEquals(copyOfModels.get(16).getClass().getSimpleName(), "MarketplaceModel_");
-        assertEquals(copyOfModels.size(), 17);
+        assertEquals(copyOfModels.get(13).getClass().getSimpleName(), "DividerModel_");
+        assertEquals(copyOfModels.get(14).getClass().getSimpleName(), "MarketplaceListingsHeader_");
+        assertEquals(copyOfModels.get(15).getClass().getSimpleName(), "MarketplaceModel_");
+        assertEquals(copyOfModels.size(), 16);
     }
 }

@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import bj.discogsbrowser.model.artist.ArtistResult;
 import bj.discogsbrowser.model.artistrelease.RootArtistReleaseResponse;
 import bj.discogsbrowser.model.collection.RootCollectionRelease;
-import bj.discogsbrowser.model.label.Label;
+import bj.discogsbrowser.model.common.Label;
 import bj.discogsbrowser.model.labelrelease.RootLabelResponse;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.listing.RootListingResponse;

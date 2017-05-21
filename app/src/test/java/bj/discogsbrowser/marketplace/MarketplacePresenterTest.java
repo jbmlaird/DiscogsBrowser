@@ -64,7 +64,7 @@ public class MarketplacePresenterTest
     @Test
     public void getListingDetailsValid_displayListingsAndUpdatesUser()
     {
-        Listing listing = new TestListing();
+        Listing listing = new Listing();
         UserDetails userDetails = new UserDetails();
         when(discogsInteractor.fetchListingDetails(listingId)).thenReturn(Single.just(listing));
         when(discogsInteractor.fetchUserDetails(listing.getSeller().getUsername())).thenReturn(Single.just(userDetails));
@@ -82,7 +82,7 @@ public class MarketplacePresenterTest
     @Test
     public void getListingDetailsError_displayListingsAndUpdatesUser()
     {
-        Listing listing = new TestListing();
+        Listing listing = new Listing();
         UserDetails userDetails = new UserDetails();
         when(discogsInteractor.fetchListingDetails(listingId)).thenReturn(Single.just(listing));
         when(discogsInteractor.fetchUserDetails(listing.getSeller().getUsername())).thenReturn(Single.just(userDetails));

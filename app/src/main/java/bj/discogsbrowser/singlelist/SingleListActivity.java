@@ -94,7 +94,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @Override
     public void launchDetailedActivity(String type, String title, String id)
     {
-        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.clicked), "detailedActivity" + type, 1L);
+        tracker.send(getString(R.string.single_list_activity), getIntent().getStringExtra("type"), getString(R.string.clicked), "detailedActivity" + type, 1);
         switch (type)
         {
             case "release":
@@ -121,7 +121,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.single_list_activity), getString(getIntent().getIntExtra("type", 0)), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.single_list_activity), getString(getIntent().getIntExtra("type", 0)), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 

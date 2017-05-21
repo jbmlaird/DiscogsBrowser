@@ -62,21 +62,21 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 
     @Override
     public void displayRelease(String title, String id)
     {
-        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "release", 1L);
+        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "release", 1);
         startActivity(ReleaseActivity.createIntent(this, title, id));
     }
 
     @Override
     public void retry()
     {
-        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "retry", 1L);
+        tracker.send(getString(R.string.master_activity), getString(R.string.master_activity), getString(R.string.clicked), "retry", 1);
         presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 

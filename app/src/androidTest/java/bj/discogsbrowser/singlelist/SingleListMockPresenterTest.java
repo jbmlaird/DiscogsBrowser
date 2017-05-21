@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import java.util.List;
 
 import bj.discogsbrowser.R;
+import bj.discogsbrowser.listing.ListingFactory;
 import bj.discogsbrowser.model.collection.CollectionRelease;
 import bj.discogsbrowser.model.listing.Listing;
 import bj.discogsbrowser.model.order.Order;
@@ -83,7 +84,7 @@ public class SingleListMockPresenterTest
     public void sixOrders_displaysAndIntends()
     {
         TestUtils.stubIntentClass(OrderActivity.class);
-        List<Order> listOfSix = OrderFactory.getListOfSix();
+        List<Order> listOfSix = OrderFactory.buildListOfOrders(6);
         controller.setItems(listOfSix);
 
         onView(withText(listOfSix.get(0).getTitle())).check(matches(isDisplayed())).perform(click());
@@ -144,7 +145,7 @@ public class SingleListMockPresenterTest
     public void loadThreeSelling_displaysAndIntends()
     {
         TestUtils.stubIntentClass(OrderActivity.class);
-        List<Listing> threeListings = ListingFactory.getThreeListings();
+        List<Listing> threeListings = ListingFactory.buildNumberOfListings(3);
         controller.setItems(threeListings);
 
         onView(withText(threeListings.get(0).getTitle())).check(matches(isDisplayed()));

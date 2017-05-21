@@ -107,7 +107,7 @@ public class OrderController extends EpoxyController
         if (isError)
         {
             loadingOrder = false;
-            tracker.send(context.getString(R.string.order_activity), context.getString(R.string.order_activity), context.getString(R.string.error), "fetching details", 1L);
+            tracker.send(context.getString(R.string.order_activity), context.getString(R.string.order_activity), context.getString(R.string.error), "fetching details", 1);
         }
         requestModelBuild();
     }

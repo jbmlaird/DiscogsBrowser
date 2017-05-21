@@ -106,7 +106,7 @@ public class SingleListPresenterTest
     public void setupFilterSubscriptionItemsNoFilter_showsItems()
     {
         List<RecyclerViewModel> recyclerViewModels = new ArrayList<>();
-        recyclerViewModels.add(OrderFactory.getOneItemOrder());
+        recyclerViewModels.add(OrderFactory.buildOneOrderWithItems(1));
 
         singleListPresenter.setItems(recyclerViewModels);
         String filterText = "yeson";

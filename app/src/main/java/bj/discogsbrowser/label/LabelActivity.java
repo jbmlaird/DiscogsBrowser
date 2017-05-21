@@ -62,21 +62,21 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     @Override
     protected void onResume()
     {
-        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.loaded), "onResume", 1L);
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.loaded), "onResume", 1);
         super.onResume();
     }
 
     @Override
     public void displayRelease(String id, String title)
     {
-        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "labelRelease", 1L);
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "labelRelease", 1);
         startActivity(ReleaseActivity.createIntent(this, title, id));
     }
 
     @Override
     public void openLink(String uri)
     {
-        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), uri, 1L);
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), uri, 1);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         startActivity(intent);
     }
@@ -84,7 +84,7 @@ public class LabelActivity extends BaseActivity implements LabelContract.View
     @Override
     public void retry()
     {
-        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "retry", 1L);
+        tracker.send(getString(R.string.label_activity), getString(R.string.label_activity), getString(R.string.clicked), "retry", 1);
         presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 

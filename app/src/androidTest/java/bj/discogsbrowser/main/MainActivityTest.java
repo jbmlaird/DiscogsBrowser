@@ -19,6 +19,7 @@ import bj.discogsbrowser.about.AboutActivity;
 import bj.discogsbrowser.customviews.Carousel;
 import bj.discogsbrowser.greendao.DaoManager;
 import bj.discogsbrowser.greendao.ViewedRelease;
+import bj.discogsbrowser.listing.ListingFactory;
 import bj.discogsbrowser.login.LoginActivity;
 import bj.discogsbrowser.marketplace.MarketplaceListingActivity;
 import bj.discogsbrowser.model.listing.Listing;
@@ -29,7 +30,6 @@ import bj.discogsbrowser.order.OrderFactory;
 import bj.discogsbrowser.release.ReleaseActivity;
 import bj.discogsbrowser.search.SearchActivity;
 import bj.discogsbrowser.search.SearchResultFactory;
-import bj.discogsbrowser.singlelist.ListingFactory;
 import bj.discogsbrowser.singlelist.SingleListActivity;
 import bj.discogsbrowser.testutils.EspressoDaggerMockRule;
 import bj.discogsbrowser.testutils.TestUtils;
@@ -79,10 +79,10 @@ public class MainActivityTest
     private String numCollection = "50";
     private String numWantlist = "90";
     private MainController controller;
-    private List<ViewedRelease> fourViewedReleases = MainFactory.buildViewedReleases(4);
+    private List<ViewedRelease> fourViewedReleases = ViewedReleaseFactory.buildViewedReleases(4);
     private List<SearchResult> recommendations = SearchResultFactory.getThreeReleases();
-    private List<Order> orders = OrderFactory.getListOfTwo();
-    private List<Listing> listings = ListingFactory.getThreeListings();
+    private List<Order> orders = OrderFactory.buildListOfOrders(2);
+    private List<Listing> listings = ListingFactory.buildNumberOfListings(3);
     @Mock DaoManager daoManager;
 
     @Before
