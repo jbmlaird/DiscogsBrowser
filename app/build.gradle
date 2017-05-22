@@ -112,6 +112,7 @@ dependencies {
     compile "com.github.daniel-stoneuk:material-about-library:1.9.0"
     compile "com.getkeepsafe.taptargetview:taptargetview:1.9.1"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
 }
 
 apply plugin: "com.google.gms.google-services"

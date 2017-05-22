@@ -39,8 +39,8 @@ public class ArtistReleasesTransformer implements SingleTransformer<List<ArtistR
         return upstream.flattenAsObservable(releases ->
                 releases)
                 .filter(artistRelease ->
-                        (artistRelease.getTitle() != null && artistRelease.getTitle().toLowerCase().contains(filterText)) ||
-                                (artistRelease.getYear() != null && artistRelease.getYear().toLowerCase().contains(filterText)))
+                        (artistRelease.getTitle().toLowerCase().contains(filterText)) ||
+                                (artistRelease.getYear().toLowerCase().contains(filterText)))
                 .toList();
     }
 }
