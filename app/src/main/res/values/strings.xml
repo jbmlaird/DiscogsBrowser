@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DiscogsBrowser</string>
+    <string name="app_name">VinylBrowser</string>
 
     <string name="oauth_access_token">oauth_access_token</string>
     <string name="oauth_access_token_secret">oauth_access_token_secret</string>

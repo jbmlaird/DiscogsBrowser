@@ -19,7 +19,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import bj.discogsbrowser.R;
+import bj.vinylbrowser.R;
 import br.com.simplepass.loading_button_lib.Utils;
 import br.com.simplepass.loading_button_lib.UtilsJava;
 import br.com.simplepass.loading_button_lib.animatedDrawables.CircularAnimatedDrawable;
