@@ -11,7 +11,7 @@ The UI design is inspired by AirBnB's Android app and is similar in (the best lo
 
 # Usage
 
-You can either copy from source or install the open beta [from the store](https://play.google.com/apps/testing/bj.vinylbrowser).
+You can either copy from source or install the open beta [from the store](https://play.google.com/apps/testing/bj.vinylbrowser). Due to the Play Store policies it's uploaded with the name VinylBrowser and uses a different feature graphic.
 
 # Technical
 
