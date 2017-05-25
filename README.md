@@ -9,6 +9,10 @@ The UI design is inspired by AirBnB's Android app and is similar in (the best lo
 
 ![app_gif](https://media.giphy.com/media/dVWMCW4rFiyZi/giphy.gif)
 
+# Contributions
+
+Pull requests are welcome and encouraged! Unit tests are necessary to be merged and UI tests preferable (if a UI change).
+
 # Usage
 
 You can either copy from source or install [from the store](https://play.google.com/store/apps/details?id=bj.vinylbrowser). Due to the Play Store policies it's uploaded with the name VinylBrowser and uses a different feature graphic.
@@ -55,10 +59,6 @@ Currently, in May 2017, the public API does not allow any of the following:
 * Seeing order comments/updates for purchases
 * Recent releases
 * Notifications
-
-# Contributions
-
-Pull requests are welcome and encouraged!
 
 # License
 
