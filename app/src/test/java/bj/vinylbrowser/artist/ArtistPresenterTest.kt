@@ -31,7 +31,7 @@ class ArtistPresenterTest {
     val discogsInteractor: DiscogsInteractor = mock()
     lateinit var testScheduler: TestScheduler
     val logWrapper: LogWrapper = mock()
-    val artistController: ArtistController = mock()
+    val artistController: ArtistEpxController = mock()
     val recyclerView: RecyclerView = mock()
     val unwantedLinksFunction: RemoveUnwantedLinksFunction = mock()
 

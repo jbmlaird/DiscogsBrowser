@@ -15,7 +15,7 @@ import bj.vinylbrowser.AppComponent;
 import bj.vinylbrowser.R;
 import bj.vinylbrowser.common.BaseActivity;
 import bj.vinylbrowser.customviews.MyRecyclerView;
-import bj.vinylbrowser.label.LabelActivity;
+import bj.vinylbrowser.label.LabelController;
 import bj.vinylbrowser.marketplace.MarketplaceListingActivity;
 import bj.vinylbrowser.model.listing.ScrapeListing;
 import bj.vinylbrowser.utils.ArtistsBeautifier;
@@ -33,7 +33,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     @Inject ArtistsBeautifier artistsBeautifier;
     @Inject ReleasePresenter presenter;
     @Inject AnalyticsTracker tracker;
-    @Inject ReleaseController controller;
+    @Inject ReleaseEpxController controller;
     @BindView(R.id.recyclerView) MyRecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -91,7 +91,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
     public void displayLabel(String title, String id)
     {
         tracker.send(getString(R.string.release_activity), getString(R.string.release_activity), getString(R.string.clicked), "displayLabel", "1");
-        startActivity(LabelActivity.createIntent(this, title, id));
+//        startActivity(LabelController.createIntent(this, title, id));
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseContract.Vie
         }
     }
 
-    private void setupRecyclerView(MyRecyclerView recyclerView, ReleaseController controller, String title)
+    private void setupRecyclerView(MyRecyclerView recyclerView, ReleaseEpxController controller, String title)
     {
         setupRecyclerView(recyclerView, controller);
         controller.setTitle(title);

@@ -32,14 +32,14 @@ public class LabelModule
 
     @Provides
     @ActivityScope
-    protected LabelController provideLabelController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    protected LabelEpxController provideLabelController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
-        return new LabelController(context, mView, imageViewAnimator, tracker);
+        return new LabelEpxController(context, mView, imageViewAnimator, tracker);
     }
 
     @Provides
     @ActivityScope
-    protected LabelPresenter provideLabelPresenter(DiscogsInteractor interactor, LabelController controller, MySchedulerProvider mySchedulerProvider)
+    protected LabelPresenter provideLabelPresenter(DiscogsInteractor interactor, LabelEpxController controller, MySchedulerProvider mySchedulerProvider)
     {
         return new LabelPresenter(controller, interactor, mySchedulerProvider);
     }

@@ -26,13 +26,13 @@ public class SearchPresenter implements SearchContract.Presenter
     private List<SearchResult> searchResults = new ArrayList<>();
     private String currentFilter = "all";
     private SearchContract.View mView;
-    private SearchController searchController;
+    private SearchEpxController searchController;
     private Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchModelFunc;
     private DaoManager daoManager;
     private CompositeDisposable disposable;
     private DisposableObserver<List<SearchResult>> searchObserver;
 
-    public SearchPresenter(SearchContract.View mView, SearchController searchController, Function<SearchViewQueryTextEvent,
+    public SearchPresenter(SearchContract.View mView, SearchEpxController searchController, Function<SearchViewQueryTextEvent,
             ObservableSource<List<SearchResult>>> searchModelFunc, MySchedulerProvider mySchedulerProvider, DaoManager daoManager, CompositeDisposable disposable)
     {
         this.mView = mView;

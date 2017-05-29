@@ -21,7 +21,7 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 /**
  * Created by Josh Laird on 25/04/2017.
  */
-public class SearchController extends EpoxyController
+public class SearchEpxController extends EpoxyController
 {
     private Context context;
     private SearchContract.View mView;
@@ -33,7 +33,7 @@ public class SearchController extends EpoxyController
     private boolean error = false;
     private AnalyticsTracker tracker;
 
-    public SearchController(Context context, SearchContract.View mView, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    public SearchEpxController(Context context, SearchContract.View mView, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.context = context;
         this.mView = mView;

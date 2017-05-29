@@ -1,6 +1,9 @@
 package bj.vinylbrowser.main;
 
+import org.jetbrains.annotations.NotNull;
+
 import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.first.FirstActivity;
 import dagger.Subcomponent;
 
 /**
@@ -10,7 +13,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {MainModule.class})
 public interface MainComponent
 {
-    void inject(MainActivity mainActivity);
+    void inject(@NotNull MainController mainController);
 
     @Subcomponent.Builder
     interface Builder

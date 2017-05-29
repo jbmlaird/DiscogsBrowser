@@ -33,14 +33,14 @@ public class MasterModule
 
     @Provides
     @ActivityScope
-    protected MasterController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    protected MasterEpxController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
-        return new MasterController(view, context, artistsBeautifier, imageViewAnimator, tracker);
+        return new MasterEpxController(view, context, artistsBeautifier, imageViewAnimator, tracker);
     }
 
     @Provides
     @ActivityScope
-    protected MasterPresenter providePresenter(DiscogsInteractor interactor, MasterController controller, MySchedulerProvider mySchedulerProvider)
+    protected MasterPresenter providePresenter(DiscogsInteractor interactor, MasterEpxController controller, MySchedulerProvider mySchedulerProvider)
     {
         return new MasterPresenter(interactor, controller, mySchedulerProvider);
     }

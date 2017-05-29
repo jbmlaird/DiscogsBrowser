@@ -19,13 +19,13 @@ import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
  */
 public class ReleasePresenter implements ReleaseContract.Presenter
 {
-    private final ReleaseController controller;
+    private final ReleaseEpxController controller;
     private final DiscogsInteractor discogsInteractor;
     private final MySchedulerProvider mySchedulerProvider;
     private final ArtistsBeautifier artistsBeautifier;
     private DaoManager daoManager;
 
-    public ReleasePresenter(@NonNull ReleaseController controller, @NonNull DiscogsInteractor discogsInteractor,
+    public ReleasePresenter(@NonNull ReleaseEpxController controller, @NonNull DiscogsInteractor discogsInteractor,
                             @NonNull MySchedulerProvider mySchedulerProvider, @NonNull DaoManager daoManager, @NonNull ArtistsBeautifier artistsBeautifier)
     {
         this.controller = controller;

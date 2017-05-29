@@ -6,7 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import java.util.List;
 
 import bj.vinylbrowser.R;
-import bj.vinylbrowser.epoxy.common.BaseController;
+import bj.vinylbrowser.epoxy.common.BaseEpxController;
 import bj.vinylbrowser.epoxy.common.DividerModel_;
 import bj.vinylbrowser.epoxy.common.ListItemModel_;
 import bj.vinylbrowser.epoxy.common.LoadingModel_;
@@ -23,7 +23,7 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 /**
  * Created by Josh Laird on 25/04/2017.
  */
-public class MasterController extends BaseController
+public class MasterEpxController extends BaseEpxController
 {
     private final MasterContract.View mView;
     private Context context;
@@ -35,7 +35,7 @@ public class MasterController extends BaseController
     private List<MasterVersion> masterMasterVersions;
     private boolean viewAllVersions;
 
-    public MasterController(MasterContract.View view, Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    public MasterEpxController(MasterContract.View view, Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         mView = view;
         this.context = context;

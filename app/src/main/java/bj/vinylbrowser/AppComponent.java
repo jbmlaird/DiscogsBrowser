@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import bj.vinylbrowser.artist.ArtistComponent;
 import bj.vinylbrowser.artistreleases.ArtistReleasesComponent;
+import bj.vinylbrowser.first.FirstComponent;
 import bj.vinylbrowser.greendao.DaoModule;
 import bj.vinylbrowser.label.LabelComponent;
 import bj.vinylbrowser.login.LoginComponent;
@@ -31,6 +32,8 @@ public interface AppComponent
     ArtistComponent.Builder artistComponentBuilder();
 
     ArtistReleasesComponent.Builder artistReleasesComponentBuilder();
+
+    FirstComponent.Builder firstComponentBuilder();
 
     LabelComponent.Builder labelComponentBuilder();
 

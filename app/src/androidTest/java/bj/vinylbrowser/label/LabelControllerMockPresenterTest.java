@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import bj.vinylbrowser.R;
@@ -49,14 +48,14 @@ import static org.mockito.Mockito.doAnswer;
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class LabelActivityMockPresenterTest
+public class LabelControllerMockPresenterTest
 {
     @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
     @Rule
-    public IntentsTestRule<LabelActivity> mActivityTestRule = new IntentsTestRule<>(LabelActivity.class, false, false);
+    public IntentsTestRule<LabelController> mActivityTestRule = new IntentsTestRule<>(LabelController.class, false, false);
     @Mock LabelPresenter presenter;
     @Mock ImageViewAnimator imageViewAnimator;
-    private LabelActivity activity;
+    private LabelController activity;
     private Label testLabel;
     private LabelRelease labelRelease;
     private String title = "labelTitle";
@@ -67,7 +66,7 @@ public class LabelActivityMockPresenterTest
     {
         labelRelease = LabelFactory.buildLabelRelease(1);
         testLabel = ReleaseFactory.buildReleaseLabel(id);
-        Intent startingIntent = LabelActivity.createIntent(EspressoDaggerMockRule.getApp(), title, id);
+        Intent startingIntent = LabelController.createIntent(EspressoDaggerMockRule.getApp(), title, id);
 
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout

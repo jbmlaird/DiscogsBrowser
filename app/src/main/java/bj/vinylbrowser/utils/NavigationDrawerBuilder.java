@@ -26,10 +26,9 @@ import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
 
 import bj.vinylbrowser.R;
 import bj.vinylbrowser.about.AboutActivity;
+import bj.vinylbrowser.first.FirstActivity;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.login.LoginActivity;
-import bj.vinylbrowser.main.MainActivity;
-import bj.vinylbrowser.search.SearchActivity;
 import bj.vinylbrowser.singlelist.SingleListActivity;
 
 /**
@@ -50,7 +49,7 @@ public class NavigationDrawerBuilder
         this.daoManager = daoManager;
     }
 
-    public Drawer buildNavigationDrawer(MainActivity activity, Toolbar toolbar)
+    public Drawer buildNavigationDrawer(FirstActivity activity, Toolbar toolbar)
     {
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -112,7 +111,7 @@ public class NavigationDrawerBuilder
                                     activity.startActivity(SingleListActivity.createIntent(activity, R.string.orders, sharedPrefsManager.getUsername()));
                                     break;
                                 case 4:
-                                    activity.startActivity(SearchActivity.createIntent(activity));
+//                                    activity.startActivity(SearchActivity.createIntent(activity));
                                     break;
 //                                case 5:
 //                                    // TODO: Implement Settings

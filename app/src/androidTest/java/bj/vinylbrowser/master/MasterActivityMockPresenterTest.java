@@ -56,7 +56,7 @@ public class MasterActivityMockPresenterTest
     private String masterTitle = "masterTitle";
     private String masterId = "masterId";
     private MasterActivity activity;
-    private MasterController controller;
+    private MasterEpxController controller;
     private Master master = MasterFactory.buildMaster();
     private List<MasterVersion> masterMasterVersions = MasterVersionsFactory.buildMasterVersions(2);
 

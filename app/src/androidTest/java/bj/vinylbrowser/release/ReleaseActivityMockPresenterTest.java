@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import java.util.List;
 
 import bj.vinylbrowser.R;
-import bj.vinylbrowser.label.LabelActivity;
+import bj.vinylbrowser.label.LabelController;
 import bj.vinylbrowser.marketplace.MarketplaceListingActivity;
 import bj.vinylbrowser.model.listing.ScrapeListing;
 import bj.vinylbrowser.model.release.Release;
@@ -56,7 +56,7 @@ public class ReleaseActivityMockPresenterTest
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock ReleasePresenter presenter;
     @Mock DiscogsInteractor interactor;
-    private ReleaseController controller;
+    private ReleaseEpxController controller;
     private Intent startIntent;
     private String releaseId = "releaseId";
     private String releaseTitle = "releaseTitle";
@@ -88,7 +88,7 @@ public class ReleaseActivityMockPresenterTest
     public void onClick_intentsLaunched()
     {
         TestUtils.stubIntentClass(MarketplaceListingActivity.class);
-        TestUtils.stubIntentClass(LabelActivity.class);
+        TestUtils.stubIntentClass(LabelController.class);
 
         onView(withText(release.getTitle())).check(matches(isDisplayed()));
         onView(withText(release.getArtists().get(0).getName())).check(matches(isDisplayed()));
@@ -109,7 +109,7 @@ public class ReleaseActivityMockPresenterTest
                 hasExtra("id", releaseListings.get(1).getMarketPlaceId()),
                 hasExtra("title", release.getTitle())));
         intended(allOf(
-                hasComponent(LabelActivity.class.getName()),
+                hasComponent(LabelController.class.getName()),
                 hasExtra("id", release.getLabels().get(0).getId())));
     }
 

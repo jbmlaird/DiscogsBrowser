@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bj.vinylbrowser.R;
-import bj.vinylbrowser.epoxy.common.BaseController;
+import bj.vinylbrowser.epoxy.common.BaseEpxController;
 import bj.vinylbrowser.epoxy.common.DividerModel_;
 import bj.vinylbrowser.epoxy.common.ListItemModel_;
 import bj.vinylbrowser.epoxy.common.LoadingModel_;
@@ -25,7 +25,7 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 /**
  * Created by Josh Laird on 23/04/2017.
  */
-public class LabelController extends BaseController
+public class LabelEpxController extends BaseEpxController
 {
     private Context context;
     private LabelContract.View view;
@@ -38,7 +38,7 @@ public class LabelController extends BaseController
     private boolean error = false;
     private AnalyticsTracker tracker;
 
-    public LabelController(Context context, LabelContract.View view, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    public LabelEpxController(Context context, LabelContract.View view, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.context = context;
         this.view = view;

@@ -20,7 +20,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = intArrayOf(LOLLIPOP), manifest = Config.NONE)
 class LabelControllerTest {
-    lateinit var controller: LabelController
+    lateinit var controller: LabelEpxController
     val context: Context = mock()
     val view: LabelContract.View = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
@@ -29,7 +29,7 @@ class LabelControllerTest {
     @Before
     fun setUp() {
         initMocks(this)
-        controller = LabelController(context, view, imageViewAnimator, tracker)
+        controller = LabelEpxController(context, view, imageViewAnimator, tracker)
         controller.requestModelBuild()
     }
 

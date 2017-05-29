@@ -34,9 +34,9 @@ public class ArtistModule
 
     @Provides
     @ActivityScope
-    protected ArtistController provideArtistController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    protected ArtistEpxController provideArtistController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
-        return new ArtistController(view, context, imageViewAnimator, tracker);
+        return new ArtistEpxController(view, context, imageViewAnimator, tracker);
     }
 
     @Provides
@@ -48,7 +48,7 @@ public class ArtistModule
     @Provides
     @ActivityScope
     protected ArtistPresenter provideArtistPresenter(DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
-                                                     LogWrapper log, ArtistController controller, RemoveUnwantedLinksFunction function)
+                                                     LogWrapper log, ArtistEpxController controller, RemoveUnwantedLinksFunction function)
     {
         return new ArtistPresenter(view, discogsInteractor, mySchedulerProvider, log, controller, function);
     }

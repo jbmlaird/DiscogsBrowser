@@ -45,16 +45,16 @@ public class ReleaseModule
 
     @Provides
     @ActivityScope
-    protected ReleaseController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, CollectionWantlistPresenter presenter,
-                                                  AnalyticsTracker tracker)
+    protected ReleaseEpxController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, CollectionWantlistPresenter presenter,
+                                                     AnalyticsTracker tracker)
     {
-        return new ReleaseController(context, mView, artistsBeautifier, imageViewAnimator, presenter, tracker);
+        return new ReleaseEpxController(context, mView, artistsBeautifier, imageViewAnimator, presenter, tracker);
     }
 
 
     @Provides
     @ActivityScope
-    protected ReleasePresenter provideReleasePresenter(ReleaseController controller, DiscogsInteractor interactor,
+    protected ReleasePresenter provideReleasePresenter(ReleaseEpxController controller, DiscogsInteractor interactor,
                                                        MySchedulerProvider mySchedulerProvider, DaoManager daoManager, ArtistsBeautifier artistsBeautifier)
     {
         return new ReleasePresenter(controller, interactor, mySchedulerProvider, daoManager, artistsBeautifier);

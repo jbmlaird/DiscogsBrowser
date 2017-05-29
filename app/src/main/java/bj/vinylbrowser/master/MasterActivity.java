@@ -28,7 +28,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject MasterPresenter presenter;
     @Inject AnalyticsTracker tracker;
-    @Inject MasterController controller;
+    @Inject MasterEpxController controller;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -80,7 +80,7 @@ public class MasterActivity extends BaseActivity implements MasterContract.View
         presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
-    private void setupRecyclerView(MyRecyclerView recyclerView, MasterController controller, String title)
+    private void setupRecyclerView(MyRecyclerView recyclerView, MasterEpxController controller, String title)
     {
         setupRecyclerView(recyclerView, controller);
         controller.setTitle(title);

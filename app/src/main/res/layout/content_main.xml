@@ -1,8 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bj.vinylbrowser.customviews.MyRecyclerView
-    android:id="@+id/recyclerView"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</bj.vinylbrowser.customviews.MyRecyclerView>
+    <LinearLayout
+        android:id="@+id/lytMainContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:title="Home"
+            app:subtitleTextColor="@android:color/white"
+            app:titleTextColor="@android:color/white"
+            />
+
+        <bj.vinylbrowser.customviews.MyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </bj.vinylbrowser.customviews.MyRecyclerView>
+
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/lytLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        >
+
+        <ImageView
+            android:id="@+id/ivLoading"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/circle_image_view"
+            android:src="@drawable/ic_app_loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/lytError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"
+            />
+
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_normal_double"
+            android:layout_marginStart="@dimen/margin_normal_double"
+            android:text="Unable to connect to Discogs.\n\nYou will only be able to browse cached data until reconnecting"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_large"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <Button
+            android:id="@+id/btnError"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_very_large"
+            android:layout_marginStart="@dimen/margin_very_large"
+            android:layout_marginTop="@dimen/margin_normal_double"
+            android:text="Reconnect"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="25dp"
+            />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

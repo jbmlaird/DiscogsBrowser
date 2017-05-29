@@ -6,7 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import java.util.List;
 
 import bj.vinylbrowser.R;
-import bj.vinylbrowser.epoxy.common.BaseController;
+import bj.vinylbrowser.epoxy.common.BaseEpxController;
 import bj.vinylbrowser.epoxy.common.DividerModel_;
 import bj.vinylbrowser.epoxy.common.LoadingModel_;
 import bj.vinylbrowser.epoxy.common.PaddedCenterTextModel_;
@@ -31,7 +31,7 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 /**
  * Created by Josh Laird on 24/04/2017.
  */
-public class ReleaseController extends BaseController
+public class ReleaseEpxController extends BaseEpxController
 {
     private final Context context;
     private final ReleaseContract.View view;
@@ -51,8 +51,8 @@ public class ReleaseController extends BaseController
     private boolean collectionLoading = true;
     private AnalyticsTracker tracker;
 
-    public ReleaseController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
-                             CollectionWantlistPresenter presenter, AnalyticsTracker tracker)
+    public ReleaseEpxController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
+                                CollectionWantlistPresenter presenter, AnalyticsTracker tracker)
     {
         this.context = context;
         this.view = view;

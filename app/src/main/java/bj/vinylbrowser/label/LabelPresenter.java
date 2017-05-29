@@ -9,11 +9,11 @@ import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
  */
 public class LabelPresenter implements LabelContract.Presenter
 {
-    private LabelController controller;
+    private LabelEpxController controller;
     private bj.vinylbrowser.network.DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
 
-    public LabelPresenter(@NonNull LabelController controller, @NonNull bj.vinylbrowser.network.DiscogsInteractor discogsInteractor,
+    public LabelPresenter(@NonNull LabelEpxController controller, @NonNull bj.vinylbrowser.network.DiscogsInteractor discogsInteractor,
                           @NonNull MySchedulerProvider mySchedulerProvider)
     {
         this.controller = controller;

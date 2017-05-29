@@ -17,7 +17,7 @@ import bj.vinylbrowser.AppComponent;
 import bj.vinylbrowser.R;
 import bj.vinylbrowser.artist.ArtistActivity;
 import bj.vinylbrowser.common.BaseActivity;
-import bj.vinylbrowser.label.LabelActivity;
+import bj.vinylbrowser.label.LabelController;
 import bj.vinylbrowser.marketplace.MarketplaceListingActivity;
 import bj.vinylbrowser.master.MasterActivity;
 import bj.vinylbrowser.order.OrderActivity;
@@ -101,7 +101,7 @@ public class SingleListActivity extends BaseActivity implements SingleListContra
                 startActivity(ReleaseActivity.createIntent(this, title, id));
                 break;
             case "label":
-                startActivity(LabelActivity.createIntent(this, title, id));
+//                startActivity(LabelController.createIntent(this, title, id));
                 break;
             case "artist":
                 startActivity(ArtistActivity.createIntent(this, title, id));

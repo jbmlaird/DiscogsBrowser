@@ -6,10 +6,10 @@ import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
 import java.util.List;
 
+import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.model.search.SearchResult;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -58,14 +58,14 @@ public class SearchModule
 
     @Provides
     @ActivityScope
-    protected SearchController provideController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    protected SearchEpxController provideController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
-        return new SearchController(context, mView, imageViewAnimator, tracker);
+        return new SearchEpxController(context, mView, imageViewAnimator, tracker);
     }
 
     @Provides
     @ActivityScope
-    protected SearchPresenter provideSearchPresenter(SearchController controller, Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchFunc,
+    protected SearchPresenter provideSearchPresenter(SearchEpxController controller, Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchFunc,
                                                      MySchedulerProvider mySchedulerProvider, DaoManager daoManager, CompositeDisposable disposable)
     {
         return new SearchPresenter(mView, controller, searchFunc, mySchedulerProvider, daoManager, disposable);

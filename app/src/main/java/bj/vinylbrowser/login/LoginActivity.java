@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import bj.vinylbrowser.AppComponent;
 import bj.vinylbrowser.R;
 import bj.vinylbrowser.common.BaseActivity;
-import bj.vinylbrowser.main.MainActivity;
+import bj.vinylbrowser.first.FirstActivity;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,7 +87,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View
     @Override
     public void finishActivityLaunchMain()
     {
-        Intent intent = MainActivity.createIntent(this);
+        Intent intent = FirstActivity.createIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

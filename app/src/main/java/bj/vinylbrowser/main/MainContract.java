@@ -1,5 +1,6 @@
 package bj.vinylbrowser.main;
 
+import android.app.Activity;
 import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -20,13 +21,11 @@ public interface MainContract
     {
         void showLoading(boolean b);
 
-        MainActivity getActivity();
+        Activity getActivity();
 
         void retryHistory();
 
         void retryRecommendations();
-
-        void setDrawer(Drawer drawer);
 
         // RecyclerView gets detached upon adding the NavigationDrawer
         void setupRecyclerView();
@@ -46,6 +45,8 @@ public interface MainContract
         void displayRelease(String releaseName, String id);
 
         void learnMore();
+
+        void setDrawer(Drawer buildNavigationDrawer);
     }
 
     interface Presenter

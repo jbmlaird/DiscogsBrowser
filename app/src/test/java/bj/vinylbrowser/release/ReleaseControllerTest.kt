@@ -21,7 +21,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = intArrayOf(LOLLIPOP), manifest = Config.NONE)
 class ReleaseControllerTest {
-    lateinit var controller: ReleaseController
+    lateinit var controller: ReleaseEpxController
     val context: Context = mock()
     val view: ReleaseContract.View = mock()
     val artistsBeautifier: ArtistsBeautifier = mock()
@@ -33,7 +33,7 @@ class ReleaseControllerTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        controller = ReleaseController(context, view, artistsBeautifier, imageViewAnimator, presenter, tracker)
+        controller = ReleaseEpxController(context, view, artistsBeautifier, imageViewAnimator, presenter, tracker)
         controller.requestModelBuild()
     }
 

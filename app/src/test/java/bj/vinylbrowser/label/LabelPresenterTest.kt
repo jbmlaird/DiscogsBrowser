@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner
  */
 @RunWith(MockitoJUnitRunner::class)
 class LabelPresenterTest {
-    val controller: LabelController = mock()
+    val controller: LabelEpxController = mock()
     val discogsInteractor: DiscogsInteractor = mock()
     val testScheduler = TestScheduler()
     lateinit var presenter: LabelPresenter

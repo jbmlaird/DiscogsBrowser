@@ -23,7 +23,7 @@ class MasterPresenterTest {
     lateinit var presenter: MasterPresenter
     val view: MasterContract.View = mock()
     val discogsInteractor: DiscogsInteractor = mock()
-    val controller: MasterController = mock()
+    val controller: MasterEpxController = mock()
     val testScheduler = TestScheduler()
     val id = "123"
 

@@ -33,7 +33,7 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
  * <p>
  * Epoxy v2 Adapter controller.
  */
-public class MainController extends EpoxyController
+public class MainEpxController extends EpoxyController
 {
     private List<Order> orders = new ArrayList<>();
     private List<Listing> listings = new ArrayList<>();
@@ -53,9 +53,10 @@ public class MainController extends EpoxyController
     private boolean recommendationsLoading = true;
     private boolean recommendationsError;
     private boolean viewedReleasesError;
+    private int item = 0; // indexOf Kotlin classes does not work ideally yet
 
-    public MainController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager,
-                          ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
+    public MainEpxController(Context context, MainContract.View mView, SharedPrefsManager sharedPrefsManager,
+                             ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
     {
         this.context = context;
         this.mView = mView;
@@ -93,7 +94,8 @@ public class MainController extends EpoxyController
                 for (ViewedRelease viewedRelease : viewedReleases)
                 {
                     viewedReleaseModels.add(new ViewedReleaseModel_()
-                            .id("viewedReleases" + viewedReleases.indexOf(viewedRelease))
+//                            .id("viewedReleases" + viewedReleases.indexOf(viewedRelease))
+                            .id("viewedReleases" + item++)
                             .context(context)
                             .onClickListener(v -> mView.displayRelease(viewedRelease.getReleaseName(), viewedRelease.getReleaseId()))
                             .thumbUrl(viewedRelease.getThumbUrl())
@@ -137,7 +139,8 @@ public class MainController extends EpoxyController
                 for (SearchResult recommendation : recommendations)
                 {
                     viewedReleaseModels.add(new ViewedReleaseModel_()
-                            .id("recommendations" + recommendations.indexOf(recommendation))
+//                            .id("recommendations" + recommendations.indexOf(recommendation))
+                            .id("recommendations" + item++)
                             .context(context)
                             .onClickListener(v -> mView.displayRelease(recommendation.getTitle(), recommendation.getId()))
                             .thumbUrl(recommendation.getThumb())
@@ -189,7 +192,8 @@ public class MainController extends EpoxyController
                     .status(order.getStatus())
                     .buyer(order.getBuyer().getUsername())
                     .onClickListener(v -> mView.displayOrder(order.getId()))
-                    .id("order" + String.valueOf(orders.indexOf(order)))
+//                    .id("order" + String.valueOf(orders.indexOf(order)))
+                    .id("order" + item++)
                     .addTo(this);
 
             new DividerModel_()
@@ -241,7 +245,8 @@ public class MainController extends EpoxyController
                     .datePosted(listing.getPosted())
                     .releaseName(listing.getRelease().getDescription())
                     .onClickListener(v -> mView.displayListing(listing.getId(), listing.getTitle(), sharedPrefsManager.getUsername(), "", listing.getSeller().getUsername()))
-                    .id("listing" + String.valueOf(listings.indexOf(listing)))
+//                    .id("listing" + String.valueOf(listings.indexOf(listing)))
+                    .id("listing" + item++)
                     .addTo(this);
 
             new DividerModel_()

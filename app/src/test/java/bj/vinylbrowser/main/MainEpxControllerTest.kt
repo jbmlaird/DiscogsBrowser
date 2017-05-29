@@ -23,8 +23,8 @@ import org.robolectric.annotation.Config
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = intArrayOf(LOLLIPOP), manifest = Config.NONE)
-class MainControllerTest {
-    lateinit var controller: MainController
+class MainEpxControllerTest {
+    lateinit var epxController: MainEpxController
     val context: Context = mock()
     val view: MainContract.View = mock()
     val sharedPrefsManager: SharedPrefsManager = mock()
@@ -35,13 +35,13 @@ class MainControllerTest {
     @Before
     fun setup() {
         initMocks(this)
-        controller = MainController(context, view, sharedPrefsManager, imageViewAnimator, dateFormatter, tracker)
-        controller.requestModelBuild()
+        epxController = MainEpxController(context, view, sharedPrefsManager, imageViewAnimator, dateFormatter, tracker)
+        epxController.requestModelBuild()
     }
 
     @Test
     fun initialLoadingState_correct() {
-        val copyOfModels = controller.adapter.copyOfModels
+        val copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -56,9 +56,9 @@ class MainControllerTest {
 
     @Test
     fun viewedHistoryError_displaysRetryModel() {
-        controller.setViewedReleasesError(true)
+        epxController.setViewedReleasesError(true)
 
-        val copyOfModels = controller.adapter.copyOfModels
+        val copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "RetryModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -73,9 +73,9 @@ class MainControllerTest {
 
     @Test
     fun viewedHistoryErrorThenLoad_displaysLoad() {
-        controller.setViewedReleasesError(true)
+        epxController.setViewedReleasesError(true)
 
-        var copyOfModels = controller.adapter.copyOfModels
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "RetryModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -87,9 +87,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setLoadingViewedReleases(true)
+        epxController.setLoadingViewedReleases(true)
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -104,9 +104,9 @@ class MainControllerTest {
 
     @Test
     fun viewedHistoryErrorThenReload_displaysList() {
-        controller.setViewedReleasesError(true)
+        epxController.setViewedReleasesError(true)
 
-        var copyOfModels = controller.adapter.copyOfModels
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "RetryModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -118,8 +118,8 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setViewedReleases(ViewedReleaseFactory.buildViewedReleases(1))
-        copyOfModels = controller.adapter.copyOfModels
+        epxController.setViewedReleases(ViewedReleaseFactory.buildViewedReleases(1))
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "CarouselModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -134,9 +134,9 @@ class MainControllerTest {
 
     @Test
     fun recommendationError_displaysRetryModel() {
-        controller.setRecommendationsError(true)
+        epxController.setRecommendationsError(true)
 
-        val copyOfModels = controller.adapter.copyOfModels
+        val copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -151,8 +151,8 @@ class MainControllerTest {
 
     @Test
     fun recommendationErrorThenReload_displaysList() {
-        controller.setRecommendationsError(true)
-        var copyOfModels = controller.adapter.copyOfModels
+        epxController.setRecommendationsError(true)
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -164,8 +164,8 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setRecommendations(listOf(SearchResult()))
-        copyOfModels = controller.adapter.copyOfModels
+        epxController.setRecommendations(listOf(SearchResult()))
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -180,9 +180,9 @@ class MainControllerTest {
 
     @Test
     fun recommendationsErrorThenLoad_displaysLoad() {
-        controller.setRecommendationsError(true)
+        epxController.setRecommendationsError(true)
 
-        var copyOfModels = controller.adapter.copyOfModels
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -194,9 +194,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setLoadingRecommendations(true)
+        epxController.setLoadingRecommendations(true)
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -212,9 +212,9 @@ class MainControllerTest {
 
     @Test
     fun emptyLists_displaysNoOrderModels() {
-        controller.setViewedReleases(emptyList())
+        epxController.setViewedReleases(emptyList())
 
-        var copyOfModels = controller.adapter.copyOfModels
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "InfoTextModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -226,9 +226,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setRecommendations(emptyList())
+        epxController.setRecommendations(emptyList())
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "InfoTextModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -240,9 +240,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setOrders(emptyList())
+        epxController.setOrders(emptyList())
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "InfoTextModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -254,9 +254,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setSelling(emptyList())
+        epxController.setSelling(emptyList())
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "InfoTextModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -271,9 +271,9 @@ class MainControllerTest {
 
     @Test
     fun error_displaysRetryModels() {
-        controller.setOrdersError(true)
+        epxController.setOrdersError(true)
 
-        val copyOfModels = controller.adapter.copyOfModels
+        val copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -288,9 +288,9 @@ class MainControllerTest {
 
     @Test
     fun unauthorizedError_displaysVerifyEmailModels() {
-        controller.setConfirmEmail(true)
+        epxController.setConfirmEmail(true)
 
-        val copyOfModels = controller.adapter.copyOfModels
+        val copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -305,9 +305,9 @@ class MainControllerTest {
 
     @Test
     fun errorThenRetry_displaysCorrectly() {
-        controller.setOrdersError(true)
+        epxController.setOrdersError(true)
 
-        var copyOfModels = controller.adapter.copyOfModels
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -319,10 +319,10 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setOrders(emptyList())
-        controller.setSelling(emptyList())
+        epxController.setOrders(emptyList())
+        epxController.setSelling(emptyList())
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -337,9 +337,9 @@ class MainControllerTest {
 
     @Test
     fun ordersList_displaysList() {
-        controller.setOrders(OrderFactory.buildListOfOrders(2))
+        epxController.setOrders(OrderFactory.buildListOfOrders(2))
 
-        var copyOfModels = controller.adapter.copyOfModels
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -353,9 +353,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[10].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 11)
 
-        controller.setSelling(listOf(ListingFactory.buildListing("1"), ListingFactory.buildListing("2")))
+        epxController.setSelling(listOf(ListingFactory.buildListing("1"), ListingFactory.buildListing("2")))
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -375,9 +375,9 @@ class MainControllerTest {
     @Test
     fun overFiveItems_Concatenates() {
         //Adding 6 orders
-        controller.setOrders(OrderFactory.buildListOfOrders(6))
+        epxController.setOrders(OrderFactory.buildListOfOrders(6))
 
-        var copyOfModels = controller.adapter.copyOfModels
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -398,9 +398,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[17].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 18)
 
-        controller.setSelling(ListingFactory.buildNumberOfListings(6))
+        epxController.setSelling(ListingFactory.buildNumberOfListings(6))
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -433,9 +433,9 @@ class MainControllerTest {
 
     @Test
     fun setLoadingTrue_loadingModelsDisplay() {
-        controller.setOrders(emptyList())
-        controller.setSelling(emptyList())
-        var copyOfModels = controller.adapter.copyOfModels
+        epxController.setOrders(emptyList())
+        epxController.setSelling(emptyList())
+        var copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")
@@ -447,9 +447,9 @@ class MainControllerTest {
         assertEquals(copyOfModels[8].javaClass.simpleName, "EmptySpaceModel_")
         assertEquals(copyOfModels.size, 9)
 
-        controller.setLoadingMorePurchases(true)
+        epxController.setLoadingMorePurchases(true)
 
-        copyOfModels = controller.adapter.copyOfModels
+        copyOfModels = epxController.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "MainTitleModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels[2].javaClass.simpleName, "MainTitleModel_")

@@ -17,6 +17,8 @@ import java.util.List;
 import bj.vinylbrowser.R;
 import bj.vinylbrowser.about.AboutActivity;
 import bj.vinylbrowser.customviews.Carousel;
+import bj.vinylbrowser.first.FirstActivity;
+import bj.vinylbrowser.first.FirstPresenter;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.greendao.ViewedRelease;
 import bj.vinylbrowser.listing.ListingFactory;
@@ -66,19 +68,19 @@ import static org.mockito.Mockito.when;
  */
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest
+public class FirstActivityTest
 {
     @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
     @Rule
-    public IntentsTestRule<MainActivity> mActivityTestRule = new IntentsTestRule<>(MainActivity.class, false, false);
-    @Mock MainPresenter presenter;
+    public IntentsTestRule<FirstActivity> mActivityTestRule = new IntentsTestRule<>(FirstActivity.class, false, false);
+    @Mock FirstPresenter presenter;
     @Mock ImageViewAnimator imageViewAnimator;
     @Mock SharedPrefsManager sharedPrefsManager;
-    private MainActivity activity;
+    private FirstActivity activity;
     private NavigationDrawerBuilder navigationDrawerBuilder;
     private String numCollection = "50";
     private String numWantlist = "90";
-    private MainController controller;
+    private MainEpxController controller;
     private List<ViewedRelease> fourViewedReleases = ViewedReleaseFactory.buildViewedReleases(4);
     private List<SearchResult> recommendations = SearchResultFactory.getThreeReleases();
     private List<Order> orders = OrderFactory.buildListOfOrders(2);
@@ -88,7 +90,7 @@ public class MainActivityTest
     @Before
     public void setUp()
     {
-        Intent startingIntent = MainActivity.createIntent(getApp());
+        Intent startingIntent = FirstActivity.createIntent(getApp());
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
                 invocation).when(imageViewAnimator).rotateImage(any());

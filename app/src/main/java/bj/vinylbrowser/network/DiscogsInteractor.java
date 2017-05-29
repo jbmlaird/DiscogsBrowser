@@ -30,7 +30,7 @@ import bj.vinylbrowser.model.version.MasterVersion;
 import bj.vinylbrowser.model.wantlist.AddToWantlistResponse;
 import bj.vinylbrowser.model.wantlist.RootWantlistResponse;
 import bj.vinylbrowser.model.wantlist.Want;
-import bj.vinylbrowser.release.ReleaseController;
+import bj.vinylbrowser.release.ReleaseEpxController;
 import bj.vinylbrowser.utils.DiscogsScraper;
 import bj.vinylbrowser.utils.SharedPrefsManager;
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -227,7 +227,7 @@ public class DiscogsInteractor
         return wantlistSingle;
     }
 
-    public Single<List<Want>> checkIfInWantlist(ReleaseController controller, Release release)
+    public Single<List<Want>> checkIfInWantlist(ReleaseEpxController controller, Release release)
     {
         return fetchWantlist(sharedPrefsManager.getUsername())
                 .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))
@@ -242,7 +242,7 @@ public class DiscogsInteractor
                 .toList();
     }
 
-    public Single<List<CollectionRelease>> checkIfInCollection(ReleaseController controller, Release release)
+    public Single<List<CollectionRelease>> checkIfInCollection(ReleaseEpxController controller, Release release)
     {
         return fetchCollection(sharedPrefsManager.getUsername())
                 .doOnSubscribe(onSubscribe -> controller.setCollectionLoading(true))

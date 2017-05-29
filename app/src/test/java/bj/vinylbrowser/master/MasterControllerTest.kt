@@ -21,7 +21,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = intArrayOf(Build.VERSION_CODES.LOLLIPOP), manifest = Config.NONE)
 class MasterControllerTest {
-    lateinit var controller: MasterController
+    lateinit var controller: MasterEpxController
     val context: Context = mock()
     val view: MasterContract.View = mock()
     val artistsBeautifer: ArtistsBeautifier = mock()
@@ -31,7 +31,7 @@ class MasterControllerTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        controller = MasterController(view, context, artistsBeautifer, imageViewAnimator, tracker)
+        controller = MasterEpxController(view, context, artistsBeautifer, imageViewAnimator, tracker)
         controller.requestModelBuild()
     }
 

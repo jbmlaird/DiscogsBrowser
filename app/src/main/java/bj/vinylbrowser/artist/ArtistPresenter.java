@@ -17,11 +17,11 @@ public class ArtistPresenter implements ArtistContract.Presenter
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private LogWrapper log;
-    private ArtistController artistController;
+    private ArtistEpxController artistController;
     private RemoveUnwantedLinksFunction removeUnwantedLinksFunction;
 
     public ArtistPresenter(@NonNull ArtistContract.View view, @NonNull DiscogsInteractor discogsInteractor,
-                           @NonNull MySchedulerProvider mySchedulerProvider, @NonNull LogWrapper log, @NonNull ArtistController artistController,
+                           @NonNull MySchedulerProvider mySchedulerProvider, @NonNull LogWrapper log, @NonNull ArtistEpxController artistController,
                            @NonNull RemoveUnwantedLinksFunction removeUnwantedLinksFunction)
     {
         this.view = view;

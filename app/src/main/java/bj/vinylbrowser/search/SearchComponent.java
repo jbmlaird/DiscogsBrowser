@@ -1,5 +1,7 @@
 package bj.vinylbrowser.search;
 
+import org.jetbrains.annotations.NotNull;
+
 import bj.vinylbrowser.di.scopes.ActivityScope;
 import dagger.Subcomponent;
 
@@ -10,7 +12,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {SearchModule.class})
 public interface SearchComponent
 {
-    void inject(SearchActivity searchActivity);
+    void inject(@NotNull SearchController searchController);
 
     @Subcomponent.Builder
     interface Builder

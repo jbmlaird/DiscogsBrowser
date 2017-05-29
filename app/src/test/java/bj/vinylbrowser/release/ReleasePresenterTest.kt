@@ -28,7 +28,7 @@ import java.io.IOException
 @RunWith(MockitoJUnitRunner::class)
 class ReleasePresenterTest {
     lateinit var presenter: ReleasePresenter
-    val controller: ReleaseController = mock()
+    val controller: ReleaseEpxController = mock()
     val discogsInteractor: DiscogsInteractor = mock()
     val testScheduler = TestScheduler()
     val daoManager: DaoManager = mock()

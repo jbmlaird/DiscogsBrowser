@@ -22,7 +22,7 @@ import bj.vinylbrowser.artist.ArtistActivity;
 import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesFragment;
 import bj.vinylbrowser.artistreleases.fragments.ViewPagerAdapter;
 import bj.vinylbrowser.common.BaseActivity;
-import bj.vinylbrowser.label.LabelActivity;
+import bj.vinylbrowser.label.LabelController;
 import bj.vinylbrowser.master.MasterActivity;
 import bj.vinylbrowser.release.ReleaseActivity;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
@@ -85,7 +85,7 @@ public class ArtistReleasesActivity extends BaseActivity implements ArtistReleas
                 startActivity(ReleaseActivity.createIntent(this, title, id));
                 break;
             case "label":
-                startActivity(LabelActivity.createIntent(this, title, id));
+//                startActivity(LabelController.createIntent(this, title, id));
                 break;
             case "artist":
                 startActivity(ArtistActivity.createIntent(this, title, id));

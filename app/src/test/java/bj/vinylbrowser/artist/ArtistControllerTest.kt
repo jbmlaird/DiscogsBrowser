@@ -19,7 +19,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = intArrayOf(LOLLIPOP), manifest = Config.NONE)
 class ArtistControllerTest {
-    private lateinit var controller: ArtistController
+    private lateinit var controller: ArtistEpxController
     val context: Context = mock()
     val view: ArtistContract.View = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
@@ -27,7 +27,7 @@ class ArtistControllerTest {
 
     @Before
     fun setUp() {
-        controller = ArtistController(view, context, imageViewAnimator, tracker)
+        controller = ArtistEpxController(view, context, imageViewAnimator, tracker)
         controller.requestModelBuild()
     }
 

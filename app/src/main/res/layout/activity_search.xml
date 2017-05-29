@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,12 +17,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:focusableInTouchMode="true">
-
-        </android.support.v7.widget.SearchView>
+            android:focusableInTouchMode="true"/>
 
     </android.support.v7.widget.Toolbar>
 
-    <include layout="@layout/content_search"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:background="?attr/colorPrimary"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="#80FFFFFF">
 
-</LinearLayout>
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabArtist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Artist"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabMaster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Master"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabRelease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Release"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Label"/>
+
+    </android.support.design.widget.TabLayout>
+
+    <bj.vinylbrowser.customviews.MyRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tabLayout"
+        android:background="@color/light_gray"/>
+</RelativeLayout>

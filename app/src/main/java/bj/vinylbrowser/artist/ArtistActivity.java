@@ -15,7 +15,7 @@ import bj.vinylbrowser.R;
 import bj.vinylbrowser.artistreleases.ArtistReleasesActivity;
 import bj.vinylbrowser.common.BaseActivity;
 import bj.vinylbrowser.customviews.MyRecyclerView;
-import bj.vinylbrowser.epoxy.common.BaseController;
+import bj.vinylbrowser.epoxy.common.BaseEpxController;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +31,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject AnalyticsTracker tracker;
     @Inject ArtistPresenter presenter;
-    @Inject ArtistController controller;
+    @Inject ArtistEpxController controller;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -98,7 +98,7 @@ public class ArtistActivity extends BaseActivity implements ArtistContract.View
         presenter.fetchReleaseDetails(getIntent().getStringExtra("id"));
     }
 
-    private void setupRecyclerView(RecyclerView rvDetailed, BaseController controller, String title)
+    private void setupRecyclerView(RecyclerView rvDetailed, BaseEpxController controller, String title)
     {
         super.setupRecyclerView(rvDetailed, controller);
         controller.setTitle(title);

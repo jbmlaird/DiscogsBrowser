@@ -5,9 +5,9 @@ import org.junit.runners.Suite;
 
 import bj.vinylbrowser.artist.ArtistActivityMockPresenterTest;
 import bj.vinylbrowser.artistreleases.ArtistReleasesMockNetworkTest;
-import bj.vinylbrowser.label.LabelActivityMockPresenterTest;
+import bj.vinylbrowser.label.LabelControllerMockPresenterTest;
 import bj.vinylbrowser.login.LoginActivityMockPresenterTest;
-import bj.vinylbrowser.main.MainActivityTest;
+import bj.vinylbrowser.main.FirstActivityTest;
 import bj.vinylbrowser.marketplace.MarketplaceActivityMockPresenterTest;
 import bj.vinylbrowser.master.MasterActivityMockPresenterTest;
 import bj.vinylbrowser.order.OrderActivityMockPresenterTest;
@@ -21,8 +21,8 @@ import bj.vinylbrowser.singlelist.SingleListMockPresenterTest;
  * Runs all espresso tests.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ArtistActivityMockPresenterTest.class, ArtistReleasesMockNetworkTest.class, LabelActivityMockPresenterTest.class,
-        LoginActivityMockPresenterTest.class, MainActivityTest.class, MarketplaceActivityMockPresenterTest.class,
+@Suite.SuiteClasses({ArtistActivityMockPresenterTest.class, ArtistReleasesMockNetworkTest.class, LabelControllerMockPresenterTest.class,
+        LoginActivityMockPresenterTest.class, FirstActivityTest.class, MarketplaceActivityMockPresenterTest.class,
         MasterActivityMockPresenterTest.class, OrderActivityMockPresenterTest.class, ReleaseActivityMockPresenterTest.class,
         SearchActivityTest.class, SingleListMockPresenterTest.class})
 public class EspressoSuite {}

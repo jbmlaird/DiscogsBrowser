@@ -12,10 +12,10 @@ import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
 public class MasterPresenter implements MasterContract.Presenter
 {
     private DiscogsInteractor discogsInteractor;
-    private MasterController controller;
+    private MasterEpxController controller;
     private MySchedulerProvider mySchedulerProvider;
 
-    public MasterPresenter(@NonNull DiscogsInteractor discogsInteractor, @NonNull MasterController masterController, @NonNull MySchedulerProvider mySchedulerProvider)
+    public MasterPresenter(@NonNull DiscogsInteractor discogsInteractor, @NonNull MasterEpxController masterController, @NonNull MySchedulerProvider mySchedulerProvider)
     {
         this.discogsInteractor = discogsInteractor;
         this.controller = masterController;

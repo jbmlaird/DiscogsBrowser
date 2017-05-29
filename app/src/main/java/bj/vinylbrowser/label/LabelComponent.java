@@ -10,7 +10,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {LabelModule.class})
 public interface LabelComponent
 {
-    void inject(LabelActivity labelActivity);
+    void inject(LabelController labelController);
 
     @Subcomponent.Builder
     interface Builder

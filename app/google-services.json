@@ -1,14 +1,14 @@
 {
   "project_info": {
     "project_number": "409269652199",
-    "project_id": "discogsbrowser-166009"
+    "project_id": "vinylbrowser-166009"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:409269652199:android:dadfee33f8cc067b",
         "android_client_info": {
-          "package_name": "bj.discogsbrowser"
+          "package_name": "bj.vinylbrowser"
         }
       },
       "oauth_client": [],

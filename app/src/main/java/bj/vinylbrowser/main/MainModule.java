@@ -3,6 +3,7 @@ package bj.vinylbrowser.main;
 import android.content.Context;
 
 import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.first.FirstPresenter;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.network.DiscogsInteractor;
 import bj.vinylbrowser.utils.DateFormatter;
@@ -53,18 +54,18 @@ public class MainModule
 
     @Provides
     @ActivityScope
-    protected MainController providesMainController(Context context, SharedPrefsManager sharedPrefsManager,
-                                                    ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
+    protected MainEpxController providesMainController(Context context, SharedPrefsManager sharedPrefsManager,
+                                                       ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
     {
-        return new MainController(context, mView, sharedPrefsManager, imageViewAnimator, dateFormatter, tracker);
+        return new MainEpxController(context, mView, sharedPrefsManager, imageViewAnimator, dateFormatter, tracker);
     }
 
     @Provides
     @ActivityScope
-    protected MainPresenter providesMainPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
-                                                  NavigationDrawerBuilder builder, MainController controller, SharedPrefsManager sharedPrefsManager,
-                                                  LogWrapper log, DaoManager daoManager, AnalyticsTracker tracker)
+    protected FirstPresenter providesMainPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
+                                                   NavigationDrawerBuilder builder, MainEpxController controller, SharedPrefsManager sharedPrefsManager,
+                                                   LogWrapper log, DaoManager daoManager, AnalyticsTracker tracker)
     {
-        return new MainPresenter(context, mView, discogsInteractor, mySchedulerProvider, builder, controller, sharedPrefsManager, log, daoManager, tracker);
+        return new FirstPresenter(context, mView, discogsInteractor, mySchedulerProvider, builder, controller, sharedPrefsManager, log, daoManager, tracker);
     }
 }

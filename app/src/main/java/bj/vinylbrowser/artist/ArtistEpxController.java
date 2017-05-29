@@ -6,7 +6,7 @@ import bj.vinylbrowser.R;
 import bj.vinylbrowser.epoxy.artist.MemberModel_;
 import bj.vinylbrowser.epoxy.artist.UrlModel_;
 import bj.vinylbrowser.epoxy.artist.ViewReleasesModel_;
-import bj.vinylbrowser.epoxy.common.BaseController;
+import bj.vinylbrowser.epoxy.common.BaseEpxController;
 import bj.vinylbrowser.epoxy.common.DividerModel_;
 import bj.vinylbrowser.epoxy.common.EmptySpaceModel_;
 import bj.vinylbrowser.epoxy.common.LoadingModel_;
@@ -21,7 +21,7 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 /**
  * Created by Josh Laird on 21/04/2017.
  */
-public class ArtistController extends BaseController
+public class ArtistEpxController extends BaseEpxController
 {
     private final ArtistContract.View view;
     private final Context context;
@@ -31,7 +31,7 @@ public class ArtistController extends BaseController
     private boolean error;
     private AnalyticsTracker tracker;
 
-    public ArtistController(ArtistContract.View view, Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
+    public ArtistEpxController(ArtistContract.View view, Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         this.view = view;
         this.context = context;

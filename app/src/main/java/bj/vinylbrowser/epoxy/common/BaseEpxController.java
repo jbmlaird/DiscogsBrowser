@@ -6,7 +6,7 @@ import com.airbnb.epoxy.EpoxyController;
 /**
  * Created by Josh Laird on 25/04/2017.
  */
-public abstract class BaseController extends EpoxyController
+public abstract class BaseEpxController extends EpoxyController
 {
     public String title = "";
     public String subtitle = "";
