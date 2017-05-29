@@ -3,15 +3,19 @@
 <img src="/featuregraphic/featuregraphic.png" height=300/>
 
 # DiscogsBrowser
-Android app to interact with the [Discogs' public API](https://www.discogs.com/developers). This is production-ready, tested, MVP code that is an example of a medium-sized Android app with modern architecture.
+Native Android app to interact with the [Discogs' public API](https://www.discogs.com/developers). This is production-ready and tested code that is an example of a live app with modern architecture.
 
-The UI design is inspired by AirBnB's Android app and is similar in (the best looking) places
+The UI design is inspired by AirBnB's Android app and is similar in (the best looking) places.
 
-![app_gif](https://media.giphy.com/media/UHn06Zh8EBCGA/giphy.gif) ![another_app_gif](https://media.giphy.com/media/3IH00o747keju/giphy.gif)
+![app_gif](https://media.giphy.com/media/dVWMCW4rFiyZi/giphy.gif)
+
+# Contributions
+
+Pull requests are welcome and encouraged! Unit tests are necessary to be merged and UI tests preferable (if a UI change).
 
 # Usage
 
-I am awaiting a ticket to be resolved by Google as apparently this app violates their [Impersonation policy](https://play.google.com/about/ip-deception-spam/impersonation-ip/impersonation/) (probably due to sharing a similar name to the Discogs app). A direct APK can be downloaded from my BuddyBuild [here](https://downloads.buddybuild.com/api/download/download-apk?buildID=591cb0a49d09010001e9ed39&application_variant=release) in the meantime.
+You can either copy from source or install [from the store](https://play.google.com/store/apps/details?id=bj.vinylbrowser). Due to the Play Store policies it's uploaded with the name VinylBrowser and uses a different feature graphic.
 
 # Technical
 
@@ -37,8 +41,8 @@ Of course, the usual testing frameworks plus [DaggerMock](https://github.com/fab
 * [DaggerMock](https://github.com/fabioCollini/DaggerMock) - will change your life
 
 Others:
-* [ButterKnife](https://github.com/JakeWharton/butterknife) - view binding
-* [Glide](https://github.com/bumptech/glide) - image loading and caching
+* [ButterKnife](https://github.com/JakeWharton/butterknife)
+* [Glide](https://github.com/bumptech/glide)
 * [Jsoup](https://jsoup.org/) - [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) for Java
 * [CircleImageView](https://github.com/hdodenhof/CircleImageView)
 * [Toasty](https://github.com/GrenderG/Toasty)
