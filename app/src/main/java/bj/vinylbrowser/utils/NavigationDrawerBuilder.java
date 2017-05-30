@@ -7,6 +7,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -26,10 +28,11 @@ import org.fuckboilerplate.rx_social_connect.RxSocialConnect;
 
 import bj.vinylbrowser.R;
 import bj.vinylbrowser.about.AboutActivity;
-import bj.vinylbrowser.first.FirstActivity;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.login.LoginActivity;
-import bj.vinylbrowser.singlelist.SingleListActivity;
+import bj.vinylbrowser.main.MainActivity;
+import bj.vinylbrowser.search.SearchController;
+import bj.vinylbrowser.singlelist.SingleListController;
 
 /**
  * Created by Josh Laird on 16/04/2017.
@@ -49,7 +52,7 @@ public class NavigationDrawerBuilder
         this.daoManager = daoManager;
     }
 
-    public Drawer buildNavigationDrawer(FirstActivity activity, Toolbar toolbar)
+    public Drawer buildNavigationDrawer(MainActivity activity, Toolbar toolbar)
     {
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -99,19 +102,29 @@ public class NavigationDrawerBuilder
                             switch ((int) drawerItem.getIdentifier())
                             {
                                 case 1:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.drawer_item_collection, sharedPrefsManager.getUsername()));
+                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.drawer_item_collection, sharedPrefsManager.getUsername()))
+                                            .popChangeHandler(new FadeChangeHandler())
+                                            .pushChangeHandler(new FadeChangeHandler()));
                                     break;
                                 case 2:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.drawer_item_wantlist, sharedPrefsManager.getUsername()));
+                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.drawer_item_wantlist, sharedPrefsManager.getUsername()))
+                                            .popChangeHandler(new FadeChangeHandler())
+                                            .pushChangeHandler(new FadeChangeHandler()));
                                     break;
                                 case 3001:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.selling, sharedPrefsManager.getUsername()));
+                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.selling, sharedPrefsManager.getUsername()))
+                                            .popChangeHandler(new FadeChangeHandler())
+                                            .pushChangeHandler(new FadeChangeHandler()));
                                     break;
                                 case 3002:
-                                    activity.startActivity(SingleListActivity.createIntent(activity, R.string.orders, sharedPrefsManager.getUsername()));
+                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.orders, sharedPrefsManager.getUsername()))
+                                            .popChangeHandler(new FadeChangeHandler())
+                                            .pushChangeHandler(new FadeChangeHandler()));
                                     break;
                                 case 4:
-//                                    activity.startActivity(SearchActivity.createIntent(activity));
+                                    activity.getRouter().pushController(RouterTransaction.with(new SearchController())
+                                            .popChangeHandler(new FadeChangeHandler())
+                                            .pushChangeHandler(new FadeChangeHandler()));
                                     break;
 //                                case 5:
 //                                    // TODO: Implement Settings

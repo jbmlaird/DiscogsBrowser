@@ -27,7 +27,7 @@ class ArtistReleasesPresenterTest {
     val id = "123"
     lateinit var presenter: ArtistReleasesPresenter
     val view: ArtistReleasesContract.View = mock()
-    val controller: ArtistReleasesController = mock()
+    val epxController: ArtistReleasesEpxController = mock()
     val discogsInteractor: DiscogsInteractor = mock()
     lateinit var testScheduler: TestScheduler
     val artistReleasesTransformer: ArtistReleasesTransformer = mock()
@@ -39,13 +39,13 @@ class ArtistReleasesPresenterTest {
         val artistReleaseBehaviorRelay: ArtistReleaseBehaviorRelay = mock {
             on { artistReleaseBehaviorRelay } doReturn BehaviorRelay.create<List<ArtistRelease>>()
         }
-        presenter = ArtistReleasesPresenter(view, discogsInteractor, controller, artistReleaseBehaviorRelay,
+        presenter = ArtistReleasesPresenter(view, discogsInteractor, epxController, artistReleaseBehaviorRelay,
                 TestSchedulerProvider(testScheduler), artistReleasesTransformer)
     }
 
     @After
     fun tearDown() {
-        verifyNoMoreInteractions(view, discogsInteractor, controller, artistReleasesTransformer)
+        verifyNoMoreInteractions(view, discogsInteractor, epxController, artistReleasesTransformer)
     }
 
     @Test
@@ -57,7 +57,7 @@ class ArtistReleasesPresenterTest {
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchArtistsReleases(id)
-        verify(controller).setError("Unable to fetch Artist Releases")
+        verify(epxController).setError("Unable to fetch Artist Releases")
     }
 
     @Test
@@ -84,7 +84,7 @@ class ArtistReleasesPresenterTest {
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchArtistsReleases(id)
-        verify(controller, times(1)).setError(any(String::class.java))
+        verify(epxController, times(1)).setError(any(String::class.java))
     }
 
     @Test

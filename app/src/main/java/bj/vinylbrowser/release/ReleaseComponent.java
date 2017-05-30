@@ -10,7 +10,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {ReleaseModule.class})
 public interface ReleaseComponent
 {
-    void inject(ReleaseActivity releaseActivity);
+    void inject(ReleaseController controller);
 
     @Subcomponent.Builder
     interface Builder

@@ -10,13 +10,13 @@ public class OrderPresenter implements OrderContract.Presenter
 {
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
-    private OrderController orderController;
+    private OrderEpxController orderEpxController;
 
-    public OrderPresenter(DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, OrderController orderController)
+    public OrderPresenter(DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, OrderEpxController orderEpxController)
     {
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
-        this.orderController = orderController;
+        this.orderEpxController = orderEpxController;
     }
 
     /**
@@ -29,11 +29,11 @@ public class OrderPresenter implements OrderContract.Presenter
     {
         discogsInteractor.fetchOrderDetails(orderId)
                 .subscribeOn(mySchedulerProvider.io())
-                .doOnSubscribe(onSubscribe -> orderController.setLoadingOrder(true))
+                .doOnSubscribe(onSubscribe -> orderEpxController.setLoadingOrder(true))
                 .observeOn(mySchedulerProvider.ui())
                 .subscribe(orderDetails ->
-                                orderController.setOrderDetails(orderDetails),
+                                orderEpxController.setOrderDetails(orderDetails),
                         error ->
-                                orderController.setError(true));
+                                orderEpxController.setError(true));
     }
 }

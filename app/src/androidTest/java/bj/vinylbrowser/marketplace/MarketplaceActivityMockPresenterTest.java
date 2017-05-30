@@ -56,7 +56,7 @@ public class MarketplaceActivityMockPresenterTest
     private String listingId = "listingId";
     private Listing listing = ListingFactory.buildListing("");
     private UserDetails testUserDetails = UserDetailsFactory.buildUserDetails();
-    private MarketplaceController controller;
+    private MarketplaceEpxController controller;
 
     @Before
     public void setUp() throws InterruptedException

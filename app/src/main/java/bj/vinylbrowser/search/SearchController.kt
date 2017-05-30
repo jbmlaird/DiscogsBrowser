@@ -1,6 +1,7 @@
 package bj.vinylbrowser.search
 
 import android.content.Context
+import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -14,14 +15,17 @@ import android.widget.EditText
 import bj.vinylbrowser.App
 import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
-import bj.vinylbrowser.artist.ArtistActivity
+import bj.vinylbrowser.artist.ArtistController
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.customviews.MyRecyclerView
-import bj.vinylbrowser.master.MasterActivity
+import bj.vinylbrowser.label.LabelController
+import bj.vinylbrowser.master.MasterController
 import bj.vinylbrowser.model.search.SearchResult
-import bj.vinylbrowser.release.ReleaseActivity
+import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider
+import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout
 import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
@@ -68,6 +72,16 @@ class SearchController : BaseController(), SearchContract.View {
         presenter.dispose()
     }
 
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        outState.putParcelableArrayList("searchResults", controller.searchResults as ArrayList<SearchResult>)
+        super.onSaveViewState(view, outState)
+    }
+
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+        controller.setSearchResults(savedViewState.get("searchResults") as MutableList<SearchResult>?)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.activity_search, container, false)
         setupComponent(App.appComponent)
@@ -101,6 +115,7 @@ class SearchController : BaseController(), SearchContract.View {
      */
     override fun searchIntent(): Observable<SearchViewQueryTextEvent> {
         return RxSearchView.queryTextChangeEvents(searchView)
+                .skipInitialValue()
                 .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
                 .subscribeOn(mySchedulerProvider.ui())
                 .map { searchViewQueryTextEvent ->
@@ -125,11 +140,21 @@ class SearchController : BaseController(), SearchContract.View {
 
     override fun startDetailedActivity(searchResult: SearchResult?) {
         tracker.send(applicationContext?.getString(R.string.search_activity), applicationContext?.getString(R.string.search_activity), applicationContext?.getString(R.string.clicked), "detailedActivity", "1")
+        val imm = applicationContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
         when (searchResult?.type) {
-            "release" -> startActivity(ReleaseActivity.createIntent(applicationContext, searchResult?.title, searchResult?.id))
-//            "label" -> startActivity(LabelController.createIntent(applicationContext, searchResult?.title, searchResult?.id))
-            "artist" -> startActivity(ArtistActivity.createIntent(applicationContext, searchResult?.title, searchResult?.id))
-            "master" -> startActivity(MasterActivity.createIntent(applicationContext, searchResult?.title, searchResult?.id))
+            "release" -> router.pushController(RouterTransaction.with(ReleaseController(searchResult.title, searchResult.id))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler()))
+            "label" -> router.pushController(RouterTransaction.with(LabelController(searchResult.title, searchResult.id))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler()))
+            "artist" -> router.pushController(RouterTransaction.with(ArtistController(searchResult.title, searchResult.id))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler()))
+            "master" -> router.pushController(RouterTransaction.with(MasterController(searchResult.title, searchResult.id))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler()))
         }
     }
 

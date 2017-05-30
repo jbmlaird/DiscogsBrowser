@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:fitsSystemWindows="true"
-    tools:mContext="bj.vinylbrowser.first.FirstActivity"
+    tools:mContext="bj.vinylbrowser.main.MainActivity"
     >
 
     <FrameLayout

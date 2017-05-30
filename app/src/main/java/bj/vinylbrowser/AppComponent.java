@@ -4,11 +4,11 @@ import javax.inject.Singleton;
 
 import bj.vinylbrowser.artist.ArtistComponent;
 import bj.vinylbrowser.artistreleases.ArtistReleasesComponent;
-import bj.vinylbrowser.first.FirstComponent;
+import bj.vinylbrowser.main.MainComponent;
 import bj.vinylbrowser.greendao.DaoModule;
 import bj.vinylbrowser.label.LabelComponent;
 import bj.vinylbrowser.login.LoginComponent;
-import bj.vinylbrowser.main.MainComponent;
+import bj.vinylbrowser.home.HomeComponent;
 import bj.vinylbrowser.marketplace.MarketplaceComponent;
 import bj.vinylbrowser.master.MasterComponent;
 import bj.vinylbrowser.order.OrderComponent;
@@ -33,13 +33,13 @@ public interface AppComponent
 
     ArtistReleasesComponent.Builder artistReleasesComponentBuilder();
 
-    FirstComponent.Builder firstComponentBuilder();
+    MainComponent.Builder firstComponentBuilder();
 
     LabelComponent.Builder labelComponentBuilder();
 
     LoginComponent.Builder loginComponentBuilder();
 
-    MainComponent.Builder mainComponentBuilder();
+    HomeComponent.Builder mainComponentBuilder();
 
     MarketplaceComponent.Builder marketplaceComponentBuilder();
 

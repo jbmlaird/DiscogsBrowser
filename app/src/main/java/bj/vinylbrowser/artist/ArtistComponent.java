@@ -10,7 +10,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {ArtistModule.class})
 public interface ArtistComponent
 {
-    void inject(ArtistActivity artistActivity);
+    void inject(ArtistController controller);
 
     @Subcomponent.Builder
     interface Builder

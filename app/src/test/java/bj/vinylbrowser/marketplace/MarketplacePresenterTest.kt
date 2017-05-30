@@ -23,19 +23,19 @@ class MarketplacePresenterTest {
     val context: Context = mock()
     val view: MarketplaceContract.View  = mock()
     val discogsInteractor: DiscogsInteractor = mock()
-    val controller: MarketplaceController = mock()
+    val epxController: MarketplaceEpxController = mock()
     lateinit var testScheduler: TestScheduler
     val listingId = "123"
 
     @Before
     fun setUp() {
         testScheduler = TestScheduler()
-        presenter = MarketplacePresenter(context, view, discogsInteractor, TestSchedulerProvider(testScheduler), controller)
+        presenter = MarketplacePresenter(context, view, discogsInteractor, TestSchedulerProvider(testScheduler), epxController)
     }
 
     @After
     fun tearDown() {
-        verifyNoMoreInteractions(view, discogsInteractor, controller)
+        verifyNoMoreInteractions(view, discogsInteractor, epxController)
     }
 
     @Test
@@ -45,9 +45,9 @@ class MarketplacePresenterTest {
         presenter.getListingDetails(listingId)
         testScheduler.triggerActions()
 
-        verify(controller, times(1)).setLoading(true)
+        verify(epxController, times(1)).setLoading(true)
         verify(discogsInteractor, times(1)).fetchListingDetails(listingId)
-        verify(controller, times(1)).setError(true)
+        verify(epxController, times(1)).setError(true)
     }
 
     @Test
@@ -60,11 +60,11 @@ class MarketplacePresenterTest {
         presenter.getListingDetails(listingId)
         testScheduler.triggerActions()
 
-        verify(controller, times(1)).setLoading(true)
+        verify(epxController, times(1)).setLoading(true)
         verify(discogsInteractor, times(1)).fetchListingDetails(listingId)
         verify(discogsInteractor, times(1)).fetchUserDetails(listing.seller.username)
-        verify(controller, times(1)).setListing(listing)
-        verify(controller, times(1)).setSellerDetails(userDetails)
+        verify(epxController, times(1)).setListing(listing)
+        verify(epxController, times(1)).setSellerDetails(userDetails)
     }
 
     @Test
@@ -77,10 +77,10 @@ class MarketplacePresenterTest {
         presenter.getListingDetails(listingId)
         testScheduler.triggerActions()
 
-        verify(controller, times(1)).setLoading(true)
+        verify(epxController, times(1)).setLoading(true)
         verify(discogsInteractor, times(1)).fetchListingDetails(listingId)
         verify(discogsInteractor, times(1)).fetchUserDetails(listing.seller.username)
-        verify(controller, times(1)).setListing(listing)
-        verify(controller, times(1)).setSellerDetails(userDetails)
+        verify(epxController, times(1)).setListing(listing)
+        verify(epxController, times(1)).setSellerDetails(userDetails)
     }
 }

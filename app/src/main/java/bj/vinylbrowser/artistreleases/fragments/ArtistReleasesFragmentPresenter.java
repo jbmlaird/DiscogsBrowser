@@ -5,7 +5,7 @@ import com.jakewharton.rxrelay2.BehaviorRelay;
 import java.util.List;
 
 import bj.vinylbrowser.artistreleases.ArtistReleaseBehaviorRelay;
-import bj.vinylbrowser.artistreleases.ArtistReleasesController;
+import bj.vinylbrowser.artistreleases.ArtistReleasesEpxController;
 import bj.vinylbrowser.model.artistrelease.ArtistRelease;
 import bj.vinylbrowser.utils.rxmodifiers.ArtistReleasesTransformer;
 import bj.vinylbrowser.utils.rxmodifiers.ArtistResultFunction;
@@ -23,7 +23,7 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
     private BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     private MySchedulerProvider mySchedulerProvider;
     private ArtistReleasesTransformer artistReleasesTransformer;
-    private ArtistReleasesController controller;
+    private ArtistReleasesEpxController controller;
 
     public ArtistReleasesFragmentPresenter(CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
                                            ArtistReleaseBehaviorRelay behaviorRelay, MySchedulerProvider mySchedulerProvider,
@@ -62,9 +62,9 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
     }
 
     @Override
-    public void bind(ArtistReleasesFragment fragment)
+    public void bind(ArtistReleasesChildController controller)
     {
-        controller = fragment.getController();
+        this.controller = controller.getController();
     }
 
     @Override

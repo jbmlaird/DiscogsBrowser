@@ -16,10 +16,10 @@ public class MarketplacePresenter implements MarketplaceContract.Presenter
     private MarketplaceContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
-    private MarketplaceController controller;
+    private MarketplaceEpxController controller;
 
     public MarketplacePresenter(@NonNull Context context, @NonNull MarketplaceContract.View view, @NonNull DiscogsInteractor discogsInteractor, @NonNull MySchedulerProvider mySchedulerProvider,
-                                @NonNull MarketplaceController controller)
+                                @NonNull MarketplaceEpxController controller)
     {
         this.context = context;
         this.view = view;

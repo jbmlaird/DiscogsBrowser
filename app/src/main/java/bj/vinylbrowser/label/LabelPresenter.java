@@ -27,7 +27,7 @@ public class LabelPresenter implements LabelContract.Presenter
      * @param id Label ID.
      */
     @Override
-    public void fetchReleaseDetails(String id)
+    public void fetchArtistDetails(String id)
     {
         discogsInteractor.fetchLabelDetails(id)
                 .doOnSubscribe(onSubscribe -> controller.setLoading(true))

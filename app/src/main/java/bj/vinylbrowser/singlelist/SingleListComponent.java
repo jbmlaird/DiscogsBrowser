@@ -10,7 +10,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {SingleListModule.class})
 public interface SingleListComponent
 {
-    void inject(SingleListActivity singleListActivity);
+    void inject(SingleListController controller);
 
     @Subcomponent.Builder
     interface Builder

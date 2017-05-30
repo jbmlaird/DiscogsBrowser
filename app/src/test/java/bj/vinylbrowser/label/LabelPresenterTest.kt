@@ -42,7 +42,7 @@ class LabelPresenterTest {
         whenever(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label))
         whenever(discogsInteractor.fetchLabelReleases(id)).thenReturn(Single.just(emptyList))
 
-        presenter.fetchReleaseDetails(id)
+        presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
 
         verify(discogsInteractor, times(1)).fetchLabelDetails(id)
@@ -61,7 +61,7 @@ class LabelPresenterTest {
         whenever(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.just(label))
         whenever(discogsInteractor.fetchLabelReleases(id)).thenReturn(Single.just<List<LabelRelease>>(labelReleases))
 
-        presenter.fetchReleaseDetails(id)
+        presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
 
         verify(discogsInteractor, times(1)).fetchLabelDetails(id)
@@ -75,7 +75,7 @@ class LabelPresenterTest {
     fun fetchLabelDetailsError_controllerError() {
         whenever(discogsInteractor.fetchLabelDetails(id)).thenReturn(Single.error<Label>(Throwable()))
 
-        presenter.fetchReleaseDetails(id)
+        presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
 
         verify(discogsInteractor, times(1)).fetchLabelDetails(id)

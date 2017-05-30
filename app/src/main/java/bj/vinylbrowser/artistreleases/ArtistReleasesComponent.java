@@ -11,7 +11,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {ArtistReleasesModule.class})
 public interface ArtistReleasesComponent
 {
-    void inject(ArtistReleasesActivity artistReleasesActivity);
+    void inject(ArtistReleasesController controller);
 
     ArtistReleasesFragmentComponent.Builder artistReleasesFragmentComponentBuilder();
 

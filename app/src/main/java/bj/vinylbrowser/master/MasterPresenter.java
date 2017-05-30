@@ -28,7 +28,7 @@ public class MasterPresenter implements MasterContract.Presenter
      * @param labelId Label ID.
      */
     @Override
-    public void fetchReleaseDetails(String labelId)
+    public void fetchArtistDetails(String labelId)
     {
         discogsInteractor.fetchMasterDetails(labelId)
                 .doOnSubscribe(onSubscribe -> controller.setLoading(true))

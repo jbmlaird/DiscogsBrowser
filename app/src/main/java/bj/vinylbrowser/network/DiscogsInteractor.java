@@ -25,8 +25,8 @@ import bj.vinylbrowser.model.release.Release;
 import bj.vinylbrowser.model.search.RootSearchResponse;
 import bj.vinylbrowser.model.search.SearchResult;
 import bj.vinylbrowser.model.user.UserDetails;
-import bj.vinylbrowser.model.version.RootVersionsResponse;
 import bj.vinylbrowser.model.version.MasterVersion;
+import bj.vinylbrowser.model.version.RootVersionsResponse;
 import bj.vinylbrowser.model.wantlist.AddToWantlistResponse;
 import bj.vinylbrowser.model.wantlist.RootWantlistResponse;
 import bj.vinylbrowser.model.wantlist.Want;
@@ -94,13 +94,16 @@ public class DiscogsInteractor
                 .subscribeOn(mySchedulerProvider.io())
                 .map(artistResult ->
                 {
-                    if (artistResult.getProfile() != null)
+                    if (!artistResult.getProfile().equals(""))
                     {
                         artistResult.setProfile(artistResult.getProfile().replace("[a=", ""));
+                        artistResult.setProfile(artistResult.getProfile().replace("[A=", ""));
+                        artistResult.setProfile(artistResult.getProfile().replace("[l=", ""));
                         artistResult.setProfile(artistResult.getProfile().replace("[i]", ""));
                         artistResult.setProfile(artistResult.getProfile().replace("[/l]", ""));
                         artistResult.setProfile(artistResult.getProfile().replace("[/I]", ""));
                         artistResult.setProfile(artistResult.getProfile().replace("[/i]", ""));
+                        artistResult.setProfile(artistResult.getProfile().replace("]", ""));
                     }
                     return artistResult;
                 });
@@ -290,10 +293,13 @@ public class DiscogsInteractor
                 .subscribeOn(mySchedulerProvider.io())
                 .map(label ->
                 {
-                    if (label.getProfile() != null)
+                    if (!label.getProfile().equals(""))
                     {
                         label.setProfile(label.getProfile().replace("[a=", ""));
+                        label.setProfile(label.getProfile().replace("[l=", ""));
                         label.setProfile(label.getProfile().replace("[i]", ""));
+                        label.setProfile(label.getProfile().replace("[b]", ""));
+                        label.setProfile(label.getProfile().replace("[/b]", ""));
                         label.setProfile(label.getProfile().replace("[/l]", ""));
                         label.setProfile(label.getProfile().replace("[/I]", ""));
                         label.setProfile(label.getProfile().replace("]", ""));

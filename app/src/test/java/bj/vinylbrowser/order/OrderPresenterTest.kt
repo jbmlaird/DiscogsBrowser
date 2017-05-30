@@ -23,16 +23,16 @@ class OrderPresenterTest {
     lateinit var presenter: OrderPresenter
     val discogsInteractor: DiscogsInteractor = mock()
     val testScheduler = TestScheduler()
-    val controller: OrderController = mock()
+    val epxController: OrderEpxController = mock()
 
     @Before
     fun setUp() {
-        presenter = OrderPresenter(discogsInteractor, TestSchedulerProvider(testScheduler), controller)
+        presenter = OrderPresenter(discogsInteractor, TestSchedulerProvider(testScheduler), epxController)
     }
 
     @After
     fun tearDown() {
-        verifyNoMoreInteractions(discogsInteractor, controller)
+        verifyNoMoreInteractions(discogsInteractor, epxController)
     }
 
     @Test
@@ -46,8 +46,8 @@ class OrderPresenterTest {
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchOrderDetails(orderId)
-        verify(controller).setLoadingOrder(true)
-        verify(controller).setOrderDetails(order)
+        verify(epxController).setLoadingOrder(true)
+        verify(epxController).setOrderDetails(order)
     }
 
     @Test
@@ -60,7 +60,7 @@ class OrderPresenterTest {
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchOrderDetails(orderId)
-        verify(controller).setLoadingOrder(true)
-        verify(controller).setError(true)
+        verify(epxController).setLoadingOrder(true)
+        verify(epxController).setError(true)
     }
 }

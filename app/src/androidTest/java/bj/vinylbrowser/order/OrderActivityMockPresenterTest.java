@@ -44,7 +44,7 @@ public class OrderActivityMockPresenterTest
     @Mock ImageViewAnimator imageViewAnimator;
     private String orderId = "orderId";
     private OrderActivity activity;
-    private OrderController controller;
+    private OrderEpxController controller;
     private Order order = OrderFactory.buildOneOrderWithItems(2);
 
     @Before

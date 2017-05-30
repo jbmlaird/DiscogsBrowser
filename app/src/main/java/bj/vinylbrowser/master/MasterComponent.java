@@ -10,7 +10,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {MasterModule.class})
 public interface MasterComponent
 {
-    void inject(MasterActivity masterActivity);
+    void inject(MasterController controller);
 
     @Subcomponent.Builder
     interface Builder

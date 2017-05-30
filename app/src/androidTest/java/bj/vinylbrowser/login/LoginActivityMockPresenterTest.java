@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import bj.vinylbrowser.R;
-import bj.vinylbrowser.first.FirstActivity;
+import bj.vinylbrowser.main.MainActivity;
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule;
 import bj.vinylbrowser.testutils.TestUtils;
 import bj.vinylbrowser.utils.ImageViewAnimator;
@@ -88,13 +88,13 @@ public class LoginActivityMockPresenterTest
             mActivityTestRule.getActivity().finishActivityLaunchMain();
             return invocation;
         }).when(presenter).beginLogin();
-        TestUtils.stubIntentClass(FirstActivity.class);
+        TestUtils.stubIntentClass(MainActivity.class);
         mActivityTestRule.launchActivity(null);
 
         onView(withId(R.id.btnLogin)).perform(click());
 
         assertTrue(mActivityTestRule.getActivity().isFinishing());
-        intended(hasComponent(FirstActivity.class.getName()));
+        intended(hasComponent(MainActivity.class.getName()));
         Intents.release();
     }
 }

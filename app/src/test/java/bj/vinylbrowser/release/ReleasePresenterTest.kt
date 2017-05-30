@@ -52,7 +52,7 @@ class ReleasePresenterTest {
     fun getReleaseAndLabelDetailsError_displaysError() {
         whenever(discogsInteractor.fetchReleaseDetails(id)).thenReturn(Single.error<Release>(Throwable()))
 
-        presenter.fetchReleaseDetails(id)
+        presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchReleaseDetails(id)
@@ -115,7 +115,7 @@ class ReleasePresenterTest {
         whenever(discogsInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just<List<Want>>(emptyList()))
         whenever(controller.release).thenReturn(releaseNoLabelNoneForSale)
 
-        presenter.fetchReleaseDetails(id)
+        presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchReleaseDetails(id)
@@ -141,7 +141,7 @@ class ReleasePresenterTest {
         whenever(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just<List<Want>>(emptyList()))
         whenever(controller.release).thenReturn(releaseWithLabelNoneForSale)
 
-        presenter.fetchReleaseDetails(id)
+        presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchReleaseDetails(id)
@@ -171,7 +171,7 @@ class ReleasePresenterTest {
         whenever(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just<List<Want>>(emptyList()))
         whenever(controller.release).thenReturn(releaseWithLabelSomeForSale)
 
-        presenter.fetchReleaseDetails(id)
+        presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchReleaseDetails(id)

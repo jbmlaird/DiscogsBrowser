@@ -46,7 +46,7 @@ class SingleListPresenterTest {
     val view: SingleListContract.View = mock()
     val discogsInteractor: DiscogsInteractor = mock()
     var testScheduler = TestScheduler()
-    val controller: SingleListController = mock()
+    val controller: SingleListEpxController = mock()
     val compositeDisposable: CompositeDisposable = mock()
     val filterHelper: FilterHelper = mock()
 

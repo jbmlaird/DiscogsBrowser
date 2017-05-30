@@ -40,15 +40,15 @@ public class SingleListModule
 
     @Provides
     @ActivityScope
-    protected SingleListController provideController(Context context, ImageViewAnimator imageViewAnimator)
+    protected SingleListEpxController provideController(Context context, ImageViewAnimator imageViewAnimator)
     {
-        return new SingleListController(context, view, imageViewAnimator);
+        return new SingleListEpxController(context, view, imageViewAnimator);
     }
 
     @Provides
     @ActivityScope
     protected SingleListPresenter providePresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
-                                                   SingleListController controller, FilterHelper filterHelper)
+                                                   SingleListEpxController controller, FilterHelper filterHelper)
     {
         return new SingleListPresenter(context, view, discogsInteractor, mySchedulerProvider, controller,
                 new CompositeDisposable(), filterHelper);

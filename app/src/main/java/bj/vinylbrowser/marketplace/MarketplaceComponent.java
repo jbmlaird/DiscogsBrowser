@@ -10,7 +10,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {MarketplaceModule.class})
 public interface MarketplaceComponent
 {
-    void inject(MarketplaceListingActivity marketplaceListingActivity);
+    void inject(MarketplaceController controller);
 
     @Subcomponent.Builder
     interface Builder

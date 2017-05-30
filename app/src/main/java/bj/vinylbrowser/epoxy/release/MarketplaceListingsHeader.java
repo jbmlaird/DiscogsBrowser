@@ -28,7 +28,7 @@ public abstract class MarketplaceListingsHeader extends EpoxyModel<LinearLayout>
         ButterKnife.bind(this, view);
         if (numForSale.equals("0"))
         {
-            tvHeader.setText("Listings");
+            tvHeader.setText("Listings: ");
             tvMarketplaceSummary.setText("");
         }
         else

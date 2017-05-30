@@ -26,7 +26,7 @@ public class SearchEpxController extends EpoxyController
     private Context context;
     private SearchContract.View mView;
     private ImageViewAnimator imageViewAnimator;
-    private List<SearchResult> searchResults = new ArrayList<>();
+    List<SearchResult> searchResults = new ArrayList<>();
     private List<SearchTerm> searchTerms = new ArrayList<>();
     private boolean showPastSearches = true;
     private boolean showSearching = false;

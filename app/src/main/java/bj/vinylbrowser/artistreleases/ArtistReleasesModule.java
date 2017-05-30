@@ -45,14 +45,14 @@ public class ArtistReleasesModule
     }
 
     @Provides
-    protected ArtistReleasesController provideArtistReleasesController(Context context, ImageViewAnimator imageViewAnimator)
+    protected ArtistReleasesEpxController provideArtistReleasesController(Context context, ImageViewAnimator imageViewAnimator)
     {
-        return new ArtistReleasesController(context, view, imageViewAnimator);
+        return new ArtistReleasesEpxController(context, view, imageViewAnimator);
     }
 
     @Provides
     @ActivityScope
-    protected ArtistReleasesPresenter provideArtistReleasesPresenter(DiscogsInteractor discogsInteractor, ArtistReleasesController controller, ArtistReleaseBehaviorRelay behaviorRelay,
+    protected ArtistReleasesPresenter provideArtistReleasesPresenter(DiscogsInteractor discogsInteractor, ArtistReleasesEpxController controller, ArtistReleaseBehaviorRelay behaviorRelay,
                                                                      MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)
     {
         return new ArtistReleasesPresenter(view, discogsInteractor, controller, behaviorRelay, mySchedulerProvider, artistReleasesTransformer);

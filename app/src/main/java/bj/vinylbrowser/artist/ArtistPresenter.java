@@ -38,7 +38,7 @@ public class ArtistPresenter implements ArtistContract.Presenter
      * @param id Artist ID.
      */
     @Override
-    public void fetchReleaseDetails(String id)
+    public void fetchArtistDetails(String id)
     {
         discogsInteractor.fetchArtistDetails(id)
                 .doOnSubscribe(onSubscribe -> artistController.setLoading(true))

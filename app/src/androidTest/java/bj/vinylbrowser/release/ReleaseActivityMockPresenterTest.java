@@ -74,7 +74,7 @@ public class ReleaseActivityMockPresenterTest
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // Disable spinning to not cause Espresso timeout
-                invocation).when(presenter).fetchReleaseDetails(releaseId);
+                invocation).when(presenter).fetchArtistDetails(releaseId);
         activity = mActivityTestRule.launchActivity(startIntent);
         controller = activity.controller;
         controller.setRelease(release);

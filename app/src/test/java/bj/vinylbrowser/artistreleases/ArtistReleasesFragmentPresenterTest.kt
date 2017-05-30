@@ -1,6 +1,6 @@
 package bj.vinylbrowser.artistreleases
 
-import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesFragment
+import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesChildController
 import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesFragmentContract
 import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesFragmentPresenter
 import bj.vinylbrowser.model.artistrelease.ArtistRelease
@@ -32,7 +32,7 @@ class ArtistReleasesFragmentPresenterTest {
     val behaviorRelay = ArtistReleaseBehaviorRelay()
     val testScheduler = TestScheduler()
     val artistReleasesTransformer: ArtistReleasesTransformer = mock()
-    val controller: ArtistReleasesController = mock()
+    val epxController: ArtistReleasesEpxController = mock()
 
     @Before
     fun setup() {
@@ -43,7 +43,7 @@ class ArtistReleasesFragmentPresenterTest {
     @After
     fun tearDown() {
         verifyNoMoreInteractions(view, disposable, artistResultFunction,
-                artistReleasesTransformer, controller)
+                artistReleasesTransformer, epxController)
     }
 
     @Test
@@ -58,13 +58,13 @@ class ArtistReleasesFragmentPresenterTest {
     @Test
     @Throws(Exception::class)
     fun behaviorRelayValid_controllerDisplays() {
-        val mockArtistReleasesFragment: ArtistReleasesFragment = mock()
-        whenever(mockArtistReleasesFragment.controller).thenReturn(controller)
+        val mockChildController: ArtistReleasesChildController = mock()
+        whenever(mockChildController.controller).thenReturn(epxController)
         val artistReleases = ArrayList<ArtistRelease>()
         artistReleases.add(ArtistRelease())
         val just = Single.just<List<ArtistRelease>>(artistReleases)
 
-        presenter.bind(mockArtistReleasesFragment)
+        presenter.bind(mockChildController)
         whenever(disposable.add(any(Disposable::class.java))).thenReturn(true)
         whenever(artistResultFunction.apply(artistReleases)).thenReturn(artistReleases)
         whenever(artistReleasesTransformer.apply(any())).thenReturn(just)
@@ -77,14 +77,14 @@ class ArtistReleasesFragmentPresenterTest {
         verify(artistResultFunction, times(1)).setParameterToMapTo("filter")
         verify(artistResultFunction, times(1)).apply(artistReleases)
         verify(artistReleasesTransformer, times(1)).apply(any())
-        verify(controller, times(1)).setItems(artistReleases)
+        verify(epxController, times(1)).setItems(artistReleases)
     }
 
     @Test
     @Throws(Exception::class)
     fun behaviorRelayError_controllerSetsError() {
-        val mockArtistReleasesFragment: ArtistReleasesFragment = mock()
-        whenever(mockArtistReleasesFragment.controller).thenReturn(controller)
+        val mockChildController: ArtistReleasesChildController = mock()
+        whenever(mockChildController.controller).thenReturn(epxController)
         whenever(disposable.add(any<Disposable>())).thenReturn(true)
         val artistReleases = mutableListOf<ArtistRelease>()
         artistReleases.add(ArtistRelease())
@@ -93,7 +93,7 @@ class ArtistReleasesFragmentPresenterTest {
         whenever(artistResultFunction.apply(artistReleases)).thenReturn(artistReleases)
         whenever(artistReleasesTransformer.apply(any())).thenReturn(error)
 
-        presenter.bind(mockArtistReleasesFragment)
+        presenter.bind(mockChildController)
         presenter.connectToBehaviorRelay("filter")
         behaviorRelay.artistReleaseBehaviorRelay.accept(artistReleases)
         testScheduler.triggerActions()
@@ -102,6 +102,6 @@ class ArtistReleasesFragmentPresenterTest {
         verify(artistResultFunction, times(1)).setParameterToMapTo("filter")
         verify(artistResultFunction, times(1)).apply(artistReleases)
         verify(artistReleasesTransformer, times(1)).apply(any())
-        verify(controller, times(1)).setError(any<String>(String::class.java))
+        verify(epxController, times(1)).setError(any<String>(String::class.java))
     }
 }

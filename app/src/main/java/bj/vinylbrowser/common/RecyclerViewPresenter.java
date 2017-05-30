@@ -5,5 +5,5 @@ package bj.vinylbrowser.common;
  */
 public interface RecyclerViewPresenter
 {
-    void fetchReleaseDetails(String id);
+    void fetchArtistDetails(String id);
 }

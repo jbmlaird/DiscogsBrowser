@@ -18,12 +18,12 @@ public class ArtistReleasesPresenter implements ArtistReleasesContract.Presenter
 {
     private ArtistReleasesContract.View view;
     private DiscogsInteractor discogsInteractor;
-    private ArtistReleasesController controller;
+    private ArtistReleasesEpxController controller;
     private BehaviorRelay<List<ArtistRelease>> behaviorRelay;
     private MySchedulerProvider mySchedulerProvider;
     private ArtistReleasesTransformer artistReleasesTransformer;
 
-    public ArtistReleasesPresenter(ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, ArtistReleasesController controller,
+    public ArtistReleasesPresenter(ArtistReleasesContract.View view, DiscogsInteractor discogsInteractor, ArtistReleasesEpxController controller,
                                    ArtistReleaseBehaviorRelay behaviorRelay, MySchedulerProvider mySchedulerProvider,
                                    ArtistReleasesTransformer artistReleasesTransformer)
     {

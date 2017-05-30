@@ -60,7 +60,7 @@ public class SingleListMockPresenterTest
     private Integer type = R.string.orders;
     private String username = "dasmebro";
     private SingleListActivity singleListActivity;
-    private SingleListController controller;
+    private SingleListEpxController controller;
 
     @Before
     public void setUp()

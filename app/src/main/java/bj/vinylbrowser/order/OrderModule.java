@@ -32,14 +32,14 @@ public class OrderModule
 
     @Provides
     @ActivityScope
-    protected OrderController providesController(Context context, ImageViewAnimator animator, AnalyticsTracker tracker)
+    protected OrderEpxController providesController(Context context, ImageViewAnimator animator, AnalyticsTracker tracker)
     {
-        return new OrderController(context, view, animator, tracker);
+        return new OrderEpxController(context, view, animator, tracker);
     }
 
     @Provides
     @ActivityScope
-    protected OrderPresenter providesPresenter(DiscogsInteractor interactor, MySchedulerProvider provider, OrderController controller)
+    protected OrderPresenter providesPresenter(DiscogsInteractor interactor, MySchedulerProvider provider, OrderEpxController controller)
     {
         return new OrderPresenter(interactor, provider, controller);
     }

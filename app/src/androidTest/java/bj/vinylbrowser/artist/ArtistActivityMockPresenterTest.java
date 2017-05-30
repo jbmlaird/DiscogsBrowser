@@ -64,7 +64,7 @@ public class ArtistActivityMockPresenterTest
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // swallow
-                invocation).when(presenter).fetchReleaseDetails(artistId);
+                invocation).when(presenter).fetchArtistDetails(artistId);
 
         activity = mActivityTestRule.launchActivity(startingIntent);
     }

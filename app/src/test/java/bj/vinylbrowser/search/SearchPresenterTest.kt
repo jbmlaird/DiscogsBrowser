@@ -28,7 +28,7 @@ import java.util.*
 class SearchPresenterTest {
     lateinit var presenter: SearchPresenter
     val mView: SearchContract.View = mock()
-    val searchController: SearchController = mock()
+    val searchController: SearchEpxController = mock()
     val searchModelFunc: Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> = mock()
     val testScheduler = TestScheduler()
     val daoManager: DaoManager = mock()

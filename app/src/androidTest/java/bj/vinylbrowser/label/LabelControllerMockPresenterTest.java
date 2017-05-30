@@ -73,7 +73,7 @@ public class LabelControllerMockPresenterTest
                 invocation).when(imageViewAnimator).rotateImage(any());
         doAnswer(invocation ->
                 // swallow
-                invocation).when(presenter).fetchReleaseDetails("id");
+                invocation).when(presenter).fetchArtistDetails("id");
 
         activity = mActivityTestRule.launchActivity(startingIntent);
         activity.controller.setLabel(testLabel);

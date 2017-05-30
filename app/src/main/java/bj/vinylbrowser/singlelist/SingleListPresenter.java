@@ -28,13 +28,13 @@ public class SingleListPresenter implements SingleListContract.Presenter
     private SingleListContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
-    private SingleListController controller;
+    private SingleListEpxController controller;
     private CompositeDisposable disposable;
     private FilterHelper filterHelper;
     private List<? extends RecyclerViewModel> items = new ArrayList<>();
 
     public SingleListPresenter(Context context, SingleListContract.View view, DiscogsInteractor discogsInteractor,
-                               MySchedulerProvider mySchedulerProvider, SingleListController controller, CompositeDisposable disposable,
+                               MySchedulerProvider mySchedulerProvider, SingleListEpxController controller, CompositeDisposable disposable,
                                FilterHelper filterHelper)
     {
         this.context = context;

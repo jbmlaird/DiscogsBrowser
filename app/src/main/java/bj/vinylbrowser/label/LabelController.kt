@@ -2,29 +2,35 @@ package bj.vinylbrowser.label
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bj.vinylbrowser.App
 import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.customviews.MyRecyclerView
-import bj.vinylbrowser.release.ReleaseActivity
+import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
+import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import kotlinx.android.synthetic.main.content_main.view.*
 import javax.inject.Inject
 
 /**
  * Created by Josh Laird on 29/05/2017.
  */
-class LabelController : BaseController(), LabelContract.View {
+class LabelController(val title: String, val id: String) : BaseController(), LabelContract.View {
     @Inject lateinit var presenter: LabelPresenter
     @Inject lateinit var tracker: AnalyticsTracker
     @Inject lateinit var controller: LabelEpxController
     lateinit var recyclerView: MyRecyclerView
     lateinit var toolbar: Toolbar
+
+    constructor(args: Bundle) : this(args.getString("title"), args.getString("id"))
 
     override fun setupComponent(appComponent: AppComponent) {
         appComponent
@@ -36,10 +42,11 @@ class LabelController : BaseController(), LabelContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.activity_recyclerview, container, false)
+        setupComponent(App.appComponent)
         recyclerView = view.recyclerView
-        toolbar = view.toolbar
-        setupRecyclerView(recyclerView, controller, args.getString("title"))
-        presenter.fetchReleaseDetails(args.getString("id"))
+        setupToolbar(view.toolbar, "")
+        setupRecyclerView(recyclerView, controller, title)
+        presenter.fetchArtistDetails(id)
         return view
     }
 
@@ -58,12 +65,14 @@ class LabelController : BaseController(), LabelContract.View {
 
     override fun retry() {
         tracker.send(applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.clicked), "retry", "1")
-        presenter.fetchReleaseDetails(args.getString("id"))
+        presenter.fetchArtistDetails(args.getString("id"))
     }
 
     //TODO: Move over to Conductor
-    override fun displayRelease(id: String?, title: String?) {
+    override fun displayRelease(id: String, title: String) {
         tracker.send(applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.clicked), "labelRelease", "1")
-        startActivity(ReleaseActivity.createIntent(applicationContext, title, id))
+        router.pushController(RouterTransaction.with(ReleaseController(title, id))
+                .popChangeHandler(FadeChangeHandler())
+                .pushChangeHandler(FadeChangeHandler()))
     }
 }
