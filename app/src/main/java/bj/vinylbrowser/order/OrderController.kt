@@ -9,7 +9,7 @@ import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
-import kotlinx.android.synthetic.main.content_main.view.*
+import kotlinx.android.synthetic.main.controller_order.view.*
 import javax.inject.Inject
 
 /**
@@ -32,7 +32,7 @@ class OrderController(val id: String) : BaseController(), OrderContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         setupComponent(App.appComponent)
-        val view = inflater.inflate(R.layout.activity_order, container, false)
+        val view = inflater.inflate(R.layout.controller_order, container, false)
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)
         presenter.fetchOrderDetails(id)

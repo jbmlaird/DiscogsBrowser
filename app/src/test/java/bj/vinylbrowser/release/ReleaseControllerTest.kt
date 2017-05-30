@@ -72,7 +72,7 @@ class ReleaseControllerTest {
         assertEquals(copyOfModels[2].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels.size, 3)
 
-        controller.release = ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos(id)
+        controller.setRelease(ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos(id))
         copyOfModels = controller.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")
@@ -116,7 +116,7 @@ class ReleaseControllerTest {
         assertEquals(copyOfModels[2].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels.size, 3)
 
-        controller.release = ReleaseFactory.buildReleaseWithLabelSevenTracksNoVideos(id)
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelSevenTracksNoVideos(id))
         copyOfModels = controller.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")
@@ -168,7 +168,7 @@ class ReleaseControllerTest {
         assertEquals(copyOfModels[2].javaClass.simpleName, "LoadingModel_")
         assertEquals(copyOfModels.size, 3)
 
-        controller.release = ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id)
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id))
         copyOfModels = controller.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")
@@ -191,7 +191,7 @@ class ReleaseControllerTest {
 
     @Test
     fun loadReleaseCollectionFourListings_displaysAllListingsAndCollection() {
-        controller.release = ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id)
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id))
         var copyOfModels = controller.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")
@@ -280,7 +280,7 @@ class ReleaseControllerTest {
 
     @Test
     fun releaseCollectionError_displaysCollectionError() {
-        controller.release = ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id)
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id))
         var copyOfModels = controller.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")
@@ -363,7 +363,7 @@ class ReleaseControllerTest {
 
     @Test
     fun listingsErrorRetryEmptyListings_displaysEmptyListings() {
-        controller.release = ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id)
+        controller.setRelease(ReleaseFactory.buildReleaseWithLabelFiveTracksTwoVideos(id))
         var copyOfModels = controller.adapter.copyOfModels
         assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")

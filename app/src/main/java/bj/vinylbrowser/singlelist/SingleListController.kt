@@ -21,7 +21,7 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_single_list.view.*
+import kotlinx.android.synthetic.main.controller_single_list.view.*
 import javax.inject.Inject
 
 /**
@@ -47,7 +47,7 @@ class SingleListController(val type: Int, val username: String)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         setupComponent(App.appComponent)
-        val view = inflater.inflate(R.layout.activity_single_list, container, false)
+        val view = inflater.inflate(R.layout.controller_single_list, container, false)
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)
         etFilter = view.etFilter

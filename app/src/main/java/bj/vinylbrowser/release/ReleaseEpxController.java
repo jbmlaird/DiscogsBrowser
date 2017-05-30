@@ -38,8 +38,8 @@ public class ReleaseEpxController extends BaseEpxController
     private ArtistsBeautifier artistsBeautifier;
     private ImageViewAnimator imageViewAnimator;
     private CollectionWantlistPresenter presenter;
-    private Release release;
-    private List<ScrapeListing> releaseListings;
+    Release release;
+    List<ScrapeListing> releaseListings;
     private boolean viewFullTracklist = false;
     private boolean releaseLoading = true;
     private boolean releaseError = false;

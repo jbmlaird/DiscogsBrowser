@@ -39,7 +39,7 @@ public class MasterPresenter implements MasterContract.Presenter
                     return discogsInteractor.fetchMasterVersions(master.getId());
                 })
                 .subscribe(masterVersions ->
-                                controller.setMasterMasterVersions(masterVersions),
+                                controller.setMasterVersions(masterVersions),
                         error ->
                         {
                             controller.setError(true);

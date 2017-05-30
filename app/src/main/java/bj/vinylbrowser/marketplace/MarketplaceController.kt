@@ -13,7 +13,7 @@ import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.utils.ImageViewAnimator
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.afollestad.materialdialogs.MaterialDialog
-import kotlinx.android.synthetic.main.content_main.view.*
+import kotlinx.android.synthetic.main.controller_marketplace_listing.view.*
 import javax.inject.Inject
 
 /**
@@ -39,7 +39,7 @@ class MarketplaceController(val id: String, val title: String, val artist: Strin
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         setupComponent(App.appComponent)
-        val view = inflater.inflate(R.layout.activity_marketplace_listing, container, false)
+        val view = inflater.inflate(R.layout.controller_marketplace_listing, container, false)
         setupToolbar(view.toolbar, id)
         presenter.getListingDetails(id)
         setupRecyclerView(view.recyclerView, controller)

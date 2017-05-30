@@ -1,6 +1,6 @@
 package bj.vinylbrowser.artistreleases;
 
-import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesFragmentComponent;
+import bj.vinylbrowser.artistreleases.child.ArtistReleasesChildComponent;
 import bj.vinylbrowser.di.scopes.ActivityScope;
 import dagger.Subcomponent;
 
@@ -13,7 +13,7 @@ public interface ArtistReleasesComponent
 {
     void inject(ArtistReleasesController controller);
 
-    ArtistReleasesFragmentComponent.Builder artistReleasesFragmentComponentBuilder();
+    ArtistReleasesChildComponent.Builder artistReleasesFragmentComponentBuilder();
 
     @Subcomponent.Builder
     interface Builder

@@ -1,11 +1,11 @@
-package bj.vinylbrowser.artistreleases.fragments;
+package bj.vinylbrowser.artistreleases.child;
 
 import bj.vinylbrowser.common.BasePresenter;
 
 /**
  * Created by Josh Laird on 11/05/2017.
  */
-public interface ArtistReleasesFragmentContract
+public interface ArtistReleasesChildContract
 {
     interface View
     {

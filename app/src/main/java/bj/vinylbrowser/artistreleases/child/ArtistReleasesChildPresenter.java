@@ -1,4 +1,4 @@
-package bj.vinylbrowser.artistreleases.fragments;
+package bj.vinylbrowser.artistreleases.child;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
@@ -16,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable;
 /**
  * Created by Josh Laird on 11/05/2017.
  */
-public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentContract.Presenter
+public class ArtistReleasesChildPresenter implements ArtistReleasesChildContract.Presenter
 {
     private final CompositeDisposable disposable;
     private final ArtistResultFunction artistResultFunction;
@@ -25,9 +25,9 @@ public class ArtistReleasesFragmentPresenter implements ArtistReleasesFragmentCo
     private ArtistReleasesTransformer artistReleasesTransformer;
     private ArtistReleasesEpxController controller;
 
-    public ArtistReleasesFragmentPresenter(CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
-                                           ArtistReleaseBehaviorRelay behaviorRelay, MySchedulerProvider mySchedulerProvider,
-                                           ArtistReleasesTransformer artistReleasesTransformer)
+    public ArtistReleasesChildPresenter(CompositeDisposable disposable, ArtistResultFunction artistResultFunction,
+                                        ArtistReleaseBehaviorRelay behaviorRelay, MySchedulerProvider mySchedulerProvider,
+                                        ArtistReleasesTransformer artistReleasesTransformer)
     {
         this.disposable = disposable;
         this.artistResultFunction = artistResultFunction;

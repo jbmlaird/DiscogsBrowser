@@ -1,5 +1,7 @@
 package bj.vinylbrowser.model.common
 
+import android.os.Parcel
+import android.os.Parcelable
 import bj.vinylbrowser.model.release.Image
 import com.google.gson.annotations.SerializedName
 
@@ -16,4 +18,23 @@ data class Label(@SerializedName("resource_url") var resourceUrl: String = "",
                  var uri: String = "",
                  var images: List<Image> = emptyList(),
                  @SerializedName("data_quality") var dataQuality: String = "",
-                 var thumb: String = "")
+                 var thumb: String = "") : Parcelable {
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(resourceUrl)
+        dest.writeString(entityType)
+        dest.writeString(catno)
+        dest.writeString(id)
+        dest.writeString(name)
+        dest.writeString(profile)
+        dest.writeString(releaseUrl)
+        dest.writeString(uri)
+        dest.writeList(images)
+        dest.writeString(dataQuality)
+        dest.writeString(thumb)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+}

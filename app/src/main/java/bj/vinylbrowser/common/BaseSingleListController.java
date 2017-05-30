@@ -82,4 +82,9 @@ public abstract class BaseSingleListController extends EpoxyController
         this.loading = false;
         requestModelBuild();
     }
+
+    public List<? extends RecyclerViewModel> getItems()
+    {
+        return items;
+    }
 }

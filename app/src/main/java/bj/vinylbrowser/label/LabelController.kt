@@ -13,11 +13,13 @@ import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.customviews.MyRecyclerView
+import bj.vinylbrowser.model.common.Label
+import bj.vinylbrowser.model.labelrelease.LabelRelease
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
-import kotlinx.android.synthetic.main.content_main.view.*
+import kotlinx.android.synthetic.main.controller_single_list.view.*
 import javax.inject.Inject
 
 /**
@@ -41,13 +43,19 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflater.inflate(R.layout.activity_recyclerview, container, false)
+        val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
         setupComponent(App.appComponent)
         recyclerView = view.recyclerView
         setupToolbar(view.toolbar, "")
         setupRecyclerView(recyclerView, controller, title)
         presenter.fetchArtistDetails(id)
         return view
+    }
+
+    override fun onAttach(view: View) {
+        super.onAttach(view)
+        if (view.recyclerView.adapter == null)
+            setupRecyclerView(view.recyclerView, controller, title)
     }
 
     private fun setupRecyclerView(recyclerView: MyRecyclerView?, controller: LabelEpxController, title: String?) {
@@ -68,11 +76,22 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
         presenter.fetchArtistDetails(args.getString("id"))
     }
 
-    //TODO: Move over to Conductor
     override fun displayRelease(id: String, title: String) {
         tracker.send(applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.clicked), "labelRelease", "1")
         router.pushController(RouterTransaction.with(ReleaseController(title, id))
                 .popChangeHandler(FadeChangeHandler())
                 .pushChangeHandler(FadeChangeHandler()))
+    }
+
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+        controller.setLabel(savedViewState.getParcelable<Label>("label"))
+        controller.setLabelReleases(savedViewState.getParcelableArrayList("labelReleases"))
+    }
+
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        outState.putParcelable("label", controller.label)
+        outState.putParcelableArrayList("labelReleases", controller.labelReleases as ArrayList<LabelRelease>)
+        super.onSaveViewState(view, outState)
     }
 }

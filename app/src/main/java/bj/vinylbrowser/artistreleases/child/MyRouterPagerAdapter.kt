@@ -1,4 +1,4 @@
-package bj.vinylbrowser.artistreleases.fragments
+package bj.vinylbrowser.artistreleases.child
 
 import android.os.Bundle
 import bj.vinylbrowser.common.BaseController
@@ -8,6 +8,8 @@ import com.bluelinelabs.conductor.support.RouterPagerAdapter
 
 /**
  * Created by Josh Laird on 30/05/2017.
+ *
+ * TODO: Use a MutableList rather than hard-coding
  */
 class MyRouterPagerAdapter(host: BaseController) : RouterPagerAdapter(host) {
     override fun configureRouter(router: Router, position: Int) {

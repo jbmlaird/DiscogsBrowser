@@ -54,7 +54,7 @@ class MasterPresenterTest {
         verify(discogsInteractor).fetchMasterDetails(id)
         verify(controller).setMaster(master)
         verify(discogsInteractor).fetchMasterVersions(id)
-        verify(controller).setMasterMasterVersions(masterVersions)
+        verify(controller).setMasterVersions(masterVersions)
     }
 
     @Test

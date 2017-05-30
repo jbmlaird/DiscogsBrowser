@@ -47,7 +47,7 @@ class MasterControllerTest {
 
     @Test
     fun masterVersionsEmpty_displaysPaddedCenterText() {
-        controller.setMasterMasterVersions(emptyList())
+        controller.setMasterVersions(emptyList())
         val copyOfModels = controller.adapter.copyOfModels
         Assert.assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         Assert.assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")
@@ -82,7 +82,7 @@ class MasterControllerTest {
         Assert.assertEquals(copyOfModels[3].javaClass.simpleName, "LoadingModel_")
         Assert.assertEquals(copyOfModels.size, 4)
 
-        controller.setMasterMasterVersions(MasterVersionsFactory.buildMasterVersions(2))
+        controller.setMasterVersions(MasterVersionsFactory.buildMasterVersions(2))
         copyOfModels = controller.adapter.copyOfModels
         Assert.assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         Assert.assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")
@@ -102,7 +102,7 @@ class MasterControllerTest {
         Assert.assertEquals(copyOfModels[3].javaClass.simpleName, "LoadingModel_")
         Assert.assertEquals(copyOfModels.size, 4)
 
-        controller.setMasterMasterVersions(MasterVersionsFactory.buildMasterVersions(6))
+        controller.setMasterVersions(MasterVersionsFactory.buildMasterVersions(6))
         copyOfModels = controller.adapter.copyOfModels
         Assert.assertEquals(copyOfModels[0].javaClass.simpleName, "HeaderModel_")
         Assert.assertEquals(copyOfModels[1].javaClass.simpleName, "DividerModel_")

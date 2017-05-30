@@ -2,7 +2,10 @@ package bj.vinylbrowser.artistreleases;
 
 import android.content.Context;
 
+import java.util.List;
+
 import bj.vinylbrowser.common.BaseSingleListController;
+import bj.vinylbrowser.model.common.RecyclerViewModel;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 
 /**

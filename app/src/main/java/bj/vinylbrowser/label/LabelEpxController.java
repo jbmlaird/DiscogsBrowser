@@ -30,8 +30,8 @@ public class LabelEpxController extends BaseEpxController
     private Context context;
     private LabelContract.View view;
     private ImageViewAnimator imageViewAnimator;
-    private Label label;
-    private List<LabelRelease> labelReleases = new ArrayList<>();
+    Label label;
+    List<LabelRelease> labelReleases = new ArrayList<>();
     private boolean viewMore = false;
     private boolean loading = true;
     private boolean loadingLabelReleases = true;

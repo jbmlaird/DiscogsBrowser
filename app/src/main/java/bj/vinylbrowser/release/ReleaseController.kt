@@ -13,11 +13,12 @@ import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.label.LabelController
 import bj.vinylbrowser.marketplace.MarketplaceController
 import bj.vinylbrowser.model.listing.ScrapeListing
+import bj.vinylbrowser.model.release.Release
 import bj.vinylbrowser.utils.ArtistsBeautifier
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
-import kotlinx.android.synthetic.main.content_main.view.*
+import kotlinx.android.synthetic.main.controller_recyclerview.view.*
 import java.io.IOException
 import javax.inject.Inject
 
@@ -42,7 +43,7 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         setupComponent(App.appComponent)
-        val view = inflater.inflate(R.layout.activity_recyclerview, container, false)
+        val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)
         controller.setTitle(title)
@@ -52,8 +53,11 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
     }
 
     override fun onAttach(view: View) {
-        tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.loaded), "onResume", "1")
         super.onAttach(view)
+        tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.loaded), "onResume", "1")
+        if (view.recyclerView.adapter == null) {
+            setupRecyclerView(view.recyclerView, controller)
+        }
     }
 
     override fun retry() {
@@ -91,5 +95,15 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
             presenter.fetchReleaseListings(id)
         } catch (e: IOException) {
         }
+    }
+
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+        controller.setRelease(savedViewState.getParcelable<Release>("release"))
+    }
+
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        outState.putParcelable("release", controller.release)
+        super.onSaveViewState(view, outState)
     }
 }

@@ -11,7 +11,7 @@ import bj.vinylbrowser.App
 import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.artist.ArtistController
-import bj.vinylbrowser.artistreleases.fragments.MyRouterPagerAdapter
+import bj.vinylbrowser.artistreleases.child.MyRouterPagerAdapter
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.label.LabelController
 import bj.vinylbrowser.master.MasterController
@@ -21,7 +21,7 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_artist_releases.view.*
+import kotlinx.android.synthetic.main.controller_artist_releases.view.*
 import javax.inject.Inject
 
 /**
@@ -48,7 +48,7 @@ class ArtistReleasesController(val title: String, val id: String) : BaseControll
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         setupComponent(App.appComponent)
-        val view = inflater.inflate(R.layout.activity_artist_releases, container, false)
+        val view = inflater.inflate(R.layout.controller_artist_releases, container, false)
         setupViewPager(view.viewpager, view.tabLayout)
         etFilter = view.etFilter
         presenter.setupFilter()

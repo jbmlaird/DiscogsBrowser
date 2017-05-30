@@ -1,5 +1,7 @@
 package bj.vinylbrowser.model.master
 
+import android.os.Parcel
+import android.os.Parcelable
 import bj.vinylbrowser.model.common.Artist
 import bj.vinylbrowser.model.release.Image
 import bj.vinylbrowser.model.release.Track
@@ -25,4 +27,30 @@ data class Master(var styles: List<String> = emptyList(),
                   @SerializedName("resource_url") var resourceUrl: String = "",
                   @SerializedName("lowest_price") var lowestPrice: Double = 0.0,
                   @SerializedName("data_quality") var dataQuality: String = "",
-                  var lowestPriceString: String = "")
+                  var lowestPriceString: String = "") : Parcelable {
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeStringList(styles)
+        dest.writeList(videos)
+        dest.writeList(artists)
+        dest.writeString(versionsUrl)
+        dest.writeString(year)
+        dest.writeList(images)
+        dest.writeString(id)
+        dest.writeList(tracklist)
+        dest.writeStringList(genres)
+        dest.writeString(numForSale)
+        dest.writeString(title)
+        dest.writeInt(mainRelease)
+        dest.writeString(mainReleaseUrl)
+        dest.writeString(uri)
+        dest.writeString(resourceUrl)
+        dest.writeDouble(lowestPrice)
+        dest.writeString(dataQuality)
+        dest.writeString(lowestPriceString)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+}

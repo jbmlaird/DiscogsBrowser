@@ -5,8 +5,6 @@
 # DiscogsBrowser
 Native Android app to interact with the [Discogs' public API](https://www.discogs.com/developers). This is production-ready and tested code that is an example of a live app with modern architecture.
 
-The UI design is inspired by AirBnB's Android app and is similar in (the best looking) places.
-
 ![app_gif](https://media.giphy.com/media/dVWMCW4rFiyZi/giphy.gif)
 
 # Contributions

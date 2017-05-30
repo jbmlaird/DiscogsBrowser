@@ -14,7 +14,7 @@ import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
-import kotlinx.android.synthetic.main.activity_recyclerview.view.*
+import kotlinx.android.synthetic.main.controller_recyclerview.view.*
 import javax.inject.Inject
 
 /**
@@ -36,12 +36,13 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflater.inflate(R.layout.activity_recyclerview, container, false)
+        val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
         setupComponent(App.appComponent)
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)
         controller.setTitle(title)
         controller.requestModelBuild()
+        presenter.fetchArtistDetails(id)
         return view
     }
 
@@ -53,8 +54,9 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
 
     override fun onAttach(view: View) {
         super.onAttach(view)
+        if (view.recyclerView.adapter == null)
+            setupRecyclerView(view.recyclerView, controller)
         tracker.send(applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.loaded), "onResume", "1")
-        presenter.fetchArtistDetails(id)
     }
 
     override fun retry() {
@@ -74,5 +76,15 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
         router.pushController(RouterTransaction.with(ArtistReleasesController(title, id))
                 .popChangeHandler(FadeChangeHandler())
                 .pushChangeHandler(FadeChangeHandler()))
+    }
+
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+        controller.setArtist(savedViewState.getParcelable("artist"))
+    }
+
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        outState.putParcelable("artist", controller.artistResult)
+        super.onSaveViewState(view, outState)
     }
 }

@@ -77,7 +77,7 @@ class ReleasePresenterTest {
     @Throws(IOException::class)
     fun checkCollectionError_displaysError() {
         val releaseNoLabelNoneForSale = ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos(id)
-        whenever(controller.release).thenReturn(releaseNoLabelNoneForSale)
+        whenever(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale)
         whenever(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.error<List<CollectionRelease>>(Throwable()))
 
         presenter.checkCollectionWantlist()
@@ -92,14 +92,14 @@ class ReleasePresenterTest {
     @Throws(IOException::class)
     fun checkCollectionValid_displaysValid() {
         val releaseNoLabelNoneForSale = ReleaseFactory.getReleaseNoLabelNoneForSaleNoTracklistNoVideos(id)
-        whenever(controller.release).thenReturn(releaseNoLabelNoneForSale)
+        whenever(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale)
         whenever(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just<List<CollectionRelease>>(emptyList()))
         whenever(discogsInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just<List<Want>>(emptyList()))
 
         presenter.checkCollectionWantlist()
         testScheduler.triggerActions()
 
-        verify(controller, times(2)).release
+        verify(controller, times(2)).getRelease()
         verify(discogsInteractor).checkIfInCollection(controller, releaseNoLabelNoneForSale)
         verify(discogsInteractor).checkIfInWantlist(controller, releaseNoLabelNoneForSale)
         verify(controller).setCollectionWantlistChecked(true)
@@ -113,7 +113,7 @@ class ReleasePresenterTest {
         val arrayListArgumentCaptor = ArgumentCaptor.forClass(MutableList::class.java)
         whenever(discogsInteractor.checkIfInCollection(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just<List<CollectionRelease>>(emptyList()))
         whenever(discogsInteractor.checkIfInWantlist(controller, releaseNoLabelNoneForSale)).thenReturn(Single.just<List<Want>>(emptyList()))
-        whenever(controller.release).thenReturn(releaseNoLabelNoneForSale)
+        whenever(controller.getRelease()).thenReturn(releaseNoLabelNoneForSale)
 
         presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
@@ -121,12 +121,12 @@ class ReleasePresenterTest {
         verify(discogsInteractor).fetchReleaseDetails(id)
         verify(controller).setReleaseLoading(true)
         verify(daoManager).storeViewedRelease(releaseNoLabelNoneForSale, artistsBeautifier)
-        verify(controller).release = releaseNoLabelNoneForSale
+        verify(controller).setRelease(releaseNoLabelNoneForSale)
         verify(controller).setReleaseListings(capture(arrayListArgumentCaptor) as MutableList<ScrapeListing>?)
         assertEquals(arrayListArgumentCaptor.value.size, 0)
         verify(discogsInteractor, times(1)).checkIfInCollection(controller, releaseNoLabelNoneForSale)
         verify(discogsInteractor, times(1)).checkIfInWantlist(controller, releaseNoLabelNoneForSale)
-        verify(controller, times(2)).release
+        verify(controller, times(2)).getRelease()
         verify(controller).setCollectionWantlistChecked(true)
     }
 
@@ -139,7 +139,7 @@ class ReleasePresenterTest {
         val arrayListArgumentCaptor = ArgumentCaptor.forClass(MutableList::class.java)
         whenever(discogsInteractor.checkIfInCollection(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just<List<CollectionRelease>>(emptyList()))
         whenever(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelNoneForSale)).thenReturn(Single.just<List<Want>>(emptyList()))
-        whenever(controller.release).thenReturn(releaseWithLabelNoneForSale)
+        whenever(controller.getRelease()).thenReturn(releaseWithLabelNoneForSale)
 
         presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
@@ -148,12 +148,12 @@ class ReleasePresenterTest {
         verify(controller).setReleaseLoading(true)
         verify(discogsInteractor).fetchLabelDetails(any<String>()) //TODO: See above
         verify(daoManager).storeViewedRelease(releaseWithLabelNoneForSale, artistsBeautifier)
-        verify(controller).release = releaseWithLabelNoneForSale
+        verify(controller).setRelease(releaseWithLabelNoneForSale)
         verify(controller).setReleaseListings(arrayListArgumentCaptor.capture() as MutableList<ScrapeListing>?)
         assertEquals(arrayListArgumentCaptor.value.size, 0)
         verify(discogsInteractor, times(1)).checkIfInCollection(controller, releaseWithLabelNoneForSale)
         verify(discogsInteractor, times(1)).checkIfInWantlist(controller, releaseWithLabelNoneForSale)
-        verify(controller, times(2)).release
+        verify(controller, times(2)).getRelease()
         verify(controller).setCollectionWantlistChecked(true)
     }
 
@@ -169,7 +169,7 @@ class ReleasePresenterTest {
 
         whenever(discogsInteractor.checkIfInCollection(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just<List<CollectionRelease>>(emptyList()))
         whenever(discogsInteractor.checkIfInWantlist(controller, releaseWithLabelSomeForSale)).thenReturn(Single.just<List<Want>>(emptyList()))
-        whenever(controller.release).thenReturn(releaseWithLabelSomeForSale)
+        whenever(controller.getRelease()).thenReturn(releaseWithLabelSomeForSale)
 
         presenter.fetchArtistDetails(id)
         testScheduler.triggerActions()
@@ -178,13 +178,13 @@ class ReleasePresenterTest {
         verify(controller).setReleaseLoading(true)
         verify(discogsInteractor).fetchLabelDetails(id)
         verify(daoManager).storeViewedRelease(releaseWithLabelSomeForSale, artistsBeautifier)
-        verify(controller).release = releaseWithLabelSomeForSale
+        verify(controller).setRelease(releaseWithLabelSomeForSale)
         verify(controller).setReleaseListings(listArgumentCaptor.capture() as MutableList<ScrapeListing>?)
         assertEquals(listArgumentCaptor.value.size, 4)
         verify(discogsInteractor, times(1)).checkIfInCollection(controller, releaseWithLabelSomeForSale)
         verify(discogsInteractor, times(1)).checkIfInWantlist(controller, releaseWithLabelSomeForSale)
         verify(discogsInteractor).getReleaseMarketListings(id)
-        verify(controller, times(2)).release
+        verify(controller, times(2)).getRelease()
         verify(controller).setCollectionWantlistChecked(true)
         verify(controller).setListingsLoading(true)
     }

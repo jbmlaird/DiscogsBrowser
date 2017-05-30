@@ -1,5 +1,7 @@
 package bj.vinylbrowser.model.release
 
+import android.os.Parcel
+import android.os.Parcelable
 import bj.vinylbrowser.model.common.Artist
 import bj.vinylbrowser.model.common.Label
 import com.google.gson.annotations.SerializedName
@@ -43,4 +45,49 @@ data class Release(var title: String = "",
                    var lowestPriceString: String = "",
                    var isInCollection: Boolean = false,
                    var isInWantlist: Boolean = false,
-                   var instanceId: String = "")
+                   var instanceId: String = "") : Parcelable {
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(title)
+        dest.writeString(id)
+        dest.writeList(artists)
+        dest.writeString(dataQuality)
+        dest.writeString(thumb)
+        dest.writeParcelable(community, 0)
+        dest.writeList(companies)
+        dest.writeString(country)
+        dest.writeString(dateAdded)
+        dest.writeString(dateChanged)
+        dest.writeInt(estimatedWeight)
+        dest.writeList(extraartists)
+        dest.writeInt(formatQuantity)
+        dest.writeList(formats)
+        dest.writeList(genres)
+        dest.writeList(identifiers)
+        dest.writeList(images)
+        dest.writeList(labels)
+        dest.writeDouble(lowestPrice)
+        dest.writeInt(masterId)
+        dest.writeString(masterUrl)
+        dest.writeString(notes)
+        dest.writeInt(numForSale)
+        dest.writeString(released)
+        dest.writeString(releasedFormatted)
+        dest.writeString(resourceUrl)
+        dest.writeList(series)
+        dest.writeString(status)
+        dest.writeList(styles)
+        dest.writeList(tracklist)
+        dest.writeString(uri)
+        dest.writeList(videos)
+        dest.writeInt(year)
+        dest.writeString(lowestPriceString)
+        dest.writeInt(if (isInCollection) 1 else 0)
+        dest.writeInt(if (isInWantlist) 1 else 0)
+        dest.writeString(instanceId)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+}

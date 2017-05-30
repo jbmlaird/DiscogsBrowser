@@ -83,7 +83,7 @@ public class MasterActivityMockPresenterTest
             {
                 e.printStackTrace();
             }
-            controller.setMasterMasterVersions(masterMasterVersions);
+            controller.setMasterVersions(masterMasterVersions);
         });
     }
 

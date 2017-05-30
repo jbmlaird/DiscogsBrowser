@@ -26,7 +26,7 @@ public class ArtistEpxController extends BaseEpxController
     private final ArtistContract.View view;
     private final Context context;
     private ImageViewAnimator imageViewAnimator;
-    private ArtistResult artistResult;
+    ArtistResult artistResult;
     private boolean loading = true;
     private boolean error;
     private AnalyticsTracker tracker;
@@ -67,7 +67,7 @@ public class ArtistEpxController extends BaseEpxController
 
         if (artistResult != null)
         {
-            if (artistResult.getMembers() != null && artistResult.getMembers().size() > 0)
+            if (artistResult.getMembers().size() > 0)
             {
                 new SubHeaderModel_()
                         .id("members subheader")
@@ -88,7 +88,7 @@ public class ArtistEpxController extends BaseEpxController
                         .addTo(this);
             }
 
-            if (artistResult.getReleasesUrl() != null)
+            if (!artistResult.getReleasesUrl().equals(""))
             {
                 new ViewReleasesModel_()
                         .onViewReleasesClicked(v -> view.showArtistReleases(title, artistResult.getId()))
@@ -100,7 +100,7 @@ public class ArtistEpxController extends BaseEpxController
                         .addTo(this);
             }
 
-            if (artistResult.getArtistWantedUrls() != null && artistResult.getArtistWantedUrls().size() > 0)
+            if (artistResult.getArtistWantedUrls().size() > 0)
             {
                 new SubHeaderModel_()
                         .id("links subheader")
@@ -128,9 +128,9 @@ public class ArtistEpxController extends BaseEpxController
     public void setArtist(ArtistResult artistResult)
     {
         this.artistResult = artistResult;
-        if (artistResult.getImages() != null)
+        if (artistResult.getImages().size() > 0)
             imageUrl = artistResult.getImages().get(0).getResourceUrl();
-        if (artistResult.getNameVariations() != null && artistResult.getNameVariations().size() > 0)
+        if (artistResult.getNameVariations().size() > 0)
             title = artistResult.getNameVariations().get(0);
         subtitle = artistResult.getProfile();
         this.loading = false;

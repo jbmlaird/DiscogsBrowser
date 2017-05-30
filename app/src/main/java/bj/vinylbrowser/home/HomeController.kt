@@ -26,7 +26,7 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.mikepenz.materialdrawer.Drawer
-import kotlinx.android.synthetic.main.content_main.view.*
+import kotlinx.android.synthetic.main.controller_home.view.*
 import javax.inject.Inject
 
 /**
@@ -57,7 +57,7 @@ class HomeController : BaseController(), HomeContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflater.inflate(R.layout.content_main, container, false)
+        val view = inflater.inflate(R.layout.controller_home, container, false)
         setupComponent(App.appComponent)
         recyclerView = view.recyclerView
         toolbar = view.toolbar

@@ -1,8 +1,8 @@
 package bj.vinylbrowser.artistreleases
 
-import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesChildController
-import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesFragmentContract
-import bj.vinylbrowser.artistreleases.fragments.ArtistReleasesFragmentPresenter
+import bj.vinylbrowser.artistreleases.child.ArtistReleasesChildController
+import bj.vinylbrowser.artistreleases.child.ArtistReleasesChildContract
+import bj.vinylbrowser.artistreleases.child.ArtistReleasesChildPresenter
 import bj.vinylbrowser.model.artistrelease.ArtistRelease
 import bj.vinylbrowser.utils.rxmodifiers.ArtistReleasesTransformer
 import bj.vinylbrowser.utils.rxmodifiers.ArtistResultFunction
@@ -24,9 +24,9 @@ import java.util.*
  * Created by Josh Laird on 21/05/2017.
  */
 @RunWith(MockitoJUnitRunner::class)
-class ArtistReleasesFragmentPresenterTest {
-    lateinit var presenter: ArtistReleasesFragmentPresenter
-    val view: ArtistReleasesFragmentContract.View = mock()
+class ArtistReleasesChildPresenterTest {
+    lateinit var presenter: ArtistReleasesChildPresenter
+    val view: ArtistReleasesChildContract.View = mock()
     val disposable: CompositeDisposable = mock()
     val artistResultFunction: ArtistResultFunction = mock()
     val behaviorRelay = ArtistReleaseBehaviorRelay()
@@ -36,7 +36,7 @@ class ArtistReleasesFragmentPresenterTest {
 
     @Before
     fun setup() {
-        presenter = ArtistReleasesFragmentPresenter(disposable, artistResultFunction, behaviorRelay,
+        presenter = ArtistReleasesChildPresenter(disposable, artistResultFunction, behaviorRelay,
                 TestSchedulerProvider(testScheduler), artistReleasesTransformer)
     }
 

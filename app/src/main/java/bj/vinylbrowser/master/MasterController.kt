@@ -8,11 +8,12 @@ import bj.vinylbrowser.App
 import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
+import bj.vinylbrowser.model.version.MasterVersion
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
-import kotlinx.android.synthetic.main.content_main.view.*
+import kotlinx.android.synthetic.main.controller_recyclerview.view.*
 import javax.inject.Inject
 
 /**
@@ -35,7 +36,7 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         setupComponent(App.appComponent)
-        val view = inflater.inflate(R.layout.activity_recyclerview, container, false)
+        val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)
         controller.setTitle(title)
@@ -47,6 +48,8 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
         super.onAttach(view)
         tracker.send(applicationContext!!.getString(R.string.master_activity), applicationContext!!.getString(R.string.master_activity),
                 applicationContext!!.getString(R.string.loaded), "onResume", "1")
+        if (view.recyclerView.adapter == null)
+            setupRecyclerView(view.recyclerView, controller)
     }
 
     override fun displayRelease(title: String, id: String) {
@@ -61,5 +64,17 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
         tracker.send(applicationContext!!.getString(R.string.master_activity), applicationContext!!.getString(R.string.master_activity),
                 applicationContext!!.getString(R.string.clicked), "retry", "1")
         presenter.fetchArtistDetails(id)
+    }
+
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+        controller.setMaster(savedViewState.getParcelable("master"))
+        controller.setMasterVersions(savedViewState.getParcelableArrayList("masterVersions"))
+    }
+
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        outState.putParcelable("master", controller.master)
+        outState.putParcelableArrayList("masterVersions", controller.masterVersions as ArrayList<MasterVersion>)
+        super.onSaveViewState(view, outState)
     }
 }

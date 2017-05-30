@@ -32,7 +32,8 @@ public class MasterEpxController extends BaseEpxController
     private AnalyticsTracker tracker;
     private boolean loading = true;
     private boolean error = false;
-    private List<MasterVersion> masterMasterVersions;
+    Master master;
+    List<MasterVersion> masterVersions;
     private boolean viewAllVersions;
 
     public MasterEpxController(MasterContract.View view, Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
@@ -75,26 +76,26 @@ public class MasterEpxController extends BaseEpxController
                 .errorString("Unable to load Master")
                 .addIf(error, this);
 
-        if (masterMasterVersions != null)
+        if (masterVersions != null)
         {
-            if (masterMasterVersions.size() == 0)
+            if (masterVersions.size() == 0)
                 new PaddedCenterTextModel_()
                         .text("No releases for this Master")
                         .id("no master versions")
                         .addTo(this);
             else
-                for (MasterVersion masterVersion : masterMasterVersions)
+                for (MasterVersion masterVersion : masterVersions)
                 {
                     new ListItemModel_()
                             .context(context)
                             .imageUrl(masterVersion.getThumb())
                             .title(masterVersion.getTitle())
                             .subtitle(masterVersion.getFormat())
-                            .id("version model" + masterMasterVersions.indexOf(masterVersion))
+                            .id("version model" + masterVersions.indexOf(masterVersion))
                             .onClick(v -> mView.displayRelease(title, masterVersion.getId()))
                             .addTo(this);
 
-                    if (masterMasterVersions.indexOf(masterVersion) == 2 && !viewAllVersions && masterMasterVersions.size() > 3)
+                    if (masterVersions.indexOf(masterVersion) == 2 && !viewAllVersions && masterVersions.size() > 3)
                     {
                         new ViewMoreModel_()
                                 .id("view all")
@@ -110,6 +111,7 @@ public class MasterEpxController extends BaseEpxController
 
     public void setMaster(Master master)
     {
+        this.master = master;
         this.subtitle = artistsBeautifier.formatArtists(master.getArtists());
         this.title = master.getTitle();
         if (master.getImages().size() > 0)
@@ -118,9 +120,9 @@ public class MasterEpxController extends BaseEpxController
         requestModelBuild();
     }
 
-    public void setMasterMasterVersions(List<MasterVersion> masterMasterVersions)
+    public void setMasterVersions(List<MasterVersion> masterVersions)
     {
-        this.masterMasterVersions = masterMasterVersions;
+        this.masterVersions = masterVersions;
         this.error = false;
         this.loading = false;
         requestModelBuild();

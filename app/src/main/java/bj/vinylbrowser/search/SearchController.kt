@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -31,7 +30,7 @@ import com.jakewharton.rxbinding2.support.design.widget.TabLayoutSelectionEvent
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_search.view.*
+import kotlinx.android.synthetic.main.controller_search.view.*
 import javax.inject.Inject
 
 /**
@@ -83,16 +82,14 @@ class SearchController : BaseController(), SearchContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflater.inflate(R.layout.activity_search, container, false)
+        val view = inflater.inflate(R.layout.controller_search, container, false)
         setupComponent(App.appComponent)
         tabLayout = view.tabLayout
         searchView = view.searchView
         toolbar = view.toolbar
         rvResults = view.recyclerView
         setupRecyclerView(rvResults, controller)
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.setHomeButtonEnabled(true)
+        setupToolbar(toolbar, "")
         controller.setPastSearches(presenter.recentSearchTerms)
         searchView.isIconified = false
         searchView.requestFocus()
@@ -143,18 +140,34 @@ class SearchController : BaseController(), SearchContract.View {
         val imm = applicationContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
         when (searchResult?.type) {
-            "release" -> router.pushController(RouterTransaction.with(ReleaseController(searchResult.title, searchResult.id))
-                    .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
-            "label" -> router.pushController(RouterTransaction.with(LabelController(searchResult.title, searchResult.id))
-                    .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
-            "artist" -> router.pushController(RouterTransaction.with(ArtistController(searchResult.title, searchResult.id))
-                    .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
-            "master" -> router.pushController(RouterTransaction.with(MasterController(searchResult.title, searchResult.id))
-                    .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
+            "release" -> {
+                val releaseController = ReleaseController(searchResult.title, searchResult.id)
+                releaseController.retainViewMode = RetainViewMode.RETAIN_DETACH
+                router.pushController(RouterTransaction.with(releaseController)
+                        .popChangeHandler(FadeChangeHandler())
+                        .pushChangeHandler(FadeChangeHandler()))
+            }
+            "label" -> {
+                val labelController = LabelController(searchResult.title, searchResult.id)
+                labelController.retainViewMode = RetainViewMode.RETAIN_DETACH
+                router.pushController(RouterTransaction.with(labelController)
+                        .popChangeHandler(FadeChangeHandler())
+                        .pushChangeHandler(FadeChangeHandler()))
+            }
+            "artist" -> {
+                val artistController = ArtistController(searchResult.title, searchResult.id)
+                artistController.retainViewMode = RetainViewMode.RETAIN_DETACH
+                router.pushController(RouterTransaction.with(artistController)
+                        .popChangeHandler(FadeChangeHandler())
+                        .pushChangeHandler(FadeChangeHandler()))
+            }
+            "master" -> {
+                val masterController = MasterController(searchResult.title, searchResult.id)
+                masterController.retainViewMode = RetainViewMode.RETAIN_DETACH
+                router.pushController(RouterTransaction.with(masterController)
+                        .popChangeHandler(FadeChangeHandler())
+                        .pushChangeHandler(FadeChangeHandler()))
+            }
         }
     }
 
