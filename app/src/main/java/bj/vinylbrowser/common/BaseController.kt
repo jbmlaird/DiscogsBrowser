@@ -31,11 +31,4 @@ abstract class BaseController : Controller() {
         (activity as AppCompatActivity).supportActionBar?.setHomeButtonEnabled(true)
         toolbar.title = title
     }
-
-//    protected fun setupToolbar(toolbar: Toolbar, title: String) {
-//        toolbar.title = title
-//        getSupportActionBar()!!.setDisplayShowHomeEnabled(true)
-//        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
-//        getSupportActionBar()!!.setHomeButtonEnabled(true)
-//    }
 }

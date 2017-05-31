@@ -3,8 +3,8 @@ package bj.vinylbrowser.home
 import android.content.Context
 import android.support.v7.widget.Toolbar
 import bj.vinylbrowser.R
-import bj.vinylbrowser.main.MainActivity
 import bj.vinylbrowser.greendao.DaoManager
+import bj.vinylbrowser.main.MainActivity
 import bj.vinylbrowser.model.listing.Listing
 import bj.vinylbrowser.model.order.Order
 import bj.vinylbrowser.model.search.RootSearchResponse
@@ -18,15 +18,14 @@ import bj.vinylbrowser.wrappers.LogWrapper
 import io.reactivex.Single
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
-import javax.inject.Inject
 
 /**
  * Created by Josh Laird on 29/05/2017.
  */
-class HomePresenter @Inject constructor(val context: Context, val mView: HomeContract.View, val discogsInteractor: DiscogsInteractor,
-                                        val mySchedulerProvider: MySchedulerProvider, val builder: NavigationDrawerBuilder, val controller: HomeEpxController,
-                                        val sharedPrefsManager: SharedPrefsManager, val log: LogWrapper, val daoManager: DaoManager,
-                                        val tracker: AnalyticsTracker) : HomeContract.Presenter {
+open class HomePresenter constructor(val context: Context, val mView: HomeContract.View, val discogsInteractor: DiscogsInteractor,
+                                     val mySchedulerProvider: MySchedulerProvider, val builder: NavigationDrawerBuilder, val controller: HomeEpxController,
+                                     val sharedPrefsManager: SharedPrefsManager, val log: LogWrapper, val daoManager: DaoManager,
+                                     val tracker: AnalyticsTracker) : HomeContract.Presenter {
 
     val TAG = javaClass.simpleName!!
 
@@ -41,14 +40,14 @@ class HomePresenter @Inject constructor(val context: Context, val mView: HomeCon
                 .subscribe({ listing ->
                     controller.setSelling(listing)
                     // As RecyclerView gets detached, these must be called after attaching NavDrawer
-                    mView.setDrawer(builder.buildNavigationDrawer(mView.activity as MainActivity?, toolbar))
+                    mView.setDrawer(builder.buildNavigationDrawer(mView.activity as MainActivity?, (mView.activity as MainActivity).router, toolbar))
                 },
                         { error ->
                             if (error.cause != null && error.cause!!.cause != null && error.cause!!.cause?.message == "HTTP 403 FORBIDDEN")
                                 controller.setConfirmEmail(true)
                             else
                                 controller.setOrdersError(true)
-                            mView.setDrawer(builder.buildNavigationDrawer(mView.activity as MainActivity?, toolbar))
+                            mView.setDrawer(builder.buildNavigationDrawer(mView.activity as MainActivity?, (mView.activity as MainActivity).router, toolbar))
                             error.printStackTrace()
                             log.e(TAG, "Wtf")
                         })

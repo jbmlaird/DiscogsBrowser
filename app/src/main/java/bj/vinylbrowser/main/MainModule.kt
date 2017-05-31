@@ -1,19 +1,16 @@
 package bj.vinylbrowser.main
 
-import android.content.Context
 import bj.vinylbrowser.di.scopes.ActivityScope
-import bj.vinylbrowser.greendao.DaoManager
-import bj.vinylbrowser.utils.NavigationDrawerBuilder
-import bj.vinylbrowser.utils.SharedPrefsManager
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by Josh Laird on 29/05/2017.
+ *
+ * Method and class must be declared open for DaggerMock
  */
 @Module
-class MainModule(mainActivity: MainActivity) {
+open class MainModule(mainActivity: MainActivity) {
     lateinit var mView: MainContract.View
 
     fun FirstModule(view: MainContract.View) {
@@ -22,21 +19,21 @@ class MainModule(mainActivity: MainActivity) {
 
     @Provides
     @ActivityScope
-    protected fun provideView(): MainContract.View {
+    open protected fun provideView(): MainContract.View {
         return mView
     }
 
-    @Provides
-    @ActivityScope
-    protected fun provideNavigationDrawerBuilder(context: Context, sharedPrefsManager: SharedPrefsManager, daoManager: DaoManager): NavigationDrawerBuilder {
-        return NavigationDrawerBuilder(context, sharedPrefsManager, daoManager)
-    }
-
-    @Provides
-    @ActivityScope
-    protected fun compositeDisposable(): CompositeDisposable {
-        return CompositeDisposable()
-    }
+//    @Provides
+//    @ActivityScope
+//    open protected fun provideNavigationDrawerBuilder(context: Context, sharedPrefsManager: SharedPrefsManager, daoManager: DaoManager): NavigationDrawerBuilder {
+//        return NavigationDrawerBuilder(context, sharedPrefsManager, daoManager)
+//    }
+//
+//    @Provides
+//    @ActivityScope
+//    open protected fun compositeDisposable(): CompositeDisposable {
+//        return CompositeDisposable()
+//    }
 
 //    @Provides
 //    @ActivityScope

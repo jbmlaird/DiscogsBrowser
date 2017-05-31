@@ -145,28 +145,32 @@ class SearchController : BaseController(), SearchContract.View {
                 releaseController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(releaseController)
                         .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler()))
+                        .pushChangeHandler(FadeChangeHandler())
+                        .tag("ReleaseController"))
             }
             "label" -> {
                 val labelController = LabelController(searchResult.title, searchResult.id)
                 labelController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(labelController)
                         .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler()))
+                        .pushChangeHandler(FadeChangeHandler())
+                        .tag("LabelController"))
             }
             "artist" -> {
                 val artistController = ArtistController(searchResult.title, searchResult.id)
                 artistController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(artistController)
                         .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler()))
+                        .pushChangeHandler(FadeChangeHandler())
+                        .tag("ArtistController"))
             }
             "master" -> {
                 val masterController = MasterController(searchResult.title, searchResult.id)
                 masterController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(masterController)
                         .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler()))
+                        .pushChangeHandler(FadeChangeHandler())
+                        .tag("MasterController"))
             }
         }
     }

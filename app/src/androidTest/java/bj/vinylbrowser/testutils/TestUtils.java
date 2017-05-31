@@ -119,7 +119,7 @@ public class TestUtils
      *
      * @return Matcher.
      */
-    public static Matcher<View> getHomeButton()
+    public static Matcher<View> getHamburgerButton()
     {
         return allOf(
                 withParent(withClassName(is(Toolbar.class.getName()))),

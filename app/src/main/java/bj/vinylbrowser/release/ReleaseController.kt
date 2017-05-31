@@ -69,7 +69,8 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
         tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.clicked), "setListing", "1")
         router.pushController(RouterTransaction.with(MarketplaceController(scrapeListing!!.marketPlaceId, title!!, subtitle!!, scrapeListing.sellerName))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("MarketplaceController"))
     }
 
     override fun launchYouTube(uri: String?) {
@@ -81,7 +82,8 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
         tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.clicked), "displayLabel", "1")
         router.pushController(RouterTransaction.with(LabelController(title!!, id!!))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("LabelController"))
     }
 
     override fun retryCollectionWantlist() {

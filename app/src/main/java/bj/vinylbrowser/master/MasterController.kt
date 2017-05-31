@@ -57,7 +57,8 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
                 applicationContext!!.getString(R.string.clicked), "release", "1")
         router.pushController(RouterTransaction.with(ReleaseController(title, id))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("ReleaseController"))
     }
 
     override fun retry() {

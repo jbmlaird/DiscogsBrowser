@@ -49,7 +49,7 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
     override fun openLink(url: String?) {
         tracker.send(applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.clicked), url, "1")
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(intent)
+        activity?.startActivity(intent)
     }
 
     override fun onAttach(view: View) {
@@ -68,14 +68,16 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
         tracker.send(applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.clicked), "Show member details", "1")
         router.pushController(RouterTransaction.with(ArtistController(name!!, id!!))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("ArtistController"))
     }
 
     override fun showArtistReleases(title: String, id: String) {
         tracker.send(applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.clicked), "show artist releases", "1")
         router.pushController(RouterTransaction.with(ArtistReleasesController(title, id))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("ArtistReleasesController"))
     }
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {

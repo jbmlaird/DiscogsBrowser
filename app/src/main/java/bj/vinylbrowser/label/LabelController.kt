@@ -80,7 +80,8 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
         tracker.send(applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.clicked), "labelRelease", "1")
         router.pushController(RouterTransaction.with(ReleaseController(title, id))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("ReleaseController"))
     }
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {

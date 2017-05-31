@@ -3,7 +3,6 @@ package bj.vinylbrowser.home;
 import android.content.Context;
 
 import bj.vinylbrowser.di.scopes.ActivityScope;
-import bj.vinylbrowser.main.MainPresenter;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.network.DiscogsInteractor;
 import bj.vinylbrowser.utils.DateFormatter;
@@ -62,10 +61,10 @@ public class HomeModule
 
     @Provides
     @ActivityScope
-    protected MainPresenter providesMainPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
+    protected HomePresenter providesMainPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
                                                   NavigationDrawerBuilder builder, HomeEpxController controller, SharedPrefsManager sharedPrefsManager,
                                                   LogWrapper log, DaoManager daoManager, AnalyticsTracker tracker)
     {
-        return new MainPresenter(context, mView, discogsInteractor, mySchedulerProvider, builder, controller, sharedPrefsManager, log, daoManager, tracker);
+        return new HomePresenter(context, mView, discogsInteractor, mySchedulerProvider, builder, controller, sharedPrefsManager, log, daoManager, tracker);
     }
 }

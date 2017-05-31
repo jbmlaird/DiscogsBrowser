@@ -72,16 +72,20 @@ class ArtistReleasesController(val title: String, val id: String) : BaseControll
         when (type) {
             "release" -> router.pushController(RouterTransaction.with(ReleaseController(title, id))
                     .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("ReleaseController"))
             "label" -> router.pushController(RouterTransaction.with(LabelController(title, id))
                     .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("LabelController"))
             "artist" -> router.pushController(RouterTransaction.with(ArtistController(title, id))
                     .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("ArtistController"))
             "master" -> router.pushController(RouterTransaction.with(MasterController(title, id))
                     .popChangeHandler(FadeChangeHandler())
-                    .pushChangeHandler(FadeChangeHandler()))
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("MasterController"))
         }
     }
 

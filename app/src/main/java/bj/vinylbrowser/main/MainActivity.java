@@ -59,7 +59,8 @@ public class MainActivity extends BaseActivity implements MainContract.View
     {
         router.pushController(RouterTransaction.with(new SearchController())
                 .popChangeHandler(new FadeChangeHandler())
-                .pushChangeHandler(new FadeChangeHandler()));
+                .pushChangeHandler(new FadeChangeHandler())
+                .tag("SearchController"));
     }
 
     @Override

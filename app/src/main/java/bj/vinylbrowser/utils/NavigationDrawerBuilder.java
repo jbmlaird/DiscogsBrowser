@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.bumptech.glide.Glide;
@@ -52,7 +54,7 @@ public class NavigationDrawerBuilder
         this.daoManager = daoManager;
     }
 
-    public Drawer buildNavigationDrawer(MainActivity activity, Toolbar toolbar)
+    public Drawer buildNavigationDrawer(AppCompatActivity activity, Router router, Toolbar toolbar)
     {
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -102,29 +104,34 @@ public class NavigationDrawerBuilder
                             switch ((int) drawerItem.getIdentifier())
                             {
                                 case 1:
-                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.drawer_item_collection, sharedPrefsManager.getUsername()))
+                                    router.pushController(RouterTransaction.with(new SingleListController(R.string.drawer_item_collection, sharedPrefsManager.getUsername()))
                                             .popChangeHandler(new FadeChangeHandler())
-                                            .pushChangeHandler(new FadeChangeHandler()));
+                                            .pushChangeHandler(new FadeChangeHandler())
+                                            .tag("SingleListController"));
                                     break;
                                 case 2:
-                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.drawer_item_wantlist, sharedPrefsManager.getUsername()))
+                                    router.pushController(RouterTransaction.with(new SingleListController(R.string.drawer_item_wantlist, sharedPrefsManager.getUsername()))
                                             .popChangeHandler(new FadeChangeHandler())
-                                            .pushChangeHandler(new FadeChangeHandler()));
+                                            .pushChangeHandler(new FadeChangeHandler())
+                                            .tag("SingleListController"));
                                     break;
                                 case 3001:
-                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.selling, sharedPrefsManager.getUsername()))
+                                    router.pushController(RouterTransaction.with(new SingleListController(R.string.selling, sharedPrefsManager.getUsername()))
                                             .popChangeHandler(new FadeChangeHandler())
-                                            .pushChangeHandler(new FadeChangeHandler()));
+                                            .pushChangeHandler(new FadeChangeHandler())
+                                            .tag("SingleListController"));
                                     break;
                                 case 3002:
-                                    activity.getRouter().pushController(RouterTransaction.with(new SingleListController(R.string.orders, sharedPrefsManager.getUsername()))
+                                    router.pushController(RouterTransaction.with(new SingleListController(R.string.orders, sharedPrefsManager.getUsername()))
                                             .popChangeHandler(new FadeChangeHandler())
-                                            .pushChangeHandler(new FadeChangeHandler()));
+                                            .pushChangeHandler(new FadeChangeHandler())
+                                            .tag("SingleListController"));
                                     break;
                                 case 4:
-                                    activity.getRouter().pushController(RouterTransaction.with(new SearchController())
+                                    router.pushController(RouterTransaction.with(new SearchController())
                                             .popChangeHandler(new FadeChangeHandler())
-                                            .pushChangeHandler(new FadeChangeHandler()));
+                                            .pushChangeHandler(new FadeChangeHandler())
+                                            .tag("SearchController"));
                                     break;
 //                                case 5:
 //                                    // TODO: Implement Settings

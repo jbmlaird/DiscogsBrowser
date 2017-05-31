@@ -121,35 +121,40 @@ class HomeController : BaseController(), HomeContract.View {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "order", "1")
         router.pushController(RouterTransaction.with(OrderController(id))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("OrderController"))
     }
 
     override fun displayOrdersActivity(username: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "All orders", "1")
         router.pushController(RouterTransaction.with(SingleListController(R.string.orders, username))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("SingleListController"))
     }
 
     override fun displayListingsActivity(username: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "All listings", "1")
         router.pushController(RouterTransaction.with(SingleListController(R.string.selling, username))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("SingleListController"))
     }
 
     override fun displayListing(listingId: String, title: String, username: String, s: String, sellerUsername: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "listing", "1")
         router.pushController(RouterTransaction.with(MarketplaceController(listingId, title, s, sellerUsername))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("MarketplaceController"))
     }
 
     override fun displayRelease(releaseName: String, id: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.recently_viewed_release), context.getString(R.string.clicked), releaseName, "1")
         router.pushController(RouterTransaction.with(ReleaseController(releaseName, id))
                 .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler()))
+                .pushChangeHandler(FadeChangeHandler())
+                .tag("ReleaseController"))
     }
 
     override fun learnMore() {
