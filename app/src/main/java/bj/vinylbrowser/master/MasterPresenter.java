@@ -23,12 +23,12 @@ public class MasterPresenter implements MasterContract.Presenter
     }
 
     /**
-     * Fetches {@link Label} details from Discogs.
+     * Fetches {@link bj.vinylbrowser.model.master.Master} details from Discogs.
      *
-     * @param labelId Label ID.
+     * @param labelId Master ID.
      */
     @Override
-    public void fetchArtistDetails(String labelId)
+    public void fetchReleaseDetails(String labelId)
     {
         discogsInteractor.fetchMasterDetails(labelId)
                 .doOnSubscribe(onSubscribe -> controller.setLoading(true))

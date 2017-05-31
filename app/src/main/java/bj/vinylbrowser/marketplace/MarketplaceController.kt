@@ -19,7 +19,7 @@ import javax.inject.Inject
 /**
  * Created by Josh Laird on 30/05/2017.
  */
-class MarketplaceController(val id: String, val title: String, val artist: String, val seller: String) :
+class MarketplaceController(val title: String, val id: String, val artist: String, val seller: String) :
         BaseController(), MarketplaceContract.View {
     @Inject lateinit var presenter: MarketplacePresenter
     @Inject lateinit var tracker: AnalyticsTracker
@@ -58,7 +58,7 @@ class MarketplaceController(val id: String, val title: String, val artist: Strin
     override fun viewOnDiscogs(listingUri: String?) {
         tracker.send(applicationContext?.getString(R.string.marketplace_activity), applicationContext?.getString(R.string.marketplace_activity), applicationContext?.getString(R.string.loaded), "onResume", "1")
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(listingUri))
-        startActivity(intent)
+        activity?.startActivity(intent)
     }
 
     override fun viewSellerShipping(shippingDetails: String, username: String) {

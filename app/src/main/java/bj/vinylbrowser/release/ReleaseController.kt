@@ -48,7 +48,7 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
         setupRecyclerView(view.recyclerView, controller)
         controller.setTitle(title)
         controller.requestModelBuild()
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
         return view
     }
 
@@ -62,12 +62,12 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
 
     override fun retry() {
         tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.clicked), "retryRelease", "1")
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
     }
 
-    override fun displayListingInformation(title: String?, subtitle: String?, scrapeListing: ScrapeListing?) {
+    override fun displayListingInformation(title: String, subtitle: String, scrapeListing: ScrapeListing) {
         tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.clicked), "setListing", "1")
-        router.pushController(RouterTransaction.with(MarketplaceController(scrapeListing!!.marketPlaceId, title!!, subtitle!!, scrapeListing.sellerName))
+        router.pushController(RouterTransaction.with(MarketplaceController(title, scrapeListing.marketPlaceId, subtitle, scrapeListing.sellerName))
                 .popChangeHandler(FadeChangeHandler())
                 .pushChangeHandler(FadeChangeHandler())
                 .tag("MarketplaceController"))

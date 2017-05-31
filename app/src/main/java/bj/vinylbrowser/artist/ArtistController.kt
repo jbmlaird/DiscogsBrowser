@@ -42,7 +42,7 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
         setupRecyclerView(view.recyclerView, controller)
         controller.setTitle(title)
         controller.requestModelBuild()
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
         return view
     }
 
@@ -61,7 +61,7 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
 
     override fun retry() {
         tracker.send(applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.clicked), "retry", "1")
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
     }
 
     override fun showMemberDetails(name: String?, id: String?) {

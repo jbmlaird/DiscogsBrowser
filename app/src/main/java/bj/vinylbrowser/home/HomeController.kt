@@ -143,7 +143,7 @@ class HomeController : BaseController(), HomeContract.View {
 
     override fun displayListing(listingId: String, title: String, username: String, s: String, sellerUsername: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "listing", "1")
-        router.pushController(RouterTransaction.with(MarketplaceController(listingId, title, s, sellerUsername))
+        router.pushController(RouterTransaction.with(MarketplaceController(title, listingId, s, sellerUsername))
                 .popChangeHandler(FadeChangeHandler())
                 .pushChangeHandler(FadeChangeHandler())
                 .tag("MarketplaceController"))

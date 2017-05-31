@@ -19,7 +19,6 @@ import bj.vinylbrowser.utils.ImageViewAnimator;
 /**
  * Created by Josh Laird on 09/05/2017.
  */
-
 public abstract class BaseSingleListController extends EpoxyController
 {
     protected Context context;

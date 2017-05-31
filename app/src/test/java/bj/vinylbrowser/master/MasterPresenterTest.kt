@@ -47,7 +47,7 @@ class MasterPresenterTest {
         whenever(discogsInteractor.fetchMasterDetails(id)).thenReturn(justMaster)
         whenever(discogsInteractor.fetchMasterVersions(id)).thenReturn(justVersions)
 
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
         testScheduler.triggerActions()
 
         verify(controller).setLoading(true)
@@ -61,7 +61,7 @@ class MasterPresenterTest {
     fun getInvalidData_controllerSetsError() {
         whenever(discogsInteractor.fetchMasterDetails(id)).thenReturn(Single.error<Master>(Throwable()))
 
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
         testScheduler.triggerActions()
 
         verify(controller).setLoading(true)

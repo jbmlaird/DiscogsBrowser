@@ -1,5 +1,7 @@
 package bj.vinylbrowser.model.order
 
+import android.os.Parcel
+import android.os.Parcelable
 import bj.vinylbrowser.model.common.RecyclerViewModel
 import bj.vinylbrowser.model.common.Seller
 import com.google.gson.annotations.SerializedName
@@ -22,8 +24,32 @@ data class Order(var status: String = "",
                  @SerializedName("resource_url") var resourceUrl: String = "",
                  @SerializedName("messages_url") var messagesUrl: String = "",
                  var uri: String = "",
-                 @SerializedName("next_status") var nextStatus: List<String> = emptyList()
-) : RecyclerViewModel {
+                 @SerializedName("next_status") var nextStatus: List<String> = emptyList())
+    : RecyclerViewModel, Parcelable {
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(status)
+        dest.writeParcelable(fee, 0)
+        dest.writeString(created)
+        dest.writeList(items)
+        dest.writeParcelable(shipping, 0)
+        dest.writeString(shippingAddress)
+        dest.writeString(additionalInstructions)
+        dest.writeParcelable(seller, 0)
+        dest.writeString(lastActivity)
+        dest.writeParcelable(buyer, 0)
+        dest.writeParcelable(total, 0)
+        dest.writeString(id)
+        dest.writeString(resourceUrl)
+        dest.writeString(messagesUrl)
+        dest.writeString(uri)
+        dest.writeStringList(nextStatus)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
     override fun getTitle(): String {
         return id
     }

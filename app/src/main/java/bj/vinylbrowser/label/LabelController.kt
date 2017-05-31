@@ -48,7 +48,7 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
         recyclerView = view.recyclerView
         setupToolbar(view.toolbar, "")
         setupRecyclerView(recyclerView, controller, title)
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
         return view
     }
 
@@ -68,12 +68,12 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
     override fun openLink(url: String?) {
         tracker.send(applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.clicked), url, "1")
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(intent)
+        activity?.startActivity(intent)
     }
 
     override fun retry() {
         tracker.send(applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.label_activity), applicationContext?.getString(R.string.clicked), "retry", "1")
-        presenter.fetchArtistDetails(args.getString("id"))
+        presenter.fetchReleaseDetails(args.getString("id"))
     }
 
     override fun displayRelease(id: String, title: String) {

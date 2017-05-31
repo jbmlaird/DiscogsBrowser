@@ -1,5 +1,7 @@
 package bj.vinylbrowser.model.listing
 
+import android.os.Parcel
+import android.os.Parcelable
 import bj.vinylbrowser.model.common.Price
 import bj.vinylbrowser.model.common.RecyclerViewModel
 import bj.vinylbrowser.model.common.Seller
@@ -25,8 +27,30 @@ data class Listing(var status: String = "",
                    var shippingPrice: ShippingPrice = ShippingPrice("", ""),
                    var release: ListingRelease = ListingRelease(),
                    var resourceUrl: String = "",
-                   var audio: Boolean = false
-) : RecyclerViewModel {
+                   var audio: Boolean = false) : RecyclerViewModel, Parcelable {
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(status)
+        dest.writeParcelable(price, 0)
+        dest.writeInt(if (allowOffers) 0 else 1)
+        dest.writeString(sleeveCondition)
+        dest.writeString(id)
+        dest.writeString(condition)
+        dest.writeString(posted)
+        dest.writeString(shipsFrom)
+        dest.writeString(uri)
+        dest.writeString(comments)
+        dest.writeParcelable(seller, 0)
+        dest.writeParcelable(shippingPrice, 0)
+        dest.writeParcelable(release, 0)
+        dest.writeString(resourceUrl)
+        dest.writeInt(if (audio) 0 else 1)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
     override fun getTitle(): String {
         return release.description
     }

@@ -13,7 +13,7 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
-import bj.vinylbrowser.TestActivity
+import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.customviews.Carousel
 import bj.vinylbrowser.greendao.DaoManager
 import bj.vinylbrowser.listing.ListingFactory
@@ -71,7 +71,6 @@ class HomeControllerTest {
             // Disable spinning to not cause Espresso timeout
             invocation
         }.whenever(imageViewAnimator).rotateImage(any())
-//        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
         doAnswer { invocation ->
             // Swallow
             invocation

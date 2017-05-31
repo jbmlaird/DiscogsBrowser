@@ -64,6 +64,8 @@ class SearchController : BaseController(), SearchContract.View {
         tracker.send(applicationContext?.getString(R.string.search_activity), applicationContext?.getString(R.string.search_activity), applicationContext?.getString(R.string.loaded), "onResume", "1")
         presenter.setupSearchViewObserver()
         presenter.setupTabObserver()
+        if (view.recyclerView.adapter == null)
+            setupRecyclerView(view.recyclerView, controller)
     }
 
     override fun onDestroy() {

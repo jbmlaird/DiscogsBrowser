@@ -45,7 +45,7 @@ public class ReleasePresenter implements ReleaseContract.Presenter
      * @param releaseId Release ID.
      */
     @Override
-    public void fetchArtistDetails(String releaseId)
+    public void fetchReleaseDetails(String releaseId)
     {
         discogsInteractor.fetchReleaseDetails(releaseId)
                 .subscribeOn(mySchedulerProvider.io())

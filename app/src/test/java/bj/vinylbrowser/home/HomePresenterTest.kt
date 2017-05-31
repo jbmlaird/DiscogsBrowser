@@ -80,24 +80,24 @@ class HomePresenterTest {
         whenever(context.getString(R.string.logged_in)).thenReturn("logged in")
         whenever(discogsInteractor.fetchOrders()).thenReturn(Single.just<List<Order>>(listOrders))
         whenever(discogsInteractor.fetchSelling(username)).thenReturn(Single.just<List<Listing>>(listSelling))
-        whenever(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar)).thenReturn(drawer)
+        whenever(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, mainActivity.router, toolbar)).thenReturn(drawer)
         whenever(mView.activity).thenReturn(mainActivity)
 
         homePresenter.connectAndBuildNavigationDrawer(toolbar)
         testScheduler.triggerActions()
 
         verify(mView, times(1)).showLoading(true)
-        verify(mView).activity
+        verify(mView, times(2)).activity
         verify(sharedPrefsManager, times(1)).storeUserDetails(testUserDetails)
         verify(discogsInteractor, times(1)).fetchUserDetails()
         verify(tracker).send("MainActivity", "MainActivity", "logged in", testUserDetails.username, "1")
         verify(discogsInteractor, times(1)).fetchOrders()
-        verify(sharedPrefsManager, times(1)).getUsername()
+        verify(sharedPrefsManager, times(1)).username
         verify(homeEpxController, times(1)).setOrders(listOrders)
         verify(discogsInteractor, times(1)).fetchSelling(username)
         verify(homeEpxController, times(1)).setSelling(listSelling)
         verify(mView, times(1)).setDrawer(drawer)
-        verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, toolbar)
+        verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, mainActivity.router, toolbar)
         verify(homeEpxController, times(1)).setLoadingMorePurchases(true)
     }
 
@@ -105,17 +105,17 @@ class HomePresenterTest {
     @Throws(UnknownHostException::class)
     fun buildNavigationDrawerUserDetailsError_handles() {
         whenever(discogsInteractor.fetchUserDetails()).thenReturn(Single.error<UserDetails>(UnknownHostException()))
-        whenever(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, toolbar)).thenReturn(drawer)
+        whenever(navigationDrawerBuilder.buildNavigationDrawer(mainActivity, mainActivity.router, toolbar)).thenReturn(drawer)
         whenever(mView.activity).thenReturn(mainActivity)
 
         homePresenter.connectAndBuildNavigationDrawer(toolbar)
         testScheduler.triggerActions()
 
-        verify(mView).activity
+        verify(mView, times(2)).activity
         verify(mView, times(1)).showLoading(true)
         verify(discogsInteractor, times(1)).fetchUserDetails()
         verify(homeEpxController).setOrdersError(true)
-        verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, toolbar)
+        verify(navigationDrawerBuilder, times(1)).buildNavigationDrawer(mainActivity, mainActivity.router, toolbar)
         verify(mView).setDrawer(drawer)
         verify(logWrapper).e(any(String::class.java), any(String::class.java))
     }

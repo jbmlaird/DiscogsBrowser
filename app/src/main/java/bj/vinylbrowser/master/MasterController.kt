@@ -40,7 +40,7 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)
         controller.setTitle(title)
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
         return view
     }
 
@@ -64,7 +64,7 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
     override fun retry() {
         tracker.send(applicationContext!!.getString(R.string.master_activity), applicationContext!!.getString(R.string.master_activity),
                 applicationContext!!.getString(R.string.clicked), "retry", "1")
-        presenter.fetchArtistDetails(id)
+        presenter.fetchReleaseDetails(id)
     }
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {

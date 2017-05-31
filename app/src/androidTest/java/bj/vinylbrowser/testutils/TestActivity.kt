@@ -1,8 +1,9 @@
-package bj.vinylbrowser
+package bj.vinylbrowser.testutils
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import bj.vinylbrowser.R
 import bj.vinylbrowser.search.SearchController
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router

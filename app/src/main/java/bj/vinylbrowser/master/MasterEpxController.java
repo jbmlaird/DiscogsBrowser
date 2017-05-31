@@ -84,7 +84,7 @@ public class MasterEpxController extends BaseEpxController
                         .id("no master versions")
                         .addTo(this);
             else
-                for (MasterVersion masterVersion : masterVersions)
+                for (final MasterVersion masterVersion : masterVersions)
                 {
                     new ListItemModel_()
                             .context(context)
@@ -92,7 +92,7 @@ public class MasterEpxController extends BaseEpxController
                             .title(masterVersion.getTitle())
                             .subtitle(masterVersion.getFormat())
                             .id("version model" + masterVersions.indexOf(masterVersion))
-                            .onClick(v -> mView.displayRelease(title, masterVersion.getId()))
+                            .onClick(v -> mView.displayRelease(masterVersion.getTitle(), masterVersion.getId()))
                             .addTo(this);
 
                     if (masterVersions.indexOf(masterVersion) == 2 && !viewAllVersions && masterVersions.size() > 3)

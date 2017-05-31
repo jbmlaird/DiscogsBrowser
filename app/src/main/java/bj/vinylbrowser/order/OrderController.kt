@@ -33,7 +33,7 @@ class OrderController(val id: String) : BaseController(), OrderContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         setupComponent(App.appComponent)
         val view = inflater.inflate(R.layout.controller_order, container, false)
-        setupToolbar(view.toolbar, "")
+        setupToolbar(view.toolbar, id)
         setupRecyclerView(view.recyclerView, controller)
         presenter.fetchOrderDetails(id)
         return view

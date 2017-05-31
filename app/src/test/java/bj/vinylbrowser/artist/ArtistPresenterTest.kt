@@ -59,7 +59,7 @@ class ArtistPresenterTest {
         whenever(discogsInteractor.fetchArtistDetails(myId)).thenReturn(Single.just(testArtistResult))
         whenever(unwantedLinksFunction.apply(testArtistResult)).thenReturn(testArtistResult)
 
-        artistPresenter.fetchArtistDetails(myId)
+        artistPresenter.fetchReleaseDetails(myId)
         testScheduler.triggerActions()
 
         verify(unwantedLinksFunction).apply(testArtistResult)
@@ -74,7 +74,7 @@ class ArtistPresenterTest {
     fun getsDataError_setsControllerError() {
         whenever(discogsInteractor.fetchArtistDetails(myId)).thenReturn(Single.error<ArtistResult>(Exception()))
 
-        artistPresenter.fetchArtistDetails(myId)
+        artistPresenter.fetchReleaseDetails(myId)
         testScheduler.triggerActions()
 
         verify(discogsInteractor).fetchArtistDetails(myId)

@@ -16,7 +16,7 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import bj.vinylbrowser.R
-import bj.vinylbrowser.TestActivity
+import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.artistreleases.ArtistReleasesPresenter
 import bj.vinylbrowser.artistreleases.ArtistResultFactory
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
@@ -56,7 +56,7 @@ class ArtistControllerMockPresenterTest {
         doAnswer { invocation ->
             // swallow
             invocation
-        }.whenever(artistPresenter).fetchArtistDetails(any<String>())
+        }.whenever(artistPresenter).fetchReleaseDetails(any<String>())
 
         mActivityTestRule.launchActivity(null)
         mActivityTestRule.runOnUiThread({
@@ -93,9 +93,9 @@ class ArtistControllerMockPresenterTest {
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
                 hasDescendant(withText(artistResult.members[1].name)), click()))
         onView(allOf(withId(R.id.recyclerView), hasDescendant(withText(artistResult.members[1].name)))).check(matches(isDisplayed()))
-        verify(artistPresenter).fetchArtistDetails(artistResult.members[0].id) // Verifying that
+        verify(artistPresenter).fetchReleaseDetails(artistResult.members[0].id) // Verifying that
         // a method in another Activity was called because you can't stub intents to other fragments
-        verify(artistPresenter).fetchArtistDetails(artistResult.members[1].id)
+        verify(artistPresenter).fetchReleaseDetails(artistResult.members[1].id)
     }
 
     @Test
