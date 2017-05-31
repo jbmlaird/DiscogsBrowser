@@ -97,7 +97,7 @@ public class GreendaoTest
         for (int i = 0; i < 15; i++)
         {
             daoManager.storeSearchTerm(String.valueOf(i));
-            daoManager.storeViewedRelease(ReleaseFactory.buildRelease(id, String.valueOf(i), false, false, false, 0, 0, 0), artistsBeautifier);
+            daoManager.storeViewedRelease(ReleaseFactory.buildRelease(String.valueOf(i), String.valueOf(i), false, false, false, 0, 0, 0), artistsBeautifier);
         }
 
         viewedReleases = daoManager.getViewedReleases();

@@ -35,18 +35,18 @@ public class DaoManager
     public void storeViewedRelease(Release release, ArtistsBeautifier artistsBeautifier)
     {
         ViewedRelease viewedRelease = new ViewedRelease();
-        if (release.getStyles() != null && release.getGenres().size() > 0)
+        if (release.getStyles().size() > 0 && release.getGenres().size() > 0)
             viewedRelease.setStyle(TextUtils.join(",", release.getStyles()));
         viewedRelease.setReleaseId(release.getId());
-        if (release.getImages() != null && release.getImages().size() > 0)
+        if (release.getImages().size() > 0 && release.getImages().size() > 0)
             viewedRelease.setThumbUrl(release.getImages().get(0).getResourceUrl());
         else
             viewedRelease.setThumbUrl(release.getThumb());
         viewedRelease.setDate(new Date());
         viewedRelease.setReleaseName(release.getTitle());
-        if (release.getLabels() != null && release.getLabels().size() > 0)
+        if (release.getLabels().size() > 0 && release.getLabels().size() > 0)
             viewedRelease.setLabelName(release.getLabels().get(0).getName());
-        if (release.getArtists() != null && release.getArtists().size() > 0)
+        if (release.getArtists().size() > 0 && release.getArtists().size() > 0)
             viewedRelease.setArtists(artistsBeautifier.formatArtists(release.getArtists()));
 
         // Delete the last entry (oldest) to preserve 12 items in recently viewed

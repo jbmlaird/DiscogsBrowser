@@ -60,6 +60,8 @@ class ArtistReleasesController(val title: String, val id: String) : BaseControll
     override fun onAttach(view: View) {
         super.onAttach(view)
         tracker.send(applicationContext!!.getString(R.string.artist_releases_activity), applicationContext!!.getString(R.string.artist_releases_activity), applicationContext!!.getString(R.string.loaded), "onResume", "1")
+        if (view.viewpager.adapter == null)
+            setupViewPager(view.viewpager, view.tabLayout)
     }
 
     override fun onDetach(view: View) {

@@ -2,6 +2,7 @@ package bj.vinylbrowser.artistreleases.child
 
 import android.os.Bundle
 import bj.vinylbrowser.common.BaseController
+import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.support.RouterPagerAdapter
@@ -19,8 +20,9 @@ class MyRouterPagerAdapter(host: BaseController) : RouterPagerAdapter(host) {
                 0 -> bundle.putString("map", "master")
                 1 -> bundle.putString("map", "release")
             }
-            val page = ArtistReleasesChildController(bundle)
-            router.setRoot(RouterTransaction.with(page))
+            val artistReleasesChildController = ArtistReleasesChildController(bundle)
+            artistReleasesChildController.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
+            router.setRoot(RouterTransaction.with(artistReleasesChildController))
         }
     }
 

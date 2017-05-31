@@ -56,63 +56,6 @@
 //@RunWith(AndroidJUnit4.class)
 //public class ArtistReleasesMockNetworkTest
 //{
-//    @Rule public EspressoDaggerMockRule rule = new EspressoDaggerMockRule();
-//    @Rule
-//    public IntentsTestRule<ArtistReleasesActivity> mActivityTestRule = new IntentsTestRule<>(ArtistReleasesActivity.class, false, false);
-//    //    @Mock ArtistReleasesPresenter presenter;
-//    @Mock DiscogsInteractor discogsInteractor;
-//    @Mock ImageViewAnimator imageViewAnimator;
-//    @Mock ArtistReleaseBehaviorRelay behaviorRelay;
-//    private ArtistReleasesActivity activity;
-//    private String artistId = "2089744";
-//    private String artistTitle = "artistTitle";
-//
-//    @Before
-//    public void setUp() throws InterruptedException
-//    {
-//        Intent startingIntent = ArtistReleasesActivity.createIntent(EspressoDaggerMockRule.getApp(), artistTitle, artistId);
-//        BehaviorRelay<List<ArtistRelease>> artistReleaseRelay = BehaviorRelay.create();
-//
-//        doAnswer(invocation ->
-//                // Disable spinning to not cause Espresso timeout
-//                invocation).when(imageViewAnimator).rotateImage(any());
-//        when(discogsInteractor.fetchArtistsReleases(artistId)).thenReturn(Single.just(ArtistReleasesFactory.getTwoMastersTwoReleases()));
-//        when(behaviorRelay.getArtistReleaseBehaviorRelay()).thenReturn(artistReleaseRelay);
-//
-//        activity = mActivityTestRule.launchActivity(startingIntent);
-//    }
-//
-//    @Test
-//    public void loadData_viewPagerContainsCorrectData()
-//    {
-//        onView(withText("master1")).check(matches(isDisplayed()));
-//        onView(withText("master2")).check(matches(isDisplayed()));
-//
-//        onView(withText("Releases")).perform(click());
-//        onView(withText("release1")).check(matches(isDisplayed()));
-//        onView(withText("release2")).check(matches(isDisplayed()));
-//
-//        onView(withId(R.id.viewpager)).perform(withCustomConstraints(swipeRight(), isDisplayingAtLeast(80)));
-//        onView(withText("master1")).check(matches(isDisplayed()));
-//        onView(withText("master2")).check(matches(isDisplayed()));
-//    }
-//
-//    @Test
-//    public void filterBoth_filtersCorrectly()
-//    {
-//        onView(allOf(withId(R.id.recyclerView), isDisplayed())).check(new RecyclerViewSizeAssertion(4)); // 4 as they will always have a SmallEmptySpaceModel_ top and bottom
-//        onView(withId(R.id.etFilter)).perform(typeText("master1"));
-//        onView(allOf(withId(R.id.recyclerView), isDisplayed())).check(new RecyclerViewSizeAssertion(3));
-//        onView(withId(R.id.etFilter)).perform(typeText("1"));
-//        onView(allOf(withText(activity.getString(R.string.no_items)), isDisplayed())).check(matches(isDisplayed()));
-//
-//        onView(withId(R.id.viewpager)).perform(withCustomConstraints(swipeLeft(), isDisplayingAtLeast(50)));
-//
-//        onView(allOf(withText(activity.getString(R.string.no_items)), isDisplayed())).check(matches(isDisplayed()));
-//        onView(withId(R.id.etFilter)).perform(clearText());
-//        onView(allOf(withId(R.id.recyclerView), isDisplayingAtLeast(51))).check(new RecyclerViewSizeAssertion(4));
-//    }
-//
 //    @Test
 //    public void onClick_launchesCorrectIntents()
 //    {
