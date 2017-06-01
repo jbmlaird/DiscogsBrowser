@@ -2,8 +2,8 @@ package bj.vinylbrowser.marketplace;
 
 import android.content.Context;
 
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.vinylbrowser.wrappers.NumberFormatWrapper;
@@ -24,21 +24,21 @@ public class MarketplaceModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected MarketplaceContract.View provideMarketplaceView()
     {
         return view;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected MarketplaceEpxController providesController(Context context, ImageViewAnimator imageViewAnimator, NumberFormatWrapper wrapper)
     {
         return new MarketplaceEpxController(context, view, imageViewAnimator, wrapper);
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected MarketplacePresenter providesPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, MarketplaceEpxController controller)
     {
         return new MarketplacePresenter(context, view, discogsInteractor, mySchedulerProvider, controller);

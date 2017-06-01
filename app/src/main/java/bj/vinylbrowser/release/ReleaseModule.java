@@ -2,10 +2,12 @@ package bj.vinylbrowser.release;
 
 import android.content.Context;
 
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.epoxy.release.CollectionWantlistPresenter;
 import bj.vinylbrowser.greendao.DaoManager;
+import bj.vinylbrowser.main.MainPresenter;
+import bj.vinylbrowser.main.panel.YouTubePlayerPresenter;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.ArtistsBeautifier;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.SharedPrefsManager;
@@ -29,14 +31,14 @@ public class ReleaseModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ReleaseContract.View provideReleaseView()
     {
         return mView;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected CollectionWantlistPresenter provideCollectionWantlistPresenter(Context context, DiscogsInteractor interactor, SharedPrefsManager sharedPrefsManager,
                                                                              MySchedulerProvider mySchedulerProvider, ToastyWrapper toastyWrapper)
     {
@@ -44,16 +46,16 @@ public class ReleaseModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ReleaseEpxController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, CollectionWantlistPresenter presenter,
-                                                     AnalyticsTracker tracker)
+                                                     AnalyticsTracker tracker, MainPresenter mainPresenter)
     {
-        return new ReleaseEpxController(context, mView, artistsBeautifier, imageViewAnimator, presenter, tracker);
+        return new ReleaseEpxController(context, mView, artistsBeautifier, imageViewAnimator, presenter, tracker, mainPresenter);
     }
 
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ReleasePresenter provideReleasePresenter(ReleaseEpxController controller, DiscogsInteractor interactor,
                                                        MySchedulerProvider mySchedulerProvider, DaoManager daoManager, ArtistsBeautifier artistsBeautifier)
     {

@@ -2,19 +2,9 @@ package bj.vinylbrowser;
 
 import javax.inject.Singleton;
 
-import bj.vinylbrowser.artist.ArtistComponent;
-import bj.vinylbrowser.artistreleases.ArtistReleasesComponent;
-import bj.vinylbrowser.main.MainComponent;
 import bj.vinylbrowser.greendao.DaoModule;
-import bj.vinylbrowser.label.LabelComponent;
 import bj.vinylbrowser.login.LoginComponent;
-import bj.vinylbrowser.home.HomeComponent;
-import bj.vinylbrowser.marketplace.MarketplaceComponent;
-import bj.vinylbrowser.master.MasterComponent;
-import bj.vinylbrowser.order.OrderComponent;
-import bj.vinylbrowser.release.ReleaseComponent;
-import bj.vinylbrowser.search.SearchComponent;
-import bj.vinylbrowser.singlelist.SingleListComponent;
+import bj.vinylbrowser.main.MainComponent;
 import bj.vinylbrowser.utils.UtilsModule;
 import bj.vinylbrowser.utils.analytics.AnalyticsModule;
 import bj.vinylbrowser.wrappers.WrappersModule;
@@ -29,27 +19,7 @@ public interface AppComponent
 {
     void inject(App app);
 
-    ArtistComponent.Builder artistComponentBuilder();
-
-    ArtistReleasesComponent.Builder artistReleasesComponentBuilder();
-
-    MainComponent.Builder firstComponentBuilder();
-
-    LabelComponent.Builder labelComponentBuilder();
-
     LoginComponent.Builder loginComponentBuilder();
 
-    HomeComponent.Builder mainComponentBuilder();
-
-    MarketplaceComponent.Builder marketplaceComponentBuilder();
-
-    MasterComponent.Builder masterComponentBuilder();
-
-    OrderComponent.Builder orderComponentBuilder();
-
-    ReleaseComponent.Builder releaseComponentBuilder();
-
-    SearchComponent.Builder searchComponentBuilder();
-
-    SingleListComponent.Builder singleListComponentBuilder();
+    MainComponent.Builder mainComponentBuilder();
 }

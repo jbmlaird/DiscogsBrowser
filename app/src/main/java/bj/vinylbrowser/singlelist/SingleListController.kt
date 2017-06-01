@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.artist.ArtistController
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.label.LabelController
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.marketplace.MarketplaceController
 import bj.vinylbrowser.master.MasterController
 import bj.vinylbrowser.model.collection.CollectionRelease
@@ -42,8 +42,8 @@ class SingleListController(val type: Int, val username: String)
 
     constructor(args: Bundle) : this(args.getInt("type"), args.getString("username"))
 
-    override fun setupComponent(appComponent: AppComponent) {
-        appComponent
+    override fun setupComponent(mainComponent: MainComponent) {
+        mainComponent
                 .singleListComponentBuilder()
                 .singleModule(SingleListModule(this))
                 .build()
@@ -51,7 +51,7 @@ class SingleListController(val type: Int, val username: String)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_single_list, container, false)
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)

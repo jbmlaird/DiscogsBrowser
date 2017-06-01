@@ -2,8 +2,8 @@ package bj.vinylbrowser.label;
 
 import android.content.Context;
 
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -24,21 +24,21 @@ public class LabelModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected LabelContract.View provideLabelView()
     {
         return mView;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected LabelEpxController provideLabelController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         return new LabelEpxController(context, mView, imageViewAnimator, tracker);
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected LabelPresenter provideLabelPresenter(DiscogsInteractor interactor, LabelEpxController controller, MySchedulerProvider mySchedulerProvider)
     {
         return new LabelPresenter(controller, interactor, mySchedulerProvider);

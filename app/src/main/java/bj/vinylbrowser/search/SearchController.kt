@@ -11,13 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.artist.ArtistController
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.customviews.MyRecyclerView
 import bj.vinylbrowser.label.LabelController
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.master.MasterController
 import bj.vinylbrowser.model.search.SearchResult
 import bj.vinylbrowser.release.ReleaseController
@@ -46,8 +46,8 @@ class SearchController : BaseController(), SearchContract.View {
     lateinit var toolbar: Toolbar
     lateinit var rvResults: MyRecyclerView
 
-    override fun setupComponent(appComponent: AppComponent) {
-        appComponent
+    override fun setupComponent(mainComponent: MainComponent) {
+        mainComponent
                 .searchComponentBuilder()
                 .searchModule(SearchModule(this))
                 .build()
@@ -85,7 +85,7 @@ class SearchController : BaseController(), SearchContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.controller_search, container, false)
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         tabLayout = view.tabLayout
         searchView = view.searchView
         toolbar = view.toolbar

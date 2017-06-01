@@ -1,12 +1,12 @@
 package bj.vinylbrowser.artistreleases.child;
 
-import bj.vinylbrowser.di.scopes.FragmentScope;
+import bj.vinylbrowser.di.scopes.ChildFragmentScope;
 import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 11/05/2017.
  */
-@FragmentScope
+@ChildFragmentScope
 @Subcomponent(modules = {ArtistReleasesChildModule.class})
 public interface ArtistReleasesChildComponent
 {

@@ -6,7 +6,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent;
 
 import java.util.List;
 
-import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.model.search.SearchResult;
 import bj.vinylbrowser.network.DiscogsInteractor;
@@ -35,21 +35,21 @@ public class SearchModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected SearchContract.View providesSearchView()
     {
         return mView;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected CompositeDisposable providesCompositeDisposable()
     {
         return new CompositeDisposable();
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> providesSearchFunction(DiscogsInteractor discogsInteractor)
     {
         return searchViewQueryTextEvent ->
@@ -57,14 +57,14 @@ public class SearchModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected SearchEpxController provideController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         return new SearchEpxController(context, mView, imageViewAnimator, tracker);
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected SearchPresenter provideSearchPresenter(SearchEpxController controller, Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> searchFunc,
                                                      MySchedulerProvider mySchedulerProvider, DaoManager daoManager, CompositeDisposable disposable)
     {

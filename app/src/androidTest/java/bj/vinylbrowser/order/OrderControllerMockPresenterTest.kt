@@ -7,8 +7,9 @@ import android.support.test.espresso.intent.rule.IntentsTestRule
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.utils.ImageViewAnimator
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
@@ -28,9 +29,10 @@ import java.text.NumberFormat
 class OrderControllerMockPresenterTest {
     @Rule @JvmField var rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    var mActivityTestRule = IntentsTestRule<TestActivity>(TestActivity::class.java, false, false)
+    var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val presenter: OrderPresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
+    val routerAttacher: RouterAttacher = mock()
     lateinit var controller: OrderController
     lateinit var epxController: OrderEpxController
     val order = OrderFactory.buildOneOrderWithItems(2)
@@ -39,6 +41,7 @@ class OrderControllerMockPresenterTest {
     @Before
     @Throws(InterruptedException::class)
     fun setUp() {
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation

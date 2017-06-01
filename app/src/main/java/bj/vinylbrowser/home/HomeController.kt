@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.customviews.MyRecyclerView
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.marketplace.MarketplaceController
 import bj.vinylbrowser.order.OrderController
 import bj.vinylbrowser.release.ReleaseController
@@ -48,9 +48,9 @@ class HomeController : BaseController(), HomeContract.View {
     lateinit var lytLoading: ConstraintLayout
     lateinit var lytError: ConstraintLayout
 
-    override fun setupComponent(appComponent: AppComponent) {
-        appComponent
-                .mainComponentBuilder()
+    override fun setupComponent(mainComponent: MainComponent) {
+        mainComponent
+                .homeComponentBuilder()
                 .mainActivityModule(HomeModule(this))
                 .build()
                 .inject(this)
@@ -58,7 +58,7 @@ class HomeController : BaseController(), HomeContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.controller_home, container, false)
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         recyclerView = view.recyclerView
         toolbar = view.toolbar
         ivLoading = view.ivLoading

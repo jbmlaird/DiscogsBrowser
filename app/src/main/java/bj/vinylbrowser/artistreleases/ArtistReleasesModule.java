@@ -2,7 +2,7 @@ package bj.vinylbrowser.artistreleases;
 
 import android.content.Context;
 
-import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.network.DiscogsInteractor;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.rxmodifiers.ArtistReleasesTransformer;
@@ -24,21 +24,21 @@ public class ArtistReleasesModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ArtistReleasesContract.View providesView()
     {
         return view;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ArtistReleaseBehaviorRelay provideBehaviorRelay()
     {
         return new ArtistReleaseBehaviorRelay();
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ArtistReleasesTransformer provideTransformer()
     {
         return new ArtistReleasesTransformer();
@@ -51,7 +51,7 @@ public class ArtistReleasesModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ArtistReleasesPresenter provideArtistReleasesPresenter(DiscogsInteractor discogsInteractor, ArtistReleasesEpxController controller, ArtistReleaseBehaviorRelay behaviorRelay,
                                                                      MySchedulerProvider mySchedulerProvider, ArtistReleasesTransformer artistReleasesTransformer)
     {

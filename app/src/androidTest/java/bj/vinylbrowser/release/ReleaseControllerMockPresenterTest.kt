@@ -10,12 +10,13 @@ import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
 import bj.vinylbrowser.label.LabelController
 import bj.vinylbrowser.label.LabelPresenter
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.marketplace.MarketplaceController
 import bj.vinylbrowser.marketplace.MarketplacePresenter
 import bj.vinylbrowser.model.release.Release
 import bj.vinylbrowser.network.DiscogsInteractor
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.utils.ImageViewAnimator
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
@@ -34,12 +35,13 @@ import org.junit.Test
 class ReleaseControllerMockPresenterTest {
     @Rule @JvmField var rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    var mActivityTestRule = IntentsTestRule<TestActivity>(TestActivity::class.java, false, false)
+    var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val presenter: ReleasePresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
     val discogsInteractor: DiscogsInteractor = mock()
     val labelPresenter: LabelPresenter = mock()
     val marketplacePresenter: MarketplacePresenter = mock()
+    val routerAttacher: RouterAttacher = mock()
     lateinit var epxController: ReleaseEpxController
     val releaseId = "releaseId"
     val releaseTitle = "releaseTitle"
@@ -50,6 +52,7 @@ class ReleaseControllerMockPresenterTest {
     @Before
     fun setUp() {
         release = ReleaseFactory.buildReleaseWithLabelNoneForSale("2")
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation

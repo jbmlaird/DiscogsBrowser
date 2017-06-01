@@ -1,12 +1,12 @@
 package bj.vinylbrowser.singlelist;
 
-import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 16/04/2017.
  */
-@ActivityScope
+@FragmentScope
 @Subcomponent(modules = {SingleListModule.class})
 public interface SingleListComponent
 {

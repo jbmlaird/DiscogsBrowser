@@ -5,9 +5,12 @@ package bj.vinylbrowser.main
  */
 interface MainContract {
     interface View {
+        fun initialiseDraggablePanel()
+        fun displayDraggablePanel()
+        fun minimiseDraggablePanel()
     }
 
     interface Presenter {
-
+        fun minimiseDraggablePanel()
     }
 }

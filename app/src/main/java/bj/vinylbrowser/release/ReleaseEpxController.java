@@ -19,6 +19,7 @@ import bj.vinylbrowser.epoxy.release.MarketplaceListingsHeader_;
 import bj.vinylbrowser.epoxy.release.MarketplaceModel_;
 import bj.vinylbrowser.epoxy.release.TrackModel_;
 import bj.vinylbrowser.epoxy.release.YouTubeModel_;
+import bj.vinylbrowser.main.MainPresenter;
 import bj.vinylbrowser.model.common.Label;
 import bj.vinylbrowser.model.listing.ScrapeListing;
 import bj.vinylbrowser.model.release.Release;
@@ -50,9 +51,10 @@ public class ReleaseEpxController extends BaseEpxController
     private boolean listingsError;
     private boolean collectionLoading = true;
     private AnalyticsTracker tracker;
+    private MainPresenter mainPresenter;
 
     public ReleaseEpxController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
-                                CollectionWantlistPresenter presenter, AnalyticsTracker tracker)
+                                CollectionWantlistPresenter presenter, AnalyticsTracker tracker, MainPresenter mainPresenter)
     {
         this.context = context;
         this.view = view;
@@ -60,6 +62,7 @@ public class ReleaseEpxController extends BaseEpxController
         this.imageViewAnimator = imageViewAnimator;
         this.presenter = presenter;
         this.tracker = tracker;
+        this.mainPresenter = mainPresenter;
     }
 
     @Override
@@ -168,7 +171,7 @@ public class ReleaseEpxController extends BaseEpxController
                         {
                             String youtubeId = video.getUri().split("=")[1];
                             new YouTubeModel_()
-                                    .onClick(v -> view.launchYouTube(youtubeId))
+                                    .onClick(v -> mainPresenter.addVideo(video))
                                     .imageUrl("https://img.youtube.com/vi/" + youtubeId + "/default.jpg")
                                     .context(context)
                                     .id("youtube" + release.getVideos().indexOf(video))

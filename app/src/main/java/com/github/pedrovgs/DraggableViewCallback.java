@@ -111,28 +111,6 @@ class DraggableViewCallback extends ViewDragHelper.Callback
     }
 
     /**
-     * Override method used to configure the horizontal drag. Restrict the motion of the dragged
-     * child view along the horizontal axis.
-     *
-     * @param child child view being dragged.
-     * @param left  attempted motion along the X axis.
-     * @param dx    proposed change in position for left.
-     * @return the new clamped position for left.
-     */
-    @Override
-    public int clampViewPositionHorizontal(View child, int left, int dx)
-    {
-        int newLeft = draggedView.getLeft();
-        if ((draggableView.isMinimized() && Math.abs(dx) > MINIMUM_DX_FOR_HORIZONTAL_DRAG) || (
-                draggableView.isDragViewAtBottom()
-                        && !draggableView.isDragViewAtRight()))
-        {
-            newLeft = left;
-        }
-        return newLeft;
-    }
-
-    /**
      * Override method used to configure the vertical drag. Restrict the motion of the dragged child
      * view along the vertical axis.
      *

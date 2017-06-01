@@ -15,11 +15,12 @@ import bj.vinylbrowser.R
 import bj.vinylbrowser.artist.ArtistController
 import bj.vinylbrowser.greendao.DaoManager
 import bj.vinylbrowser.greendao.SearchTerm
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.master.MasterController
 import bj.vinylbrowser.model.search.SearchResult
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.utils.ImageViewAnimator
 import com.bluelinelabs.conductor.Controller
@@ -48,9 +49,10 @@ import java.util.concurrent.TimeUnit
 class SearchControllerTest {
     @Rule @JvmField var rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    var mActivityTestRule = IntentsTestRule<TestActivity>(TestActivity::class.java, false, false)
+    var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val imageViewAnimator: ImageViewAnimator = mock()
     val daoManager: DaoManager = mock()
+    val routerAttacher: RouterAttacher = mock()
     val searchFunction: Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> = mock()
     val results = SearchResultFactory.getOneArtistTwoMastersThreeReleases()
     lateinit var controller: SearchController
@@ -60,6 +62,7 @@ class SearchControllerTest {
 
     @Before
     fun setUp() {
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation

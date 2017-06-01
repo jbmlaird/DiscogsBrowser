@@ -50,7 +50,7 @@ task copySdkClasses(type: Copy) {
 }
 
 dependencies {
-    compile fileTree(include: ["*.jar"], dir: "libs")
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION", {
         exclude group: "com.android.support", module: "support-annotations"
     })
@@ -59,9 +59,7 @@ dependencies {
     androidTestCompile "org.mockito:mockito-android:$MOCKITO_VERSION"
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION"
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-
     testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
-
     compile "com.android.support:appcompat-v7:$APPCOMPAT_VERSION"
     compile "com.android.support:design:$APPCOMPAT_VERSION"
     compile "com.android.support:cardview-v7:$APPCOMPAT_VERSION"
@@ -70,7 +68,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
     annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
-    compile("com.mikepenz:materialdrawer:5.8.1@aar") {
+    compile('com.mikepenz:materialdrawer:5.8.1@aar') {
         transitive = true
     }
     compile "com.jakewharton.rxbinding2:rxbinding:$RXBINDING_VERSION"
@@ -82,7 +80,7 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAKCANARY_VERSION"
     compile "com.airbnb.android:epoxy:$EPOXY_VERSION"
     annotationProcessor "com.airbnb.android:epoxy-processor:$EPOXY_VERSION"
-    compile("com.mikepenz:materialdrawer:5.9.0@aar") {
+    compile('com.mikepenz:materialdrawer:5.9.0@aar') {
         transitive = true
     }
     compile "com.joanzapata.iconify:android-iconify-fontawesome:$ICONIFY_VERSION"
@@ -116,6 +114,7 @@ dependencies {
     androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.5'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
     androidTestCompile 'com.nhaarman:mockito-kotlin:1.4.0'
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }
 
 apply plugin: "com.google.gms.google-services"

@@ -3,6 +3,7 @@ package bj.vinylbrowser.release
 import android.content.Context
 import android.os.Build.VERSION_CODES.LOLLIPOP
 import bj.vinylbrowser.epoxy.release.CollectionWantlistPresenter
+import bj.vinylbrowser.main.MainPresenter
 import bj.vinylbrowser.utils.ArtistsBeautifier
 import bj.vinylbrowser.utils.ImageViewAnimator
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
@@ -27,13 +28,14 @@ class ReleaseControllerTest {
     val artistsBeautifier: ArtistsBeautifier = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
     val presenter: CollectionWantlistPresenter = mock()
+    val mainPresenter: MainPresenter = mock()
     val tracker: AnalyticsTracker = mock()
     val id = "releaseId"
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        controller = ReleaseEpxController(context, view, artistsBeautifier, imageViewAnimator, presenter, tracker)
+        controller = ReleaseEpxController(context, view, artistsBeautifier, imageViewAnimator, presenter, tracker, mainPresenter)
         controller.requestModelBuild()
     }
 

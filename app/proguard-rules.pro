@@ -96,7 +96,7 @@
 
 
 ##---------------Begin: proguard configuration for RxSocial ----------
--dontwarn javax.xml.bind.DatatypeConverter
+-dontwarn javax.xml.bindYouTubeHolder.DatatypeConverter
 -dontwarn org.apache.commons.codec.**
 -dontwarn com.ning.http.client.**
 
@@ -114,7 +114,7 @@
 -dontwarn okio.**
 
 ##---------------Begin: proguard configuration for RxSocialConnect ----------
--dontwarn javax.xml.bind.DatatypeConverter
+-dontwarn javax.xml.bindYouTubeHolder.DatatypeConverter
 -dontwarn org.apache.commons.codec.**
 -dontwarn com.ning.http.client.**
 -keep class org.fuckboilerplate.rx_social_connect.internal.persistence.OAuth1AccessToken {

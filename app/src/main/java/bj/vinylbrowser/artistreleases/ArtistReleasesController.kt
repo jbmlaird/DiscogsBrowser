@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.artist.ArtistController
 import bj.vinylbrowser.artistreleases.child.MyRouterPagerAdapter
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.label.LabelController
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.master.MasterController
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
@@ -38,8 +38,8 @@ class ArtistReleasesController(val title: String, val id: String) : BaseControll
 
     constructor(args: Bundle) : this(args.getString("title"), args.getString("id"))
 
-    override fun setupComponent(appComponent: AppComponent) {
-        component = appComponent
+    override fun setupComponent(mainComponent: MainComponent) {
+        component = mainComponent
                 .artistReleasesComponentBuilder()
                 .artistReleasesModule(ArtistReleasesModule(this))
                 .build()
@@ -47,7 +47,7 @@ class ArtistReleasesController(val title: String, val id: String) : BaseControll
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_artist_releases, container, false)
         setupViewPager(view.viewpager, view.tabLayout)
         etFilter = view.etFilter

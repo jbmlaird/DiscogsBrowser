@@ -94,7 +94,7 @@
         <!-- </activity> -->
 
         <activity
-            android:name=".testutils.TestActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 

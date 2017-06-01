@@ -2,8 +2,8 @@ package bj.vinylbrowser.master;
 
 import android.content.Context;
 
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.ArtistsBeautifier;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
@@ -25,21 +25,21 @@ public class MasterModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected MasterContract.View provideMasterView()
     {
         return view;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected MasterEpxController provideController(Context context, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         return new MasterEpxController(view, context, artistsBeautifier, imageViewAnimator, tracker);
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected MasterPresenter providePresenter(DiscogsInteractor interactor, MasterEpxController controller, MySchedulerProvider mySchedulerProvider)
     {
         return new MasterPresenter(interactor, controller, mySchedulerProvider);

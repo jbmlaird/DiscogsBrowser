@@ -2,8 +2,8 @@ package bj.vinylbrowser.singlelist;
 
 import android.content.Context;
 
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.FilterHelper;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -25,28 +25,28 @@ public class SingleListModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     public SingleListContract.View provideSingleListView()
     {
         return view;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected FilterHelper provideFilterHelper()
     {
         return new FilterHelper();
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected SingleListEpxController provideController(Context context, ImageViewAnimator imageViewAnimator)
     {
         return new SingleListEpxController(context, view, imageViewAnimator);
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected SingleListPresenter providePresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
                                                    SingleListEpxController controller, FilterHelper filterHelper)
     {

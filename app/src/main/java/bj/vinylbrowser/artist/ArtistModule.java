@@ -2,11 +2,11 @@ package bj.vinylbrowser.artist;
 
 import android.content.Context;
 
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.utils.rxmodifiers.RemoveUnwantedLinksFunction;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
+import bj.vinylbrowser.utils.rxmodifiers.RemoveUnwantedLinksFunction;
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
 import bj.vinylbrowser.wrappers.LogWrapper;
 import dagger.Module;
@@ -26,14 +26,14 @@ public class ArtistModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ArtistContract.View providesDetailedView()
     {
         return view;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ArtistEpxController provideArtistController(Context context, ImageViewAnimator imageViewAnimator, AnalyticsTracker tracker)
     {
         return new ArtistEpxController(view, context, imageViewAnimator, tracker);
@@ -46,7 +46,7 @@ public class ArtistModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected ArtistPresenter provideArtistPresenter(DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
                                                      LogWrapper log, ArtistEpxController controller, RemoveUnwantedLinksFunction function)
     {

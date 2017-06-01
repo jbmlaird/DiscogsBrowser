@@ -1,7 +1,6 @@
 package bj.vinylbrowser.artist
 
 import android.content.Intent
-import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -16,9 +15,10 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import bj.vinylbrowser.R
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.artistreleases.ArtistReleasesPresenter
 import bj.vinylbrowser.artistreleases.ArtistResultFactory
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.utils.ImageViewAnimator
@@ -38,8 +38,9 @@ import org.junit.runner.RunWith
 class ArtistControllerMockPresenterTest {
     @Rule @JvmField val rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    val mActivityTestRule: IntentsTestRule<TestActivity> = IntentsTestRule(TestActivity::class.java, false, false)
+    val mActivityTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java, false, false)
     val imageViewAnimator: ImageViewAnimator = mock()
+    val routerAttacher: RouterAttacher = mock()
     val artistPresenter: ArtistPresenter = mock()
     val artistReleasesPresenter: ArtistReleasesPresenter = mock()
     lateinit var controller: ArtistController
@@ -49,6 +50,7 @@ class ArtistControllerMockPresenterTest {
 
     @Before
     fun setUp() {
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation
@@ -88,11 +90,14 @@ class ArtistControllerMockPresenterTest {
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
                 hasDescendant(withText(artistResult.members[0].name)), click()))
-        onView(allOf(withId(R.id.recyclerView), hasDescendant(withText(artistResult.members[0].name)), isDisplayed())).check(matches(isDisplayed()))
-        Espresso.pressBack()
+        Thread.sleep(500)
+        onView(allOf(withId(R.id.recyclerView), hasDescendant(withText(artistResult.members[0].name)), isCompletelyDisplayed())).check(matches(isDisplayed()))
+        mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
                 hasDescendant(withText(artistResult.members[1].name)), click()))
-        onView(allOf(withId(R.id.recyclerView), hasDescendant(withText(artistResult.members[1].name)))).check(matches(isDisplayed()))
+        Thread.sleep(500)
+        onView(allOf(withId(R.id.recyclerView), hasDescendant(withText(artistResult.members[1].name)), isCompletelyDisplayed())).check(matches(isDisplayed()))
         verify(artistPresenter).fetchReleaseDetails(artistResult.members[0].id) // Verifying that
         // a method in another Activity was called because you can't stub intents to other fragments
         verify(artistPresenter).fetchReleaseDetails(artistResult.members[1].id)
@@ -109,7 +114,6 @@ class ArtistControllerMockPresenterTest {
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
                 hasDescendant(withText(controller.activity?.getString(R.string.view_releases))), click()))
-        Espresso.pressBack()
 
         verify(artistReleasesPresenter).fetchArtistReleases(artistResult.id)
     }

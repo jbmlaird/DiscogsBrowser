@@ -2,8 +2,8 @@ package bj.vinylbrowser.order;
 
 import android.content.Context;
 
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.network.DiscogsInteractor;
-import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.utils.ImageViewAnimator;
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
@@ -24,21 +24,21 @@ public class OrderModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected OrderContract.View providesView()
     {
         return view;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected OrderEpxController providesController(Context context, ImageViewAnimator animator, AnalyticsTracker tracker)
     {
         return new OrderEpxController(context, view, animator, tracker);
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected OrderPresenter providesPresenter(DiscogsInteractor interactor, MySchedulerProvider provider, OrderEpxController controller)
     {
         return new OrderPresenter(interactor, provider, controller);

@@ -13,12 +13,13 @@ import android.support.test.filters.MediumTest
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.model.common.Label
 import bj.vinylbrowser.model.labelrelease.LabelRelease
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.release.ReleaseFactory
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.utils.ImageViewAnimator
 import com.bluelinelabs.conductor.Controller
@@ -41,9 +42,10 @@ import org.junit.runner.RunWith
 class LabelControllerMockPresenterTest {
     @Rule @JvmField var rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    var mActivityTestRule = IntentsTestRule<TestActivity>(TestActivity::class.java, false, false)
+    var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val presenter: LabelPresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
+    val routerAttacher: RouterAttacher = mock()
     lateinit var controller: LabelController
     lateinit var epxController: LabelEpxController
     lateinit var testLabel: Label
@@ -56,6 +58,7 @@ class LabelControllerMockPresenterTest {
         labelRelease = LabelFactory.buildLabelRelease(1)
         testLabel = ReleaseFactory.buildReleaseLabel(id)
 
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation

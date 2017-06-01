@@ -2,13 +2,13 @@ package bj.vinylbrowser.search;
 
 import org.jetbrains.annotations.NotNull;
 
-import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 20/02/2017.
  */
-@ActivityScope
+@FragmentScope
 @Subcomponent(modules = {SearchModule.class})
 public interface SearchComponent
 {

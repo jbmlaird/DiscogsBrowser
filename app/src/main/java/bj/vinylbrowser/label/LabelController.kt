@@ -8,11 +8,11 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
 import bj.vinylbrowser.customviews.MyRecyclerView
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.model.common.Label
 import bj.vinylbrowser.model.labelrelease.LabelRelease
 import bj.vinylbrowser.release.ReleaseController
@@ -34,8 +34,8 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
 
     constructor(args: Bundle) : this(args.getString("title"), args.getString("id"))
 
-    override fun setupComponent(appComponent: AppComponent) {
-        appComponent
+    override fun setupComponent(mainComponent: MainComponent) {
+        mainComponent
                 .labelComponentBuilder()
                 .labelActivityModule(LabelModule(this))
                 .build()
@@ -44,7 +44,7 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         recyclerView = view.recyclerView
         setupToolbar(view.toolbar, "")
         setupRecyclerView(recyclerView, controller, title)

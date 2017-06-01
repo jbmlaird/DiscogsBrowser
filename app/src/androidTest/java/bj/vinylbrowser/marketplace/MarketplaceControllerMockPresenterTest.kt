@@ -15,8 +15,9 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
 import bj.vinylbrowser.listing.ListingFactory
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.userdetails.UserDetailsFactory
 import bj.vinylbrowser.utils.ImageViewAnimator
@@ -41,9 +42,10 @@ import org.junit.runner.RunWith
 class MarketplaceControllerMockPresenterTest {
     @Rule @JvmField val rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    val mActivityTestRule: IntentsTestRule<TestActivity> = IntentsTestRule(TestActivity::class.java, false, false)
+    val mActivityTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java, false, false)
     val presenter: MarketplacePresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
+    val routerAttacher: RouterAttacher = mock()
     val listingTitle = "listingTitle"
     val listingId = "listingId"
     val listing = ListingFactory.buildListing("")
@@ -53,6 +55,7 @@ class MarketplaceControllerMockPresenterTest {
 
     @Before
     fun setUp() {
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation

@@ -11,12 +11,13 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
 import bj.vinylbrowser.listing.ListingFactory
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.marketplace.MarketplaceController
 import bj.vinylbrowser.order.OrderController
 import bj.vinylbrowser.order.OrderFactory
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.utils.ImageViewAnimator
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.bluelinelabs.conductor.Controller
@@ -39,10 +40,11 @@ import org.junit.runner.RunWith
 class SingleListControllerMockPresenterTest {
     @Rule @JvmField var rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    var mActivityTestRule = IntentsTestRule<TestActivity>(TestActivity::class.java, false, false)
+    var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val presenter: SingleListPresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
     val tracker: AnalyticsTracker = mock()
+    val routerAttacher: RouterAttacher = mock()
     val type = R.string.orders
     val username = "dasmebro"
     lateinit var controller: SingleListController
@@ -50,6 +52,7 @@ class SingleListControllerMockPresenterTest {
 
     @Before
     fun setUp() {
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation

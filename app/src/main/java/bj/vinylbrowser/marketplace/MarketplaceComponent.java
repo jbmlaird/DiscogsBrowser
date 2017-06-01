@@ -1,12 +1,12 @@
 package bj.vinylbrowser.marketplace;
 
-import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import dagger.Subcomponent;
 
 /**
  * Created by Josh Laird on 13/04/2017.
  */
-@ActivityScope
+@FragmentScope
 @Subcomponent(modules = {MarketplaceModule.class})
 public interface MarketplaceComponent
 {

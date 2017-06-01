@@ -23,4 +23,5 @@ import bj.vinylbrowser.utils.GreendaoTest;
 @Suite.SuiteClasses({ArtistControllerMockPresenterTest.class, ArtistReleasesControllerMockNetworkTest.class, HomeControllerTest.class, LabelControllerMockPresenterTest.class,
         LoginActivityMockPresenterTest.class, MasterControllerMockPresenterTest.class, ReleaseControllerMockPresenterTest.class,
         SearchControllerTest.class, SingleListControllerMockPresenterTest.class, GreendaoTest.class})
+//@Suite.SuiteClasses({HomeControllerTest.class})
 public class EspressoSuite {}

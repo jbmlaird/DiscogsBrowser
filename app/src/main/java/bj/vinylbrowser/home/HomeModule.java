@@ -2,7 +2,7 @@ package bj.vinylbrowser.home;
 
 import android.content.Context;
 
-import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.greendao.DaoManager;
 import bj.vinylbrowser.network.DiscogsInteractor;
 import bj.vinylbrowser.utils.DateFormatter;
@@ -31,28 +31,28 @@ public class HomeModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected HomeContract.View provideMainView()
     {
         return mView;
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected NavigationDrawerBuilder provideNavigationDrawerBuilder(Context context, SharedPrefsManager sharedPrefsManager, DaoManager daoManager)
     {
         return new NavigationDrawerBuilder(context, sharedPrefsManager, daoManager);
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected CompositeDisposable compositeDisposable()
     {
         return new CompositeDisposable();
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected HomeEpxController providesMainController(Context context, SharedPrefsManager sharedPrefsManager,
                                                        ImageViewAnimator imageViewAnimator, DateFormatter dateFormatter, AnalyticsTracker tracker)
     {
@@ -60,7 +60,7 @@ public class HomeModule
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     protected HomePresenter providesMainPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider,
                                                   NavigationDrawerBuilder builder, HomeEpxController controller, SharedPrefsManager sharedPrefsManager,
                                                   LogWrapper log, DaoManager daoManager, AnalyticsTracker tracker)

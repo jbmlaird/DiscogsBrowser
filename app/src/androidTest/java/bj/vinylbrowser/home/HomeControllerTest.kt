@@ -13,10 +13,10 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.customviews.Carousel
 import bj.vinylbrowser.greendao.DaoManager
 import bj.vinylbrowser.listing.ListingFactory
+import bj.vinylbrowser.main.MainActivity
 import bj.vinylbrowser.marketplace.MarketplaceController
 import bj.vinylbrowser.order.OrderController
 import bj.vinylbrowser.order.OrderFactory
@@ -29,8 +29,6 @@ import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.utils.ImageViewAnimator
 import bj.vinylbrowser.utils.NavigationDrawerBuilder
 import bj.vinylbrowser.utils.SharedPrefsManager
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.RouterTransaction
 import com.nhaarman.mockito_kotlin.*
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
@@ -50,7 +48,7 @@ import org.junit.runner.RunWith
 class HomeControllerTest {
     @Rule @JvmField val rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    val mActivityTestRule: IntentsTestRule<TestActivity> = IntentsTestRule(TestActivity::class.java, false, false)
+    val mActivityTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java, false, false)
     val imageViewAnimator: ImageViewAnimator = mock()
     val presenter: HomePresenter = mock()
     val sharedPrefsManager: SharedPrefsManager = mock()
@@ -67,6 +65,7 @@ class HomeControllerTest {
 
     @Before
     fun setUp() {
+        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation
@@ -84,11 +83,7 @@ class HomeControllerTest {
             invocation
         }.whenever(presenter).buildViewedReleases()
         mActivityTestRule.launchActivity(null)
-        mActivityTestRule.runOnUiThread({
-            controller = HomeController()
-            controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
-            mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
-        })
+        controller = mActivityTestRule.activity.router.getControllerWithTag("HomeController") as HomeController
         epxController = controller.controller
         navigationDrawerBuilder = NavigationDrawerBuilder(getApp(), sharedPrefsManager, daoManager)
         initialiseUi()
@@ -263,7 +258,7 @@ class HomeControllerTest {
         whenever(sharedPrefsManager.numCollection).thenReturn(numCollection)
         whenever(sharedPrefsManager.numWantlist).thenReturn(numWantlist)
         mActivityTestRule.runOnUiThread({
-            controller.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(controller.activity as AppCompatActivity?, controller.router, controller.toolbar))
+            controller.setDrawer(navigationDrawerBuilder.buildNavigationDrawer(controller.activity as AppCompatActivity, controller.router, controller.toolbar))
             controller.showLoading(false)
             controller.setupRecyclerView()
         })

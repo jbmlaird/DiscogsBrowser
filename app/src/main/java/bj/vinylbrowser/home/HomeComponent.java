@@ -2,13 +2,13 @@ package bj.vinylbrowser.home;
 
 import org.jetbrains.annotations.NotNull;
 
-import bj.vinylbrowser.di.scopes.ActivityScope;
+import bj.vinylbrowser.di.scopes.FragmentScope;
 import dagger.Subcomponent;
 
 /**
  * Created by j on 18/02/2017.
  */
-@ActivityScope
+@FragmentScope
 @Subcomponent(modules = {HomeModule.class})
 public interface HomeComponent
 {

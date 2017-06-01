@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.utils.ImageViewAnimator
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.afollestad.materialdialogs.MaterialDialog
@@ -29,8 +29,8 @@ class MarketplaceController(val title: String, val id: String, val artist: Strin
     constructor(args: Bundle) : this(args.getString("id"), args.getString("title"),
             args.getString("artist"), args.getString("seller"))
 
-    override fun setupComponent(appComponent: AppComponent) {
-        appComponent
+    override fun setupComponent(mainComponent: MainComponent) {
+        mainComponent
                 .marketplaceComponentBuilder()
                 .marketplaceModule(MarketplaceModule(this))
                 .build()
@@ -38,7 +38,7 @@ class MarketplaceController(val title: String, val id: String, val artist: Strin
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_marketplace_listing, container, false)
         setupToolbar(view.toolbar, id)
         presenter.getListingDetails(id)

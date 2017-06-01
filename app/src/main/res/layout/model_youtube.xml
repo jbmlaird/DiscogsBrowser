@@ -36,8 +36,8 @@
                 android:layout_weight="0.5"
                 android:ellipsize="marquee"
                 android:includeFontPadding="false"
-                android:maxLines="1"
                 android:paddingBottom="@dimen/margin_very_small"
+                android:singleLine="true"
                 android:text="Test"
                 android:textSize="@dimen/text_small"/>
 
@@ -48,8 +48,8 @@
                 android:layout_weight="0.5"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
-                android:maxLines="1"
                 android:paddingTop="@dimen/margin_very_small"
+                android:singleLine="true"
                 android:text="Test"
                 android:textStyle="bold"/>
 

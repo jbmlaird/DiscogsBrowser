@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.artistreleases.ArtistReleasesController
 import bj.vinylbrowser.common.BaseController
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
@@ -27,8 +27,8 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
 
     constructor(args: Bundle) : this(args.getString("title"), args.getString("id"))
 
-    override fun setupComponent(appComponent: AppComponent) {
-        appComponent
+    override fun setupComponent(mainComponent: MainComponent) {
+        mainComponent
                 .artistComponentBuilder()
                 .artistModule(ArtistModule(this))
                 .build()
@@ -37,7 +37,7 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         setupToolbar(view.toolbar, "")
         setupRecyclerView(view.recyclerView, controller)
         controller.setTitle(title)

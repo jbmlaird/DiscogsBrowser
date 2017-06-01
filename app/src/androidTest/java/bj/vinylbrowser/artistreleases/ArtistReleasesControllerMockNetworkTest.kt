@@ -10,6 +10,8 @@ import android.support.test.filters.MediumTest
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import bj.vinylbrowser.R
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.master.MasterController
 import bj.vinylbrowser.master.MasterPresenter
 import bj.vinylbrowser.model.artistrelease.ArtistRelease
@@ -18,7 +20,6 @@ import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.release.ReleasePresenter
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.testutils.RecyclerViewSizeAssertion
-import bj.vinylbrowser.testutils.TestActivity
 import bj.vinylbrowser.testutils.TestUtils.withCustomConstraints
 import bj.vinylbrowser.utils.ImageViewAnimator
 import com.bluelinelabs.conductor.Controller
@@ -48,12 +49,13 @@ import org.junit.runner.RunWith
 class ArtistReleasesControllerMockNetworkTest {
     @Rule @JvmField val rule = EspressoDaggerMockRule()
     @Rule @JvmField
-    val mActivityTestRule: IntentsTestRule<TestActivity> = IntentsTestRule(TestActivity::class.java, false, false)
+    val mActivityTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java, false, false)
     val imageViewAnimator: ImageViewAnimator = mock()
     val discogsInteractor: DiscogsInteractor = mock()
     val behaviorRelay: ArtistReleaseBehaviorRelay = mock()
     val masterPresenter: MasterPresenter = mock()
     val releasePresenter: ReleasePresenter = mock()
+    val routerAttacher: RouterAttacher = mock()
     lateinit var controller: ArtistReleasesController
     val artistId = "2089744"
     val artistTitle = "artistTitle"
@@ -61,6 +63,7 @@ class ArtistReleasesControllerMockNetworkTest {
 
     @Before
     fun setUp() {
+        doAnswer { invocationOnMock -> invocationOnMock }.whenever(routerAttacher).attachRoot(any())
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation

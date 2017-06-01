@@ -1,6 +1,7 @@
 package bj.vinylbrowser.artistreleases.child;
 
 import bj.vinylbrowser.artistreleases.ArtistReleaseBehaviorRelay;
+import bj.vinylbrowser.di.scopes.ChildFragmentScope;
 import bj.vinylbrowser.di.scopes.FragmentScope;
 import bj.vinylbrowser.utils.rxmodifiers.ArtistReleasesTransformer;
 import bj.vinylbrowser.utils.rxmodifiers.ArtistResultFunction;
@@ -29,7 +30,7 @@ public class ArtistReleasesChildModule
     }
 
     @Provides
-    @FragmentScope
+    @ChildFragmentScope
     protected ArtistReleasesChildContract.View providesView()
     {
         return view;

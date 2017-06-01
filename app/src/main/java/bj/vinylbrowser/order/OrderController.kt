@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bj.vinylbrowser.App
-import bj.vinylbrowser.AppComponent
 import bj.vinylbrowser.R
 import bj.vinylbrowser.common.BaseController
+import bj.vinylbrowser.main.MainActivity
+import bj.vinylbrowser.main.MainComponent
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import kotlinx.android.synthetic.main.controller_order.view.*
 import javax.inject.Inject
@@ -22,8 +22,8 @@ class OrderController(val id: String) : BaseController(), OrderContract.View {
 
     constructor(args: Bundle) : this(args.getString("id"))
 
-    override fun setupComponent(appComponent: AppComponent) {
-        appComponent
+    override fun setupComponent(mainComponent: MainComponent) {
+        mainComponent
                 .orderComponentBuilder()
                 .orderModule(OrderModule(this))
                 .build()
@@ -31,7 +31,7 @@ class OrderController(val id: String) : BaseController(), OrderContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        setupComponent(App.appComponent)
+        setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_order, container, false)
         setupToolbar(view.toolbar, id)
         setupRecyclerView(view.recyclerView, controller)

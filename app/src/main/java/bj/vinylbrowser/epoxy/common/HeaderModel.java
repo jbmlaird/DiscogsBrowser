@@ -24,7 +24,6 @@ import static com.airbnb.epoxy.EpoxyAttribute.Option.DoNotHash;
 /**
  * Created by Josh Laird on 07/04/2017.
  */
-
 @EpoxyModelClass(layout = R.layout.model_detailed_header)
 public abstract class HeaderModel extends EpoxyModel<LinearLayout>
 {

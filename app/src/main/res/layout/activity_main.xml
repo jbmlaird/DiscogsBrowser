@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:draggable_panel="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,5 +14,13 @@
         android:id="@+id/lytContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <com.github.pedrovgs.DraggablePanel
+        android:id="@+id/draggable_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        draggable_panel:enable_horizontal_alpha_effect="false"
+        draggable_panel:top_fragment_height="200dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
