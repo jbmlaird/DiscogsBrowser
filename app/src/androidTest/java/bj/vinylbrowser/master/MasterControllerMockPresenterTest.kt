@@ -63,6 +63,7 @@ class MasterControllerMockPresenterTest {
             controller = MasterController(masterTitle, masterId)
             controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
+            Thread.sleep(500)
             controller.controller.setMaster(master)
             Thread.sleep(100) //Sleep as you can't call two requestModelBuilds() simultaneously
             controller.controller.setMasterVersions(masterMasterVersions)
@@ -94,6 +95,7 @@ class MasterControllerMockPresenterTest {
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, masterMasterVersions[0].title)
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, masterMasterVersions[0].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(withId(R.id.recyclerView))
                 // Scroll to master version

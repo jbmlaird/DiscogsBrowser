@@ -65,6 +65,7 @@ class HomeControllerTest {
 
     @Before
     fun setUp() {
+        whenever(sharedPrefsManager.isOnBoardingCompleted).thenReturn(false)
         whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
@@ -83,6 +84,7 @@ class HomeControllerTest {
             invocation
         }.whenever(presenter).buildViewedReleases()
         mActivityTestRule.launchActivity(null)
+        Thread.sleep(500)
         controller = mActivityTestRule.activity.router.getControllerWithTag("HomeController") as HomeController
         epxController = controller.controller
         navigationDrawerBuilder = NavigationDrawerBuilder(getApp(), sharedPrefsManager, daoManager)
@@ -92,44 +94,63 @@ class HomeControllerTest {
     @Test
     @Throws(InterruptedException::class)
     fun navDrawerPressed_intendsCorrectly() {
+        Thread.sleep(1500)
         onView(withText(numCollection)).check(matches(isDisplayed()))
         onView(withText(numWantlist)).check(matches(isDisplayed()))
 
         onView(allOf(withText("Collection"), withResourceName("material_drawer_name"))).perform(click())
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).username, "BjLairy")
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).type, R.string.drawer_item_collection)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(TestUtils.getHamburgerButton()).perform(click())
+        Thread.sleep(500)
         onView(allOf(withText("Wantlist"), withResourceName("material_drawer_name"))).perform(click())
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).username, "BjLairy")
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).type, R.string.drawer_item_wantlist)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(TestUtils.getHamburgerButton()).perform(click())
+        Thread.sleep(500)
         onView(allOf(withText("Marketplace"), withResourceName("material_drawer_name"))).perform(click())
+        Thread.sleep(500)
         onView(allOf(withText("Selling"), withResourceName("material_drawer_name"))).perform(click())
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).username, "BjLairy")
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).type, R.string.selling)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(TestUtils.getHamburgerButton()).perform(click())
+        Thread.sleep(500)
         onView(allOf(withText("Orders"), withResourceName("material_drawer_name"))).perform(click())
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).username, "BjLairy")
         assertEquals((controller.router.getControllerWithTag("SingleListController") as SingleListController).type, R.string.orders)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(TestUtils.getHamburgerButton()).perform(click())
+        Thread.sleep(500)
         onView(allOf(withText("Search"), withResourceName("material_drawer_name"))).perform(click())
+        Thread.sleep(500)
         assertNotNull(controller.router.getControllerWithTag("SearchController"))
         closeSoftKeyboard()
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(TestUtils.getHamburgerButton()).perform(click())
+        Thread.sleep(500)
         onView(allOf(withText("About"), withResourceName("material_drawer_name"))).perform(click())
+        Thread.sleep(500)
         onView(TestUtils.getHamburgerButton()).perform(click()) // As this is an Activity (not a Controller) use this to go back
 
         onView(TestUtils.getHamburgerButton()).perform(click())
+        Thread.sleep(500)
         onView(allOf(withText("Logout"), withResourceName("material_drawer_name"))).perform(click())
 
         verify(daoManager).clearRecentSearchTerms()
@@ -146,20 +167,25 @@ class HomeControllerTest {
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[0].artists + " - " + fourViewedReleases[0].releaseName))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        Thread.sleep(1500)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, fourViewedReleases[0].releaseName)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, fourViewedReleases[0].releaseId)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         // Have to scroll to items before trying to click them otherwise Espresso won't be able to find views off screen
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[1].artists + " - " + fourViewedReleases[1].releaseName))))
                 .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(1))
+        Thread.sleep(500)
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[1].artists + " - " + fourViewedReleases[1].releaseName))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, fourViewedReleases[1].releaseName)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, fourViewedReleases[1].releaseId)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[1].artists + " - " + fourViewedReleases[1].releaseName)))) //Use an already displayed view to match the Carousel
@@ -167,9 +193,11 @@ class HomeControllerTest {
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[2].artists + " - " + fourViewedReleases[2].releaseName))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, fourViewedReleases[2].releaseName)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, fourViewedReleases[2].releaseId)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[2].artists + " - " + fourViewedReleases[2].releaseName)))) //Use an already displayed view to match the Carousel
@@ -177,6 +205,7 @@ class HomeControllerTest {
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[3].artists + " - " + fourViewedReleases[3].releaseName))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(3, click()))
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, fourViewedReleases[3].releaseName)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, fourViewedReleases[3].releaseId)
     }
@@ -191,20 +220,25 @@ class HomeControllerTest {
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(recommendations[0].title))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        Thread.sleep(1500)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, recommendations[0].title)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, recommendations[0].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(recommendations[1].title))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, recommendations[1].title)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, recommendations[1].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(recommendations[2].title))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
+        Thread.sleep(500)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, recommendations[2].title)
         assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, recommendations[2].id)
     }
@@ -217,10 +251,13 @@ class HomeControllerTest {
         Thread.sleep(500)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText("Buyer: " + orders[0].buyer.username)), click()))
+        Thread.sleep(1500)
         assertEquals((controller.router.getControllerWithTag("OrderController") as OrderController).id, orders[0].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText("Buyer: " + orders[1].buyer.username)), click()))
+        Thread.sleep(1000)
         assertEquals((controller.router.getControllerWithTag("OrderController") as OrderController).id, orders[1].id)
     }
 
@@ -232,16 +269,21 @@ class HomeControllerTest {
         controller.controller.setSelling(listings)
         Thread.sleep(500)
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(listings[0].getTitle())), click()))
+        Thread.sleep(1500)
         assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).title, listings[0].getTitle())
         assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).id, listings[0].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(1000)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(listings[1].getTitle())), click()))
+        Thread.sleep(1000)
         assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).title, listings[1].getTitle())
         assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).id, listings[1].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(1000)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(listings[2].getTitle())), click()))
+        Thread.sleep(1000)
         assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).title, listings[2].getTitle())
         assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).id, listings[2].id)
     }
@@ -262,6 +304,7 @@ class HomeControllerTest {
             controller.showLoading(false)
             controller.setupRecyclerView()
         })
+        Thread.sleep(1500)
         // TapTargetView
         onView(withId(R.id.search)).perform(click())
         onView(TestUtils.getHamburgerButton()).perform(click())

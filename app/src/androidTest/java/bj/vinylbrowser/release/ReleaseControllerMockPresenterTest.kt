@@ -74,6 +74,7 @@ class ReleaseControllerMockPresenterTest {
             controller = ReleaseController(releaseTitle, releaseId)
             controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
+            Thread.sleep(500)
             controller.controller.setRelease(release)
             Thread.sleep(100) //Sleep as you can't call two requestModelBuilds() simultaneously
             controller.controller.setReleaseListings(releaseListings)
@@ -91,12 +92,14 @@ class ReleaseControllerMockPresenterTest {
         Assert.assertEquals((controller.router.getControllerWithTag("LabelController") as LabelController).title, release.labels[0].name)
         Assert.assertEquals((controller.router.getControllerWithTag("LabelController") as LabelController).id, release.labels[0].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
         // This will fail on emulators that don't have YouTube installed
         //        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(release.getVideos().get(0).getTitle())), click()));
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(releaseListings[0].price)), click()))
         Assert.assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).title, release.title)
         Assert.assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).id, releaseListings[0].marketPlaceId)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(releaseListings[1].price)), click()))
         Assert.assertEquals((controller.router.getControllerWithTag("MarketplaceController") as MarketplaceController).title, release.title)

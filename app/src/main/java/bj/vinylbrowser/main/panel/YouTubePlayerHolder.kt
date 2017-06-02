@@ -16,7 +16,7 @@ open class YouTubePlayerHolder {
         return youTubePlayerSupportFragment
     }
 
-    fun initializeYouTubeFragment(youtubeId: String) {
+    fun initializeYouTubeFragment(playerListener: YouTubePlayer.PlayerStateChangeListener, youtubeId: String) {
         youTubePlayerSupportFragment.initialize("AIzaSyAQ75jaUUbURNpuA9bdyY-pgb72awgw68I",
                 object : YouTubePlayer.OnInitializedListener {
                     override fun onInitializationSuccess(provider: YouTubePlayer.Provider, youTubePlayer: YouTubePlayer, wasRestored: Boolean) {
@@ -25,46 +25,7 @@ open class YouTubePlayerHolder {
                             youTubePlayer.setShowFullscreenButton(false)
                             youTubePlayer.loadVideo(youtubeId)
 
-//                            youtubePlayer.setPlayerStateChangeListener(object : YouTubePlayer.PlayerStateChangeListener {
-//                                override fun onAdStarted() {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                                override fun onLoading() {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                                override fun onVideoStarted() {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                                override fun onLoaded(p0: String?) {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                                override fun onVideoEnded() {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                                override fun onError(p0: YouTubePlayer.ErrorReason?) {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                            })
-//                            youtubePlayer.setPlaylistEventListener(object : YouTubePlayer.PlaylistEventListener {
-//                                override fun onPlaylistEnded() {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                                override fun onPrevious() {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                                override fun onNext() {
-//                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                                }
-//
-//                            })
+                            youtubePlayer.setPlayerStateChangeListener(playerListener)
                         }
                     }
 

@@ -84,6 +84,7 @@ class ArtistReleasesControllerMockNetworkTest {
             controller = ArtistReleasesController(artistTitle, artistId)
             controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
+            Thread.sleep(500)
         })
     }
 
@@ -120,23 +121,31 @@ class ArtistReleasesControllerMockNetworkTest {
     fun onClick_launchesCorrectIntents() {
         // Start from 1 as first element is SmallEmptySpaceModel_
         onView(allOf(withId(R.id.recyclerView), isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
+        Thread.sleep(500)
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).id, releases[0].id)
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).title, releases[0].title)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(allOf(withId(R.id.recyclerView), isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
+        Thread.sleep(500)
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).id, releases[1].id)
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).title, releases[1].title)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(withId(R.id.viewpager)).perform(withCustomConstraints(swipeLeft(), isDisplayingAtLeast(51)))
-        Thread.sleep(500)
+        Thread.sleep(1000)
         onView(allOf(withId(R.id.recyclerView), isDisplayingAtLeast(51))).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
+        Thread.sleep(1000)
+        // Blank screen here. Need to fix
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, releases[2].id)
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, releases[2].title)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
+        Thread.sleep(500)
 
         onView(allOf(withId(R.id.recyclerView), isDisplayingAtLeast(51))).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
+        Thread.sleep(500)
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, releases[3].id)
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, releases[3].title)
     }

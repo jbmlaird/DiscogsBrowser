@@ -29,8 +29,8 @@ public class YouTubeListModule
 
     @Provides
     @ChildFragmentScope
-    protected YouTubePlayerPresenter provideYoutubePlayerPresenter(YouTubePlayerEpxController controller, YouTubePlayerHolder youTubePlayerHolder)
+    protected YouTubePlayerPresenter provideYoutubePlayerPresenter(Context context, YouTubePlayerEpxController controller, YouTubePlayerHolder youTubePlayerHolder)
     {
-        return new YouTubePlayerPresenter(controller, youTubePlayerHolder);
+        return new YouTubePlayerPresenter(context, controller, youTubePlayerHolder);
     }
 }

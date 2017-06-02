@@ -2,6 +2,9 @@
 <manifest package="bj.vinylbrowser"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <compatible-screens>
 
         <!-- all small size screens -->
@@ -50,9 +53,6 @@
             android:screenDensity="640"
             android:screenSize="normal"/>
     </compatible-screens>
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".App"

@@ -85,4 +85,11 @@ public class YouTubePlayerEpxController extends EpoxyController
         videos.add(video);
         requestModelBuild();
     }
+
+    public Video removeNextVideo()
+    {
+        Video video = videos.remove(0);
+        requestModelBuild();
+        return video;
+    }
 }
