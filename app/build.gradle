@@ -75,9 +75,6 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
     annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
-    compile('com.mikepenz:materialdrawer:5.8.1@aar') {
-        transitive = true
-    }
     compile "com.jakewharton.rxbinding2:rxbinding:$RXBINDING_VERSION"
     compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$RXBINDING_VERSION"
     compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$RXBINDING_VERSION"
