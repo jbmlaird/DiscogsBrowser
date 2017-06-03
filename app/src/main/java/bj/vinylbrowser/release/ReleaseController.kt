@@ -1,7 +1,5 @@
 package bj.vinylbrowser.release
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -71,11 +69,6 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
                 .popChangeHandler(FadeChangeHandler())
                 .pushChangeHandler(FadeChangeHandler())
                 .tag("MarketplaceController"))
-    }
-
-    override fun launchYouTube(uri: String?) {
-        tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.clicked), "launchYoutube", "1")
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + uri)))
     }
 
     override fun displayLabel(title: String?, id: String?) {

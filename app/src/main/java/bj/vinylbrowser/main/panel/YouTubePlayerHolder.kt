@@ -1,5 +1,7 @@
 package bj.vinylbrowser.main.panel
 
+import android.content.Context
+import android.widget.Toast
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerSupportFragment
@@ -7,8 +9,8 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment
 /**
  * Created by Josh Laird on 01/06/2017.
  */
-open class YouTubePlayerHolder {
-    lateinit var youtubePlayer: YouTubePlayer
+open class YouTubePlayerHolder(val context: Context) {
+    var youtubePlayer: YouTubePlayer? = null
     lateinit var youTubePlayerSupportFragment: YouTubePlayerSupportFragment
 
     fun buildYouTubeFragment(): YouTubePlayerSupportFragment {
@@ -25,15 +27,19 @@ open class YouTubePlayerHolder {
                             youTubePlayer.setShowFullscreenButton(false)
                             youTubePlayer.loadVideo(youtubeId)
 
-                            youtubePlayer.setPlayerStateChangeListener(playerListener)
+                            youtubePlayer!!.setPlayerStateChangeListener(playerListener)
                         }
                     }
 
-                    override fun onInitializationFailure(provider: YouTubePlayer.Provider, youTubeInitializationResult: YouTubeInitializationResult) {}
+                    override fun onInitializationFailure(provider: YouTubePlayer.Provider, youTubeInitializationResult: YouTubeInitializationResult) {
+                        Toast.makeText(context, "Unable to initialise YouTube", Toast.LENGTH_SHORT).show()
+                    }
                 })
     }
 
     fun isPlaying(): Boolean {
-        return youtubePlayer.isPlaying
+        if (youtubePlayer?.isPlaying == true)
+            return true
+        return false
     }
 }

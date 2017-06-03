@@ -20,6 +20,10 @@ object ReleaseFactory {
         return buildRelease("", id, true, false, false, 7, 0, 0)
     }
 
+    @JvmStatic fun buildReleaseNoLabelFiveTracksTwoVideos(id: String): Release {
+        return buildRelease("", id, false, false, false, 5, 2, 0)
+    }
+
     @JvmStatic fun buildReleaseWithLabelFiveTracksTwoVideos(id: String): Release {
         return buildRelease("", id, true, false, false, 5, 2, 0)
     }
@@ -48,8 +52,8 @@ object ReleaseFactory {
         return Label(id = labelId, name = "release" + labelId, profile = "profile" + labelId)
     }
 
-    private fun buildVideo(index: Int): Video {
-        return Video("", 0, false, "videoNumber" + index, "uri=uri")
+    fun buildVideo(index: Int): Video {
+        return Video("video" + index, index, false, "videoNumber" + index, "uri=uri" + index)
     }
 
     private fun buildTrack(number: Int, trackNumber: String): Track {

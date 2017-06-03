@@ -14,8 +14,6 @@ public interface ReleaseContract
     {
         void displayListingInformation(String title, String subtitle, ScrapeListing scrapeListing);
 
-        void launchYouTube(String uri);
-
         void displayLabel(String title, String id);
 
         void retryCollectionWantlist();

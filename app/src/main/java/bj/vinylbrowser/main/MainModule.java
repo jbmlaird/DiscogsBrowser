@@ -1,5 +1,7 @@
 package bj.vinylbrowser.main;
 
+import android.content.Context;
+
 import bj.vinylbrowser.di.scopes.ActivityScope;
 import bj.vinylbrowser.main.panel.YouTubeListFragment;
 import bj.vinylbrowser.main.panel.YouTubePlayerHolder;
@@ -28,9 +30,9 @@ public class MainModule
 
     @Provides
     @ActivityScope
-    protected YouTubePlayerHolder provideYoutubePlayerHolder()
+    protected YouTubePlayerHolder provideYoutubePlayerHolder(Context context)
     {
-        return new YouTubePlayerHolder();
+        return new YouTubePlayerHolder(context);
     }
 
     @Provides

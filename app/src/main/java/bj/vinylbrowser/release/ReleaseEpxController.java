@@ -51,7 +51,7 @@ public class ReleaseEpxController extends BaseEpxController
     private boolean listingsError;
     private boolean collectionLoading = true;
     private AnalyticsTracker tracker;
-    private MainPresenter mainPresenter;
+    MainPresenter mainPresenter;
 
     public ReleaseEpxController(Context context, ReleaseContract.View view, ArtistsBeautifier artistsBeautifier, ImageViewAnimator imageViewAnimator,
                                 CollectionWantlistPresenter presenter, AnalyticsTracker tracker, MainPresenter mainPresenter)

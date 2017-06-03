@@ -60,6 +60,14 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if (youTubePlayerHolder.getYoutubePlayer() != null)
+            youTubePlayerHolder.getYoutubePlayer().release();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -67,6 +75,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
         {
             startActivity(LoginActivity.createIntent(this));
             finish();
+            return;
         }
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);

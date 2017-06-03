@@ -57,7 +57,7 @@ public class YouTubePlayerEpxController extends EpoxyController
                             .onPlayClick(v ->
                             {
                                 videos.remove(video);
-                                youTubePlayerHolder.youtubePlayer.loadVideo(youtubeId);
+                                youTubePlayerHolder.getYoutubePlayer().loadVideo(youtubeId);
                                 requestModelBuild();
                             })
                             .imageUrl("https://img.youtube.com/vi/" + youtubeId + "/default.jpg")

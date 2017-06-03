@@ -78,7 +78,7 @@ class HomeController : BaseController(), HomeContract.View {
         else {
             setupRecyclerView()
             presenter.buildViewedReleases()
-//            presenter.buildRecommendations()
+            presenter.buildRecommendations()
         }
     }
 

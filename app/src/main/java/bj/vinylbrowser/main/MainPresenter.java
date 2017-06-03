@@ -32,4 +32,9 @@ public class MainPresenter implements MainContract.Presenter
     {
         view.minimiseDraggablePanel();
     }
+
+    public YouTubePlayerPresenter getYouTubePlayerPresenter()
+    {
+        return youTubePlayerPresenter;
+    }
 }

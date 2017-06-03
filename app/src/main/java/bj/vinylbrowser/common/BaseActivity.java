@@ -32,7 +32,8 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        unbinder.unbind();
+        if (unbinder != null)
+            unbinder.unbind();
     }
 
     public abstract void setupComponent(AppComponent appComponent);

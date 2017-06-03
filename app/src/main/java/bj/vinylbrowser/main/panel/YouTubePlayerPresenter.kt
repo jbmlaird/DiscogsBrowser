@@ -10,6 +10,8 @@ import com.google.android.youtube.player.YouTubePlayer
  */
 class YouTubePlayerPresenter(val context: Context, val controller: YouTubePlayerEpxController, val youTubePlayerHolder: YouTubePlayerHolder) : YouTubePlayer.PlayerStateChangeListener {
     var playerInitialised = false
+    var isError = false
+    var videoLoaded = false
 
     fun addVideo(video: Video) {
         val youtubeId = video.uri.split("=".toRegex())[1]
@@ -17,8 +19,8 @@ class YouTubePlayerPresenter(val context: Context, val controller: YouTubePlayer
             playerInitialised = true
             youTubePlayerHolder.initializeYouTubeFragment(this, youtubeId)
         } else {
-            if (!youTubePlayerHolder.isPlaying() && controller.videos.size == 0) {
-                youTubePlayerHolder.youtubePlayer.loadVideo(youtubeId)
+            if (!youTubePlayerHolder.isPlaying() && controller.videos.size == 0 && !isError && !videoLoaded) {
+                youTubePlayerHolder.youtubePlayer?.loadVideo(youtubeId)
             } else {
                 controller.addVideo(video)
                 Toast.makeText(context, "Added to up next", Toast.LENGTH_SHORT).show()
@@ -28,18 +30,31 @@ class YouTubePlayerPresenter(val context: Context, val controller: YouTubePlayer
 
     override fun onAdStarted() {}
 
-    override fun onLoading() {}
+    override fun onLoading() {
+        videoLoaded = true
+    }
 
-    override fun onVideoStarted() {}
+    override fun onVideoStarted() {
+        isError = false
+        videoLoaded = true
+    }
 
-    override fun onLoaded(p0: String?) {}
+    override fun onLoaded(p0: String?) {
+        videoLoaded = true
+    }
 
     override fun onVideoEnded() {
-        if (controller.videos.size > 0)
-            youTubePlayerHolder.youtubePlayer.loadVideo(controller.removeNextVideo().uri.split("=".toRegex())[1])
+        videoLoaded = false
+        if (controller.videos.size > 0) {
+            isError = false
+            youTubePlayerHolder.youtubePlayer?.loadVideo(controller.removeNextVideo().uri.split("=".toRegex())[1])
+        }
     }
 
     override fun onError(p0: YouTubePlayer.ErrorReason?) {
-        Toast.makeText(context, "There was an error playing the video", Toast.LENGTH_SHORT).show()
+        if (p0!!.name != ("UNAUTHORIZED_OVERLAY"))
+            Toast.makeText(context, "There was an error playing the video", Toast.LENGTH_SHORT).show()
+        isError = true
+        videoLoaded = false
     }
 }
