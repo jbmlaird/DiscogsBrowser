@@ -19,7 +19,7 @@ import javax.inject.Inject
  */
 class ArtistReleasesChildController(val map: String) : Controller(), ArtistReleasesChildContract.View {
     @Inject lateinit var presenter: ArtistReleasesChildPresenter
-    @Inject lateinit var controller: ArtistReleasesEpxController
+    @Inject lateinit var epxController: ArtistReleasesEpxController
 
     constructor(args: Bundle) : this(args.getString("map"))
 
@@ -31,7 +31,7 @@ class ArtistReleasesChildController(val map: String) : Controller(), ArtistRelea
                 .inject(this)
 
         val view = inflater.inflate(R.layout.controller_artist_releases_child, container, false)
-        setupRecyclerView(view.recyclerView, controller)
+        setupRecyclerView(view.recyclerView, epxController)
         presenter.connectToBehaviorRelay(map)
         presenter.bind(this)
         return view
@@ -40,7 +40,7 @@ class ArtistReleasesChildController(val map: String) : Controller(), ArtistRelea
     override fun onAttach(view: View) {
         super.onAttach(view)
         if (view.recyclerView.adapter == null)
-            setupRecyclerView(view.recyclerView, controller)
+            setupRecyclerView(view.recyclerView, epxController)
     }
 
     override fun onDetach(view: View) {
@@ -61,11 +61,11 @@ class ArtistReleasesChildController(val map: String) : Controller(), ArtistRelea
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
         super.onRestoreViewState(view, savedViewState)
-        controller.setItems(savedViewState.getParcelableArrayList<ArtistRelease>("artistReleases")) // Must use this syntax to call requestModelBuild()
+        epxController.setItems(savedViewState.getParcelableArrayList<ArtistRelease>("artistReleases")) // Must use this syntax to call requestModelBuild()
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) {
-        outState.putParcelableArrayList("artistReleases", controller.items as ArrayList<ArtistRelease>)
+        outState.putParcelableArrayList("artistReleases", epxController.items as ArrayList<ArtistRelease>)
         super.onSaveViewState(view, outState)
     }
 }

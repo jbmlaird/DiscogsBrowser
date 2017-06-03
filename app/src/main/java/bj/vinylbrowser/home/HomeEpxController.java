@@ -31,7 +31,7 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker;
 /**
  * Created by Josh Laird on 17/04/2017.
  * <p>
- * Epoxy v2 Adapter controller.
+ * Epoxy v2 Adapter epxController.
  */
 public class HomeEpxController extends EpoxyController
 {

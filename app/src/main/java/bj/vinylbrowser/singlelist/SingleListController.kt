@@ -37,7 +37,7 @@ class SingleListController(val type: Int, val username: String)
     @Inject lateinit var presenter: SingleListPresenter
     @Inject lateinit var imageViewAnimator: ImageViewAnimator
     @Inject lateinit var tracker: AnalyticsTracker
-    @Inject lateinit var controller: SingleListEpxController
+    @Inject lateinit var epxController: SingleListEpxController
     lateinit var etFilter: EditText
 
     constructor(args: Bundle) : this(args.getInt("type"), args.getString("username"))
@@ -54,10 +54,10 @@ class SingleListController(val type: Int, val username: String)
         setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_single_list, container, false)
         setupToolbar(view.toolbar, "")
-        setupRecyclerView(view.recyclerView, controller)
+        setupRecyclerView(view.recyclerView, epxController)
         etFilter = view.etFilter
         presenter.setupFilterSubscription()
-        controller.requestModelBuild()
+        epxController.requestModelBuild()
         presenter.getData(type, username)
         return view
     }
@@ -65,7 +65,7 @@ class SingleListController(val type: Int, val username: String)
     override fun onAttach(view: View) {
         super.onAttach(view)
         if (view.recyclerView.adapter == null)
-            setupRecyclerView(view.recyclerView, controller)
+            setupRecyclerView(view.recyclerView, epxController)
     }
 
     override fun launchDetailedActivity(type: String, title: String, id: String) {
@@ -108,20 +108,20 @@ class SingleListController(val type: Int, val username: String)
     }
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
-        controller.setItems(savedViewState.get("items") as MutableList<out RecyclerViewModel>)
+        epxController.setItems(savedViewState.get("items") as MutableList<out RecyclerViewModel>)
         super.onRestoreViewState(view, savedViewState)
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) {
         when (type) {
             R.string.selling ->
-                outState.putParcelableArrayList("items", (controller.items as ArrayList<Listing>))
+                outState.putParcelableArrayList("items", (epxController.items as ArrayList<Listing>))
             R.string.orders ->
-                outState.putParcelableArrayList("items", (controller.items as ArrayList<Order>))
+                outState.putParcelableArrayList("items", (epxController.items as ArrayList<Order>))
             R.string.drawer_item_collection ->
-                outState.putParcelableArrayList("items", (controller.items as ArrayList<CollectionRelease>))
+                outState.putParcelableArrayList("items", (epxController.items as ArrayList<CollectionRelease>))
             R.string.drawer_item_wantlist ->
-                outState.putParcelableArrayList("items", (controller.items as ArrayList<Want>))
+                outState.putParcelableArrayList("items", (epxController.items as ArrayList<Want>))
         }
         super.onSaveViewState(view, outState)
     }

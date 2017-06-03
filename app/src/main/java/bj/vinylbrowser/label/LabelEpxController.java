@@ -131,7 +131,7 @@ public class LabelEpxController extends BaseEpxController
             }
         }
         new SmallEmptySpaceModel_()
-                .id("end of controller model")
+                .id("end of epxController model")
                 .addTo(this);
     }
 

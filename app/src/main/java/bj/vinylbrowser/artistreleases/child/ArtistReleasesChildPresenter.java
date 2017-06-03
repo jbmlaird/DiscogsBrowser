@@ -64,7 +64,7 @@ public class ArtistReleasesChildPresenter implements ArtistReleasesChildContract
     @Override
     public void bind(ArtistReleasesChildController controller)
     {
-        this.controller = controller.getController();
+        this.controller = controller.getEpxController();
     }
 
     @Override

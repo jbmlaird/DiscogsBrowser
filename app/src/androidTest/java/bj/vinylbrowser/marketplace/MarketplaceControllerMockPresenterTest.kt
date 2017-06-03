@@ -69,11 +69,11 @@ class MarketplaceControllerMockPresenterTest {
             controller = MarketplaceController(listingTitle, listingId, "", "")
             controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
-            controller.controller.setListing(listing)
+            controller.epxController.setListing(listing)
             Thread.sleep(100) //Sleep as you can't call two requestModelBuilds() simultaneously
-            controller.controller.setSellerDetails(testUserDetails)
+            controller.epxController.setSellerDetails(testUserDetails)
         })
-        epxController = controller.controller
+        epxController = controller.epxController
     }
 
     @Test

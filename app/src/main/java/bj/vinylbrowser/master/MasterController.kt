@@ -22,7 +22,7 @@ import javax.inject.Inject
 class MasterController(val title: String, val id: String) : BaseController(), MasterContract.View {
     @Inject lateinit var presenter: MasterPresenter
     @Inject lateinit var tracker: AnalyticsTracker
-    @Inject lateinit var controller: MasterEpxController
+    @Inject lateinit var epxController: MasterEpxController
 
     constructor(args: Bundle) : this(args.getString("title"), args.getString("id"))
 
@@ -38,8 +38,8 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
         setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
         setupToolbar(view.toolbar, "")
-        setupRecyclerView(view.recyclerView, controller)
-        controller.setTitle(title)
+        setupRecyclerView(view.recyclerView, epxController)
+        epxController.setTitle(title)
         presenter.fetchReleaseDetails(id)
         return view
     }
@@ -49,7 +49,7 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
         tracker.send(applicationContext!!.getString(R.string.master_activity), applicationContext!!.getString(R.string.master_activity),
                 applicationContext!!.getString(R.string.loaded), "onResume", "1")
         if (view.recyclerView.adapter == null)
-            setupRecyclerView(view.recyclerView, controller)
+            setupRecyclerView(view.recyclerView, epxController)
     }
 
     override fun displayRelease(title: String, id: String) {
@@ -69,13 +69,13 @@ class MasterController(val title: String, val id: String) : BaseController(), Ma
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
         super.onRestoreViewState(view, savedViewState)
-        controller.setMaster(savedViewState.getParcelable("master"))
-        controller.setMasterVersions(savedViewState.getParcelableArrayList("masterVersions"))
+        epxController.setMaster(savedViewState.getParcelable("master"))
+        epxController.setMasterVersions(savedViewState.getParcelableArrayList("masterVersions"))
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) {
-        outState.putParcelable("master", controller.master)
-        outState.putParcelableArrayList("masterVersions", controller.masterVersions as ArrayList<MasterVersion>)
+        outState.putParcelable("master", epxController.master)
+        outState.putParcelableArrayList("masterVersions", epxController.masterVersions as ArrayList<MasterVersion>)
         super.onSaveViewState(view, outState)
     }
 }

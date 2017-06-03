@@ -55,9 +55,9 @@ class OrderControllerMockPresenterTest {
             controller = OrderController(orderId)
             controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
-            controller.controller.setOrderDetails(order)
+            controller.epxController.setOrderDetails(order)
         })
-        epxController = controller.controller
+        epxController = controller.epxController
     }
 
     @Test

@@ -49,8 +49,8 @@ public class Carousel extends RecyclerView
 
     public void setModels(List<? extends EpoxyModel<?>> models)
     {
-        // If this is the first time setting models we create a new controller. This is because the
-        // first time a controller builds models it happens right away, otherwise it is posted. We
+        // If this is the first time setting models we create a new epxController. This is because the
+        // first time a epxController builds models it happens right away, otherwise it is posted. We
         // need it to happen right away so the models show immediately and so the adapter is
         // populated so the carousel scroll state can be restored.
         if (controller == null)
@@ -61,13 +61,13 @@ public class Carousel extends RecyclerView
         }
 
         // If the models are set again without being cleared first (eg colors are inserted, shuffled,
-        // or changed), then reusing the same controller allows diffing to work correctly.
+        // or changed), then reusing the same epxController allows diffing to work correctly.
         controller.setModels(models);
     }
 
     public void clearModels()
     {
-        // The controller is cleared so the next time models are set we can create a fresh one.
+        // The epxController is cleared so the next time models are set we can create a fresh one.
         controller.cancelPendingModelBuild();
         controller = null;
 

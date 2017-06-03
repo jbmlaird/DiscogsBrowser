@@ -18,7 +18,7 @@ import javax.inject.Inject
 class OrderController(val id: String) : BaseController(), OrderContract.View {
     @Inject lateinit var presenter: OrderPresenter
     @Inject lateinit var tracker: AnalyticsTracker
-    @Inject lateinit var controller: OrderEpxController
+    @Inject lateinit var epxController: OrderEpxController
 
     constructor(args: Bundle) : this(args.getString("id"))
 
@@ -34,7 +34,7 @@ class OrderController(val id: String) : BaseController(), OrderContract.View {
         setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_order, container, false)
         setupToolbar(view.toolbar, id)
-        setupRecyclerView(view.recyclerView, controller)
+        setupRecyclerView(view.recyclerView, epxController)
         presenter.fetchOrderDetails(id)
         return view
     }

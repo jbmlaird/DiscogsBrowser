@@ -28,7 +28,7 @@ import javax.inject.Inject
 class LabelController(val title: String, val id: String) : BaseController(), LabelContract.View {
     @Inject lateinit var presenter: LabelPresenter
     @Inject lateinit var tracker: AnalyticsTracker
-    @Inject lateinit var controller: LabelEpxController
+    @Inject lateinit var epxController: LabelEpxController
     lateinit var recyclerView: MyRecyclerView
     lateinit var toolbar: Toolbar
 
@@ -47,7 +47,7 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
         setupComponent((activity as MainActivity).mainComponent)
         recyclerView = view.recyclerView
         setupToolbar(view.toolbar, "")
-        setupRecyclerView(recyclerView, controller, title)
+        setupRecyclerView(recyclerView, epxController, title)
         presenter.fetchReleaseDetails(id)
         return view
     }
@@ -55,7 +55,7 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
     override fun onAttach(view: View) {
         super.onAttach(view)
         if (view.recyclerView.adapter == null)
-            setupRecyclerView(view.recyclerView, controller, title)
+            setupRecyclerView(view.recyclerView, epxController, title)
     }
 
     private fun setupRecyclerView(recyclerView: MyRecyclerView?, controller: LabelEpxController, title: String?) {
@@ -86,13 +86,13 @@ class LabelController(val title: String, val id: String) : BaseController(), Lab
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
         super.onRestoreViewState(view, savedViewState)
-        controller.setLabel(savedViewState.getParcelable<Label>("label"))
-        controller.setLabelReleases(savedViewState.getParcelableArrayList("labelReleases"))
+        epxController.setLabel(savedViewState.getParcelable<Label>("label"))
+        epxController.setLabelReleases(savedViewState.getParcelableArrayList("labelReleases"))
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) {
-        outState.putParcelable("label", controller.label)
-        outState.putParcelableArrayList("labelReleases", controller.labelReleases as ArrayList<LabelRelease>)
+        outState.putParcelable("label", epxController.label)
+        outState.putParcelableArrayList("labelReleases", epxController.labelReleases as ArrayList<LabelRelease>)
         super.onSaveViewState(view, outState)
     }
 }

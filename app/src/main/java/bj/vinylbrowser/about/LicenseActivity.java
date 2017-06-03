@@ -18,7 +18,6 @@ import bj.vinylbrowser.R;
  * <p>
  * License page powered by Material About Library by Daniel Stone: https://github.com/daniel-stoneuk/material-about-library
  */
-
 public class LicenseActivity extends AboutActivity
 {
     @NonNull
@@ -44,9 +43,12 @@ public class LicenseActivity extends AboutActivity
         MaterialAboutCard toasty = buildMaterialAboutCard(context, "Toasty", R.string.license_gpl, "2017", "GrenderG");
         MaterialAboutCard materialAboutLibrary = buildMaterialAboutCard(context, "Material About Library", R.string.license_apache2, "2016", "Daniel Stone");
         MaterialAboutCard tapTargetView = buildMaterialAboutCard(context, "TapTargetView", R.string.license_apache2, "2016", "Keepsafe Software Inc.");
+        MaterialAboutCard youTubeAndroidPlayer = buildMaterialAboutCard(context, "YouTube Android Player", R.string.license_apache2, "2017", "YouTube");
+        MaterialAboutCard conductor = buildMaterialAboutCard(context, "Conductor", R.string.license_apache2, "2016-2017", "BlueLine Labs");
 
         return new MaterialAboutList(discogsBrowser, rxJavaRxAndroid, retrofit2, rxCache, dagger2, butterKnife, materialDrawer, rxBinding2, leakCanary, rxRelay,
-                jSoup, circleImageView, materialDialogs, rxSocialConnect, greenDao, loadingButtonAndroid, toasty, materialAboutLibrary, tapTargetView);
+                jSoup, circleImageView, materialDialogs, rxSocialConnect, greenDao, loadingButtonAndroid, toasty, materialAboutLibrary, tapTargetView,
+                youTubeAndroidPlayer, conductor);
     }
 
     /**

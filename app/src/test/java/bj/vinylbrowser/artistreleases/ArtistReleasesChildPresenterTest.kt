@@ -59,7 +59,7 @@ class ArtistReleasesChildPresenterTest {
     @Throws(Exception::class)
     fun behaviorRelayValid_controllerDisplays() {
         val mockChildController: ArtistReleasesChildController = mock()
-        whenever(mockChildController.controller).thenReturn(epxController)
+        whenever(mockChildController.epxController).thenReturn(epxController)
         val artistReleases = ArrayList<ArtistRelease>()
         artistReleases.add(ArtistRelease())
         val just = Single.just<List<ArtistRelease>>(artistReleases)
@@ -84,7 +84,7 @@ class ArtistReleasesChildPresenterTest {
     @Throws(Exception::class)
     fun behaviorRelayError_controllerSetsError() {
         val mockChildController: ArtistReleasesChildController = mock()
-        whenever(mockChildController.controller).thenReturn(epxController)
+        whenever(mockChildController.epxController).thenReturn(epxController)
         whenever(disposable.add(any<Disposable>())).thenReturn(true)
         val artistReleases = mutableListOf<ArtistRelease>()
         artistReleases.add(ArtistRelease())

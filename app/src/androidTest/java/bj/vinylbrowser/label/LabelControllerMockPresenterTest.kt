@@ -72,11 +72,11 @@ class LabelControllerMockPresenterTest {
             controller = LabelController(title, id)
             controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
-            controller.controller.setLabel(testLabel)
+            controller.epxController.setLabel(testLabel)
             Thread.sleep(100) //Sleep as you can't call two requestModelBuilds() simultaneously
-            controller.controller.setLabelReleases(listOf(labelRelease))
+            controller.epxController.setLabelReleases(listOf(labelRelease))
         })
-        epxController = controller.controller
+        epxController = controller.epxController
     }
 
     @Test

@@ -12,8 +12,8 @@ android {
         applicationId "bj.vinylbrowser"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -57,8 +57,16 @@ dependencies {
     androidTestCompile "com.android.support.test.espresso:espresso-intents:$ESPRESSO_VERSION"
     androidTestCompile "org.mockito:mockito-android:$MOCKITO_VERSION"
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION"
+    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.5'
+    androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    androidTestCompile 'com.nhaarman:mockito-kotlin:1.4.0'
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+
     testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.3.2'
+    testCompile 'com.nhaarman:mockito-kotlin:1.4.0'
+
     compile "com.android.support:appcompat-v7:$APPCOMPAT_VERSION"
     compile "com.android.support:design:$APPCOMPAT_VERSION"
     compile "com.android.support:cardview-v7:$APPCOMPAT_VERSION"
@@ -107,12 +115,6 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
     compile 'com.bluelinelabs:conductor:2.1.3'
     compile 'com.bluelinelabs:conductor-support:2.1.3'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.3.2'
-    testCompile 'com.nhaarman:mockito-kotlin:1.4.0'
-    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.5'
-    androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    androidTestCompile 'com.nhaarman:mockito-kotlin:1.4.0'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
 }
 

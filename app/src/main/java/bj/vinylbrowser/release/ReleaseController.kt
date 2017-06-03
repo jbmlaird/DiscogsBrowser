@@ -27,7 +27,7 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
     @Inject lateinit var artistsBeautifier: ArtistsBeautifier
     @Inject lateinit var presenter: ReleasePresenter
     @Inject lateinit var tracker: AnalyticsTracker
-    @Inject lateinit var controller: ReleaseEpxController
+    @Inject lateinit var epxController: ReleaseEpxController
 
     constructor(args: Bundle) : this(args.getString("title"), args.getString("id"))
 
@@ -43,9 +43,9 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
         setupComponent((activity as MainActivity).mainComponent)
         val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
         setupToolbar(view.toolbar, "")
-        setupRecyclerView(view.recyclerView, controller)
-        controller.setTitle(title)
-        controller.requestModelBuild()
+        setupRecyclerView(view.recyclerView, epxController)
+        epxController.setTitle(title)
+        epxController.requestModelBuild()
         presenter.fetchReleaseDetails(id)
         return view
     }
@@ -54,7 +54,7 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
         super.onAttach(view)
         tracker.send(applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.release_activity), applicationContext!!.getString(R.string.loaded), "onResume", "1")
         if (view.recyclerView.adapter == null) {
-            setupRecyclerView(view.recyclerView, controller)
+            setupRecyclerView(view.recyclerView, epxController)
         }
     }
 
@@ -94,11 +94,11 @@ class ReleaseController(val title: String, val id: String) : BaseController(), R
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
         super.onRestoreViewState(view, savedViewState)
-        controller.setRelease(savedViewState.getParcelable<Release>("release"))
+        epxController.setRelease(savedViewState.getParcelable<Release>("release"))
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) {
-        outState.putParcelable("release", controller.release)
+        outState.putParcelable("release", epxController.release)
         super.onSaveViewState(view, outState)
     }
 }

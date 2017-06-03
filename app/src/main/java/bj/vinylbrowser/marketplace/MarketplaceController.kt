@@ -24,7 +24,7 @@ class MarketplaceController(val title: String, val id: String, val artist: Strin
     @Inject lateinit var presenter: MarketplacePresenter
     @Inject lateinit var tracker: AnalyticsTracker
     @Inject lateinit var imageViewAnimator: ImageViewAnimator
-    @Inject lateinit var controller: MarketplaceEpxController
+    @Inject lateinit var epxController: MarketplaceEpxController
 
     constructor(args: Bundle) : this(args.getString("id"), args.getString("title"),
             args.getString("artist"), args.getString("seller"))
@@ -42,7 +42,7 @@ class MarketplaceController(val title: String, val id: String, val artist: Strin
         val view = inflater.inflate(R.layout.controller_marketplace_listing, container, false)
         setupToolbar(view.toolbar, id)
         presenter.getListingDetails(id)
-        setupRecyclerView(view.recyclerView, controller)
+        setupRecyclerView(view.recyclerView, epxController)
         return view
     }
 

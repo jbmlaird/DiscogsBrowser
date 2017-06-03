@@ -38,7 +38,7 @@ class HomeController : BaseController(), HomeContract.View {
     @set:JvmName("setDrawer_") var drawer: Drawer? = null
     @Inject lateinit var context: Context
     @Inject lateinit var tracker: AnalyticsTracker
-    @Inject lateinit var controller: HomeEpxController
+    @Inject lateinit var epxController: HomeEpxController
     @Inject lateinit var presenter: HomePresenter
     @Inject lateinit var imageViewAnimator: ImageViewAnimator
     @Inject lateinit var sharedPrefsManager: SharedPrefsManager
@@ -112,8 +112,8 @@ class HomeController : BaseController(), HomeContract.View {
 
     override fun setupRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.adapter = controller.adapter
-        controller.requestModelBuild()
+        recyclerView.adapter = epxController.adapter
+        epxController.requestModelBuild()
         showLoading(false)
     }
 

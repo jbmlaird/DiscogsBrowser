@@ -83,14 +83,14 @@ class ReleaseControllerMockPresenterTest {
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
             Thread.sleep(500)
         })
-        epxController = controller.controller
+        epxController = controller.epxController
     }
 
     @Test
     fun onClickNonVideos_controllersLaunched() {
-        controller.controller.setRelease(release)
+        controller.epxController.setRelease(release)
         Thread.sleep(100) //Sleep as you can't call two requestModelBuilds() simultaneously
-        controller.controller.setReleaseListings(releaseListings)
+        controller.epxController.setReleaseListings(releaseListings)
         Thread.sleep(500)
 
         onView(withText(release.title)).check(matches(isDisplayed()))
@@ -118,7 +118,7 @@ class ReleaseControllerMockPresenterTest {
     @Test
     fun onBothVideosClicked_windowDisplaysTwo() {
         release = ReleaseFactory.buildReleaseNoLabelFiveTracksTwoVideos("1")
-        controller.controller.setRelease(release)
+        controller.epxController.setRelease(release)
         Thread.sleep(500) //Sleep as you can't call two requestModelBuilds() simultaneously
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(

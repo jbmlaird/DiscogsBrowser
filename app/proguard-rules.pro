@@ -145,11 +145,5 @@ public static java.lang.String TABLENAME;
 -keepclasseswithmembernames class * { @com.airbnb.epoxy.AutoModel <methods>; }
 -keepclasseswithmembernames class * { @com.airbnb.epoxy.AutoModel <fields>; }
 
-##--Icepick--
--dontwarn icepick.**
--keep class icepick.** { *; }
--keep class **$$Icepick { *; }
--keepclasseswithmembernames class * {
-    @icepick.* <fields>;
-}
--keepnames class * { @icepick.State *;}
+-dontwarn javax.xml.bind.DatatypeConverter
+-dontwarn org.apache.commons.codec.binary.Base64

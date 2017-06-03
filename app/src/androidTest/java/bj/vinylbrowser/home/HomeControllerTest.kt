@@ -86,7 +86,7 @@ class HomeControllerTest {
         mActivityTestRule.launchActivity(null)
         Thread.sleep(500)
         controller = mActivityTestRule.activity.router.getControllerWithTag("HomeController") as HomeController
-        epxController = controller.controller
+        epxController = controller.epxController
         navigationDrawerBuilder = NavigationDrawerBuilder(getApp(), sharedPrefsManager, daoManager)
         initialiseUi()
     }
@@ -162,7 +162,7 @@ class HomeControllerTest {
     fun viewedReleases_intendCorrectly() {
         onView(withId(R.id.lytMainContent)).perform(swipeLeft())
 
-        controller.controller.setViewedReleases(fourViewedReleases)
+        controller.epxController.setViewedReleases(fourViewedReleases)
         Thread.sleep(500)
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
                 hasDescendant(withText(fourViewedReleases[0].artists + " - " + fourViewedReleases[0].releaseName))))
@@ -214,7 +214,7 @@ class HomeControllerTest {
     @Throws(InterruptedException::class)
     fun recommendations_intendCorrectly() {
         onView(withId(R.id.lytMainContent)).perform(swipeLeft())
-        controller.controller.setRecommendations(recommendations)
+        controller.epxController.setRecommendations(recommendations)
         Thread.sleep(500)
 
         onView(allOf(withClassName(`is`(Carousel::class.java.name)),
@@ -247,7 +247,7 @@ class HomeControllerTest {
     @Throws(InterruptedException::class)
     fun orders_intendCorrectly() {
         onView(withId(R.id.lytMainContent)).perform(swipeLeft())
-        controller.controller.setOrders(orders)
+        controller.epxController.setOrders(orders)
         Thread.sleep(500)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText("Buyer: " + orders[0].buyer.username)), click()))
@@ -266,7 +266,7 @@ class HomeControllerTest {
     fun listings_intendCorrectly() {
         // Close navdrawer
         onView(withId(R.id.lytMainContent)).perform(swipeLeft())
-        controller.controller.setSelling(listings)
+        controller.epxController.setSelling(listings)
         Thread.sleep(500)
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(listings[0].getTitle())), click()))
         Thread.sleep(1500)

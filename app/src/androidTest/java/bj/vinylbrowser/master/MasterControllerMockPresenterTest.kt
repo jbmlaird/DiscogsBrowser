@@ -64,11 +64,11 @@ class MasterControllerMockPresenterTest {
             controller.retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
             Thread.sleep(500)
-            controller.controller.setMaster(master)
+            controller.epxController.setMaster(master)
             Thread.sleep(100) //Sleep as you can't call two requestModelBuilds() simultaneously
-            controller.controller.setMasterVersions(masterMasterVersions)
+            controller.epxController.setMasterVersions(masterMasterVersions)
         })
-        epxController = controller.controller
+        epxController = controller.epxController
     }
 
     @Test

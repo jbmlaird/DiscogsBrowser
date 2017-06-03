@@ -72,7 +72,7 @@ class SingleListControllerMockPresenterTest {
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
             Thread.sleep(500)
         })
-        epxController = controller.controller
+        epxController = controller.epxController
     }
 
     @Test

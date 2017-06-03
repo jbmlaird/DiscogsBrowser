@@ -1,21 +1,21 @@
 [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=58ff64f23f33870001d2e016&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/58ff64f23f33870001d2e016/build/latest?branch=master)
 
-<img src="/featuregraphic/featuregraphic.png" height=300/>
+<img src="/images/featuregraphic.png" height=300/>
 
 # DiscogsBrowser
 Native Android app to interact with the [Discogs' public API](https://www.discogs.com/developers). This is production-ready and tested code that is an example of a live app with modern architecture.
 
 ![app_gif](https://media.giphy.com/media/dVWMCW4rFiyZi/giphy.gif)
 
-# Contributions
+<img src="/images/youtube.gif" height=400/>
 
-Pull requests are welcome and encouraged! Unit tests are necessary to be merged and UI tests preferable (if a UI change).
+## Usage
 
-# Usage
+<a href="https://play.google.com/store/apps/details?id=bj.vinylbrowser"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height=80/></a>
 
-You can either copy from source or install [from the store](https://play.google.com/store/apps/details?id=bj.vinylbrowser). Due to the Play Store policies it's uploaded with the name VinylBrowser and uses a different feature graphic.
+Due to the Play Store Impersonation policy it's uploaded with the name VinylBrowser and uses a different feature graphic.
 
-# Technical
+## Technical
 
 Android development is in a great place with all of the libraries available. This app uses the usual suspects:
 * [Dagger2](https://github.com/google/dagger)
@@ -49,7 +49,7 @@ Others:
 * [TapTargetView](https://github.com/KeepSafe/TapTargetView)
 * [Iconify](https://github.com/JoanZapata/android-iconify)
 
-# Discogs API Limitations
+## Discogs API Limitations
 
 Currently, in May 2017, the public API does not allow any of the following:
 * Order placing/purchasing
@@ -58,6 +58,10 @@ Currently, in May 2017, the public API does not allow any of the following:
 * Recent releases
 * Notifications
 
-# License
+## Contributions
+
+Pull requests are welcome and encouraged! Unit tests are necessary to be merged and UI tests preferable (if a UI change).
+
+## License
 
 This project is licensed under the terms of the MIT license.

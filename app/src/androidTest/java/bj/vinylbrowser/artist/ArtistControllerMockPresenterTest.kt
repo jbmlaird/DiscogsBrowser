@@ -69,7 +69,7 @@ class ArtistControllerMockPresenterTest {
 
     @Test
     fun onLaunch_allInfoDisplayed() {
-        controller.controller.setArtist(artistResult)
+        controller.epxController.setArtist(artistResult)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
                 hasDescendant(withText(artistResult.nameVariations[0]))))
@@ -86,7 +86,7 @@ class ArtistControllerMockPresenterTest {
 
     @Test
     fun membersClick_launchesIntent() {
-        controller.controller.setArtist(artistResult)
+        controller.epxController.setArtist(artistResult)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
                 hasDescendant(withText(artistResult.members[0].name)), click()))
@@ -110,7 +110,7 @@ class ArtistControllerMockPresenterTest {
             invocation
         }.whenever(artistReleasesPresenter).fetchArtistReleases(any<String>())
 
-        controller.controller.setArtist(artistResult)
+        controller.epxController.setArtist(artistResult)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
                 hasDescendant(withText(controller.activity?.getString(R.string.view_releases))), click()))
@@ -121,7 +121,7 @@ class ArtistControllerMockPresenterTest {
     @Test
     fun linksClicked_launchesWebView() {
         TestUtils.stubIntentAction(Intent.ACTION_VIEW)
-        controller.controller.setArtist(artistResult)
+        controller.epxController.setArtist(artistResult)
 
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText("spotify")), click()))
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText("redtube")), click()))

@@ -23,7 +23,7 @@ import javax.inject.Inject
 class ArtistController(val title: String, val id: String) : BaseController(), ArtistContract.View {
     @Inject lateinit var tracker: AnalyticsTracker
     @Inject lateinit var presenter: ArtistPresenter
-    @Inject lateinit var controller: ArtistEpxController
+    @Inject lateinit var epxController: ArtistEpxController
 
     constructor(args: Bundle) : this(args.getString("title"), args.getString("id"))
 
@@ -39,9 +39,9 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
         val view = inflater.inflate(R.layout.controller_recyclerview, container, false)
         setupComponent((activity as MainActivity).mainComponent)
         setupToolbar(view.toolbar, "")
-        setupRecyclerView(view.recyclerView, controller)
-        controller.setTitle(title)
-        controller.requestModelBuild()
+        setupRecyclerView(view.recyclerView, epxController)
+        epxController.setTitle(title)
+        epxController.requestModelBuild()
         presenter.fetchReleaseDetails(id)
         return view
     }
@@ -55,7 +55,7 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
     override fun onAttach(view: View) {
         super.onAttach(view)
         if (view.recyclerView.adapter == null)
-            setupRecyclerView(view.recyclerView, controller)
+            setupRecyclerView(view.recyclerView, epxController)
         tracker.send(applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.artist_activity), applicationContext?.getString(R.string.loaded), "onResume", "1")
     }
 
@@ -82,11 +82,11 @@ class ArtistController(val title: String, val id: String) : BaseController(), Ar
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
         super.onRestoreViewState(view, savedViewState)
-        controller.setArtist(savedViewState.getParcelable("artist"))
+        epxController.setArtist(savedViewState.getParcelable("artist"))
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) {
-        outState.putParcelable("artist", controller.artistResult)
+        outState.putParcelable("artist", epxController.artistResult)
         super.onSaveViewState(view, outState)
     }
 }

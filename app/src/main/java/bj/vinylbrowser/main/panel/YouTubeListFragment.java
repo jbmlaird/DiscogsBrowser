@@ -24,7 +24,7 @@ public class YouTubeListFragment extends Fragment
     @BindView(R.id.rvYouTube) RecyclerView recyclerView;
     @Inject MainPresenter mainPresenter;
     @Inject YouTubePlayerPresenter presenter;
-    @Inject YouTubePlayerEpxController controller;
+    @Inject YouTubePlayerEpxController epxController;
 
     @Nullable
     @Override
@@ -34,8 +34,8 @@ public class YouTubeListFragment extends Fragment
         ButterKnife.bind(this, view);
         mainPresenter.bindYouTubePresenter(presenter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(controller.getAdapter());
-        controller.requestModelBuild();
+        recyclerView.setAdapter(epxController.getAdapter());
+        epxController.requestModelBuild();
         return view;
     }
 }

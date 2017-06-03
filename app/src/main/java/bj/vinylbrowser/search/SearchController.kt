@@ -40,7 +40,7 @@ class SearchController : BaseController(), SearchContract.View {
     @Inject lateinit var presenter: SearchPresenter
     @Inject lateinit var mySchedulerProvider: MySchedulerProvider
     @Inject lateinit var tracker: AnalyticsTracker
-    @Inject lateinit var controller: SearchEpxController
+    @Inject lateinit var epxController: SearchEpxController
     lateinit var tabLayout: TabLayout
     lateinit var searchView: SearchView
     lateinit var toolbar: Toolbar
@@ -65,7 +65,7 @@ class SearchController : BaseController(), SearchContract.View {
         presenter.setupSearchViewObserver()
         presenter.setupTabObserver()
         if (view.recyclerView.adapter == null)
-            setupRecyclerView(view.recyclerView, controller)
+            setupRecyclerView(view.recyclerView, epxController)
     }
 
     override fun onDestroy() {
@@ -74,13 +74,13 @@ class SearchController : BaseController(), SearchContract.View {
     }
 
     override fun onSaveViewState(view: View, outState: Bundle) {
-        outState.putParcelableArrayList("searchResults", controller.searchResults as ArrayList<SearchResult>)
+        outState.putParcelableArrayList("searchResults", epxController.searchResults as ArrayList<SearchResult>)
         super.onSaveViewState(view, outState)
     }
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
         super.onRestoreViewState(view, savedViewState)
-        controller.setSearchResults(savedViewState.get("searchResults") as MutableList<SearchResult>?)
+        epxController.setSearchResults(savedViewState.get("searchResults") as MutableList<SearchResult>?)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
@@ -90,9 +90,9 @@ class SearchController : BaseController(), SearchContract.View {
         searchView = view.searchView
         toolbar = view.toolbar
         rvResults = view.recyclerView
-        setupRecyclerView(rvResults, controller)
+        setupRecyclerView(rvResults, epxController)
         setupToolbar(toolbar, "")
-        controller.setPastSearches(presenter.recentSearchTerms)
+        epxController.setPastSearches(presenter.recentSearchTerms)
         searchView.isIconified = false
         searchView.requestFocus()
         (searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText).setTextColor(ContextCompat.getColor(applicationContext, android.R.color.white))
