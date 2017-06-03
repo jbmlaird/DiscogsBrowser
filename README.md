@@ -7,7 +7,7 @@ Native Android app to interact with the [Discogs' public API](https://www.discog
 
 ![app_gif](https://media.giphy.com/media/dVWMCW4rFiyZi/giphy.gif)
 
-<img src="/images/youtube.gif" height=400/>
+<img src="/images/youtube.gif" height=500/>
 
 ## Usage
 
@@ -20,13 +20,14 @@ Due to the Play Store Impersonation policy it's uploaded with the name VinylBrow
 Android development is in a great place with all of the libraries available. This app uses the usual suspects:
 * [Dagger2](https://github.com/google/dagger)
 * [Retrofit2](https://github.com/square/retrofit)
-* [RxJava2](https://github.com/ReactiveX/RxJava)/[RxAndroid](https://github.com/ReactiveX/RxAndroid)
+* [RxJava2](https://github.com/ReactiveX/RxJava)/[RxAndroid](https://github.com/ReactiveX/RxAndroid)/[RxKotlin](https://github.com/ReactiveX/RxKotlin)
 
 Plus:
 * [RxBinding2](https://github.com/JakeWharton/RxBinding) - turn your views into RxJava Observables
 * [RxCache](https://github.com/VictorAlbertos/RxCache) - reactive caching
 * [Airbnb's Epoxy](https://github.com/airbnb/epoxy) - never use RecyclerView.Adapter again
 * [GreenDao](https://github.com/greenrobot/greenDAO) - SQLite ORM
+* [Conductor](https://github.com/bluelinelabs/Conductor) - fragment functionality without Fragments
 
 Bug/leak catching:
 * [BugSnag](https://www.bugsnag.com/product/)
@@ -38,16 +39,7 @@ Of course, the usual testing frameworks plus [DaggerMock](https://github.com/fab
 * Espresso
 * [DaggerMock](https://github.com/fabioCollini/DaggerMock) - will change your life
 
-Others:
-* [ButterKnife](https://github.com/JakeWharton/butterknife)
-* [Glide](https://github.com/bumptech/glide)
-* [Jsoup](https://jsoup.org/) - [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) for Java
-* [CircleImageView](https://github.com/hdodenhof/CircleImageView)
-* [Toasty](https://github.com/GrenderG/Toasty)
-* [MaterialAboutLibrary](https://github.com/daniel-stoneuk/material-about-library)
-* [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer)
-* [TapTargetView](https://github.com/KeepSafe/TapTargetView)
-* [Iconify](https://github.com/JoanZapata/android-iconify)
+See the [build.gradle](https://github.com/jbmlaird/DiscogsBrowser/blob/master/build.gradle) for full list of libraries.
 
 ## Discogs API Limitations
 
