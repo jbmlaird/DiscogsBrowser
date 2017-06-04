@@ -45,10 +45,11 @@ public class LicenseActivity extends AboutActivity
         MaterialAboutCard tapTargetView = buildMaterialAboutCard(context, "TapTargetView", R.string.license_apache2, "2016", "Keepsafe Software Inc.");
         MaterialAboutCard youTubeAndroidPlayer = buildMaterialAboutCard(context, "YouTube Android Player", R.string.license_apache2, "2017", "YouTube");
         MaterialAboutCard conductor = buildMaterialAboutCard(context, "Conductor", R.string.license_apache2, "2016-2017", "BlueLine Labs");
+        MaterialAboutCard draggablePanel = buildMaterialAboutCard(context, "Draggable Panel", R.string.license_apache2, "2014", "Pedro Vicente Gómez Sánchez");
 
         return new MaterialAboutList(discogsBrowser, rxJavaRxAndroid, retrofit2, rxCache, dagger2, butterKnife, materialDrawer, rxBinding2, leakCanary, rxRelay,
                 jSoup, circleImageView, materialDialogs, rxSocialConnect, greenDao, loadingButtonAndroid, toasty, materialAboutLibrary, tapTargetView,
-                youTubeAndroidPlayer, conductor);
+                youTubeAndroidPlayer, conductor, draggablePanel);
     }
 
     /**

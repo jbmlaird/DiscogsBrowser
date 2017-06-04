@@ -19,18 +19,4 @@ public class YouTubeListModule
     {
         mFragment = fragment;
     }
-
-    @Provides
-    @ChildFragmentScope
-    protected YouTubePlayerEpxController provideYouTubePlayerEpxController(Context context, YouTubePlayerHolder youTubePlayerHolder, MainPresenter mainPresenter)
-    {
-        return new YouTubePlayerEpxController(context, youTubePlayerHolder, mainPresenter);
-    }
-
-    @Provides
-    @ChildFragmentScope
-    protected YouTubePlayerPresenter provideYoutubePlayerPresenter(Context context, YouTubePlayerEpxController controller, YouTubePlayerHolder youTubePlayerHolder)
-    {
-        return new YouTubePlayerPresenter(context, controller, youTubePlayerHolder);
-    }
 }

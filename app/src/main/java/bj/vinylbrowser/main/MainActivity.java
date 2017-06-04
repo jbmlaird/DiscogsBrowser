@@ -22,7 +22,7 @@ import bj.vinylbrowser.common.BaseActivity;
 import bj.vinylbrowser.login.LoginActivity;
 import bj.vinylbrowser.main.panel.YouTubeListFragment;
 import bj.vinylbrowser.main.panel.YouTubeListModule;
-import bj.vinylbrowser.main.panel.YouTubePlayerHolder;
+import bj.vinylbrowser.main.panel.YouTubePlayerPresenter;
 import bj.vinylbrowser.search.SearchController;
 import bj.vinylbrowser.utils.SharedPrefsManager;
 import butterknife.BindView;
@@ -38,10 +38,11 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @BindView(R.id.draggable_panel) DraggablePanel draggablePanel;
     @Inject MainPresenter mainPresenter;
     @Inject SharedPrefsManager sharedPrefsManager;
-    @Inject YouTubePlayerHolder youTubePlayerHolder;
+    @Inject YouTubePlayerPresenter youTubePlayerPresenter;
     @Inject YouTubeListFragment youTubeListFragment;
     @Inject RouterAttacher routerAttacher;
     private Router router;
+    private boolean restartYouTube;
 
     @Override
     public void setupComponent(AppComponent appComponent)
@@ -60,11 +61,22 @@ public class MainActivity extends BaseActivity implements MainContract.View
     }
 
     @Override
-    protected void onDestroy()
+    protected void onResume()
     {
-        super.onDestroy();
-        if (youTubePlayerHolder.getYoutubePlayer() != null)
-            youTubePlayerHolder.getYoutubePlayer().release();
+        super.onResume();
+        if (restartYouTube)
+            youTubePlayerPresenter.reinitialize();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        if (youTubePlayerPresenter.getYouTubePlayer() != null)
+        {
+            youTubePlayerPresenter.release();
+            restartYouTube = true;
+        }
     }
 
     @Override
@@ -101,7 +113,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     @Override
     public void onBackPressed()
     {
-        if (draggablePanel.isMaximized())
+        if (draggablePanel.getVisibility() == View.VISIBLE && draggablePanel.isMaximized())
             draggablePanel.minimize();
         else if (!router.handleBack())
             super.onBackPressed();
@@ -128,7 +140,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     public void initialiseDraggablePanel()
     {
         draggablePanel.setFragmentManager(getSupportFragmentManager());
-        draggablePanel.setTopFragment(youTubePlayerHolder.buildYouTubeFragment());
+        draggablePanel.setTopFragment(youTubePlayerPresenter.buildYouTubeFragment());
         draggablePanel.setBottomFragment(youTubeListFragment);
         draggablePanel.setClickToMaximizeEnabled(true);
         draggablePanel.setEnableHorizontalAlphaEffect(true);

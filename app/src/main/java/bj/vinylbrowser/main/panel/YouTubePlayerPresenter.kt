@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import bj.vinylbrowser.model.release.Video
 import com.google.android.youtube.player.YouTubePlayer
+import com.google.android.youtube.player.YouTubePlayerSupportFragment
 
 /**
  * Created by Josh Laird on 01/06/2017.
@@ -12,6 +13,8 @@ class YouTubePlayerPresenter(val context: Context, val controller: YouTubePlayer
     var playerInitialised = false
     var isError = false
     var videoLoaded = false
+    var playerCurrentTime: Int? = 0
+    var currentVideoId: String = ""
 
     fun addVideo(video: Video) {
         val youtubeId = video.uri.split("=".toRegex())[1]
@@ -28,6 +31,26 @@ class YouTubePlayerPresenter(val context: Context, val controller: YouTubePlayer
         }
     }
 
+    fun getYouTubePlayer(): YouTubePlayer? {
+        return youTubePlayerHolder.youtubePlayer
+    }
+
+    fun buildYouTubeFragment(): YouTubePlayerSupportFragment {
+        return youTubePlayerHolder.buildYouTubeFragment()
+    }
+
+
+    fun release() {
+        if (youTubePlayerHolder.youtubePlayer != null) {
+            playerCurrentTime = youTubePlayerHolder.youtubePlayer?.currentTimeMillis
+            youTubePlayerHolder.youtubePlayer?.release()
+        }
+    }
+
+    fun reinitialize() {
+        youTubePlayerHolder.initializeYouTubeFragment(this, currentVideoId, true)
+    }
+
     override fun onAdStarted() {}
 
     override fun onLoading() {
@@ -41,6 +64,11 @@ class YouTubePlayerPresenter(val context: Context, val controller: YouTubePlayer
 
     override fun onLoaded(p0: String?) {
         videoLoaded = true
+        currentVideoId = p0!!
+        if (playerCurrentTime != 0) {
+            youTubePlayerHolder.youtubePlayer?.seekToMillis(playerCurrentTime!!)
+            playerCurrentTime = 0
+        }
     }
 
     override fun onVideoEnded() {

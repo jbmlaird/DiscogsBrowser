@@ -12,22 +12,26 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment
 open class YouTubePlayerHolder(val context: Context) {
     var youtubePlayer: YouTubePlayer? = null
     lateinit var youTubePlayerSupportFragment: YouTubePlayerSupportFragment
+    lateinit var stateChangeListener: YouTubePlayer.PlayerStateChangeListener
 
     fun buildYouTubeFragment(): YouTubePlayerSupportFragment {
         youTubePlayerSupportFragment = YouTubePlayerSupportFragment()
         return youTubePlayerSupportFragment
     }
 
-    fun initializeYouTubeFragment(playerListener: YouTubePlayer.PlayerStateChangeListener, youtubeId: String) {
+    fun initializeYouTubeFragment(playerListener: YouTubePlayer.PlayerStateChangeListener, youtubeId: String, cue: Boolean = false) {
         youTubePlayerSupportFragment.initialize("AIzaSyAQ75jaUUbURNpuA9bdyY-pgb72awgw68I",
                 object : YouTubePlayer.OnInitializedListener {
                     override fun onInitializationSuccess(provider: YouTubePlayer.Provider, youTubePlayer: YouTubePlayer, wasRestored: Boolean) {
                         if (!wasRestored) {
                             youtubePlayer = youTubePlayer
-                            youTubePlayer.setShowFullscreenButton(false)
-                            youTubePlayer.loadVideo(youtubeId)
-
+                            stateChangeListener = playerListener
                             youtubePlayer!!.setPlayerStateChangeListener(playerListener)
+                            youTubePlayer.setShowFullscreenButton(false)
+                            if (cue)
+                                youTubePlayer.cueVideo(youtubeId)
+                            else
+                                youTubePlayer.loadVideo(youtubeId)
                         }
                     }
 

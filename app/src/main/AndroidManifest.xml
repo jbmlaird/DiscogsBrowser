@@ -70,12 +70,14 @@
 
         <activity
             android:name=".login.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".main.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
@@ -88,10 +90,12 @@
 
         <activity
             android:name=".about.LicenseActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.AboutActivity"/>
         <activity
             android:name=".about.AboutActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.AboutActivity"/>
     </application>
