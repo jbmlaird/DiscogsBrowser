@@ -7,7 +7,7 @@ Native Android app to interact with the [Discogs' public API](https://www.discog
 
 ![app_gif](https://media.giphy.com/media/dVWMCW4rFiyZi/giphy.gif)
 
-<img src="/images/youtube.gif" height=500/>
+<img src="/images/youtube.gif" height=500/> <img src="https://cloud.githubusercontent.com/assets/16595870/26754181/6d06b75e-486d-11e7-8be0-6245fc3e54b8.png" height=500 /><img src="https://cloud.githubusercontent.com/assets/16595870/26754182/6e0cb252-486d-11e7-9a72-491579315242.png" height=500 />
 
 ## Usage
 
