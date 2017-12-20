@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import bj.vinylbrowser.R
 import bj.vinylbrowser.artist.ArtistController
 import bj.vinylbrowser.common.BaseController
@@ -41,17 +42,17 @@ class SearchController : BaseController(), SearchContract.View {
     @Inject lateinit var mySchedulerProvider: MySchedulerProvider
     @Inject lateinit var tracker: AnalyticsTracker
     @Inject lateinit var epxController: SearchEpxController
-    lateinit var tabLayout: TabLayout
-    lateinit var searchView: SearchView
+    private lateinit var tabLayout: TabLayout
+    private lateinit var searchView: SearchView
     lateinit var toolbar: Toolbar
-    lateinit var rvResults: MyRecyclerView
+    private lateinit var rvResults: MyRecyclerView
 
     override fun setupComponent(mainComponent: MainComponent) {
         mainComponent
-                .searchComponentBuilder()
-                .searchModule(SearchModule(this))
-                .build()
-                .inject(this)
+            .searchComponentBuilder()
+            .searchModule(SearchModule(this))
+            .build()
+            .inject(this)
     }
 
     override fun onDetach(view: View) {
@@ -95,8 +96,10 @@ class SearchController : BaseController(), SearchContract.View {
         epxController.setPastSearches(presenter.recentSearchTerms)
         searchView.isIconified = false
         searchView.requestFocus()
-        (searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText).setTextColor(ContextCompat.getColor(applicationContext, android.R.color.white))
-        searchView.findViewById(R.id.search_close_btn).setOnClickListener {
+        applicationContext?.let {
+            (searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText).setTextColor(ContextCompat.getColor(it, android.R.color.white))
+        }
+        searchView.findViewById<ImageView>(R.id.search_close_btn).setOnClickListener {
             tracker.send(applicationContext?.getString(R.string.search_activity), applicationContext?.getString(R.string.search_activity), applicationContext?.getString(R.string.clicked), "searchClear", "1")
             searchView.setQuery("", false)
             presenter.showPastSearches(true)
@@ -114,17 +117,17 @@ class SearchController : BaseController(), SearchContract.View {
      */
     override fun searchIntent(): Observable<SearchViewQueryTextEvent> {
         return RxSearchView.queryTextChangeEvents(searchView)
-                .skipInitialValue()
-                .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
-                .subscribeOn(mySchedulerProvider.ui())
-                .map { searchViewQueryTextEvent ->
-                    if (searchViewQueryTextEvent.queryText().length <= 2)
-                        presenter.showPastSearches(true)
-                    else
-                        presenter.showPastSearches(false)
-                    searchViewQueryTextEvent
-                }
-                .filter { searchViewQueryTextEvent -> searchViewQueryTextEvent.queryText().length > 2 }
+            .skipInitialValue()
+            .debounce(500, java.util.concurrent.TimeUnit.MILLISECONDS)
+            .subscribeOn(mySchedulerProvider.ui())
+            .map { searchViewQueryTextEvent ->
+                if (searchViewQueryTextEvent.queryText().length <= 2)
+                    presenter.showPastSearches(true)
+                else
+                    presenter.showPastSearches(false)
+                searchViewQueryTextEvent
+            }
+            .filter { searchViewQueryTextEvent -> searchViewQueryTextEvent.queryText().length > 2 }
     }
 
     /**
@@ -134,7 +137,7 @@ class SearchController : BaseController(), SearchContract.View {
      */
     override fun tabIntent(): Observable<TabLayoutSelectionEvent> {
         return RxTabLayout.selectionEvents(tabLayout)
-                .skip(1)
+            .skip(1)
     }
 
     override fun startDetailedActivity(searchResult: SearchResult?) {
@@ -146,33 +149,33 @@ class SearchController : BaseController(), SearchContract.View {
                 val releaseController = ReleaseController(searchResult.title, searchResult.id)
                 releaseController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(releaseController)
-                        .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler())
-                        .tag("ReleaseController"))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("ReleaseController"))
             }
             "label" -> {
                 val labelController = LabelController(searchResult.title, searchResult.id)
                 labelController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(labelController)
-                        .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler())
-                        .tag("LabelController"))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("LabelController"))
             }
             "artist" -> {
                 val artistController = ArtistController(searchResult.title, searchResult.id)
                 artistController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(artistController)
-                        .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler())
-                        .tag("ArtistController"))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("ArtistController"))
             }
             "master" -> {
                 val masterController = MasterController(searchResult.title, searchResult.id)
                 masterController.retainViewMode = RetainViewMode.RETAIN_DETACH
                 router.pushController(RouterTransaction.with(masterController)
-                        .popChangeHandler(FadeChangeHandler())
-                        .pushChangeHandler(FadeChangeHandler())
-                        .tag("MasterController"))
+                    .popChangeHandler(FadeChangeHandler())
+                    .pushChangeHandler(FadeChangeHandler())
+                    .tag("MasterController"))
             }
         }
     }

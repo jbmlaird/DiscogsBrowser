@@ -35,7 +35,8 @@ import javax.inject.Inject
  * TODO: Reimplement TapTargetView
  */
 class HomeController : BaseController(), HomeContract.View {
-    @set:JvmName("setDrawer_") var drawer: Drawer? = null
+    @set:JvmName("setDrawer_")
+    var drawer: Drawer? = null
     @Inject lateinit var context: Context
     @Inject lateinit var tracker: AnalyticsTracker
     @Inject lateinit var epxController: HomeEpxController
@@ -50,10 +51,10 @@ class HomeController : BaseController(), HomeContract.View {
 
     override fun setupComponent(mainComponent: MainComponent) {
         mainComponent
-                .homeComponentBuilder()
-                .mainActivityModule(HomeModule(this))
-                .build()
-                .inject(this)
+            .homeComponentBuilder()
+            .mainActivityModule(HomeModule(this))
+            .build()
+            .inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
@@ -83,19 +84,21 @@ class HomeController : BaseController(), HomeContract.View {
     }
 
     override fun handleBack(): Boolean {
-        if (drawer?.isDrawerOpen as Boolean)
-            drawer!!.closeDrawer()
-        else
-            MaterialDialog.Builder(activity!!)
-                    .title("Quit")
-                    .content("Really quit?")
-                    .negativeText("Cancel")
-                    .positiveText("Quit")
-                    .onPositive { dialog, _ ->
-                        dialog.dismiss()
-                        activity!!.finishAndRemoveTask()
-                    }
-                    .show()
+        drawer?.let {
+            if (it.isDrawerOpen)
+                it.closeDrawer()
+            return true
+        }
+        MaterialDialog.Builder(activity!!)
+            .title("Quit")
+            .content("Really quit?")
+            .negativeText("Cancel")
+            .positiveText("Quit")
+            .onPositive { dialog, _ ->
+                dialog.dismiss()
+                activity!!.finishAndRemoveTask()
+            }
+            .show()
         return true
     }
 
@@ -120,49 +123,49 @@ class HomeController : BaseController(), HomeContract.View {
     override fun displayOrder(id: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "order", "1")
         router.pushController(RouterTransaction.with(OrderController(id))
-                .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler())
-                .tag("OrderController"))
+            .popChangeHandler(FadeChangeHandler())
+            .pushChangeHandler(FadeChangeHandler())
+            .tag("OrderController"))
     }
 
     override fun displayOrdersActivity(username: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "All orders", "1")
         router.pushController(RouterTransaction.with(SingleListController(R.string.orders, username))
-                .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler())
-                .tag("SingleListController"))
+            .popChangeHandler(FadeChangeHandler())
+            .pushChangeHandler(FadeChangeHandler())
+            .tag("SingleListController"))
     }
 
     override fun displayListingsActivity(username: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "All listings", "1")
         router.pushController(RouterTransaction.with(SingleListController(R.string.selling, username))
-                .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler())
-                .tag("SingleListController"))
+            .popChangeHandler(FadeChangeHandler())
+            .pushChangeHandler(FadeChangeHandler())
+            .tag("SingleListController"))
     }
 
     override fun displayListing(listingId: String, title: String, username: String, s: String, sellerUsername: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.main_activity), context.getString(R.string.clicked), "listing", "1")
         router.pushController(RouterTransaction.with(MarketplaceController(title, listingId, s, sellerUsername))
-                .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler())
-                .tag("MarketplaceController"))
+            .popChangeHandler(FadeChangeHandler())
+            .pushChangeHandler(FadeChangeHandler())
+            .tag("MarketplaceController"))
     }
 
     override fun displayRelease(releaseName: String, id: String) {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.recently_viewed_release), context.getString(R.string.clicked), releaseName, "1")
         router.pushController(RouterTransaction.with(ReleaseController(releaseName, id))
-                .popChangeHandler(FadeChangeHandler())
-                .pushChangeHandler(FadeChangeHandler())
-                .tag("ReleaseController"))
+            .popChangeHandler(FadeChangeHandler())
+            .pushChangeHandler(FadeChangeHandler())
+            .tag("ReleaseController"))
     }
 
     override fun learnMore() {
         tracker.send(context.getString(R.string.main_activity), context.getString(R.string.learn_more), context.getString(R.string.clicked), "recommendations learn more", "1")
         MaterialDialog.Builder(activity!!)
-                .content(context.getString(R.string.learn_more_content))
-                .negativeText("Dismiss")
-                .show()
+            .content(context.getString(R.string.learn_more_content))
+            .negativeText("Dismiss")
+            .show()
     }
 
     override fun showLoading(b: Boolean) {
@@ -195,23 +198,23 @@ class HomeController : BaseController(), HomeContract.View {
         drawer = buildNavigationDrawer
         if (!sharedPrefsManager.isOnBoardingCompleted)
             TapTargetSequence(activity!!)
-                    .targets(
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.search, "Search Discogs", "This is where the magic happens")
-                                    .targetCircleColor(R.color.colorAccent)
-                                    .cancelable(false),
-                            TapTarget.forToolbarNavigationIcon(toolbar, "Navigation Drawer", "View your Wantlist and Collection")
-                                    .targetCircleColor(R.color.colorAccent)
-                                    .cancelable(false))
-                    .listener(object : TapTargetSequence.Listener {
-                        override fun onSequenceFinish() {
-                            drawer?.openDrawer()
-                            sharedPrefsManager.setOnboardingCompleted(applicationContext!!.getString(R.string.onboarding_completed))
-                        }
+                .targets(
+                    TapTarget.forToolbarMenuItem(toolbar, R.id.search, "Search Discogs", "This is where the magic happens")
+                        .targetCircleColor(R.color.colorAccent)
+                        .cancelable(false),
+                    TapTarget.forToolbarNavigationIcon(toolbar, "Navigation Drawer", "View your Wantlist and Collection")
+                        .targetCircleColor(R.color.colorAccent)
+                        .cancelable(false))
+                .listener(object : TapTargetSequence.Listener {
+                    override fun onSequenceFinish() {
+                        drawer?.openDrawer()
+                        sharedPrefsManager.setOnboardingCompleted(applicationContext!!.getString(R.string.onboarding_completed))
+                    }
 
-                        override fun onSequenceStep(lastTarget: TapTarget, ye: Boolean) {}
+                    override fun onSequenceStep(lastTarget: TapTarget, ye: Boolean) {}
 
-                        override fun onSequenceCanceled(lastTarget: TapTarget) {}
-                    }).start()
+                    override fun onSequenceCanceled(lastTarget: TapTarget) {}
+                }).start()
         displayError(false)
         setupRecyclerView()
         presenter.buildViewedReleases()

@@ -1,6 +1,5 @@
 package bj.vinylbrowser.marketplace;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import bj.vinylbrowser.network.DiscogsInteractor;
@@ -12,17 +11,13 @@ import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider;
 public class MarketplacePresenter implements MarketplaceContract.Presenter
 {
     private final String TAG = getClass().getSimpleName();
-    private Context context;
-    private MarketplaceContract.View view;
     private DiscogsInteractor discogsInteractor;
     private MySchedulerProvider mySchedulerProvider;
     private MarketplaceEpxController controller;
 
-    public MarketplacePresenter(@NonNull Context context, @NonNull MarketplaceContract.View view, @NonNull DiscogsInteractor discogsInteractor, @NonNull MySchedulerProvider mySchedulerProvider,
+    public MarketplacePresenter(@NonNull DiscogsInteractor discogsInteractor, @NonNull MySchedulerProvider mySchedulerProvider,
                                 @NonNull MarketplaceEpxController controller)
     {
-        this.context = context;
-        this.view = view;
         this.discogsInteractor = discogsInteractor;
         this.mySchedulerProvider = mySchedulerProvider;
         this.controller = controller;

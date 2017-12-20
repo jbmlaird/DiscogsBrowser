@@ -15,7 +15,7 @@ import com.bluelinelabs.conductor.support.RouterPagerAdapter
 class MyRouterPagerAdapter(host: BaseController) : RouterPagerAdapter(host) {
     override fun configureRouter(router: Router, position: Int) {
         if (!router.hasRootController()) {
-            val bundle: Bundle = Bundle()
+            val bundle = Bundle()
             when (position) {
                 0 -> bundle.putString("map", "master")
                 1 -> bundle.putString("map", "release")
@@ -26,7 +26,7 @@ class MyRouterPagerAdapter(host: BaseController) : RouterPagerAdapter(host) {
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence {
+    override fun getPageTitle(position: Int): CharSequence? {
         when (position) {
             0 -> return "Masters"
             1 -> return "Releases"

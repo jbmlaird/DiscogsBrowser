@@ -39,8 +39,8 @@ public class MarketplaceModule
 
     @Provides
     @FragmentScope
-    protected MarketplacePresenter providesPresenter(Context context, DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, MarketplaceEpxController controller)
+    protected MarketplacePresenter providesPresenter(DiscogsInteractor discogsInteractor, MySchedulerProvider mySchedulerProvider, MarketplaceEpxController controller)
     {
-        return new MarketplacePresenter(context, view, discogsInteractor, mySchedulerProvider, controller);
+        return new MarketplacePresenter(discogsInteractor, mySchedulerProvider, controller);
     }
 }

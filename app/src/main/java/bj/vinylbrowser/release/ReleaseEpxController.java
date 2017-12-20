@@ -40,7 +40,7 @@ public class ReleaseEpxController extends BaseEpxController
     private ImageViewAnimator imageViewAnimator;
     private CollectionWantlistPresenter presenter;
     Release release;
-    List<ScrapeListing> releaseListings;
+    private List<ScrapeListing> releaseListings;
     private boolean viewFullTracklist = false;
     private boolean releaseLoading = true;
     private boolean releaseError = false;
@@ -91,22 +91,17 @@ public class ReleaseEpxController extends BaseEpxController
                 .id("release loading")
                 .addIf(releaseError, this);
 
-        if (release != null)
-        {
-            if (release.getTracklist() != null && release.getTracklist().size() > 0)
-            {
-                for (Track track : release.getTracklist())
-                {
-                    if (!track.getTitle().equals(""))
-                    {
+        if (release != null) {
+            if (release.getTracklist() != null && release.getTracklist().size() > 0) {
+                for (Track track : release.getTracklist()) {
+                    if (!track.getTitle().equals("")) {
                         new TrackModel_()
                                 .id("track" + release.getTracklist().indexOf(track))
                                 .trackName(track.getTitle())
                                 .trackNumber(track.getPosition())
                                 .addTo(this);
 
-                        if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewFullTracklist)
-                        {
+                        if (release.getTracklist().indexOf(track) == 4 && release.getTracklist().size() > 5 && !viewFullTracklist) {
                             new ViewMoreModel_()
                                     .id("view more")
                                     .title("View full tracklist")
@@ -123,8 +118,7 @@ public class ReleaseEpxController extends BaseEpxController
                         .addTo(this);
             }
 
-            for (Label label : release.getLabels())
-            {
+            for (Label label : release.getLabels()) {
                 new YouTubeModel_()
                         .id("label" + release.getLabels().indexOf(label))
                         .onClick(v -> view.displayLabel(label.getName(), label.getId()))
@@ -156,19 +150,15 @@ public class ReleaseEpxController extends BaseEpxController
                     .onClick(v -> view.retryCollectionWantlist())
                     .addIf(collectionWantlistError, this);
 
-            if (release.getVideos().size() > 0)
-            {
+            if (release.getVideos().size() > 0) {
                 new SubHeaderModel_()
                         .id("youtube subheader")
                         .subheader("YouTube videos")
                         .addTo(this);
 
-                for (Video video : release.getVideos())
-                {
-                    if (!video.getUri().equals(""))
-                    {
-                        try
-                        {
+                for (Video video : release.getVideos()) {
+                    if (!video.getUri().equals("")) {
+                        try {
                             String youtubeId = video.getUri().split("=")[1];
                             new YouTubeModel_()
                                     .onClick(v -> mainPresenter.addVideo(video))
@@ -178,9 +168,7 @@ public class ReleaseEpxController extends BaseEpxController
                                     .title(video.getTitle())
                                     .description(video.getDescription())
                                     .addTo(this);
-                        }
-                        catch (IndexOutOfBoundsException e)
-                        {
+                        } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                             // YouTube video returned has invalid URL
                         }
@@ -209,16 +197,14 @@ public class ReleaseEpxController extends BaseEpxController
                     .onClick(v -> view.retryListings())
                     .addIf(listingsError, this);
 
-            if (releaseListings != null && !listingsLoading)
-            {
+            if (releaseListings != null && !listingsLoading) {
                 if (releaseListings.size() == 0 && !listingsError)
                     new PaddedCenterTextModel_()
                             .id("no listings")
                             .text("No 12\" for sale")
                             .addTo(this);
                 else
-                    for (ScrapeListing scrapeListing : releaseListings)
-                    {
+                    for (ScrapeListing scrapeListing : releaseListings) {
                         new MarketplaceModel_()
                                 .id("release" + releaseListings.indexOf(scrapeListing))
                                 .sleeve(scrapeListing.getSleeveCondition())
@@ -231,8 +217,7 @@ public class ReleaseEpxController extends BaseEpxController
                                 .onClickListener(v -> view.displayListingInformation(title, subtitle, scrapeListing))
                                 .addTo(this);
 
-                        if (releaseListings.indexOf(scrapeListing) == 2 && !viewAllListings && releaseListings.size() > 3)
-                        {
+                        if (releaseListings.indexOf(scrapeListing) == 2 && !viewAllListings && releaseListings.size() > 3) {
                             new ViewMoreModel_()
                                     .id("view all listings")
                                     .title("View all listings")
@@ -249,7 +234,8 @@ public class ReleaseEpxController extends BaseEpxController
     public void setRelease(Release release)
     {
         this.release = release;
-        if (release.getImages().size() > 0)
+        // Bugsnag reported a crash here hence the null check
+        if (release.getImages() != null && release.getImages().size() > 0)
             this.imageUrl = release.getImages().get(0).getUri();
         title = release.getTitle();
         subtitle = artistsBeautifier.formatArtists(release.getArtists());

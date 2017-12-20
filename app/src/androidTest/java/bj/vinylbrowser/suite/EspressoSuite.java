@@ -26,4 +26,6 @@ import bj.vinylbrowser.release.ReleaseControllerMockPresenterTest;
 //        LoginActivityMockPresenterTest.class, MasterControllerMockPresenterTest.class, ReleaseControllerMockPresenterTest.class,
 //        SearchControllerTest.class, SingleListControllerMockPresenterTest.class, GreendaoTest.class})
 @Suite.SuiteClasses({ReleaseControllerMockPresenterTest.class})
-public class EspressoSuite {}
+public class EspressoSuite
+{
+}

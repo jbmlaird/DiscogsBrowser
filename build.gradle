@@ -1,7 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.2-4'
     repositories {
         jcenter()
         mavenCentral()
@@ -11,14 +10,13 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        google()
     }
     dependencies {
-//        classpath 'com.android.tools.build:gradle:3.0.0-alpha2'
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
         classpath 'com.novoda:gradle-android-command-plugin:1.7.1'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,14 +28,15 @@ allprojects {
         jcenter()
         maven { url "https://clojars.org/repo/" }
         maven { url "https://jitpack.io" }
+        google()
     }
     configurations.all {
-        resolutionStrategy.force 'com.android.support:support-annotations:25.3.1'
-        resolutionStrategy.force 'com.android.support:support-v4:25.3.1'
-        resolutionStrategy.force 'com.android.support:appcompat-v7:25.3.1'
-        resolutionStrategy.force 'com.android.support:design:25.3.1'
-        resolutionStrategy.force 'com.android.support:recyclerview-v7:25.3.1'
-        resolutionStrategy.force 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2-4'
+        resolutionStrategy.force "com.android.support:support-annotations:$APPCOMPAT_VERSION"
+        resolutionStrategy.force "com.android.support:support-v4:$APPCOMPAT_VERSION"
+        resolutionStrategy.force "com.android.support:appcompat-v7:$APPCOMPAT_VERSION"
+        resolutionStrategy.force "com.android.support:design:$APPCOMPAT_VERSION"
+        resolutionStrategy.force "com.android.support:recyclerview-v7:$APPCOMPAT_VERSION"
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
     }
 }
 task clean(type: Delete) {

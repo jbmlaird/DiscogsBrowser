@@ -13,19 +13,19 @@ class Utils {
 
     companion object {
         fun getColorWrapper(context: Context, id: Int): Int {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return context.getColor(id)
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                context.getColor(id)
             } else {
-                return ContextCompat.getColor(context, id)
+                ContextCompat.getColor(context, id)
             }
         }
     }
 
-    fun getDrawable(context: Context, id: Int): Drawable {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return context.getDrawable(id)
+    fun getDrawable(context: Context, id: Int): Drawable? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.getDrawable(id)
         } else {
-            return ContextCompat.getDrawable(context, id)
+            ContextCompat.getDrawable(context, id)
         }
     }
 
