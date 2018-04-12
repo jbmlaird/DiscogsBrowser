@@ -30,7 +30,7 @@ class MarketplacePresenterTest {
     @Before
     fun setUp() {
         testScheduler = TestScheduler()
-        presenter = MarketplacePresenter(context, view, discogsInteractor, TestSchedulerProvider(testScheduler), epxController)
+        presenter = MarketplacePresenter(discogsInteractor, TestSchedulerProvider(testScheduler), epxController)
     }
 
     @After

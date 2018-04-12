@@ -22,6 +22,7 @@ import bj.vinylbrowser.release.ReleaseFactory
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.utils.ImageViewAnimator
+import bj.vinylbrowser.utils.SharedPrefsManager
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.nhaarman.mockito_kotlin.any
@@ -40,12 +41,16 @@ import org.junit.runner.RunWith
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class LabelControllerMockPresenterTest {
-    @Rule @JvmField var rule = EspressoDaggerMockRule()
-    @Rule @JvmField
+    @Rule
+    @JvmField
+    var rule = EspressoDaggerMockRule()
+    @Rule
+    @JvmField
     var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val presenter: LabelPresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
-    val routerAttacher: RouterAttacher = mock()
+    private val routerAttacher: RouterAttacher = mock()
+    private val sharedPrefsManager: SharedPrefsManager = mock()
     lateinit var controller: LabelController
     lateinit var epxController: LabelEpxController
     lateinit var testLabel: Label
@@ -67,6 +72,7 @@ class LabelControllerMockPresenterTest {
             // Swallow
             invocation
         }.whenever(presenter).fetchReleaseDetails(id)
+        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
         mActivityTestRule.launchActivity(null)
         mActivityTestRule.runOnUiThread({
             controller = LabelController(title, id)

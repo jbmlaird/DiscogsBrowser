@@ -23,6 +23,7 @@ import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.utils.ImageViewAnimator
+import bj.vinylbrowser.utils.SharedPrefsManager
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
@@ -47,14 +48,18 @@ import java.util.concurrent.TimeUnit
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class SearchControllerTest {
-    @Rule @JvmField var rule = EspressoDaggerMockRule()
-    @Rule @JvmField
+    @Rule
+    @JvmField
+    var rule = EspressoDaggerMockRule()
+    @Rule
+    @JvmField
     var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val imageViewAnimator: ImageViewAnimator = mock()
     val daoManager: DaoManager = mock()
     val routerAttacher: RouterAttacher = mock()
     val searchFunction: Function<SearchViewQueryTextEvent, ObservableSource<List<SearchResult>>> = mock()
     val results = SearchResultFactory.getOneArtistTwoMastersThreeReleases()
+    val sharedPrefsManager: SharedPrefsManager = mock()
     lateinit var controller: SearchController
     lateinit var epxController: SearchEpxController
     val searchQuery = "yeeeeboi"
@@ -71,6 +76,7 @@ class SearchControllerTest {
         searchTerm.searchTerm = searchTermText
         whenever(daoManager.recentSearchTerms).thenReturn(listOf(searchTerm))
         whenever(searchFunction.apply(any())).thenReturn(Observable.just(results).delay(500, TimeUnit.MILLISECONDS))
+        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
 
         mActivityTestRule.launchActivity(null)
         mActivityTestRule.runOnUiThread({
@@ -127,35 +133,35 @@ class SearchControllerTest {
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
         Thread.sleep(500)
 
-//        epxController.setSearchResults(results) // saveViewState doesn't seem to work in this test
+        //        epxController.setSearchResults(results) // saveViewState doesn't seem to work in this test
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(results[1].title)), click()))
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).title, results[1].title)
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).id, results[1].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
         Thread.sleep(500)
 
-//        epxController.setSearchResults(results)
+        //        epxController.setSearchResults(results)
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(results[2].title)), click()))
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).title, results[2].title)
         Assert.assertEquals((controller.router.getControllerWithTag("MasterController") as MasterController).id, results[2].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
         Thread.sleep(500)
 
-//        epxController.setSearchResults(results)
+        //        epxController.setSearchResults(results)
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(results[3].title)), click()))
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, results[3].title)
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, results[3].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
         Thread.sleep(500)
 
-//        epxController.setSearchResults(results)
+        //        epxController.setSearchResults(results)
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(results[4].title)), click()))
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, results[4].title)
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, results[4].id)
         mActivityTestRule.runOnUiThread { controller.router.popCurrentController() }
         Thread.sleep(500)
 
-//        epxController.setSearchResults(results)
+        //        epxController.setSearchResults(results)
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(results[5].title)), click()))
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).title, results[5].title)
         Assert.assertEquals((controller.router.getControllerWithTag("ReleaseController") as ReleaseController).id, results[5].id)

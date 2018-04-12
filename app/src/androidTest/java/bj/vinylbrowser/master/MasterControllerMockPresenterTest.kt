@@ -16,6 +16,7 @@ import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.utils.ImageViewAnimator
+import bj.vinylbrowser.utils.SharedPrefsManager
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.nhaarman.mockito_kotlin.any
@@ -40,6 +41,7 @@ class MasterControllerMockPresenterTest {
     val presenter: MasterPresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
     val routerAttacher: RouterAttacher = mock()
+    val sharedPrefsManager: SharedPrefsManager = mock()
     val masterTitle = "masterTitle"
     val masterId = "masterId"
     lateinit var controller: MasterController
@@ -58,6 +60,7 @@ class MasterControllerMockPresenterTest {
             // Swallow
             invocation
         }.whenever(presenter).fetchReleaseDetails(masterId)
+        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
         mActivityTestRule.launchActivity(null)
         mActivityTestRule.runOnUiThread({
             controller = MasterController(masterTitle, masterId)

@@ -22,6 +22,7 @@ import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.testutils.RecyclerViewSizeAssertion
 import bj.vinylbrowser.testutils.TestUtils.withCustomConstraints
 import bj.vinylbrowser.utils.ImageViewAnimator
+import bj.vinylbrowser.utils.SharedPrefsManager
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.jakewharton.rxrelay2.BehaviorRelay
@@ -47,8 +48,11 @@ import org.junit.runner.RunWith
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class ArtistReleasesControllerMockNetworkTest {
-    @Rule @JvmField val rule = EspressoDaggerMockRule()
-    @Rule @JvmField
+    @Rule
+    @JvmField
+    val rule = EspressoDaggerMockRule()
+    @Rule
+    @JvmField
     val mActivityTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java, false, false)
     val imageViewAnimator: ImageViewAnimator = mock()
     val discogsInteractor: DiscogsInteractor = mock()
@@ -56,6 +60,7 @@ class ArtistReleasesControllerMockNetworkTest {
     val masterPresenter: MasterPresenter = mock()
     val releasePresenter: ReleasePresenter = mock()
     val routerAttacher: RouterAttacher = mock()
+    val sharedPrefsManager: SharedPrefsManager = mock()
     lateinit var controller: ArtistReleasesController
     val artistId = "2089744"
     val artistTitle = "artistTitle"
@@ -79,6 +84,7 @@ class ArtistReleasesControllerMockNetworkTest {
         val artistReleaseRelay = BehaviorRelay.create<List<ArtistRelease>>()
         whenever(discogsInteractor.fetchArtistsReleases(artistId)).thenReturn(Single.just(releases))
         whenever(behaviorRelay.artistReleaseBehaviorRelay).thenReturn(artistReleaseRelay)
+        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
         mActivityTestRule.launchActivity(null)
         mActivityTestRule.runOnUiThread({
             controller = ArtistReleasesController(artistTitle, artistId)

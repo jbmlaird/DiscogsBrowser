@@ -16,16 +16,17 @@ import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import bj.vinylbrowser.utils.schedulerprovider.MySchedulerProvider
 import bj.vinylbrowser.wrappers.LogWrapper
 import io.reactivex.Single
-import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 /**
  * Created by Josh Laird on 29/05/2017.
  */
-open class HomePresenter constructor(val context: Context, val mView: HomeContract.View, val discogsInteractor: DiscogsInteractor,
-                                     val mySchedulerProvider: MySchedulerProvider, val builder: NavigationDrawerBuilder, val controller: HomeEpxController,
-                                     val sharedPrefsManager: SharedPrefsManager, val log: LogWrapper, val daoManager: DaoManager,
-                                     val tracker: AnalyticsTracker) : HomeContract.Presenter {
+open class HomePresenter constructor(
+        val context: Context, val mView: HomeContract.View, val discogsInteractor: DiscogsInteractor,
+        val mySchedulerProvider: MySchedulerProvider, val builder: NavigationDrawerBuilder, val controller: HomeEpxController,
+        val sharedPrefsManager: SharedPrefsManager, val log: LogWrapper, val daoManager: DaoManager,
+        val tracker: AnalyticsTracker
+) : HomeContract.Presenter {
 
     val TAG = javaClass.simpleName!!
 
@@ -111,7 +112,9 @@ open class HomePresenter constructor(val context: Context, val mView: HomeContra
                     .subscribeOn(mySchedulerProvider.io())
                     .flatMap { (pagination) ->
                         // Get a random page from the search results
-                        val maxPageNumber = pagination.pages
+                        var maxPageNumber = pagination.pages
+                        // This was causing an internal server error if the page number was too high
+                        if (maxPageNumber > 100) maxPageNumber = 100
                         val randomPageNumber = ThreadLocalRandom.current().nextInt(1, maxPageNumber + 1)
                         discogsInteractor.searchByStyle(latestReleaseViewedStyle, randomPageNumber.toString(), true)
                     }
@@ -127,7 +130,7 @@ open class HomePresenter constructor(val context: Context, val mView: HomeContra
                             .distinct())
                     .toList()
                     .map<List<SearchResult>> { searchResults ->
-                        Collections.shuffle(searchResults)
+                        searchResults.shuffle()
                         searchResults
                     }
                     .observeOn(mySchedulerProvider.ui())

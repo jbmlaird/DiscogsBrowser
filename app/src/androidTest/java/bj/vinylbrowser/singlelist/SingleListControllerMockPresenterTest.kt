@@ -19,6 +19,7 @@ import bj.vinylbrowser.order.OrderFactory
 import bj.vinylbrowser.release.ReleaseController
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.utils.ImageViewAnimator
+import bj.vinylbrowser.utils.SharedPrefsManager
 import bj.vinylbrowser.utils.analytics.AnalyticsTracker
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
@@ -38,13 +39,17 @@ import org.junit.runner.RunWith
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class SingleListControllerMockPresenterTest {
-    @Rule @JvmField var rule = EspressoDaggerMockRule()
-    @Rule @JvmField
+    @Rule
+    @JvmField
+    var rule = EspressoDaggerMockRule()
+    @Rule
+    @JvmField
     var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val presenter: SingleListPresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
     val tracker: AnalyticsTracker = mock()
     val routerAttacher: RouterAttacher = mock()
+    val sharedPrefsManager: SharedPrefsManager = mock()
     val type = R.string.orders
     val username = "dasmebro"
     lateinit var controller: SingleListController
@@ -65,6 +70,7 @@ class SingleListControllerMockPresenterTest {
             // Swallow
             invocation
         }.whenever(tracker).send(any(), any(), any(), any(), any())
+        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
         mActivityTestRule.launchActivity(null)
         mActivityTestRule.runOnUiThread({
             controller = SingleListController(type, username)
@@ -174,7 +180,7 @@ class SingleListControllerMockPresenterTest {
     @Test
     fun loadThreeCollection_displaysAndIntends() {
         val threeCollectionReleases = CollectionFactory.getThreeCollectionReleases()
-        epxController.setItems(threeCollectionReleases)
+        epxController.items = threeCollectionReleases
 
         onView(withText(threeCollectionReleases[0].getTitle())).check(matches(isDisplayed())).perform(click())
         Thread.sleep(500)

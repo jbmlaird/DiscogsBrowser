@@ -27,7 +27,6 @@ import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import junit.framework.Assert.assertEquals
-import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.endsWith
 import org.junit.Assert
 import org.junit.Before
@@ -38,8 +37,11 @@ import org.junit.Test
  * Created by Josh Laird on 31/05/2017.
  */
 class ReleaseControllerMockPresenterTest {
-    @Rule @JvmField var rule = EspressoDaggerMockRule()
-    @Rule @JvmField
+    @Rule
+    @JvmField
+    var rule = EspressoDaggerMockRule()
+    @Rule
+    @JvmField
     var mActivityTestRule = IntentsTestRule<MainActivity>(MainActivity::class.java, false, false)
     val presenter: ReleasePresenter = mock()
     val imageViewAnimator: ImageViewAnimator = mock()
@@ -137,16 +139,5 @@ class ReleaseControllerMockPresenterTest {
         onView(withId(R.id.draggable_panel)).perform(withCustomConstraints(swipeUp(), isDisplayingAtLeast(5)))
         Thread.sleep(2000)
         assertEquals(epxController.mainPresenter.youTubePlayerPresenter.controller.adapter.itemCount, 3)
-        onView(
-                allOf(
-                        hasDescendant(withText("videoNumber1")),
-                        hasDescendant(withText("video1")),
-                        withParent(withId(R.id.draggable_panel))
-                )
-        ).perform(click())
-        assertEquals(epxController.mainPresenter.youTubePlayerPresenter.controller.adapter.itemCount, 2)
-        onView(withId(R.id.ivRemove)).perform(click())
-        assertEquals(epxController.mainPresenter.youTubePlayerPresenter.controller.adapter.itemCount, 2)
-        onView(withClassName(endsWith("YouTubePlayerView"))).perform(swipeDown())
     }
 }

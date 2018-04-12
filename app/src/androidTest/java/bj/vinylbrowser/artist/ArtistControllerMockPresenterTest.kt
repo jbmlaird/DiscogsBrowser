@@ -13,7 +13,6 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.MediumTest
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
-import android.widget.ImageView
 import bj.vinylbrowser.R
 import bj.vinylbrowser.artistreleases.ArtistReleasesPresenter
 import bj.vinylbrowser.artistreleases.ArtistResultFactory
@@ -22,6 +21,7 @@ import bj.vinylbrowser.main.RouterAttacher
 import bj.vinylbrowser.testutils.EspressoDaggerMockRule
 import bj.vinylbrowser.testutils.TestUtils
 import bj.vinylbrowser.utils.ImageViewAnimator
+import bj.vinylbrowser.utils.SharedPrefsManager
 import com.bluelinelabs.conductor.RouterTransaction
 import com.nhaarman.mockito_kotlin.*
 import org.hamcrest.CoreMatchers.allOf
@@ -36,13 +36,17 @@ import org.junit.runner.RunWith
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class ArtistControllerMockPresenterTest {
-    @Rule @JvmField val rule = EspressoDaggerMockRule()
-    @Rule @JvmField
+    @Rule
+    @JvmField
+    val rule = EspressoDaggerMockRule()
+    @Rule
+    @JvmField
     val mActivityTestRule: IntentsTestRule<MainActivity> = IntentsTestRule(MainActivity::class.java, false, false)
     val imageViewAnimator: ImageViewAnimator = mock()
     val routerAttacher: RouterAttacher = mock()
     val artistPresenter: ArtistPresenter = mock()
     val artistReleasesPresenter: ArtistReleasesPresenter = mock()
+    val sharedPrefsManager: SharedPrefsManager = mock()
     lateinit var controller: ArtistController
     val artistResult = ArtistResultFactory.buildArtistResult(2)
     val artistId = "artistId"
@@ -54,13 +58,15 @@ class ArtistControllerMockPresenterTest {
         doAnswer { invocation ->
             // Disable spinning to not cause Espresso timeout
             invocation
-        }.whenever(imageViewAnimator).rotateImage(any<ImageView>())
+        }.whenever(imageViewAnimator).rotateImage(any())
         doAnswer { invocation ->
             // swallow
             invocation
-        }.whenever(artistPresenter).fetchReleaseDetails(any<String>())
+        }.whenever(artistPresenter).fetchReleaseDetails(any())
+        whenever(sharedPrefsManager.isUserLoggedIn).thenReturn(true)
 
         mActivityTestRule.launchActivity(null)
+        Thread.sleep(1000)
         mActivityTestRule.runOnUiThread({
             controller = ArtistController(artistId, artistTitle)
             mActivityTestRule.activity.router.pushController(RouterTransaction.with(controller))
