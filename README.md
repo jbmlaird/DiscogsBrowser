@@ -2,6 +2,8 @@
 
 <img src="/images/featuregraphic.png" height=300/>
 
+A direct link to the latest APK can be found [here](https://www.bitrise.io/artifact/5353216/p/8f9cdb43050a410991e00323c2e87431)
+
 # DiscogsBrowser
 Native Android app to interact with the [Discogs' public API](https://www.discogs.com/developers). This is production-ready and tested code that is an example of a live app with modern architecture.
 
